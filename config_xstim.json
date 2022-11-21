@@ -6,7 +6,7 @@
     "$OUTPUT_DIR": "$BASE_DIR/outputs/output_xstim",
     "$INPUT_DIR": "$BASE_DIR/../NWB_files",
     "$NETWORK_DIR": "$BASE_DIR/network",
-    "$COMPONENT_DIR": "../biophys_components",
+    "$COMPONENT_DIR": "biophys_components",
     "$STIM_DIR": "$COMPONENT_DIR/stimulations"
   },
 

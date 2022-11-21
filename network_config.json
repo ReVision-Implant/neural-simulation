@@ -1,7 +1,7 @@
 {
   "manifest": {
     "$NETWORK_DIR": "./network",
-    "$COMPONENT_DIR": "../sim1/biophys_components"
+    "$COMPONENT_DIR": "biophys_components"
   },
 
   "components": {
