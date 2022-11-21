@@ -8,7 +8,7 @@ import os
 
 from bmtk.simulator import bionet
 from bmtk.analyzer.compartment import plot_traces
-from voltage_waveform import CreateVoltageWaveform
+from biophys_components.voltage_waveform import CreateVoltageWaveform
 
 def show_cell_var(conf, var_name):
     plot_traces(config_file=conf, report_name=var_name)

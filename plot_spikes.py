@@ -1,5 +1,5 @@
 import pandas as pd
-from hdr5 import HDR5
+from biophys_components.hdr5 import HDR5
 import matplotlib.pyplot as plt
 import numpy as np
 

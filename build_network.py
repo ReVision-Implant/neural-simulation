@@ -1,7 +1,7 @@
 import numpy as np
 from bmtk.builder import NetworkBuilder
 from bmtk.builder.auxi.node_params import positions_columinar, xiter_random
-from hdr5 import HDR5
+from biophys_components.hdr5 import HDR5
 from bmtk.builder.auxi.edge_connectors import distance_connector
 
 import numpy.random
