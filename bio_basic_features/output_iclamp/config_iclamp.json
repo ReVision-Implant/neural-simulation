@@ -1,0 +1,95 @@
+{
+  "network": "./network_config.json",
+  "run": {
+    "tstop": 4000.0,
+    "dt": 0.1,
+    "dL": 20.0,
+    "spike_threshold": -15,
+    "nsteps_block": 10000
+  },
+  "target_simulator": "NEURON",
+  "conditions": {
+    "celsius": 34.0,
+    "v_init": -80
+  },
+  "node_sets": {
+    "biophys_cells": {
+      "model_type": "biophysical"
+    }
+  },
+  "inputs": {
+    "current_clamp_1": {
+      "input_type": "current_clamp",
+      "module": "IClamp",
+      "node_set": "biophys_cells",
+      "amp": 0.15,
+      "delay": 500.0,
+      "duration": 500.0
+    },
+    "current_clamp_2": {
+      "input_type": "current_clamp",
+      "module": "IClamp",
+      "node_set": "biophys_cells",
+      "amp": 0.175,
+      "delay": 1500.0,
+      "duration": 500.0
+    },
+    "current_clamp_3": {
+      "input_type": "current_clamp",
+      "module": "IClamp",
+      "node_set": "biophys_cells",
+      "amp": 0.2,
+      "delay": 2500.0,
+      "duration": 500.0
+    }
+  },
+  "output": {
+    "log_file": "/users/mns/lapolina/Desktop/bmtk-release-v1.0.0/docs/examples/bio_basic_features/output_iclamp/log.txt",
+    "output_dir": "/users/mns/lapolina/Desktop/bmtk-release-v1.0.0/docs/examples/bio_basic_features/output_iclamp",
+    "spikes_file": "/users/mns/lapolina/Desktop/bmtk-release-v1.0.0/docs/examples/bio_basic_features/output_iclamp/spikes.h5",
+    "spikes_file_csv": "/users/mns/lapolina/Desktop/bmtk-release-v1.0.0/docs/examples/bio_basic_features/output_iclamp/spikes.csv",
+    "spikes_sort_order": "time"
+  },
+  "components": {
+    "morphologies_dir": "../biophys_components/morphologies",
+    "synaptic_models_dir": "../biophys_components/synaptic_models",
+    "mechanisms_dir": "../biophys_components/mechanisms",
+    "biophysical_neuron_models_dir": "../biophys_components/biophysical_neuron_templates"
+  },
+  "reports": {
+    "calcium_concentration": {
+      "cells": "biophys_cells",
+      "variable_name": "cai",
+      "module": "membrane_report",
+      "file_name": "cai_report.h5",
+      "sections": "soma"
+    },
+    "membrane_potential": {
+      "cells": "biophys_cells",
+      "variable_name": "v",
+      "module": "membrane_report",
+      "file_name": "v_report.h5",
+      "sections": "soma"
+    }
+  },
+  "config_path": "/users/mns/lapolina/Desktop/bmtk-release-v1.0.0/docs/examples/bio_basic_features/config_iclamp.json",
+  "config_dir": "/users/mns/lapolina/Desktop/bmtk-release-v1.0.0/docs/examples/bio_basic_features",
+  "networks": {
+    "nodes": [
+      {
+        "nodes_file": "./network/bio_nodes.h5",
+        "node_types_file": "./network/bio_node_types.csv"
+      },
+      {
+        "nodes_file": "./network/virt_nodes.h5",
+        "node_types_file": "./network/virt_node_types.csv"
+      }
+    ],
+    "edges": [
+      {
+        "edges_file": "./network/virt_bio_edges.h5",
+        "edge_types_file": "./network/virt_bio_edge_types.csv"
+      }
+    ]
+  }
+}
