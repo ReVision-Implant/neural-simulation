@@ -19,23 +19,23 @@
       "input_type": "lfp",
       "node_set": "all",
       "module": "xstim",
-      "positions_file": "../sim1/biophys_components/stimulations/50.csv",
-      "mesh_files_dir": "../sim1/biophys_components/stimulations",
-      "waveform": "../sim1/biophys_components/stimulations/waveform_custom.csv"
+      "positions_file": "biophys_components/stimulations/50.csv",
+      "mesh_files_dir": "biophys_components/stimulations",
+      "waveform": "biophys_components/stimulations/waveform_custom.csv"
     }
   },
   "output": {
-    "log_file": "C:\\Users\\nilsv\\bmtk\\working_dir/output_xstim\\log.txt",
-    "output_dir": "C:\\Users\\nilsv\\bmtk\\working_dir/output_xstim",
-    "spikes_file": "C:\\Users\\nilsv\\bmtk\\working_dir/output_xstim\\spikes.h5",
-    "spikes_file_csv": "C:\\Users\\nilsv\\bmtk\\working_dir/output_xstim\\spikes.csv",
+    "log_file": "C:\\Users\\nilsv\\bmtk\\neural_stim/outputs/output_xstim\\log.txt",
+    "output_dir": "C:\\Users\\nilsv\\bmtk\\neural_stim/outputs/output_xstim",
+    "spikes_file": "C:\\Users\\nilsv\\bmtk\\neural_stim/outputs/output_xstim\\spikes.h5",
+    "spikes_file_csv": "C:\\Users\\nilsv\\bmtk\\neural_stim/outputs/output_xstim\\spikes.csv",
     "spikes_sort_order": "time"
   },
   "components": {
-    "morphologies_dir": "../sim1/biophys_components/morphologies",
-    "synaptic_models_dir": "../sim1/biophys_components/synaptic_models",
-    "mechanisms_dir": "../sim1/biophys_components/mechanisms",
-    "biophysical_neuron_models_dir": "../sim1/biophys_components/biophysical_neuron_templates"
+    "morphologies_dir": "biophys_components/morphologies",
+    "synaptic_models_dir": "biophys_components/synaptic_models",
+    "mechanisms_dir": "biophys_components/mechanisms",
+    "biophysical_neuron_models_dir": "biophys_components/biophysical_neuron_templates"
   },
   "node_sets": {
     "biophys_cells": {
@@ -88,15 +88,15 @@
       "cells": "biophys_cells",
       "variable_name": "v",
       "module": "extracellular",
-      "electrode_positions": "../sim1/biophys_components/recXelectrodes/linear_electrode.csv",
+      "electrode_positions": "biophys_components/recXelectrodes/linear_electrode.csv",
       "file_name": "ecp.h5",
       "electrode_channels": "soma",
       "contributions_dir": "ecp_contributions",
       "enabled": true
     }
   },
-  "config_path": "C:\\Users\\nilsv\\bmtk\\working_dir\\config_xstim.json",
-  "config_dir": "C:\\Users\\nilsv\\bmtk\\working_dir",
+  "config_path": "C:\\Users\\nilsv\\bmtk\\neural_stim\\config_xstim.json",
+  "config_dir": "C:\\Users\\nilsv\\bmtk\\neural_stim",
   "networks": {
     "nodes": [
       {

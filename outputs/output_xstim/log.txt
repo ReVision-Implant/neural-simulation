@@ -1,12 +1,12 @@
-2022-11-21 16:26:19,297 [INFO] Created log file
-2022-11-21 16:26:19,665 [INFO] Building cells.
-2022-11-21 16:26:29,816 [INFO] Building recurrent connections
-2022-11-21 16:26:35,877 [INFO] Running simulation for 500.000 ms with the time step 1.000 ms
-2022-11-21 16:26:35,877 [INFO] Starting timestep: 0 at t_sim: 0.000 ms
-2022-11-21 16:26:35,877 [INFO] Block save every 100 steps
-2022-11-21 16:26:50,267 [INFO]     step:100 t_sim:100.00 ms
-2022-11-21 16:27:02,236 [INFO]     step:200 t_sim:200.00 ms
-2022-11-21 16:27:14,862 [INFO]     step:300 t_sim:300.00 ms
-2022-11-21 16:27:27,872 [INFO]     step:400 t_sim:400.00 ms
-2022-11-21 16:27:40,413 [INFO]     step:500 t_sim:500.00 ms
-2022-11-21 16:27:40,504 [INFO] Simulation completed in 64.63 seconds 
+2023-01-30 14:13:04,302 [INFO] Created log file
+2023-01-30 14:13:04,395 [INFO] Building cells.
+2023-01-30 14:13:13,712 [INFO] Building recurrent connections
+2023-01-30 14:13:19,471 [INFO] Running simulation for 500.000 ms with the time step 1.000 ms
+2023-01-30 14:13:19,471 [INFO] Starting timestep: 0 at t_sim: 0.000 ms
+2023-01-30 14:13:19,472 [INFO] Block save every 100 steps
+2023-01-30 14:13:33,382 [INFO]     step:100 t_sim:100.00 ms
+2023-01-30 14:13:45,132 [INFO]     step:200 t_sim:200.00 ms
+2023-01-30 14:13:56,731 [INFO]     step:300 t_sim:300.00 ms
+2023-01-30 14:14:08,493 [INFO]     step:400 t_sim:400.00 ms
+2023-01-30 14:14:20,205 [INFO]     step:500 t_sim:500.00 ms
+2023-01-30 14:14:20,296 [INFO] Simulation completed in 60.83 seconds 
