@@ -1,1 +1,0 @@
-from bmtk.simulator.filternet.lgnmodel.cellmodel import *
