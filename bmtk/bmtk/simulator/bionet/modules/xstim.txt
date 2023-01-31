@@ -1,3 +1,0 @@
-set_transfer_resistance:
-    np.einsum just squares and adds x,y,z for every seg_coords.p05 (p05 meaning middle of segment)
-    Not sure if this cell_map and trans_X are right
