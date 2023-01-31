@@ -1,0 +1,3 @@
+2023-01-31 13:37:11,591 [INFO] Created log file
+2023-01-31 13:37:11,665 [INFO] Building cells.
+2023-01-31 13:37:21,253 [INFO] Building recurrent connections

@@ -1,0 +1,114 @@
+{
+  "network": "./network_config.json",
+  "run": {
+    "tstop": 500.0,
+    "dt": 1,
+    "dL": 20.0,
+    "spike_threshold": -15,
+    "nsteps_block": 100,
+    "time_step": 1,
+    "current_amplitude": 20
+  },
+  "target_simulator": "NEURON",
+  "conditions": {
+    "celsius": 34.0,
+    "v_init": -80
+  },
+  "inputs": {
+    "Extracellular_Stim": {
+      "input_type": "lfp",
+      "node_set": "all",
+      "module": "xstim",
+      "positions_file": "../sim1/biophys_components/stimulations/orig485058595_0000.csv",
+      "mesh_files_dir": "../sim1/biophys_components/stimulations",
+      "waveform": "../sim1/biophys_components/stimulations/waveform_custom.csv"
+    }
+  },
+  "output": {
+    "log_file": "C:\\Users\\nilsv\\bmtk\\working_dir/output_xstim\\log.txt",
+    "output_dir": "C:\\Users\\nilsv\\bmtk\\working_dir/output_xstim",
+    "spikes_file": "C:\\Users\\nilsv\\bmtk\\working_dir/output_xstim\\spikes.h5",
+    "spikes_file_csv": "C:\\Users\\nilsv\\bmtk\\working_dir/output_xstim\\spikes.csv",
+    "spikes_sort_order": "time"
+  },
+  "components": {
+    "morphologies_dir": "../sim1/biophys_components/morphologies",
+    "synaptic_models_dir": "../sim1/biophys_components/synaptic_models",
+    "mechanisms_dir": "../sim1/biophys_components/mechanisms",
+    "biophysical_neuron_models_dir": "../sim1/biophys_components/biophysical_neuron_templates"
+  },
+  "node_sets": {
+    "biophys_cells": {
+      "model_type": "biophysical"
+    }
+  },
+  "reports": {
+    "calcium_concentration": {
+      "cells": "biophys_cells",
+      "variable_name": "cai",
+      "module": "membrane_report",
+      "file_name": "cai_report.h5",
+      "sections": "soma",
+      "enabled": true
+    },
+    "membrane_potential": {
+      "cells": "biophys_cells",
+      "variable_name": "v",
+      "module": "membrane_report",
+      "file_name": "v_report.h5",
+      "sections": "soma",
+      "enabled": true
+    },
+    "extracellular": {
+      "cells": "biophys_cells",
+      "variable_name": "e_extracellular",
+      "module": "membrane_report",
+      "file_name": "e_report.h5",
+      "sections": "soma",
+      "enabled": true
+    },
+    "im": {
+      "cells": "biophys_cells",
+      "variable_name": "i_membrane",
+      "module": "membrane_report",
+      "file_name": "i_report.h5",
+      "sections": "soma",
+      "enabled": true
+    },
+    "vext": {
+      "cells": "biophys_cells",
+      "variable_name": "vext",
+      "module": "membrane_report",
+      "file_name": "vext_report.h5",
+      "sections": "soma",
+      "transform": "first_element",
+      "enabled": true
+    },
+    "ecp": {
+      "cells": "biophys_cells",
+      "variable_name": "v",
+      "module": "extracellular",
+      "electrode_positions": "../sim1/biophys_components/recXelectrodes/linear_electrode.csv",
+      "file_name": "ecp.h5",
+      "electrode_channels": "soma",
+      "contributions_dir": "ecp_contributions",
+      "enabled": true
+    }
+  },
+  "config_path": "C:\\Users\\nilsv\\bmtk\\working_dir\\config_xstim.json",
+  "config_dir": "C:\\Users\\nilsv\\bmtk\\working_dir",
+  "networks": {
+    "nodes": [
+      {
+        "nodes_file": "./network/slice_nodes.h5",
+        "node_types_file": "./network/slice_node_types.csv"
+      }
+    ],
+    "edges": [
+      {
+        "edges_file": "./network/slice_slice_edges.h5",
+        "edge_types_file": "./network/slice_slice_edge_types.csv"
+      }
+    ]
+  }
+}
