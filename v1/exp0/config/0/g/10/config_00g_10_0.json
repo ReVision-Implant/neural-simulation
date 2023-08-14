@@ -4,9 +4,9 @@
     "$OUTPUT_DIR": "$BASE_DIR/exp0/output/0/g/10/00g_10_0",
     "$BKG_DIR": "$BASE_DIR/components",
     "$LGN_DIR": "$BASE_DIR/components",
-    "$NETWORK_DIR": "$BASE_DIR/networks_100/network0",
+    "$NETWORK_DIR": "$BASE_DIR/networks_25/network0",
     "$COMPONENT_DIR": "$BASE_DIR/components",
-    "$STIM_DIR": "$BASE_DIR/../bio_components/stimulations"
+    "$STIM_DIR": "$BASE_DIR/components/stimulations"
   },
   "run": {
     "tstop": 200.0,
@@ -24,13 +24,13 @@
   "inputs": {
     "LGN_spikes": {
       "input_type": "spikes",
-      "module": "h5",
+      "module": "sonata",
       "input_file": "$LGN_DIR/results/full3_GScorrected_PScorrected_3.0sec_SF0.04_TF2.0_ori270.0_c100.0_gs0.5_spikes.trial_0.h5",
       "node_set": "lgn"
     },
     "BKG_spikes": {
       "input_type": "spikes",
-      "module": "h5",
+      "module": "sonata",
       "input_file": "$BKG_DIR/results/bkg_spikes_n1_fr1000_dt0.25_2.trial_0.h5",
       "node_set": "bkg"
     },

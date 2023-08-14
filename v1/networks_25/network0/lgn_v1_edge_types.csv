@@ -1,0 +1,103 @@
+edge_type_id target_query source_query weight_function target_sections syn_weight dynamics_params delay model_template distance_range weight_sigma
+6580 node_type_id=='471129934' location=='LGN' wmax "['basal', 'apical']" 6.4237961354e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6581 node_type_id=='471143169' location=='LGN' wmax "['basal', 'apical']" 6.056731579600001e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6582 node_type_id=='471758398' location=='LGN' wmax "['basal', 'apical']" 6.98947330596e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6583 node_type_id=='471767045' location=='LGN' wmax "['basal', 'apical']" 3.96300574088e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6584 node_type_id=='485574832' location=='LGN' wmax "['basal', 'apical']" 4.90700169766e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6585 node_type_id=='485835055' location=='LGN' wmax "['basal', 'apical']" 5.390321749700001e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6586 node_type_id=='485880739' location=='LGN' wmax "['basal', 'apical']" 4.94517182932e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6587 node_type_id=='486052980' location=='LGN' wmax "['basal', 'apical']" 6.227496491100001e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6588 node_type_id=='486110216' location=='LGN' wmax "['basal', 'apical']" 6.49633595184e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6589 node_type_id=='487664663' location=='LGN' wmax "['basal', 'apical']" 6.83715640028e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6591 node_type_id=='487661754' location=='LGN' wmax "['basal', 'apical']" 7.911780950300001e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6592 node_type_id=='321708130' location=='LGN' wmax "['somatic', 'basal']" 0.00058849913963 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6594 node_type_id=='471087830' location=='LGN' wmax "['somatic', 'basal']" 0.00055719392574 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6596 node_type_id=='478058328' location=='LGN' wmax "['somatic', 'basal']" 0.000701797010887 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6597 node_type_id=='478828646' location=='LGN' wmax "['somatic', 'basal']" 0.0005972070176799999 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6599 node_type_id=='314900022' location=='LGN' wmax "['basal', 'apical']" 8.10985903604e-06 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6602 node_type_id=='348592897' location=='LGN' wmax "['basal', 'apical']" 3.73082419367e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6603 node_type_id=='395830185' location=='LGN' wmax "['basal', 'apical']" 1.67671048018e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6604 node_type_id=='469798159' location=='LGN' wmax "['basal', 'apical']" 1.3904471628e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6605 node_type_id=='476126528' location=='LGN' wmax "['basal', 'apical']" 1.31280645936e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6606 node_type_id=='476218657' location=='LGN' wmax "['basal', 'apical']" 3.12402608699e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6607 node_type_id=='341442651' location=='LGN' wmax "['somatic', 'basal']" 0.00156923035195 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6609 node_type_id=='484635029' location=='LGN' wmax "['somatic', 'basal']" 0.0013935460309099999 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6610 node_type_id=='488501071' location=='LGN' wmax "['somatic', 'basal']" 0.00152597608881 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6611 node_type_id=='477135941' location=='LGN' wmax "['basal', 'apical']" 1.04636682529e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6612 node_type_id=='483061182' location=='LGN' wmax "['basal', 'apical']" 3.67934800172e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6614 node_type_id=='485909730' location=='LGN' wmax "['basal', 'apical']" 1.2882924794000005e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6615 node_type_id=='486146717' location=='LGN' wmax "['basal', 'apical']" 2.30426909085e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6616 node_type_id=='487601493' location=='LGN' wmax "['basal', 'apical']" 2.20323910662e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6617 node_type_id=='313861608' location=='LGN' wmax "['somatic', 'basal']" 0.0007405883143630001 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6618 node_type_id=='321023397' location=='LGN' wmax "['somatic', 'basal']" 0.0007714936750810003 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6620 node_type_id=='333785962' location=='LGN' wmax "['somatic', 'basal']" 0.000649866595165 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6621 node_type_id=='396608557' location=='LGN' wmax "['somatic', 'basal']" 0.0007970295241519999 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6622 node_type_id=='469610831' location=='LGN' wmax "['somatic', 'basal']" 0.000756344211106 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6623 node_type_id=='471077857' location=='LGN' wmax "['somatic', 'basal']" 0.0014908393687 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6624 node_type_id=='471085676' location=='LGN' wmax "['somatic', 'basal']" 0.0008996468614369998 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6625 node_type_id=='478793814' location=='LGN' wmax "['somatic', 'basal']" 0.000988439195858 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6628 node_type_id=='486783119' location=='LGN' wmax "['somatic', 'basal']" 0.00083093955676 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6630 node_type_id=='333604946' location=='LGN' wmax "['somatic', 'basal']" 0.00021032497558200002 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6631 node_type_id=='487667205' location=='LGN' wmax "['somatic', 'basal']" 0.00020169277390700001 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6632 node_type_id=='314642645' location=='LGN' wmax "['basal', 'apical']" 9.316690682589999e-06 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6633 node_type_id=='324025371' location=='LGN' wmax "['basal', 'apical']" 1.57991849649e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6634 node_type_id=='329550137' location=='LGN' wmax "['basal', 'apical']" 1.3043484499e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6635 node_type_id=='473020156' location=='LGN' wmax "['basal', 'apical']" 1.4393033653e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6636 node_type_id=='476616076' location=='LGN' wmax "['basal', 'apical']" 9.1515847796e-06 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6637 node_type_id=='479179020' location=='LGN' wmax "['basal', 'apical']" 1.39482597901e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6638 node_type_id=='480087928' location=='LGN' wmax "['basal', 'apical']" 1.05109096704e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6639 node_type_id=='480124551' location=='LGN' wmax "['basal', 'apical']" 1.71873027913e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6641 node_type_id=='484679812' location=='LGN' wmax "['basal', 'apical']" 1.85521591548e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6642 node_type_id=='485836906' location=='LGN' wmax "['basal', 'apical']" 2.81782021797e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6643 node_type_id=='486502127' location=='LGN' wmax "['basal', 'apical']" 1.15434841109e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6644 node_type_id=='474626527' location=='LGN' wmax "['somatic', 'basal']" 0.0 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6645 node_type_id=='313862167' location=='LGN' wmax "['somatic', 'basal']" 0.0 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6646 node_type_id=='473016550' location=='LGN' wmax "['somatic', 'basal']" 0.0 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6648 node_type_id=='318733871' location=='LGN' wmax "['basal', 'apical']" 1.74100182066e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6649 node_type_id=='318808427' location=='LGN' wmax "['basal', 'apical']" 1.98345464907e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6651 node_type_id=='370351753' location=='LGN' wmax "['basal', 'apical']" 2.43039177133e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6652 node_type_id=='386049446' location=='LGN' wmax "['basal', 'apical']" 2.09137056492e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6653 node_type_id=='397351623' location=='LGN' wmax "['basal', 'apical']" 1.90490560747e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6654 node_type_id=='422738880' location=='LGN' wmax "['basal', 'apical']" 1.53045213302e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6655 node_type_id=='475459689' location=='LGN' wmax "['basal', 'apical']" 2.72114278699e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6656 node_type_id=='476455864' location=='LGN' wmax "['basal', 'apical']" 1.42523338546e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6657 node_type_id=='476457450' location=='LGN' wmax "['basal', 'apical']" 1.28554744689e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6658 node_type_id=='314804042' location=='LGN' wmax "['basal', 'apical']" 5.3300336694999987e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6660 node_type_id=='314831019' location=='LGN' wmax "['basal', 'apical']" 5.17567957856e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6661 node_type_id=='320207387' location=='LGN' wmax "['basal', 'apical']" 5.250627986e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6662 node_type_id=='323865917' location=='LGN' wmax "['basal', 'apical']" 5.82156254716e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6663 node_type_id=='324025297' location=='LGN' wmax "['basal', 'apical']" 5.13517811278e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6664 node_type_id=='349621141' location=='LGN' wmax "['basal', 'apical']" 5.53307268726e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6665 node_type_id=='354190013' location=='LGN' wmax "['basal', 'apical']" 5.87224940266e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6666 node_type_id=='468120757' location=='LGN' wmax "['basal', 'apical']" 5.21497553086e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6667 node_type_id=='468193142' location=='LGN' wmax "['basal', 'apical']" 5.3503047537000004e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6668 node_type_id=='469793303' location=='LGN' wmax "['basal', 'apical']" 4.96612765796e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6669 node_type_id=='473601979' location=='LGN' wmax "['basal', 'apical']" 5.28639221558e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6670 node_type_id=='476048909' location=='LGN' wmax "['basal', 'apical']" 5.12127307086e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6672 node_type_id=='476131588' location=='LGN' wmax "['basal', 'apical']" 5.33966534146e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6674 node_type_id=='480116737' location=='LGN' wmax "['basal', 'apical']" 5.66454860796e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6675 node_type_id=='480169178' location=='LGN' wmax "['basal', 'apical']" 6.06306725584e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6676 node_type_id=='480351780' location=='LGN' wmax "['basal', 'apical']" 5.49224712148e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6677 node_type_id=='480353286' location=='LGN' wmax "['basal', 'apical']" 4.95445821348e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6678 node_type_id=='466632464' location=='LGN' wmax "['basal', 'apical']" 4.64128156705e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6679 node_type_id=='471410185' location=='LGN' wmax "['basal', 'apical']" 4.80119672931e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6680 node_type_id=='471786879' location=='LGN' wmax "['basal', 'apical']" 4.68572559003e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6681 node_type_id=='471789504' location=='LGN' wmax "['basal', 'apical']" 4.82058520915e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6682 node_type_id=='471819401' location=='LGN' wmax "['basal', 'apical']" 4.85145861728e-05 AMPA_ExcToExc.json 1.7 exp2syn "[0.0, 150.0]" nan
+6719 node_type_id=='100000101' location=='LGN' wmax nan 0.010680980169299999 instanteneousExc.json 1.7 NULL nan nan
+6720 node_type_id=='100000102' location=='LGN' wmax nan 0.00721580655228 instanteneousExc.json 1.7 NULL nan nan
+6721 node_type_id=='100000103' location=='LGN' wmax nan 0.020980918959599998 instanteneousExc.json 1.7 NULL nan nan
+6722 node_type_id=='100000104' location=='LGN' wmax nan 0.00144646429137 instanteneousExc.json 1.7 NULL nan nan
+6723 node_type_id=='100000105' location=='LGN' wmax nan 0.011520669646399999 instanteneousExc.json 1.7 NULL nan nan
+6724 node_type_id=='100000110' location=='LGN' wmax nan 0.0016587779701900001 instanteneousExc.json 1.7 NULL nan nan
+6725 node_type_id=='100000111' location=='LGN' wmax nan 0.007935807930109999 instanteneousExc.json 1.7 NULL nan nan
+6726 node_type_id=='100000112' location=='LGN' wmax nan 0.004156806075610001 instanteneousExc.json 1.7 NULL nan nan
+6727 node_type_id=='100000108' location=='LGN' wmax nan 0.0016065014887000002 instanteneousExc.json 1.7 NULL nan nan
+6728 node_type_id=='100000114' location=='LGN' wmax nan 0.0 instanteneousExc.json 1.7 NULL nan nan
+6729 node_type_id=='100000115' location=='LGN' wmax nan 0.0 instanteneousExc.json 1.7 NULL nan nan
+6730 node_type_id=='100000116' location=='LGN' wmax nan 0.0013927634897399998 instanteneousExc.json 1.7 NULL nan nan
+6731 node_type_id=='100000119' location=='LGN' wmax nan 0.00624145577892 instanteneousExc.json 1.7 NULL nan nan
+6732 node_type_id=='100000121' location=='LGN' wmax nan 0.00393372190419 instanteneousExc.json 1.7 NULL nan nan
+6739 node_type_id=='475585413' location=='LGN' wmax "['somatic', 'basal']" 0.0012715091441 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6740 node_type_id=='478107198' location=='LGN' wmax "['somatic', 'basal']" 0.0007403804916549999 AMPA_ExcToInh.json 1.7 exp2syn "[0.0, 1e+20]" nan
+6741 node_type_id=='100000117' location=='LGN' wmax nan 0.0330001980077 instanteneousExc.json 1.7 NULL nan nan
