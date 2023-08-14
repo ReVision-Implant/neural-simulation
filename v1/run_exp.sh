@@ -38,3 +38,4 @@ do
 done
 if [ $2 == "test" ]; then                                   # If second input argument is 'test', then
     echo "$DONE/$TOTAL"                                     # Print number of completed and total simulations.
+fi
