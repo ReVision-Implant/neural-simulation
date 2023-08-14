@@ -1,8 +1,13 @@
 #!/bin/bash
-source /users/students/r0754386/Documents/bmtk/bin/activate
+
+# Calling this script in the terminal will build all the networks specified in the lines starting with mpirun
+# $ bash /path/to/build.sh
+
 module load mpi
-cd /users/students/r0754386/Documents/bmtk/examples/v1
-mpirun -np 12 python build_network.py --fraction 0.25 -o networks_25/network0 --rng-seed 100
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd ) # Change the working dir to where this script is located
+
+mpirun -np 12 python build_network.py --fraction 0.25 -o networks_25/network0 --rng-seed 100  # !!! Change the arguments according to your needs !!!
+# You can add as many lines as you want, e.g.
 mpirun -np 12 python build_network.py --fraction 0.25 -o networks_25/network1 --rng-seed 101
 mpirun -np 12 python build_network.py --fraction 0.25 -o networks_25/network2 --rng-seed 102
 mpirun -np 12 python build_network.py --fraction 0.25 -o networks_25/network3 --rng-seed 103
