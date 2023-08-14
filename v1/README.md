@@ -22,14 +22,14 @@ A cluster with 100 Xeon cores will typically take a few hours to run through the
 
 - build_files/ - scripts and properties for (re)building the V1 network
 - components/ - parameters, morphology, model and mechanisms files used to instantiate individual cells and synapses
-- exp#/ - each folder contains the config.json, output, plotting scripts and some helper files of one experiment
+- exp#/ - each folder contains the config.json, output, plotting scripts and some helper files of one experiment. For more info about the contents of this folder, refer to the [README.md in exp0/](exp0/README.md).
   - 0 - monopolar stimulation 
   - 1 - current steering in 8 directions (only experiment to use full size V1 model)
   - 2 - full density network with flipped electrodes
   - 2- - opposite polarity of exp2
   - 3 - full density network in 3 directions
   - 3- - opposite polarity of exp3
-  - 4 - redo of a single configuration with rectangular pulses for comparison
+  - 4 - redo of a single configuration with rectangular pulses
 - export/ -  contains the output of statistics.py
 - figures/ - contains figures and plots
 - gif - contains animations
@@ -161,3 +161,6 @@ according to the mapping bio2lif_mapping.csv
 
  networks_rebuilt contains network only including 0.10 fraction of neurons.
  The y-component represents the axial direction of the column, representing L1->6 with increasing y.
+
+ssh -J [r-number]@ssh.esat.kuleuven.be [r-number]@[server]].esat.kuleuven.be
+ssh -J r0754386@ssh.esat.kuleuven.be r0754386@vierre64.esat.kuleuven.be
