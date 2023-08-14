@@ -32,7 +32,7 @@ do
     else 
         echo "$file_name does not exist"                    # Print file name
         if [ $2 == "run" ]; then                            # If second input argument is 'run', then
-            nice -10 mpirun -np 12 nrniv -mpi -python run_bionet.py $config_file       # Run simulation
+            nice -10 mpirun -np 1 nrniv -mpi -python run_bionet.py $config_file       # Run simulation
         fi
     fi
 done
