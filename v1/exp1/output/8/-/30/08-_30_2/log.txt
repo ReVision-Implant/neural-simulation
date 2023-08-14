@@ -1,0 +1,18 @@
+2023-04-20 22:58:48,600 [INFO] Created log file
+2023-04-20 22:58:48,605 [INFO] Running NEURON with mpi (12 cores).
+2023-04-20 22:58:51,474 [INFO] Building cells.
+2023-04-20 23:04:44,876 [INFO] Building recurrent connections
+2023-04-20 23:14:14,401 [INFO] Building virtual cell stimulations for LGN_spikes
+2023-04-20 23:15:41,707 [INFO] Building virtual cell stimulations for BKG_spikes
+2023-04-20 23:16:54,131 [INFO] Running simulation for 200.000 ms with the time step 0.025 ms
+2023-04-20 23:16:54,132 [INFO] Starting timestep: 0 at t_sim: 0.000 ms
+2023-04-20 23:16:54,132 [INFO] Block save every 1000 steps
+2023-04-20 23:45:30,918 [INFO]     step:1000 t_sim:25.00 ms
+2023-04-21 00:11:27,375 [INFO]     step:2000 t_sim:50.00 ms
+2023-04-21 00:36:04,524 [INFO]     step:3000 t_sim:75.00 ms
+2023-04-21 01:01:16,945 [INFO]     step:4000 t_sim:100.00 ms
+2023-04-21 01:27:18,177 [INFO]     step:5000 t_sim:125.00 ms
+2023-04-21 01:53:20,827 [INFO]     step:6000 t_sim:150.00 ms
+2023-04-21 02:17:36,232 [INFO]     step:7000 t_sim:175.00 ms
+2023-04-21 02:43:09,535 [INFO]     step:8000 t_sim:200.00 ms
+2023-04-21 02:43:11,614 [INFO] Simulation completed in 3.0 hours, 26.0 minutes and 30.76 seconds 

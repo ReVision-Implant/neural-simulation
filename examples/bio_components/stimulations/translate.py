@@ -1,6 +1,8 @@
 import os
 import pandas as pd
 import numpy as np
+import sys
+
 
 dir_out = '/users/students/r0754386/Documents/bmtk/examples/bio_components/stimulations/exp0'
 dir_in = '/users/students/r0754386/Documents/bmtk/examples/bio_components/stimulations/exp0'
