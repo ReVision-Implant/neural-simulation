@@ -54,7 +54,7 @@ For most clusters the simulation can be started using the following command insi
 ``` 
 mpirun -np N nrniv -mpi -python run_bionet.py config.json 
 ```
-You can find examples of this in the exp#/run.sh bash files.
+You can find examples of this in the run_exp.sh and run.sh bash files.
 The simulation parameters are defined in the config.json files, you should generally not change run_bionet.py. 
 
 
