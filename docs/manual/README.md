@@ -1,5 +1,15 @@
 # Manual: Hybdrid modelling with BMTK and COMSOL 
 
+## Table of contents
+
+- [Background](./background/)
+  - [oVirt]()
+  - [Terminal](./background/terminal.md)
+  - [Python package management](./background/packages.md)
+- [BMTK](./bmtk/)
+  - [Installation guide](./bmtk/installation.md)
+- [COMSOL](./comsol/)
+
 ## The Brain Modeling Toolkit
 
 A software development package for building, simulating, and analyzing large-scale networks of different levels of resolution.
@@ -9,34 +19,40 @@ A software development package for building, simulating, and analyzing large-sca
 - [User guide](https://alleninstitute.github.io/bmtk/)
 
 
-### Quickstart
+### [Installation guide](https://alleninstitute.github.io/bmtk/installation.html)
 
-bmtk requires Python 2.7 or 3.5+, plus [additional python dependicies](https://alleninstitute.github.io/bmtk/index.html#base-installation). To install with
-base requirements from a command-line:
+bmtk requires Python 2.7 or 3.5+, plus [additional python dependencies](#dependencies). There are three ways to install with base requirements from a command-line:
 
-```bash
- $ git clone https://github.com/AllenInstitute/bmtk.git
- $ cd bmtk
- $ python setup.py install
-```
-
-There are examples of building models and running simulations located in docs/examples/. Some of the simulation engines may require additional requirements to run.
-
-##### Tests
-
-There are a collection of unit tests in `bmtk.tests` which can be run using pytest
-
-```bash
+- Using your favourite python package manager
+    ```bash
+    $ pip install bmtk
+    ```
+     OR
+    ```bash
+    $ conda install -c kaeldai bmtk
+    ```
+  - Both pip and conda should automatcally download the necessary python [dependencies](#dependencies).
+  - However, you will have to download any tutorials, examples, documentation... separately from the [GitHub repo](https://github.com/AllenInstitute/bmtk).
+- Installing from the source
+  ```bash
+  $ git clone https://github.com/AllenInstitute/bmtk.git
   $ cd bmtk
-  $ py.test
-```
+  $ python setup.py install
+  ```
+  - This method will download create a copy of the github repo on your computer, giving you access to all tutorials, examples, documentation...
+  - You will probably need to install python [dependencies](#dependencies) manually.
+  - There are examples of building models and running simulations located in docs/examples/. Some of the simulation engines may require additional requirements to run.
+- BMTK will work as is on your computer for simple examples, but if you want to take advantage of parallel computing on an HPC cluster, you also need the mpi4py python package.
 
-### Documentation
+#### Dependencies
 
+- numpy
+- h5py
+- pandas
+- matplotlib
+- jsonschema
+- pytest (optional for running unit tests)
 
-- [Building network models](https://alleninstitute.github.io/bmtk/builder.html)
-- [Running biophysical simulations](https://alleninstitute.github.io/bmtk/bionet.html)
-- [Running point-neuron simulations](https://alleninstitute.github.io/bmtk/pointnet.html)
-- [Running population-level simulations](https://alleninstitute.github.io/bmtk/popnet.html)
+BMTK will work as is on your computer for simple examples, but if you want to take advantage of parallel computing on an HPC cluster, you also need
+- mpi4py
 
-Copyright 2017 Allen Institute
