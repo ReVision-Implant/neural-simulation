@@ -2,6 +2,13 @@
 
 ## Table of contents
 
+<!---
+TODO:
+- github
+- vsc
+- nomachine
+-->
+
 - [Background](./background/)
   - [ESAT server](./background/esat.md)
   - [Terminal](./background/terminal.md)

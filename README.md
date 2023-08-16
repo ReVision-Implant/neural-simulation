@@ -4,20 +4,4 @@ This GitHub repository contains the data and code that is required to simulate e
 
 # Manual: Hybrid modelling with BMTK and COMSOL
 
-The [docs/manual/](docs/manual/) directory also contains a manual that documents how to use this software in the hybrid modelling approach. You can access it through the table of contents below.
-
-
-- [Background](./docs/manual/background/)
-  - [ESAT server](./docs/manual/background/esat.md)
-  - [Terminal](./docs/manual/background/terminal.md)
-  - [Python package management](./docs/manual/background/packages.md)
-- [BMTK](./docs/manual/bmtk/)
-  - [Installation guide](./docs/manual/bmtk/installation.md)
-- [COMSOL](./docs/manual/comsol/)
-
-<!---
-TODO:
-- github
-- vsc
-- nomachine
--->
+The [docs/manual/](docs/manual/) directory also contains a manual that documents how to use this software in the hybrid modelling approach. You can access it through the table of contents [here](docs/manual/README.md).
