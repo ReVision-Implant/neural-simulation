@@ -4,7 +4,7 @@ bmtk requires Python 2.7 or 3.5+, plus [additional python dependencies](#depende
 
 - Using your favourite python package manager
     ```bash
-    $ pip install bmtk
+    $ pip3 install bmtk
     ```
      OR
     ```bash
@@ -18,10 +18,10 @@ bmtk requires Python 2.7 or 3.5+, plus [additional python dependencies](#depende
   $ cd bmtk
   $ python setup.py install
   ```
-  - This method will download create a copy of the github repo on your computer, giving you access to all tutorials, examples, documentation...
+  - This method will  create a copy of the github repo on your computer, giving you access to all tutorials (in docs/tutorials/), examples (in examples/), documentation...
   - You will probably need to install python [dependencies](#dependencies) manually.
-  - There are examples of building models and running simulations located in docs/examples/. Some of the simulation engines may require additional requirements to run.
-- BMTK will work as is on your computer for simple examples, but if you want to take advantage of parallel computing on an HPC cluster, you also need the mpi4py python package.
+- Some of the tutorials or examples engines may require additional requirements to run.
+- Additionally, if you want to take advantage of parallel computing on an HPC cluster, you also need the mpi4py python package.
 
 ### Dependencies
 
@@ -30,7 +30,5 @@ bmtk requires Python 2.7 or 3.5+, plus [additional python dependencies](#depende
 - pandas
 - matplotlib
 - jsonschema
-- pytest (optional for running unit tests)
-
-BMTK will work as is on your computer for simple examples, but if you want to take advantage of parallel computing on an HPC cluster, you also need
-- mpi4py
+- (pytest: optional for running unit tests)
+- (mpi4py: if you want to take advantage of parallel computing on an HPC cluster)
