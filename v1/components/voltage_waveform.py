@@ -1,3 +1,5 @@
+### imports
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -5,7 +7,8 @@ import os
 
 class CreateVoltageWaveform:
     '''
-    Class to create a voltage waveform and write it to a csv file for the bionet xstim simulation.
+    Class to create a voltage waveform and write it to a .csv file.
+    This file can be used in BioNet's xstim or comsol module.
     Running "CreateVoltageWaveform()" in run_bionet.py will run __init__()
     '''
 
