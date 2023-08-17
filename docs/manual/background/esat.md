@@ -1,4 +1,4 @@
-[Back to manual](/docs/manual/README.md)
+[Back to ToC](/docs/manual/README.md)
 
 # ESAT server
 
@@ -17,7 +17,7 @@ You can access any ESAT server with a Virtual Machine (VM) running either Linux 
   1. Go to https://vdi-portal.esat.kuleuven.be/ <br> (Or go to https://wiki.esat.kuleuven.be/it/FrontPage &ndash;you will need to log in with your ESAT credentials&ndash; and click *Virtual Desktop Portal*).
   2. Log in with your ESAT *Username* and *Password*
   3. Click *Take a Virtual Machine* <br> (Linux: stud-r8-? / Windows: stud-w10-?)
-  4. Refreshing the page after a couple of seconds will allow you to open the VM either in the browser or with virt-viewer
+  4. Refreshing the page after a couple of seconds will allow you to open the VM either in the browser or with virt-viewer.
 
 ## Accessing a VM
 
@@ -30,6 +30,11 @@ You can access any ESAT server with a Virtual Machine (VM) running either Linux 
 1. If not already installed, get virt-viewer from https://virt-manager.org/download (Win x64 MSI (gpg) for Windows).
 2. In oVirt, click *SPICE Console*. This will download a tiny file called *console.vv*. 
 3. Opening *console.vv* will start a session of the VM in virt-viewer.
+4. If you open a terminal on the VM, it will be connected to ESAT's login node. Make sure to switch to a suitable server when running any computationally intensive jobs. when you are already connected to any ESAT server, you can use a shorter command than described [above](#accesing-an-esat-server-through-the-command-line).
+    ```
+    $ ssh [server]
+    ```
+    [List of accessible student servers](https://wiki.esat.kuleuven.be/it/StudentServers)
 
 ## Closing a VM
 

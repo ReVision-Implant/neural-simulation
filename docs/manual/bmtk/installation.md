@@ -1,3 +1,4 @@
+[Back to ToC](/docs/manual/README.md)
 # [Installation guide](https://alleninstitute.github.io/bmtk/installation.html)
 
 ## BMTK
