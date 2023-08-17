@@ -1,8 +1,10 @@
-## [Installation guide](https://alleninstitute.github.io/bmtk/installation.html)
+# [Installation guide](https://alleninstitute.github.io/bmtk/installation.html)
 
-bmtk requires Python 2.7 or 3.5+, plus [additional python dependencies](#dependencies). There are three ways to install with base requirements from a command-line:
+## BMTK
 
-- Using your favourite python package manager
+BMTK requires Python 2.7 or 3.5+, plus [additional python dependencies](#dependencies) (i.e. python packages that are required for BMTK to function properly). There are three ways to install BMTK with base requirements from a command-line:
+
+- Using your favourite python package manager (pip or conda)
     ```bash
     $ pip3 install bmtk
     ```
@@ -23,8 +25,9 @@ bmtk requires Python 2.7 or 3.5+, plus [additional python dependencies](#depende
 - Some of the tutorials or examples engines may require additional requirements to run.
 - Additionally, if you want to take advantage of parallel computing on an HPC cluster, you also need the mpi4py python package.
 
-### Dependencies
+## Dependencies
 
+### List of standard dependencies
 - numpy
 - h5py
 - pandas
@@ -32,3 +35,9 @@ bmtk requires Python 2.7 or 3.5+, plus [additional python dependencies](#depende
 - jsonschema
 - (pytest: optional for running unit tests)
 - (mpi4py: if you want to take advantage of parallel computing on an HPC cluster)
+
+### [Installing dependencies](../background/packages.md)
+
+| Pip                                               | Conda                                             |
+|---------------------------------------------------|---------------------------------------------------|
+| ``` $ pip3 install [package1] [package2] ...  ``` | ``` $ conda install [package1] [package2] ... ``` |

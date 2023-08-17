@@ -2,7 +2,7 @@
 
 # ESAT server
 
-You can access the ESAT server with a Virtual Machine (VM) running either Linux or Windows using oVirt. The VM will provide you with a graphical interface to work on the ESAT server. You can also access the server through the command line of your own computer. In any case, make sure you are connected to a KUL network or use the [VPN](https://admin.kuleuven.be/icts/services/extranet/ssl-vpn-PulseIvanti-client-en).
+You can access any ESAT server with a Virtual Machine (VM) running either Linux or Windows using oVirt. The VM will provide you with a graphical interface to work on the ESAT server. You can also access the server through the command line of your own computer. In either case, make sure you are connected to a KUL network or use the [VPN](https://admin.kuleuven.be/icts/services/extranet/ssl-vpn-PulseIvanti-client-en).
 
 ## Accesing an ESAT server through the command line
 

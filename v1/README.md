@@ -21,7 +21,7 @@ A cluster with 100 Xeon cores will typically take a few hours to run through the
 -->
 
 - build_files/ - scripts and properties for (re)building the V1 network
-- components/ - parameters, morphology, model and mechanisms files used to instantiate individual cells and synapses
+- components/ - parameters, morphology, model and mechanisms files used to instantiate individual cells and synapses, as well as python files containing helper functions.
 - exp#/ - each folder contains the config.json, output, plotting scripts and some helper files of one experiment. For more info about the contents of this folder, refer to the [README.md in exp0/](exp0/README.md).
   - 0 - monopolar stimulation 
   - 1 - current steering in 8 directions (only experiment to use full size V1 model)
@@ -106,7 +106,9 @@ $ python build_network.py
 ```
 
 This can also be done in parallel if using an HPC with MPI installed
-  $ mpirun -np 2 python build_network.py
+```
+$ mpirun -np N python build_network.py
+```
 
 WARNING: RUNNING build_network.py WILL OVERWRITE EXISTING NETWORK FILES IN THE network/ FOLDER.
 
