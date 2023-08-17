@@ -2,7 +2,7 @@
 
 # Simulating the neural response with BMTK
 
-In order to simulate the neural activation of the tissue in response to the extracellular potentials, we need two things.
+In order to simulate the neural activation of the tissue in response to the extracellular potentials, we need two things:
 
 - The extracellular potentials which were calculated in COMSOL.
 - A computational model of the neural tissue in BMTK.

@@ -28,6 +28,9 @@ TODO:
 
 
 ## Introduction
+
+### Instructions
+
 - Commands that should be typed into the terminal are shown as ``` $ prompt ``` or as
   ```
   $ prompt
