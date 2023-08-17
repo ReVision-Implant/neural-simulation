@@ -9,19 +9,23 @@ class CreateVoltageWaveform:
     '''
     Class to create a voltage waveform and write it to a .csv file.
     This file can be used in BioNet's xstim or comsol module.
-    Running "CreateVoltageWaveform()" in run_bionet.py will run __init__()
     '''
 
-    def __init__(self, current_amplitude=10, timestep=10, writing=True, plotting=False):
+    def __init__(self, current_amplitude=10, timestep=10, path=None, plot=False):
         '''
         This is the main function you run when you call CreateVoltageWaveform() from another file.
         All necessary functions for creating the waveform, sampling it, and writing it to a .csv-file are called down here,
         so no other function calls are needed in the other file.
-        :param current_amplitude: amplitude of the current in uA. By default 10uA.
-        :param timestep: sampling timestep of the simulation. By default 10us. If e.g. set at 100us, time variables such as the pulsewidth change from 200 (us) to 2.
-        :param writing: determines whether you write the waveform values to the csv file. By default it is set to True.
-        :param plotting: determines whether you also plot the waveform shape. By default it is set to False, so the waveform
-        is not plotted each time you run the simulation.
+        Parameters
+        ----------
+        current_amplitude: int 
+            Amplitude of the current in µA. Defaults to 10uA.
+        timestep: int 
+            Sampling period in µs. Defaults to 10us. If e.g. set at 100us, time variables such as the pulsewidth change from 200 (us) to 2.
+        path: file
+            Path to the file where the waveform values are saved. Defaults to ``None``, in which case it is not saved.
+        plot: bool
+            If true, the waveform shape is plotted. Defaults to ``False``.
         '''
         self.current_amplitude = current_amplitude*64
         self.timestep = timestep
@@ -50,11 +54,11 @@ class CreateVoltageWaveform:
         self.amplitude *= current_amplitude/np.max(self.amplitude)
         # If writing is set to true (default), write_to_csv() will be called
         # print(self.time)
-        if writing == True:
+        if path is not None:
             self.write_to_csv()
 
         # If plotting is set to true, plot_waveform() function will be called	
-        if plotting == True:
+        if plot == True:
             self.plot_waveform()
 
         return
@@ -96,17 +100,10 @@ class CreateVoltageWaveform:
         '''
         Take the self.time and self.time amplitude lists and write them to the correct csv-file.
         '''
-
-        # TO DO: change path and name
-        # path = './' # 'path/to/csv/file'
-        #name = 'waveform_custom.csv'
-
-        path = ('../bio_components/stimulations')
-        name = '1_0.csv'
-
+        assert os.path.exists(self.path)
         # Write the time and amplitude lists to the csv-file
         df = pd.DataFrame({'time': self.time, 'amplitude': self.amplitude})
-        df.to_csv(os.path.join(path,name), sep='\t', index=False)
+        df.to_csv(os.path.commonpath(), sep='\t', index=False)
         return
 
     def plot_waveform(self):

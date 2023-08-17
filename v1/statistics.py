@@ -41,7 +41,7 @@ for x,exps in enumerate(exps_list):
         intra_corr = np.mean(intra_corr)                 
         intra_corrs[x,y] = intra_corr
 
-        # Save inter-class correlation, names, and number of samples                   
+        # Save inter-class correlations and corresponding p_values in export/         
         corrs, names, N = get_corr_inter(exps, electrodes, stim_type, amplitude, networks)
         p_values = get_p_values(corrs, intra_corr+0.065, N)
         p_values = pd.DataFrame(p_values)
@@ -49,10 +49,10 @@ for x,exps in enumerate(exps_list):
         corrs = corrs.round(3)
         corrs = corrs.replace(0, '')
         corrs.to_csv('export1/inter_corrs_' + str(x) + '_' + amplitude + '.csv')
-        # p_values = p_values.round(3) # round                                        
+        # p_values = p_values.round(3) #                                         
         p_values.to_csv('export1/p_values_' + str(x) + '_' + amplitude + '.csv')
 
-np.savetxt('export1/intra_corrs.txt', intra_corrs)
+np.savetxt('export1/intra_corrs.txt', intra_corrs) # Save intra-class correlation in export/
 
 # electrodes = [1,2,3]
 # amplitudes = [10,20,30]
