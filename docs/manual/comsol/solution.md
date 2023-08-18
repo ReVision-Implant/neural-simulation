@@ -6,34 +6,55 @@ In order to calculate the extracellular potentials inside the tissue that arise 
 
 ## Study
 
-We are interested in the spatial and temporal behaviour of the extracellular potentials in response to certain current injections. We could represent these space- and time-dependent potentials in a 2D matrix. One dimension represents the spatial component and holds all domain nodes, and the other dimensions represents the temporal component and holds all time points. Let's call this matrix S for solution.
+We are interested in the spatial and temporal behaviour of the extracellular potentials in response to certain current injections. We could represent these space- and time-dependent potentials in a matrix. There are $N$ rows representing the FEM mesh nodes, and $T$ columns representing the timepoints. Let's call this matrix $\bold{S}$ for solution.
 
-$$ S = 
+$$ \bold{S} = 
 \begin{bmatrix}
-V_{X_0,t_0} & V_{X_0,t_1} & \cdots & V_{X_1,t_{max}} \\
-V_{X_1,t_0} & V_{X_1,t_1} & \cdots & V_{X_1,t_{max}} \\
+V_{X_1,t_1} & V_{X_1,t_2} & \cdots & V_{X_1,t_T} \\
+V_{X_2,t_1} & V_{X_2,t_2} & \cdots & V_{X_2,t_T} \\
 \vdots      & \vdots      & \ddots & \vdots          \\
-V_{X_N,t_0} & V_{X_N,t_1} & \cdots & V_{X_N,t_{max}} \\
+V_{X_N,t_1} & V_{X_N,t_2} & \cdots & V_{X_N,t_T} \\
 \end{bmatrix}
 $$
 
-Thanks to the quasi-static approximation, the FEM solutions are linear. In stimulation cases that are not too complex, i.e. where only a single current profile (amplitudes can be different) is used for all electrodes, the voltage profile in the tissue will remain the same and the voltage at every point will only vary proportionally to the current amplitude. In such case, the matrix can be written as the outer product of two vectors ($\vec{V_X}$).
+### 1. One time-dependent study
 
-$$ S = 
+In the most general case, we need to solve the FEM at every timepoint (time-dependent study), meaning the full solution is described by $ N \times T $ values. Using the output of such a study is supported in the comsol module, but is not very efficient (w.r.t computation time and storage) and should thus only be used if the method in the paragraph below is not an option. 
+
+
+### 2. One stationary study
+
+Thanks to the quasi-static approximation, the FEM solution is linear w.r.t. the injected current(s). In cases that are not too complex, i.e. where the same current profile (but with possibly different amplitudes) is used for all electrodes, the FEM solutions at different time points are a function of just the current amplitude, meaning they are linearly dependent. Such a matrix S is of rank 1 and can be written as the outer product of two vectors.
+
+$$ \bold{S} = 
 \begin{bmatrix}
-V_{X_0}A_{t_0} & V_{X_0}A_{t_1} & \cdots & V_{X_0}A_{t_{max}} \\
-V_{X_1}A_{t_0} & V_{X_1}A_{t_1} & \cdots & V_{X_1}A_{t_{max}} \\
+V_{X_1,t_1} & V_{X_1,t_2} & \cdots & V_{X_1,t_T} \\
+V_{X_2,t_1} & V_{X_2,t_2} & \cdots & V_{X_2,t_T} \\
 \vdots      & \vdots      & \ddots & \vdots          \\
-V_{X_N}A_{t_0} & V_{X_N}A_{t_1} & \cdots & V_{X_N}A_{t_{max}} \\
+V_{X_N,t_1} & V_{X_N,t_2} & \cdots & V_{X_N,t_T} \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+V_{X_1}A_{t_1} & V_{X_1}A_{t_2} & \cdots & V_{X_1}A_{t_T} \\
+V_{X_2}A_{t_1} & V_{X_2}A_{t_2} & \cdots & V_{X_2}A_{t_T} \\
+\vdots      & \vdots      & \ddots & \vdots          \\
+V_{X_N}A_{t_1} & V_{X_N}A_{t_2} & \cdots & V_{X_N}A_{t_T} \\
 \end{bmatrix} 
 = \vec{V_X} \otimes \vec{A_t}
 $$
 
-As such, we only need to solve the FEM at one time point (stationary study) and we only need $ N + t_{max} $ values to describe the time-dependent solution of every point inside the tissue. This is a supported way to define the extracellular potentials in the comsol module of BioNet.
+Here, the full solution can be described by the FEM solution at one time point ($\vec{V_X}$) and a time-dependent scaling factor (i.e. the current profile $\vec{A_t}$), resulting in only $ N + T $ values. This is a supported (and recommended) way to define the extracellular potentials in the comsol module of BioNet.
 
-For very complex stimulation algorithms, where multiple current profiles are used (e.g. using slightly different current pulses timings on different electrodes), you will need to solve the FEM at every timepoint (time-dependent study), and we need $ N \times t_{max} $ values to describe the time-dependent solution. This is also supported in the comsol module . 
 
-In theory, this last situation could also be described by solving the FEM model at one time point for each electrode (one stationary study per electrode), and then using the superposition principle to combine the results as if all electrodes were on simultaneously. This requires the FEM to be solved once for each electrode, and requires $ N_{electrodes} \times (N + t_{max}) $ values to store the full solution. This would be faster and more storage-efficient than the method described in the previous paragraph. However, this is not (yet) supported in the comsol module.
+### 3. Multiple stationary studies
+
+Because of the linearity of the solutions, the full solution $\bold{S}$ can also be defined as the superposition (i.e. linear combination) of the solutions $\bold{S}_i$ where each electrode is active by itself.
+
+$$
+\bold{S}= \sum_i{\bold{S}_i} = \sum_i{(\vec{V_{X,i}}} \otimes \vec{A_{t,i})}
+$$
+
+When only one electrode is active, the solution can always be decomposed into a spatial component and a temporal component as in the paragraph above. Doing this decomposition for each electrode separately and adding the solutions, only requires the FEM to be solved once for each electrode, and requires $ N_{electrodes} \times (N + T) $ values to store the full solution. In almost every case, this would be faster and more storage-efficient than the method described in the first paragraph. However, this is not (yet) supported in the comsol module.
 
 
 ## Output
@@ -44,8 +65,29 @@ After a solution has been calculated, it can be exported with Results>Export>Dat
 - Points to evaluate in: Take from dataset
 - Data format: Spreadsheet
 
-This will generate a .txt file with a bunch of header rows, and then at least 4 space-separated columns. The first three columns are always the X-, Y-, and Z-coordinate, where every row defines the 3D-coordinates of one of the mesh nodes.
+This will generate a .txt file with a bunch of header rows (starting with %), and then at least 4 space-separated columns. The first three columns are the x-, y-, and -coordinate, where every row defines the 3D-coordinates of one of the mesh nodes.
 
 Depending on whether simulation was stationary or time-dependent, there will be either one or multiple extra columns.
-- Stationary: The 4th column described the potential at each point. This column is essentially $ \vec{V_X} $ in the equations above.
-- Time-dependent: Every columns from the 4th on contains the voltage profile at one timepoint T, like a vector $\begin{bmatrix} V_{X_0,t_T} & V_{X_1,t_T} & \cdots & V_{X_N,t_T}\end{bmatrix}^T$ that is a column of matrix $S$ above.
+- Stationary: The 4th column described the potential at each point. This column is essentially $ \vec{V_X} $.
+- Time-dependent: Every columns from the 4th on contains the voltage profile at one timepoint T, like a vector $\begin{bmatrix} V_{X_0,t_T} & V_{X_1,t_T} & \cdots & V_{X_N,t_T}\end{bmatrix}^T$ that corresponds to a column of matrix $S$.
+
+Configuring the comsol input for BMTK in the config.json file, will look something like this
+
+```json
+    "Extracellular_Stim": {
+        "input_type": "lfp",
+        "node_set": "all",
+        "module": "comsol",
+        "comsol_file": "$STIM_DIR/exp3/02-.txt",
+        "waveform": "$STIM_DIR/waveform.csv",
+        "amplitude": 10,
+        "ip_method": "L"
+    }
+```
+- input_type - Always "lfp".
+- node_set - Used to filter which cells receive the input, but here it probably does not make sense to use anything besides "all".
+- module - Always "comsol".
+- comsol_file - /path/to/comsol.txt from stationary or time-dependent study
+- waveform - /path/to/waveform.csv. Only supply this with stationary comsol.txt, remove the entire line for time-dependent comsol.txt.
+- amplitude - Multiplication factor for waveform. If the amplitudes in waveform.csv are normalised to [0,1], this can be used to set the current amplitude. Defaults to 1. 
+- ip_method - "NN" for nearest neighbour, "L" for linear interpolation (only for stationary comsol.txt). Defaults to "NN".
