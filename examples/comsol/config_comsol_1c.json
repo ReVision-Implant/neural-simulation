@@ -11,7 +11,7 @@
   },
 
   "run": {
-    "tstop": 50.0,
+    "tstop": 20.0,
     "dt": 0.025,
     "dL": 20.0,
     "spike_threshold": -15,
@@ -31,7 +31,7 @@
       "node_set": "all",
       "module": "comsol",
       "comsol_file": "$STIM_DIR/COMSOL_1c.txt",
-      "waveform": "$STIM_DIR/waveform.csv"
+      "waveform": "$STIM_DIR/test.csv"
     }
   },
 
