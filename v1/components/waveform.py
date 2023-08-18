@@ -27,7 +27,6 @@ class CreateWaveform:
         :type plot: bool, optional
         """
     	
-        # Initialisation
         self.piecewise = piecewise
         self.max = max_amplitude
         self.dt = dt
@@ -91,11 +90,35 @@ class CreateWaveform:
 
 
 def CreateBlockWaveform(n_pulses, phase_1_expr, amp_1_expr, T_1_expr, phase_2_expr, amp_2_expr, T_2_expr):
+    """Creates a block waveform using the CreateWaveform class. Except for n_pulses, all arguments should be lambda expression.
+    E.g. Constant phase_1: phase_1_expr = lambda n:0.1
+    E.g. For phase_1 that starts at 0.1 ms and gets 0.01 ms longer after each pulse: phase_1_expr = lambda n:0.1+n/010
 
+    :param n_pulses: number of pulses that the waveform will be made up of 
+    :type n_pulses: int
+    :param phase_1_expr: length of first phase of pulse in ms
+    :type phase_1_expr: lambda
+    :param amp_1_expr: amplitude of first phase of pulse in µA
+    :type amp_1_expr: lambda
+    :param T_1_expr: time between end of first phase and start of second phase in ms
+    :type T_1_expr: lambda
+    :param phase_2_expr: length of second phase of pulse in ms
+    :type phase_2_expr: lambda
+    :param amp_2_expr: amplitude of second phase of pulse in µA
+    :type amp_2_expr: lambda
+    :param T_2_expr: time between end of one pulse and start of next pulse in ms
+    :type T_2_expr: lambda
+    :return: A piecewise description of the waveform that can be passed to CreateVoltageWaveform(). (2 x 4*n_pulses) array whose rows look like [t_stop, lambda].
+    :rtype: ndarray
+    """
+
+    # Initialisation
     piecewise = np.zeros((0,2))
-    t_current = 0 
+    t_start = 0 
+
     for i in range(n_pulses):
         
+        # Get pulse parameters for pulse i 
         phase_1 = phase_1_expr(i)
         amp_1 =  amp_1_expr(i)
         T_1 =  T_1_expr(i)
@@ -103,18 +126,20 @@ def CreateBlockWaveform(n_pulses, phase_1_expr, amp_1_expr, T_1_expr, phase_2_ex
         amp_2 = amp_2_expr(i)
         T_2 = T_2_expr(i)
         
-        piecewise_temp1 = [t_current+phase_1, lambda t:amp_1]
-        piecewise_temp2 = [t_current+phase_1+T_1, lambda t:0]
-        piecewise_temp3 = [t_current+phase_1+T_1+phase_2, lambda t:amp_2]
-        piecewise_temp4 = [t_current+phase_1+T_1+phase_2+T_2, lambda t:0]
+        # Construct piecewise definition of pulse i
+        piecewise_temp1 = [t_start+phase_1, lambda t:amp_1]
+        piecewise_temp2 = [t_start+phase_1+T_1, lambda t:0]
+        piecewise_temp3 = [t_start+phase_1+T_1+phase_2, lambda t:amp_2]
+        piecewise_temp4 = [t_start+phase_1+T_1+phase_2+T_2, lambda t:0]
         
-        piecewise = np.vstack((piecewise, piecewise_temp1, piecewise_temp2, piecewise_temp3, piecewise_temp4))
+        piecewise = np.vstack((piecewise, piecewise_temp1, piecewise_temp2, piecewise_temp3, piecewise_temp4))  # Add pulse i
 
-        t_current = t_current+phase_1+T_1+phase_2+T_2
+        t_start = t_start+phase_1+T_1+phase_2+T_2   # Update t_start
 
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    name = "test.csv"
-    path = dir_path + r'/stimulations/' + name
+    # Construct path and pass piecewise to CreateWaveform() 
+    dir_path = os.path.dirname(os.path.realpath(__file__))  # Directory of this file: waveform.py
+    name = "test.csv"                                       # Choose a name for the .csv file
+    path = dir_path + r'/stimulations/' + name              # Save .csv file in /.../stimulations/
     CreateWaveform(piecewise, max_amplitude = 1, path=path , plot=True)
 
     return piecewise
