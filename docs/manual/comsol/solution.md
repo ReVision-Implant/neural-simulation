@@ -6,7 +6,7 @@ In order to calculate the extracellular potentials inside the tissue that arise 
 
 ## Study
 
-We are interested in the spatial and temporal behaviour of the extracellular potentials in response to certain current injections. We could represent these space- and time-dependent potentials in a matrix. There are $N$ rows representing the FEM mesh nodes, and $T$ columns representing the timepoints. Let's call this matrix $\bold{S}$ for solution.
+We are interested in the spatial and temporal behaviour of the extracellular potentials in response to certain current injections. We could represent these space- and time-dependent potentials in a matrix. There are $N$ rows representing the FEM mesh nodes, and $T$ columns representing the timepoints. Let's call this matrix $\bf{S}$ for solution.
 
 $$ \bold{S} = 
 \begin{bmatrix}
