@@ -39,7 +39,7 @@ V_{X_2}A_{t_1} & V_{X_2}A_{t_2} & \cdots & V_{X_2}A_{t_T} \\
 \vdots      & \vdots      & \ddots & \vdots          \\
 V_{X_N}A_{t_1} & V_{X_N}A_{t_2} & \cdots & V_{X_N}A_{t_T} \\
 \end{bmatrix} 
-= \vec{V_X} \otimes \vec{A_t}
+= \vec{V}_X \otimes \vec{A}_t
 $$
 
 Here, the full solution can be described by the FEM solution at one time point ($\vec{V_X}$) and a time-dependent scaling factor (i.e. the current profile $\vec{A_t}$), resulting in only $ N + T $ values. This is a supported (and recommended) way to define the extracellular potentials in the comsol module of BioNet.
@@ -49,7 +49,7 @@ Here, the full solution can be described by the FEM solution at one time point (
 
 Because of the linearity of the solutions, the full solution $\bf{S}$ can also be defined as the superposition (i.e. linear combination) of the solutions $\bf{S}_i$ where each electrode is active by itself.
 
-$$ \bf{S} = \sum_i \bf{S}_i = \sum_i \vec{V\_{X,i}} {\otimes} \vec{A\_{t,i}} $$
+$$ \bf{S} = \sum_i \bf{S}_i = \sum_i \vec{V}\_{X,i} {\otimes} \vec{A}\_{t,i} $$
 
 When only one electrode is active, the solution can always be decomposed into a spatial component and a temporal component as in the paragraph above. Doing this decomposition for each electrode separately and adding the solutions, only requires the FEM to be solved once for each electrode, and requires $ N_{electrodes} \times (N + T) $ values to store the full solution. In almost every case, this would be faster and more storage-efficient than the method described in the first paragraph. However, this is not (yet) supported in the comsol module.
 
