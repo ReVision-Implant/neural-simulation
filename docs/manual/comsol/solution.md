@@ -6,9 +6,9 @@ In order to calculate the extracellular potentials inside the tissue that arise 
 
 ## Study
 
-We are interested in the spatial and temporal behaviour of the extracellular potentials in response to certain current injections. We could represent these space- and time-dependent potentials in a matrix. There are $N$ rows representing the FEM mesh nodes, and $T$ columns representing the timepoints. Let's call this matrix $\bold{S}$ for solution.
+We are interested in the spatial and temporal behaviour of the extracellular potentials in response to certain current injections. We could represent these space- and time-dependent potentials in a matrix. There are $N$ rows representing the FEM mesh nodes, and $T$ columns representing the timepoints. Let's call this matrix $\bf{S}$ for solution.
 
-$$ \bold{S} = 
+$$ \bf{S} = 
 \begin{bmatrix}
 V_{X_1,t_1} & V_{X_1,t_2} & \cdots & V_{X_1,t_T} \\
 V_{X_2,t_1} & V_{X_2,t_2} & \cdots & V_{X_2,t_T} \\
@@ -26,15 +26,14 @@ In the most general case, we need to solve the FEM at every timepoint (time-depe
 
 Thanks to the quasi-static approximation, the FEM solution is linear w.r.t. the injected current(s). In cases that are not too complex, i.e. where the same current profile (but with possibly different amplitudes) is used for all electrodes, the FEM solutions at different time points are a function of just the current amplitude, meaning they are linearly dependent. Such a matrix S is of rank 1 and can be written as the outer product of two vectors.
 
-$$ \bold{S} = 
+$$ \bf{S} = 
 \begin{bmatrix}
 V_{X_1,t_1} & V_{X_1,t_2} & \cdots & V_{X_1,t_T} \\
 V_{X_2,t_1} & V_{X_2,t_2} & \cdots & V_{X_2,t_T} \\
 \vdots      & \vdots      & \ddots & \vdots          \\
 V_{X_N,t_1} & V_{X_N,t_2} & \cdots & V_{X_N,t_T} \\
 \end{bmatrix}
-=
-\begin{bmatrix}
+= \begin{bmatrix}
 V_{X_1}A_{t_1} & V_{X_1}A_{t_2} & \cdots & V_{X_1}A_{t_T} \\
 V_{X_2}A_{t_1} & V_{X_2}A_{t_2} & \cdots & V_{X_2}A_{t_T} \\
 \vdots      & \vdots      & \ddots & \vdots          \\
@@ -48,11 +47,9 @@ Here, the full solution can be described by the FEM solution at one time point (
 
 ### 3. Multiple stationary studies
 
-Because of the linearity of the solutions, the full solution $\bold{S}$ can also be defined as the superposition (i.e. linear combination) of the solutions $\bold{S}_i$ where each electrode is active by itself.
+Because of the linearity of the solutions, the full solution $\bf{S}$ can also be defined as the superposition (i.e. linear combination) of the solutions $\bf{S}_i$ where each electrode is active by itself.
 
-$$
-\bold{S}= \sum_i{\bold{S}_i} = \sum_i{(\vec{V_{X,i}}} \otimes \vec{A_{t,i})}
-$$
+$$ \bf{S} = \sum_i \bf{S}_i = \sum_i \vec{V\_{X,i}} {\otimes} \vec{A\_{t,i}} $$
 
 When only one electrode is active, the solution can always be decomposed into a spatial component and a temporal component as in the paragraph above. Doing this decomposition for each electrode separately and adding the solutions, only requires the FEM to be solved once for each electrode, and requires $ N_{electrodes} \times (N + T) $ values to store the full solution. In almost every case, this would be faster and more storage-efficient than the method described in the first paragraph. However, this is not (yet) supported in the comsol module.
 
