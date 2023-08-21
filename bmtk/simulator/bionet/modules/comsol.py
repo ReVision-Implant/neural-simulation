@@ -109,14 +109,16 @@ class ComsolMod(SimulatorMod):
                     tstep = tstep % T                   # In case of periodic stimulation
                     v_ext = self._arr[NN,tstep+1]       # assign extracellular potential value of NN at tstep
                 else:
-                    T = int(self._waveform.definition["time"].iloc[-1])
-                    tstep = tstep % T                   # In case of periodic stimulation
-                    v_ext = self._arr[NN]*self._waveform.calculate(tstep+1)
+                    period = self._waveform.definition["time"].iloc[-1]
+                    simulation_time = (tstep + 1) * sim.dt
+                    simulation_time = simulation_time % period
+                    v_ext = self._arr[NN]*self._waveform.calculate(simulation_time)
             elif self._ip_method == 'L':
                 L = self._L[gid]
-                T = int(self._waveform.definition["time"].iloc[-1])
-                tstep = tstep % T                       # In case of periodic stimulation
-                v_ext = L*self._waveform.calculate(tstep+1)
+                period = self._waveform.definition["time"].iloc[-1]
+                simulation_time = (tstep + 1) * sim.dt
+                simulation_time = simulation_time % period
+                v_ext = L*self._waveform.calculate(simulation_time)
 
             v_ext *= self._amplitude * self._unit
 

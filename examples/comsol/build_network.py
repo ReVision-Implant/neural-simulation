@@ -15,13 +15,13 @@ import logging
 logger = logging.getLogger(__name__)
 
 np.random.seed(10)
-n_nodes = 200
+n_nodes = 100
 
 column = NetworkBuilder('column')
 column.add_nodes(
     N=n_nodes,
     pop_name='Scnn1a',
-    positions=positions_columinar(N=n_nodes, center=[0, 250, 0], min_radius = 1, max_radius=100, height=200, plot=True),
+    positions=positions_columinar(N=n_nodes, center=[0, 0, 0], min_radius = 1, max_radius=100, height=100, plot=True),
     rotation_angle_yaxis=xiter_random(N=n_nodes, min_x=0.0, max_x=2*np.pi),
     potental='exc',
     model_type='biophysical',
