@@ -128,11 +128,10 @@ def CreateBlockWaveform(n_pulses, phase_1_expr, amp_1_expr, T_1_expr, phase_2_ex
         T_2 = T_2_expr(i)
         
         # Construct piecewise definition of pulse i
-        piecewise_temp1 = [t_start+phase_1, lambda t:amp_1]
+        piecewise_temp1 = [t_start+phase_1, lambda t, amp_1=amp_1:amp_1]
         piecewise_temp2 = [t_start+phase_1+T_1, lambda t:0]
-        piecewise_temp3 = [t_start+phase_1+T_1+phase_2, lambda t:amp_2]
+        piecewise_temp3 = [t_start+phase_1+T_1+phase_2, lambda t, amp_2=amp_2:amp_2]
         piecewise_temp4 = [t_start+phase_1+T_1+phase_2+T_2, lambda t:0]
-        
         piecewise = np.vstack((piecewise, piecewise_temp1, piecewise_temp2, piecewise_temp3, piecewise_temp4))  # Add pulse i
 
         t_start = t_start+phase_1+T_1+phase_2+T_2   # Update t_start
