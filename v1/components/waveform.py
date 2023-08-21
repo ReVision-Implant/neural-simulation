@@ -8,14 +8,15 @@ import os
 class CreateWaveform:
     """
     Class to create a voltage waveform and write it to a .csv file.
-
     This file can be used for BioNet's xstim and comsol modules.
+    To provide the comsol module with a periodic pulse train, it suffices to generate a single period of the pulse train.
+    The comsol module will then automatically repeat the waveform for the duration of the simulation.
     """
 
     def __init__(self, piecewise, max_amplitude=None, dt=0.025, path=None, plot=False):
         """ Main function when calling CreateVoltageWaveform(). It 
 
-        :param piecewise: piecewise description of waveform. Each row defines a piece [t_stop, lambda]. t_start of the piece is 0 or t_stop of the previous piece, the lambda expression defines the function. 
+        :param piecewise: piecewise description of waveform. Each row defines a piece [t_stop, lambda(t)]. t_start of the piece is 0 or t_stop of the previous piece, the lambda expression defines the function as a function of time t. 
         :type piecewise: ndarray
         :param max_amplitude: If specified, normalise waveform to [0,max_amplitude]. Defaults to None.
         :type max_amplitude: int or None, optional
@@ -89,10 +90,10 @@ class CreateWaveform:
         return
 
 
-def CreateBlockWaveform(n_pulses, phase_1_expr, amp_1_expr, T_1_expr, phase_2_expr, amp_2_expr, T_2_expr):
-    """Creates a block waveform using the CreateWaveform class. Except for n_pulses, all arguments should be lambda expression.
-    E.g. Constant phase_1: phase_1_expr = lambda n:0.1
-    E.g. For phase_1 that starts at 0.1 ms and gets 0.01 ms longer after each pulse: phase_1_expr = lambda n:0.1+n/010
+def CreateBlockWaveform(n_pulses, phase_1_expr, amp_1_expr, T_1_expr, phase_2_expr, amp_2_expr, T_2_expr, save_name=None):
+    """Creates a block waveform using the CreateWaveform class. Except for n_pulses, all arguments should be lambda expressions of n (units: ms).
+    E.g. Constant phase_1 (0.1ms): phase_1_expr = lambda n:0.1
+    E.g. For phase_1 that starts at 0.1 ms and gets 0.01 ms longer after each pulse: phase_1_expr = lambda n:0.1+n/10
 
     :param n_pulses: number of pulses that the waveform will be made up of 
     :type n_pulses: int
@@ -138,8 +139,8 @@ def CreateBlockWaveform(n_pulses, phase_1_expr, amp_1_expr, T_1_expr, phase_2_ex
 
     # Construct path and pass piecewise to CreateWaveform() 
     dir_path = os.path.dirname(os.path.realpath(__file__))  # Directory of this file: waveform.py
-    name = "test.csv"                                       # Choose a name for the .csv file
-    path = dir_path + r'/stimulations/' + name              # Save .csv file in /.../stimulations/
+    save_name = "test.csv"                                       # Choose a name for the .csv file
+    path = dir_path + r'/stimulations/' + save_name              # Save .csv file in /.../stimulations/
     CreateWaveform(piecewise, max_amplitude = 1, path=path , plot=True)
 
     return piecewise
@@ -150,10 +151,13 @@ if __name__ == '__main__':
     If you run the file voltage_waveform.py instead of calling if from another file, this part will run.
     
     '''
-    piecewise = CreateBlockWaveform(10,
-                                phase_1_expr=lambda n:0.1+n/20,
-                                amp_1_expr= lambda n:10,
-                                T_1_expr=lambda n:0.1,
-                                phase_2_expr=lambda n:0.1+n/10,
-                                amp_2_expr=lambda n:-5,
-                                T_2_expr=lambda n:4.7-3*n/20)
+    CreateBlockWaveform(
+        n_pulses = 1,
+        phase_1_expr = lambda n:0.1+n/20,
+        amp_1_expr = lambda n:10,
+        T_1_expr = lambda n:0.1,
+        phase_2_expr = lambda n:0.1+n/10,
+        amp_2_expr = lambda n:-5,
+        T_2_expr = lambda n:4.7-3*n/20,
+        save_name = "waveform.csv"
+    )
