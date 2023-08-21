@@ -18,7 +18,7 @@ class CreateWaveform:
 
         :param piecewise: piecewise description of waveform. Each row defines a piece [t_stop, lambda(t)]. t_start of the piece is 0 or t_stop of the previous piece, the lambda expression defines the function as a function of time t. 
         :type piecewise: ndarray
-        :param max_amplitude: If specified, normalise waveform to [0,max_amplitude]. Defaults to None.
+        :param max_amplitude: If specified, normalise waveform to [-max_amplitude,max_amplitude]. Defaults to None.
         :type max_amplitude: int or None, optional
         :param dt: timestep in ms, defaults to 0.025
         :type dt: float, optional
@@ -114,7 +114,7 @@ def CreateBlockWaveform(n_pulses, phase_1_expr, amp_1_expr, T_1_expr, phase_2_ex
     """
 
     # Initialisation
-    piecewise = np.zeros((0,2))
+    piecewise = np.zeros((4*n_pulses,2))
     t_start = 0 
 
     for i in range(n_pulses):
@@ -126,21 +126,21 @@ def CreateBlockWaveform(n_pulses, phase_1_expr, amp_1_expr, T_1_expr, phase_2_ex
         phase_2 = phase_2_expr(i)
         amp_2 = amp_2_expr(i)
         T_2 = T_2_expr(i)
-        
+
         # Construct piecewise definition of pulse i
         piecewise_temp1 = [t_start+phase_1, lambda t, amp_1=amp_1:amp_1]
         piecewise_temp2 = [t_start+phase_1+T_1, lambda t:0]
         piecewise_temp3 = [t_start+phase_1+T_1+phase_2, lambda t, amp_2=amp_2:amp_2]
         piecewise_temp4 = [t_start+phase_1+T_1+phase_2+T_2, lambda t:0]
         piecewise = np.vstack((piecewise, piecewise_temp1, piecewise_temp2, piecewise_temp3, piecewise_temp4))  # Add pulse i
-
+        
         t_start = t_start+phase_1+T_1+phase_2+T_2   # Update t_start
 
     # Construct path and pass piecewise to CreateWaveform() 
-    dir_path = os.path.dirname(os.path.realpath(__file__))  # Directory of this file: waveform.py
-    save_name = "test.csv"                                       # Choose a name for the .csv file
-    path = dir_path + r'/stimulations/' + save_name              # Save .csv file in /.../stimulations/
-    CreateWaveform(piecewise, max_amplitude = 1, path=path , plot=True)
+    dir_path = os.path.dirname(os.path.realpath(__file__))      # Directory of this file: waveform.py
+    save_name = "test.csv"                                      # Choose a name for the .csv file
+    path = dir_path + r'/stimulations/' + save_name             # Save .csv file in /.../stimulations/
+    CreateWaveform(piecewise, max_amplitude = None, path=path , plot=True)
 
     return piecewise
 
@@ -151,12 +151,12 @@ if __name__ == '__main__':
     
     '''
     CreateBlockWaveform(
-        n_pulses = 1,
-        phase_1_expr = lambda n:0.1+n/20,
-        amp_1_expr = lambda n:10,
+        n_pulses = 5,
+        phase_1_expr = lambda n:0.1,
+        amp_1_expr = lambda n:n,
         T_1_expr = lambda n:0.1,
-        phase_2_expr = lambda n:0.1+n/10,
+        phase_2_expr = lambda n:0.1,
         amp_2_expr = lambda n:-5,
-        T_2_expr = lambda n:4.7-3*n/20,
+        T_2_expr = lambda n:4.7,
         save_name = "waveform.csv"
     )
