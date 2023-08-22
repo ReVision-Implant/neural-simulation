@@ -3,7 +3,7 @@
 
   "manifest": {
     "$BASE_DIR": ".",
-    "$OUTPUT_DIR": "$BASE_DIR/outputs/output_1c",
+    "$OUTPUT_DIR": "$BASE_DIR/outputs/output_old",
     "$INPUT_DIR": "$BASE_DIR/../NWB_files",
     "$NETWORK_DIR": "$BASE_DIR/network",
     "$COMPONENT_DIR": "$BASE_DIR/../bio_components",
@@ -30,8 +30,7 @@
       "input_type": "lfp",
       "node_set": "all",
       "module": "comsol",
-      "comsol_files": "$STIM_DIR/COMSOL_1c.txt",
-      "waveforms": "$STIM_DIR/test.csv"
+      "comsol_files": "$STIM_DIR/COMSOL_-200.txt"
     }
   },
 
