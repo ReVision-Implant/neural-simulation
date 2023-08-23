@@ -13,13 +13,13 @@ class CreateWaveform:
     The comsol module will then automatically repeat the waveform for the duration of the simulation.
     """
 
-    def __init__(self, piecewise, max_amplitude=None, dt=0.025, path=None, plot=False):
+    def __init__(self, piecewise, max=None, dt=0.025, path=None, plot=False):
         """ Main function when calling CreateVoltageWaveform(). It 
 
         :param piecewise: piecewise description of waveform. Each row defines a piece [t_stop, lambda(t)]. t_start of the piece is 0 or t_stop of the previous piece, the lambda expression defines the function as a function of time t. 
         :type piecewise: ndarray
-        :param max_amplitude: If specified, normalise waveform to [-max_amplitude,max_amplitude]. Defaults to None.
-        :type max_amplitude: int or None, optional
+        :param amplitude: If specified, normalise waveform to [-amplitude, amplitude]. Defaults to None.
+        :type amplitude: int or None, optional
         :param dt: timestep in ms, defaults to 0.025
         :type dt: float, optional
         :param path: if not None, path to the file where the waveform values are saved. Defaults to None.
@@ -29,7 +29,7 @@ class CreateWaveform:
         """
     	
         self.piecewise = piecewise
-        self.max = max_amplitude
+        self.max = max
         self.dt = dt
         self.path = path
         self.plot = plot
@@ -69,7 +69,7 @@ class CreateWaveform:
         self.amplitudes = self.amplitudes/np.max(np.abs(self.amplitudes))*self.max
 
     def write_to_csv(self, path=None):
-        """ Write the self.times and self.time amplitude to the .csv specified in self.path. """             
+        """ Write self.times and self.amplitudes to the .csv specified in self.path. """             
         
         self.path = path if path is not None else self.path
         assert os.path.exists(os.path.dirname(self.path))
@@ -97,13 +97,13 @@ def CreateBlockWaveform(n_pulses, phase_1_expr, amp_1_expr, T_1_expr, phase_2_ex
 
     :param n_pulses: number of pulses that the waveform will be made up of 
     :type n_pulses: int
-    :param phase_1_expr: length of first phase of pulse in ms
+    :param phase_1_expr: duration of first phase of pulse in ms
     :type phase_1_expr: lambda
     :param amp_1_expr: amplitude of first phase of pulse in µA
     :type amp_1_expr: lambda
     :param T_1_expr: time between end of first phase and start of second phase in ms
     :type T_1_expr: lambda
-    :param phase_2_expr: length of second phase of pulse in ms
+    :param phase_2_expr: duration of second phase of pulse in ms
     :type phase_2_expr: lambda
     :param amp_2_expr: amplitude of second phase of pulse in µA
     :type amp_2_expr: lambda
@@ -137,10 +137,9 @@ def CreateBlockWaveform(n_pulses, phase_1_expr, amp_1_expr, T_1_expr, phase_2_ex
         t_start = t_start+phase_1+T_1+phase_2+T_2   # Update t_start
 
     # Construct path and pass piecewise to CreateWaveform() 
-    dir_path = os.path.dirname(os.path.realpath(__file__))      # Directory of this file: waveform.py
-    save_name = "test.csv"                                      # Choose a name for the .csv file
-    path = dir_path + r'/stimulations/' + save_name             # Save .csv file in /.../stimulations/
-    CreateWaveform(piecewise, max_amplitude = None, path=path , plot=True)
+    dir_path = os.path.dirname(os.path.realpath(__file__))                                  # Directory of this file: waveform.py           
+    path = dir_path + r'/stimulations/' + save_name if save_name is not None else None      # Save .csv file in /.../stimulations/
+    CreateWaveform(piecewise, max=None, path=path, plot=True)
 
     return piecewise
 
@@ -158,5 +157,5 @@ if __name__ == '__main__':
         phase_2_expr = lambda n:0.1,
         amp_2_expr = lambda n:-5,
         T_2_expr = lambda n:4.7,
-        save_name = "waveform.csv"
+        save_name = '123.csv'
     )
