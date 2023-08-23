@@ -20,6 +20,8 @@ class CreateWaveform:
         :type piecewise: ndarray
         :param amplitude: If specified, normalise waveform to [-amplitude, amplitude]. Defaults to None.
         :type amplitude: int or None, optional
+        :param amplitude: If specified, normalise waveform to [-amplitude, amplitude]. Defaults to None.
+        :type amplitude: int or None, optional
         :param dt: timestep in ms, defaults to 0.025
         :type dt: float, optional
         :param path: if not None, path to the file where the waveform values are saved. Defaults to None.
@@ -70,6 +72,7 @@ class CreateWaveform:
 
     def write_to_csv(self, path=None):
         """ Write self.times and self.amplitudes to the .csv specified in self.path. """             
+        """ Write self.times and self.amplitudes to the .csv specified in self.path. """             
         
         self.path = path if path is not None else self.path
         assert os.path.exists(os.path.dirname(self.path))
@@ -98,11 +101,13 @@ def CreateBlockWaveform(n_pulses, phase_1_expr, amp_1_expr, T_1_expr, phase_2_ex
     :param n_pulses: number of pulses that the waveform will be made up of 
     :type n_pulses: int
     :param phase_1_expr: duration of first phase of pulse in ms
+    :param phase_1_expr: duration of first phase of pulse in ms
     :type phase_1_expr: lambda
     :param amp_1_expr: amplitude of first phase of pulse in µA
     :type amp_1_expr: lambda
     :param T_1_expr: time between end of first phase and start of second phase in ms
     :type T_1_expr: lambda
+    :param phase_2_expr: duration of second phase of pulse in ms
     :param phase_2_expr: duration of second phase of pulse in ms
     :type phase_2_expr: lambda
     :param amp_2_expr: amplitude of second phase of pulse in µA
@@ -157,5 +162,5 @@ if __name__ == '__main__':
         phase_2_expr = lambda n:0.1,
         amp_2_expr = lambda n:-5,
         T_2_expr = lambda n:4.7,
-        save_name = '123.csv'
+        save_name = None
     )
