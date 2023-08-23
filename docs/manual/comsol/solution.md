@@ -43,7 +43,7 @@ V_{X_2}A_{t_1} & V_{X_2}A_{t_2} & \cdots & V_{X_2}A_{t_T} \\
 \vdots      & \vdots      & \ddots & \vdots          \\
 V_{X_N}A_{t_1} & V_{X_N}A_{t_2} & \cdots & V_{X_N}A_{t_T} \\
 \end{bmatrix} 
-= \vec{V_X} \otimes \vec{A_t}
+= \vec{V}_X \otimes \vec{A}_t
 $$
 
 Here, the full solution can be described by the FEM solution at one time point ($\vec{V_X}$) and a time-dependent scaling factor (i.e. the current profile $\vec{A_t}$, [which we will create in a next step](/docs/manual/bmtk/simulation.md#generating-waveformcsv)). If possible, this is the easiest way to define extracellular potentials.
