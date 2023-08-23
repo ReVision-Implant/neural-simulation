@@ -1,14 +1,6 @@
 # Manual: Hybdrid modelling with BMTK and COMSOL 
 
-## Table of contents
-
-<!---
-TODO:
-- github
-- vsc
-- nomachine
-- jobs op vsc
--->
+## Table of Contents
 
 - [Introduction](#introduction)
 - [Background](./background/)

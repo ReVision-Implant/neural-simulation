@@ -18,3 +18,5 @@ In general, it is best to create a virtual environment before installing the pyt
 |----------------------------|---------------------------------------------------|---------------------------------------------------|
 | Installing packages        | ``` $ pip3 install [package1] [package2] ...  ``` | ``` $ conda install [package1] [package2] ... ``` |
 | List of installed packages | ``` $ pip3 list ```                               | ``` $ conda list ```                              |
+
+## [Other useful terminal commands](./terminal.md)
