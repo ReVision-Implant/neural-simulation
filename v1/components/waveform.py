@@ -13,7 +13,7 @@ class CreateWaveform:
     The comsol module will then automatically repeat the waveform for the duration of the simulation.
     """
 
-    def __init__(self, piecewise, amplitude=None, dt=0.025, path=None, plot=False):
+    def __init__(self, piecewise, max=None, dt=0.025, path=None, plot=False):
         """ Main function when calling CreateVoltageWaveform(). It 
 
         :param piecewise: piecewise description of waveform. Each row defines a piece [t_stop, lambda(t)]. t_start of the piece is 0 or t_stop of the previous piece, the lambda expression defines the function as a function of time t. 
@@ -29,7 +29,7 @@ class CreateWaveform:
         """
     	
         self.piecewise = piecewise
-        self.amplitude = amplitude
+        self.max = max
         self.dt = dt
         self.path = path
         self.plot = plot
@@ -137,11 +137,9 @@ def CreateBlockWaveform(n_pulses, phase_1_expr, amp_1_expr, T_1_expr, phase_2_ex
         t_start = t_start+phase_1+T_1+phase_2+T_2   # Update t_start
 
     # Construct path and pass piecewise to CreateWaveform() 
-    dir_path = os.path.dirname(os.path.realpath(__file__))      # Directory of this file: waveform.py
-    save_name = "test.csv"                                      # Choose a name for the .csv file
-    path = dir_path + r'/stimulations/' + save_name             # Save .csv file in /.../stimulations/
-    path = None if save_name is None else path
-    CreateWaveform(piecewise, amplitude = None, path=path , plot=True)
+    dir_path = os.path.dirname(os.path.realpath(__file__))                                  # Directory of this file: waveform.py           
+    path = dir_path + r'/stimulations/' + save_name if save_name is not None else None      # Save .csv file in /.../stimulations/
+    CreateWaveform(piecewise, max=None, path=path, plot=True)
 
     return piecewise
 
@@ -159,5 +157,5 @@ if __name__ == '__main__':
         phase_2_expr = lambda n:0.1,
         amp_2_expr = lambda n:-5,
         T_2_expr = lambda n:4.7,
-        save_name = None
+        save_name = '123.csv'
     )
