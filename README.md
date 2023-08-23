@@ -6,4 +6,4 @@ This GitHub repository contains the data and code that is required to simulate e
 
 # Manual: Hybrid modelling with BMTK and COMSOL
 
-The [docs/manual/](docs/manual/) directory also contains a manual that documents how to use this software in the hybrid modelling approach. You can access it through the [Table of Contents](docs/manual/README.md).
+The [docs/manual/](docs/manual/) directory also contains a manual that documents how to use this software in the hybrid modelling approach. You can access it through the table of contents [here](docs/manual/README.md).

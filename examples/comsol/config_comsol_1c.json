@@ -30,8 +30,8 @@
       "input_type": "lfp",
       "node_set": "all",
       "module": "comsol",
-      "comsol_files": "$STIM_DIR/COMSOL_1c.txt",
-      "waveforms": "$STIM_DIR/test.csv"
+      "comsol_file": "$STIM_DIR/COMSOL_1c.txt",
+      "waveform": "$STIM_DIR/test.csv"
     }
   },
 
