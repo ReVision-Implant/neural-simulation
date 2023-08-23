@@ -26,43 +26,27 @@ class ComsolMod(SimulatorMod):
     step: The interpolation map is used to point each segment to its NN and find the corresponding voltage value in the comsol df.
     """
 
-    def __init__(self, comsol_file, waveform=None, cells=None, set_nrn_mechanisms=True,
-                 node_set=None, amplitude=1, ip_method='NN'):
+    def __init__(self, comsol_files, waveforms=None, amplitudes=1, 
+                 cells=None, set_nrn_mechanisms=True, node_set=None):
+        
+        if waveforms is None:
+            self._comsol_files = comsol_files 
+            self._waveforms = waveforms
+            self._amplitudes = amplitudes
 
-        if waveform is not None:
-            self._waveform = stimx_waveform_factory(waveform)
         else:
-            self._waveform = None
-        
-        self._amplitude = amplitude
-        self._ip_method = ip_method
-        self._comsol_file = comsol_file
+            self._comsol_files = comsol_files if type(comsol_files) is list else [comsol_files]
+            self._nb_files = len(self._comsol_files) 
+            self._waveforms = waveforms if type(waveforms) is list else [waveforms]
+            _amplitudes = amplitudes if type(amplitudes) is list else [amplitudes]
+            self._amplitudes = _amplitudes*len(self._comsol_files) if len(_amplitudes) == 1 else _amplitudes
+            
+            try:
+                assert self._nb_files == len(self._comsol_files) == len(self._waveforms) == len(self._amplitudes)
+            except AssertionError:
+                print("AssertionError: comsol_files, waveforms, and amplitudes have a different length.")
 
-        # extract useful information from header row in COMSOL output .txt file. 
-        header = pd.read_csv(comsol_file, sep="\s{3,}", header=None, skiprows=8, nrows=1, engine='python').to_numpy()[0] # load header row of .txt file
-        header[0] = header[0][2:]                               # remove '% ' before first column name
-        if header[3][3] == 'V':
-            self._unit = 1000
-        elif header[3][3] == 'm':
-            self._unit = 1
-        for i,col in enumerate(header):                         # remove superfluous characters before actual time value
-            if col[0] == "V":
-                if self._waveform is None:
-                    header[i] = float(col[11:])
-                else:
-                    header[i] = 0
-        self._timepoints = np.array(header[3:], dtype=float)    # create array of timepoints  
-
-        # load data in COMSOL output .txt file.  
-        self._comsol = pd.read_csv(comsol_file, sep="\s+", header=None, skiprows=9, names=header)           # load data from .txt file
-        
-        if self._ip_method == 'NN':
-            self._NNip = NNip(self._comsol[['x','y','z']], np.arange(len(self._comsol['x'])))               # create scipy NN interpolation object 
-            self._NN = {}                                           # initialise empty dictionary that will contain NN map of each cell
-        
-        elif self._ip_method == 'L':                 # Only works if waveform is specified
-            self._Lip = Lip(self._comsol[['x','y','z']], self._comsol[0])
-            self._L = {}
+            self._data = [None]*self._nb_files
 
         self._set_nrn_mechanisms = set_nrn_mechanisms
         self._cells = cells
@@ -76,50 +60,121 @@ class ComsolMod(SimulatorMod):
         else:
             # get subset of selected gids only on this rank
             self._local_gids = list(set(sim.local_gids) & set(self._all_gids))
-
-        for gid in self._local_gids:
-            cell = sim.net.get_cell_gid(gid)
-            cell.setup_xstim(self._set_nrn_mechanisms)
-
-            # spatial interpolation
-            r05 = cell.seg_coords.p05               # get position of middle of segment
-            if self._ip_method == 'NN':
-                self._NN[gid] = self._NNip(r05.T)       # get nearest COMSOL node
-            elif self._ip_method == 'L':
-                self._L[gid] = self._Lip(r05.T)
-
-        if self._waveform is None:
-            # temporal interpolation
-            dt = sim.dt/1000                                                            # BMTK uses [ms], COMSOL uses [s]
-            tsteps = np.arange(self._timepoints[0], self._timepoints[-1]+dt, dt)        # interpolate time axis
-            self._arr = np.zeros((self._comsol.shape[0],len(tsteps)))                   # initialise empty array
-            for i in range(self._comsol.shape[0]):                                      # update each row (corresponding to a COMSOL node) of the array with the time-interpolated values
-                self._arr[i,:] = np.interp(tsteps, self._timepoints, self._comsol.iloc[i,3:]).flatten()
         
-        else:
-            self._arr = self._comsol[0].to_numpy().flatten()
+        if self._waveforms is None:
+            self._data =  self.load_comsol(self._comsol_files)
+            self._NNip = NNip(self._data[['x','y','z']], np.arange(len(self._data['x'])))
+            self._NN = {}
+            
+            for gid in self._local_gids:
+                cell = sim.net.get_cell_gid(gid)
+                cell.setup_xstim(self._set_nrn_mechanisms)
+                
+                r05 = cell.seg_coords.p05               # Get position of segment centre
+                self._NN[gid] = self._NNip(r05.T)       # Spatial interpolation
+                
+            # Temporal interpolation
+            timestamps_comsol = np.array(list(self._data)[3:], dtype=float)[:,0]
+            timestamps_bmtk = np.arange(timestamps_comsol[0], timestamps_comsol[-1]+sim.dt, sim.dt)
+            self._data_temp = np.zeros((self._data.shape[0], len(timestamps_bmtk)))           
+            for i in range(self._data.shape[0]):                                 
+                self._data_temp[i,:] = np.interp(timestamps_bmtk, timestamps_comsol, self._data.iloc[i,3:]).flatten()                                                          
+            self._data = self._data_temp*self._amplitudes
+            self._period = int(timestamps_bmtk[-1]/sim.dt)
 
+        else:
+            self._Lip = [None]*self._nb_files
+            self._L = [None]*self._nb_files
+            self._arr = [None]*self._nb_files
+
+            for i in range(self._nb_files):
+                self._data[i] =  self.load_comsol(self._comsol_files[i])
+                self._waveforms[i] = stimx_waveform_factory(self._waveforms[i])                                                           
+                self._arr[i] = self._data[0].to_numpy().flatten()
+
+                self._Lip[i] = Lip(self._data[i][['x','y','z']], self._data[i][0])
+                self._L[i] = {}
+
+            for gid in self._local_gids:
+                cell = sim.net.get_cell_gid(gid)
+                cell.setup_xstim(self._set_nrn_mechanisms)
+
+                r05 = cell.seg_coords.p05               # Get position of middle of segment
+                for i in range(self._nb_files):          # Spatial interpolation
+                    self._L[i][gid] = self._Lip[i](r05.T)         
+
+                
     def step(self, sim, tstep):
         for gid in self._local_gids:
-            cell = sim.net.get_cell_gid(gid)        # get cell gid
-            if self._ip_method == 'NN':
-                NN = self._NN[gid]                      # vector that points each node of the cell to its nearest neighbour in the .txt file
-                if self._waveform is None:
-                    T = int(1000*self._timepoints[-1]/sim.dt)
-                    tstep = tstep % T                   # In case of periodic stimulation
-                    v_ext = self._arr[NN,tstep+1]       # assign extracellular potential value of NN at tstep
-                else:
-                    period = self._waveform.definition["time"].iloc[-1]
+            cell = sim.net.get_cell_gid(gid)
+
+            if self._waveforms is None:
+                NN = self._NN[gid]               # vector that points each node of the cell (BMTK) to the nearest COMSOL node
+                tstep = tstep % self._period     # In case of periodic stimulation
+                v_ext = self._data[NN, tstep+1]  # assign extracellular potential value of NN at tstep
+            else:
+                v_ext = np.zeros(np.shape(self._L[0][gid]))
+                for i in range(self._nb_files):
+                    period = self._waveforms[i].definition["time"].iloc[-1]
                     simulation_time = (tstep + 1) * sim.dt
                     simulation_time = simulation_time % period
-                    v_ext = self._arr[NN]*self._waveform.calculate(simulation_time)
-            elif self._ip_method == 'L':
-                L = self._L[gid]
-                period = self._waveform.definition["time"].iloc[-1]
-                simulation_time = (tstep + 1) * sim.dt
-                simulation_time = simulation_time % period
-                v_ext = L*self._waveform.calculate(simulation_time)
-
-            v_ext *= self._amplitude * self._unit
+                    v_ext += self._L[i][gid]*self._waveforms[i].calculate(simulation_time)*self._amplitudes[i]
 
             cell.set_e_extracellular(h.Vector(v_ext))
+
+    def load_comsol(self, comsol_file):
+        """Extracts data and headers from comsol.txt. Returns pandas DataFrame.
+        The first three columns are the x-, y-, and z-coordinates of the solution nodes.
+
+        :param comsol_file: /path/to/comsol.txt
+        :type comsol_file: str
+        :return: data
+        :rtype: pandas DataFrame
+        """
+        # Extract column headers and data
+        headers = pd.read_csv(comsol_file, sep="\s{3,}", header=None, skiprows=8, nrows=1, engine='python').to_numpy()[0]
+        data = pd.read_csv(comsol_file, sep="\s+", header=None, skiprows=9)
+        
+        # Extract useful info from headers
+        headers[0] = headers[0][2:]             # Remove '% ' before first column name
+        if headers[3][3] == 'V':                # Convert V to mV if necessary
+            data.iloc[:,3:] *= 1000          
+        for i,col in enumerate(headers[3:]):    
+            if len(data.columns) > 4:   
+                headers[i+3] = 1000*float(col[11:])    # Remove superfluous characters 
+            else:
+                headers[i+3] = 0                  
+        
+        # Rename column headers
+        data.columns = [headers]                
+        
+        return data
+
+""" 
+PSUEDOCODE
+----------
+__init__:
+
+If comsol_file and waveform are not list
+    Make list
+
+If amplitude is not list
+    Make list of len(comsol_file)
+
+
+initialize:
+
+Assert == lens
+
+For i in len(list):
+    Load comsol_file
+    Create interpolation object
+    
+
+step:
+
+For i in len(list):
+    ...
+
+
+"""
