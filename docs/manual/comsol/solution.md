@@ -39,7 +39,7 @@ V_{X_2}A_{t_1} & V_{X_2}A_{t_2} & \cdots & V_{X_2}A_{t_T} \\
 \vdots      & \vdots      & \ddots & \vdots          \\
 V_{X_N}A_{t_1} & V_{X_N}A_{t_2} & \cdots & V_{X_N}A_{t_T} \\
 \end{bmatrix} 
-= \vec{V_X} \otimes \vec{A_t}
+= \vec{V}_X \otimes \vec{A}_t
 $$
 
 Here, the full solution can be described by the FEM solution at one time point ($\vec{V_X}$) and a time-dependent scaling factor (i.e. the current profile $\vec{A_t}$), resulting in only $ N + T $ values. This is a supported (and recommended) way to define the extracellular potentials in the comsol module of BioNet.
