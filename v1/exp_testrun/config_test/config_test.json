@@ -1,7 +1,7 @@
 {
   "manifest": {
     "$BASE_DIR": ".",
-    "$OUTPUT_DIR": "$BASE_DIR/exp_test/output_test",
+    "$OUTPUT_DIR": "$BASE_DIR/exp_testrun/output_test",
     "$BKG_DIR": "$BASE_DIR/components",
     "$LGN_DIR": "$BASE_DIR/components",
     "$NETWORK_DIR": "$BASE_DIR/networks_25/network_test",
