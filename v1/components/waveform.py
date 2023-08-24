@@ -151,12 +151,12 @@ if __name__ == '__main__':
     
     '''
     CreateBlockWaveform(
-        n_pulses = 1,
+        n_pulses = 10,
         phase_1_expr = lambda n:0.1+n/20,
-        amp_1_expr = lambda n:10,
+        amp_1_expr = lambda n:n*2,
         T_1_expr = lambda n:0.1,
         phase_2_expr = lambda n:0.1+n/10,
-        amp_2_expr = lambda n:-5,
+        amp_2_expr = lambda n:-3,
         T_2_expr = lambda n:4.7-3*n/20,
         save_name = "waveform.csv"
     )
