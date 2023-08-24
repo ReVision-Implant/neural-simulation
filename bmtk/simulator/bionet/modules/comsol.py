@@ -147,7 +147,6 @@ class ComsolMod(SimulatorMod):
         :param sim: Simulation object
         :param tstep: (int) timestep
         """
-
         
         for gid in self._local_gids:        # Iterate over cells                                            
             cell = sim.net.get_cell_gid(gid)                                    
@@ -178,7 +177,7 @@ class ComsolMod(SimulatorMod):
         For a time-dependent study, each subsequent column stores the potentials at one timepoints.
 
         :param comsol_file: (str) "/path/to/comsol.txt"
-        :return: (pd DataFrame) potentials extracted from comsol.txt
+        :return: (pd DataFrame) Potentials extracted from comsol.txt
         """
 
         # Extract column headers and data from comsol_file
