@@ -1,3 +1,4 @@
+# coding=utf-8
 ### Imports
 
 import matplotlib.pyplot as plt
@@ -72,10 +73,9 @@ class CreateWaveform:
 
     def write_to_csv(self, path=None):
         """ Write self.times and self.amplitudes to the .csv specified in self.path. """             
-        """ Write self.times and self.amplitudes to the .csv specified in self.path. """             
         
         self.path = path if path is not None else self.path
-        assert os.path.exists(os.path.dirname(self.path))
+        #assert os.path.exists(os.path.dirname(self.path))
         
         df = pd.DataFrame({'time': self.times, 'amplitude': self.amplitudes})
         df.to_csv(self.path, sep='\t', index=False)
@@ -143,8 +143,8 @@ def CreateBlockWaveform(n_pulses, phase_1_expr, amp_1_expr, T_1_expr, phase_2_ex
 
     # Construct path and pass piecewise to CreateWaveform() 
     dir_path = os.path.dirname(os.path.realpath(__file__))                                  # Directory of this file: waveform.py           
-    path = dir_path + r'/stimulations/' + save_name if save_name is not None else None      # Save .csv file in /.../stimulations/
-    CreateWaveform(piecewise, max=None, path=path, plot=True)
+    path = dir_path + save_name if save_name is not None else None      # Save .csv file in /.../stimulations/
+    CreateWaveform(piecewise, max=1, path=path, plot=True)
 
     return piecewise
 
@@ -155,15 +155,12 @@ if __name__ == '__main__':
     
     '''
     CreateBlockWaveform(
-        n_pulses = 10,
-        phase_1_expr = lambda n:0.1+n/20,
-        amp_1_expr = lambda n:n*2,
-        n_pulses = 5,
-        phase_1_expr = lambda n:0.1,
-        amp_1_expr = lambda n:n,
-        T_1_expr = lambda n:0.1,
-        phase_2_expr = lambda n:0.1+n/10,
-        amp_2_expr = lambda n:-3,
-        T_2_expr = lambda n:4.7-3*n/20,
-        save_name = "waveform.csv"
+        n_pulses = 20,
+        phase_1_expr = lambda n:0.2,
+        amp_1_expr = lambda n:4,
+        T_1_expr = lambda n:0,
+        phase_2_expr = lambda n:0.8,
+        amp_2_expr = lambda n:-1,
+        T_2_expr = lambda n:4,
+        save_name = "/waveforms/waveform_assym.csv"
     )
