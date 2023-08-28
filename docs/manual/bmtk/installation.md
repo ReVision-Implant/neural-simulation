@@ -28,14 +28,26 @@ BMTK requires Python 2.7 or 3.5+, plus [additional python dependencies](#depende
 
 ## Dependencies
 
+### NEURON
+
+On Linux, you can treat NEURON like any other package and install it with `pip3/conda install`.
+</br>On Windows, you need to download an installer.
+
+| Pip (Linux)                    | Conda (Linux)                                 | Windows |
+|--------------------------------|-----------------------------------------------|---------|
+| ``` $ pip3 install neuron  ``` | ``` $ conda install -c conda-forge neuron ``` | [Click here for installaion guide](https://nrn.readthedocs.io/en/8.2.2/install/install_instructions.html#windows)|
+
+
 ### List of standard dependencies
+
 - numpy
 - h5py
 - pandas
 - matplotlib
 - jsonschema
 - (pytest: optional for running unit tests)
-- (mpi4py: if you want to take advantage of parallel computing on an HPC cluster)
+- (**mpi4py**: if you want to take advantage of parallel computing on an HPC cluster)
+
 
 ### [Installing dependencies](../background/packages.md)
 

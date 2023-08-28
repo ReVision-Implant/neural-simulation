@@ -7,8 +7,8 @@ sys.path.append('../../..')
 sys.path.append('../..')
 sys.path.append('..')
 sys.path.append('../../bio_components')
-sys.path.append('../bio_components')
-from bio_components.helper import get_params, get_image, plot_image, plot_3x3, fractions, get_fractions, plot_2x3
+sys.path.append('../components')
+from components.helper import get_params, get_image, plot_image, plot_3x3, fractions, get_fractions, plot_2x3
 from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
 
 
