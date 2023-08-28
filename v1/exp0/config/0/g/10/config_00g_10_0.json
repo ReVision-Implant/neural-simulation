@@ -1,10 +1,10 @@
 {
   "manifest": {
     "$BASE_DIR": ".",
-    "$OUTPUT_DIR": "$BASE_DIR/exp_testrun/output_test",
+    "$OUTPUT_DIR": "$BASE_DIR/exp0/output/0/g/10/00g_10_0",
     "$BKG_DIR": "$BASE_DIR/components",
     "$LGN_DIR": "$BASE_DIR/components",
-    "$NETWORK_DIR": "$BASE_DIR/networks_25/network_test",
+    "$NETWORK_DIR": "$BASE_DIR/networks_25/network0",
     "$COMPONENT_DIR": "$BASE_DIR/components",
     "$STIM_DIR": "$BASE_DIR/components/stimulations"
   },
@@ -39,7 +39,7 @@
       "node_set": "all",
       "module": "comsol",
       "comsol_file": "$STIM_DIR/exp0/00g.txt",
-      "waveform": "$STIM_DIR/test.csv",
+      "waveform": "$STIM_DIR/waveform.csv",
       "amplitude": 10,
       "ip_method": "L"
     }

@@ -5,9 +5,9 @@ import numpy as np
 sys.path.append('../../..')
 sys.path.append('../..')
 sys.path.append('..')
-sys.path.append('../../bio_components')
-sys.path.append('../bio_components')
-from bio_components.helper import plot_2x2, plot_app
+sys.path.append('../../components')
+sys.path.append('../components')
+from components.helper import plot_2x2, plot_app
 import matplotlib
 
 
