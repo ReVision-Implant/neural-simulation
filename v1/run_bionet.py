@@ -83,49 +83,58 @@ class PassThroughOptionParser(OptionParser):
 
 
 if __name__ == '__main__':
-    parser = PassThroughOptionParser()
-    parser.add_option('--no-recurrent', dest='use_recurrent', action='store_false', default=True)
-    parser.add_option('--no-lgn', dest='use_lgn', action='store_false', default=True)
-    parser.add_option('--no-bkg', dest='use_bkg', action='store_false', default=True)
-    parser.add_option('--direction-rule', dest='use_dr', action='store_true', default=False)
-    parser.add_option('--lgn-file', dest='lgn_file', action='store', type='string', default=DEFAULT_LGN)
-    parser.add_option('--bkg-file', dest='bkg_file', action='store', type='string', default=DEFAULT_BKG)
-    parser.add_option('--overwrite', dest='overwrite', action='store_true', default=True)
-    options, args = parser.parse_args()
+    
+    if MPI_RANK == 0:
 
-    usr_vars = vars(options)
+        parser = PassThroughOptionParser()
+        parser.add_option('--no-recurrent', dest='use_recurrent', action='store_false', default=True)
+        parser.add_option('--no-lgn', dest='use_lgn', action='store_false', default=True)
+        parser.add_option('--no-bkg', dest='use_bkg', action='store_false', default=True)
+        parser.add_option('--direction-rule', dest='use_dr', action='store_true', default=False)
+        parser.add_option('--lgn-file', dest='lgn_file', action='store', type='string', default=DEFAULT_LGN)
+        parser.add_option('--bkg-file', dest='bkg_file', action='store', type='string', default=DEFAULT_BKG)
+        parser.add_option('--overwrite', dest='overwrite', action='store_true', default=True)
+        options, args = parser.parse_args()
 
-    # format the output folder
-    output_name = 'output'
-    if not options.use_recurrent:
-        output_name += '_norecurrent'
-    if not options.use_lgn:
-        output_name += '_nolgn'
-    if not options.use_bkg:
-        output_name += '_nobkg'
-    if options.use_dr:
-        output_name += '_directionrule'
+        usr_vars = vars(options)
 
-    '''
-    if not options.overwrite and os.path.exists(output_name):
-        for i in range(1, 1000):
-            new_name = '{}.{:03d}'.format(output_name, i)
-            if not os.path.exists(new_name):
-                output_name = new_name
-                break
+        # format the output folder
+        output_name = 'output'
+        if not options.use_recurrent:
+            output_name += '_norecurrent'
+        if not options.use_lgn:
+            output_name += '_nolgn'
+        if not options.use_bkg:
+            output_name += '_nobkg'
+        if options.use_dr:
+            output_name += '_directionrule'
 
-    comm.Barrier()    
-    '''
-    usr_vars['output_name'] = output_name
+        '''
+        if not options.overwrite and os.path.exists(output_name):
+            for i in range(1, 1000):
+                new_name = '{}.{:03d}'.format(output_name, i)
+                if not os.path.exists(new_name):
+                    output_name = new_name
+                    break
 
-    usr_vars['rule'] = ''
-    if options.use_dr:
-        usr_vars['rule'] = '.direction_rule'
+        comm.Barrier()    
+        '''
+        usr_vars['output_name'] = output_name
 
-    # Needed for when calling script with nrniv -python run_bionet.py ...
-    for arg in args:
-        if arg.endswith(__file__):
-            args.remove(arg)
+        usr_vars['rule'] = ''
+        if options.use_dr:
+            usr_vars['rule'] = '.direction_rule'
 
-    config_file = 'config.json' if len(args) == 0 else args[0]
+        # Needed for when calling script with nrniv -python run_bionet.py ...
+        for arg in args:
+            if arg.endswith(__file__):
+                args.remove(arg)
+
+        config_file = 'config.json' if len(args) == 0 else args[0]
+    else:
+        config_file = ' '
+        usr_vars = {}
+    config_file = comm.bcast(config_file, root=0)
+    usr_vars = comm.bcast(usr_vars, root = 0)
+    comm.Barrier()
     run(config_file, **usr_vars)
