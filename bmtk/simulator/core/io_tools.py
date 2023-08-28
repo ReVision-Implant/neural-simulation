@@ -3,6 +3,8 @@ import sys
 import shutil
 import logging
 from six import text_type
+from neuron import h
+
 
 
 class IOUtils(object):
@@ -15,7 +17,9 @@ class IOUtils(object):
     simulator modules
     """
     def __init__(self):
-        self.mpi_rank = 0
+        pc = h.ParallelContext()    # object to access MPI methods
+        MPI_Rank = int(pc.id())
+        self.mpi_rank = MPI_Rank
         self.mpi_size = 1
 
         self._log_format = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
