@@ -155,6 +155,9 @@ if __name__ == '__main__':
     
     '''
     CreateBlockWaveform(
+        n_pulses = 10,
+        phase_1_expr = lambda n:0.1+n/20,
+        amp_1_expr = lambda n:n*2,
         n_pulses = 5,
         phase_1_expr = lambda n:0.2,
         amp_1_expr = lambda n:1-n/10,

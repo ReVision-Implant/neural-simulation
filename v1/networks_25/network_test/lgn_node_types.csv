@@ -1,0 +1,15 @@
+node_type_id ei model_type level_of_detail location pop_name
+100 e virtual filter LGN sON_TF1
+101 e virtual filter LGN sON_TF2
+102 e virtual filter LGN sON_TF4
+103 e virtual filter LGN sON_TF8
+104 e virtual filter LGN sOFF_TF1
+105 e virtual filter LGN sOFF_TF2
+106 e virtual filter LGN sOFF_TF4
+107 e virtual filter LGN sOFF_TF8
+108 e virtual filter LGN sOFF_TF15
+109 e virtual filter LGN tOFF_TF4
+110 e virtual filter LGN tOFF_TF8
+111 e virtual filter LGN tOFF_TF15
+112 e virtual filter LGN sONsOFF_001
+113 e virtual filter LGN sONtOFF_001
