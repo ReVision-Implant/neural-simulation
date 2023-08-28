@@ -28,7 +28,7 @@ class HDF5:
     def get_positions_v1(self):
 
         self.name = os.path.split(self.dir)[1][:-9]
-
+    
         self.x_pos = np.array(self.file['nodes'][self.name]['0']['x'][:])
         self.z_pos = np.array(self.file['nodes'][self.name]['0']['z'][:])
         self.y_pos = np.array(self.file['nodes'][self.name]['0']['y'][:])

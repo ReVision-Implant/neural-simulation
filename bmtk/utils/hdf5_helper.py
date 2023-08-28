@@ -15,3 +15,4 @@ def get_attribute_h5(h5obj, attribut_name, default=None):
         val = val.decode()
 
     return val
+
