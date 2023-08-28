@@ -1,5 +1,0 @@
-2023-08-24 13:48:47,015 [INFO] Created log file
-2023-08-24 13:48:47,955 [INFO] Building cells.
-2023-08-24 14:14:18,349 [INFO] Building recurrent connections
-2023-08-24 14:18:12,629 [INFO] Building virtual cell stimulations for LGN_spikes
-2023-08-24 14:18:53,860 [INFO] Building virtual cell stimulations for BKG_spikes
