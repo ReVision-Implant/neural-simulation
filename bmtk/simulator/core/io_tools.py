@@ -79,6 +79,9 @@ class IOUtils(object):
         pass  # Simulators should implement their own versions
 
     def setup_output_dir(self, output_dir, log_file, overwrite=True):
+        pc = h.ParallelContext()    # object to access MPI methods
+        MPI_Rank = int(pc.id())
+        self.mpi_rank = MPI_Rank
         if self.mpi_rank == 0:
             # Create output directory, do it only on one rank to prevent overwrite errors
             if os.path.exists(output_dir):
