@@ -42,6 +42,7 @@ lib64
 pip-selfcheck.json
 pyvenv.cfg
 !**v1_nodes.h5
-v1_Anke/networks**
 **cache**
-!v1_Anke/components/mechanisms/**
+!v1_Anke/**
+v1_Anke/networks/**
+v1_Anke**__pycache__**
