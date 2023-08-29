@@ -1,6 +1,6 @@
 {
   "run": {
-    "tstop": 200.0,
+    "tstop": 100.0,
     "dt": 0.025,
     "dL": 20.0,
     "spike_threshold": -15,
@@ -51,34 +51,34 @@
   "networks": {
     "nodes": [
       {
-        "nodes_file": "./networks_25/network_test/v1_nodes.h5",
-        "node_types_file": "./networks_25/network_test/v1_node_types.csv"
+        "nodes_file": "./networks_25/network0/v1_nodes.h5",
+        "node_types_file": "./networks_25/network0/v1_node_types.csv"
       },
       {
-        "nodes_file": "./networks_25/network_test/lgn_nodes.h5",
-        "node_types_file": "./networks_25/network_test/lgn_node_types.csv"
+        "nodes_file": "./networks_25/network0/lgn_nodes.h5",
+        "node_types_file": "./networks_25/network0/lgn_node_types.csv"
       },
       {
-        "nodes_file": "./networks_25/network_test/bkg_nodes.h5",
-        "node_types_file": "./networks_25/network_test/bkg_node_types.csv"
+        "nodes_file": "./networks_25/network0/bkg_nodes.h5",
+        "node_types_file": "./networks_25/network0/bkg_node_types.csv"
       }
     ],
     "edges": [
       {
-        "edges_file": "./networks_25/network_test/v1_v1_edges.h5",
-        "edge_types_file": "./networks_25/network_test/v1_v1_edge_types.csv",
+        "edges_file": "./networks_25/network0/v1_v1_edges.h5",
+        "edge_types_file": "./networks_25/network0/v1_v1_edge_types.csv",
         "enabled": true
       },
       {
-        "edges_file": "./networks_25/network_test/lgn_v1_edges.h5",
-        "edge_types_file": "./networks_25/network_test/lgn_v1_edge_types.csv"
+        "edges_file": "./networks_25/network0/lgn_v1_edges.h5",
+        "edge_types_file": "./networks_25/network0/lgn_v1_edge_types.csv"
       },
       {
-        "edges_file": "./networks_25/network_test/bkg_v1_edges.h5",
-        "edge_types_file": "./networks_25/network_test/bkg_v1_edge_types.csv"
+        "edges_file": "./networks_25/network0/bkg_v1_edges.h5",
+        "edge_types_file": "./networks_25/network0/bkg_v1_edge_types.csv"
       }
     ]
   },
-  "config_path": "/lustre1/scratch/356/vsc35693/neural-simulation/v1/exp_testrun/config_test/config_test.json",
-  "config_dir": "/lustre1/scratch/356/vsc35693/neural-simulation/v1/exp_testrun/config_test"
+  "config_path": "/scratch/leuven/338/vsc33895/neural-simulation/v1/exp_testrun/config_test/config_test.json",
+  "config_dir": "/scratch/leuven/338/vsc33895/neural-simulation/v1/exp_testrun/config_test"
 }
