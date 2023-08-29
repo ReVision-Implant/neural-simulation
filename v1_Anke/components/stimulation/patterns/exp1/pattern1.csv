@@ -1,0 +1,4 @@
+electrode comsol waveform amplitude
+0 comsol1.txt waveform_assym.csv 1
+1 comsol2.txt waveform_assym.csv -.5
+2 comsol3.txt waveform_assym.csv -.5
