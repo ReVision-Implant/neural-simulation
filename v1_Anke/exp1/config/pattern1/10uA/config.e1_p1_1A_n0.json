@@ -39,9 +39,9 @@
       "node_set": "all",
       "module": "comsol",
       "comsol_files": [
-        "$STIM_DIR\\comsol\\comsol1.txt",
-        "$STIM_DIR\\comsol\\comsol2.txt",
-        "$STIM_DIR\\comsol\\comsol3.txt"
+        "$STIM_DIR\\comsol\\exp1/01-.txt",
+        "$STIM_DIR\\comsol\\exp1/02-.txt",
+        "$STIM_DIR\\comsol\\exp1/03-.txt"
       ],
       "waveforms": [
         "$STIM_DIR\\waveforms\\waveform_assym.csv",
