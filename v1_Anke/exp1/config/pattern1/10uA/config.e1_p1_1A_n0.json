@@ -4,7 +4,7 @@
     "$OUTPUT_DIR": "$BASE_DIR/exp1/output/pattern1/10uA/network0",
     "$BKG_DIR": "$BASE_DIR/components",
     "$LGN_DIR": "$BASE_DIR/components",
-    "$NETWORK_DIR": "$BASE_DIR/networks/network0",
+    "$NETWORK_DIR": "$BASE_DIR/networks_100/network2",
     "$COMPONENT_DIR": "$BASE_DIR/components",
     "$STIM_DIR": "$BASE_DIR/components/stimulations"
   },
