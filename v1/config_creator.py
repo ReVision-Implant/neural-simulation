@@ -7,7 +7,6 @@ def create_configs(template, exp, electrodes, stim_types, amplitudes, networks, 
     # Load template config.json
     with open(template, 'r') as read_file:
         data = json.load(read_file)
-    print(data)
 
     # Nested loop over all specified parameters (converted to str)
     for electrode in [str(i) for i in electrodes]:
