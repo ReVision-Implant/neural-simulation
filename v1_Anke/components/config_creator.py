@@ -111,8 +111,8 @@ def get_stim_params(exp, pattern):
     
     return dict(comsol_files=comsol_files, waveforms=waveforms, amplitudes=amplitudes)
 
-amplitudes = get_stim_params(1, 1)['amplitudes']
+# amplitudes = get_stim_params(1, 1)['amplitudes']
 # print(amplitudes*10)
 
-create_configs(r'../v1_Anke/exp1/template.json', 'exp1', 1, 10, 0, overwrite=True)
+create_configs(r'../v1_Anke/exp1/template.json', 'exp_test', 'pattern_test', 10, 'mouse_0', overwrite=True)
 # delete_configs('exp1', 1, 10, 0)

@@ -162,5 +162,5 @@ if __name__ == '__main__':
         phase_2_expr = lambda n:0.8,
         amp_2_expr = lambda n:-1,
         T_2_expr = lambda n:4,
-        save_name = "/waveforms/waveform_assym.csv"
+        save_name = "/stimulation/waveforms/waveform_test.csv"
     )
