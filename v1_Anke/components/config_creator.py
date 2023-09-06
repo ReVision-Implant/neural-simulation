@@ -15,7 +15,7 @@ def create_configs(template, exp, patterns, amplitudes, networks, overwrite=Fals
         data = json.load(read_file)
 
     # Nested loop over all specified parameters (converted to str)
-    for pattern in ['pattern'+str(i) for i in patterns]:
+    for pattern in [str(i) for i in patterns]:
 
         # Get pattern parameters from pattern.csv
         stim_params = get_stim_params(exp, pattern)
@@ -33,7 +33,7 @@ def create_configs(template, exp, patterns, amplitudes, networks, overwrite=Fals
             data['inputs']['Extracellular_Stim']['amplitudes'] = amplitudes
             amplitude = str(amplitude)+'uA'
 
-            for network in ['network'+str(i) for i in networks]:
+            for network in ['mouse_'+str(i) for i in networks]:
                 
                 # Set network dir in config.json
                 network_dir = os.path.join(os.path.dirname(data['manifest']['$NETWORK_DIR']), network)
@@ -78,7 +78,7 @@ def delete_configs(exp, patterns=None, amplitudes=None, networks=None):
 
             for amplitude in [str(i)+'uA' for i in amplitudes]:
 
-                for network in ['network'+str(i) for i in networks]:
+                for network in ['mouse_'+str(i) for i in networks]:
                     
                     # Get file name and path 
                     file_path = os.path.join(root, exp, 'config', pattern, amplitude)                
@@ -100,7 +100,7 @@ def get_stim_params(exp, pattern):
 
     exp = 'exp'+str(exp) if str(exp)[:3] != 'exp' else str(exp)
     pattern = str(pattern)+'.csv' if str(pattern)[-4:] != '.csv' else pattern
-    pattern = 'pattern'+pattern if pattern[:7] != 'pattern' else pattern
+    # pattern = 'pattern'+pattern if pattern[:7] != 'pattern' else pattern
     root = os.path.dirname(os.path.abspath(__file__))
     path = os.path.join(root, 'stimulation', 'patterns', exp, pattern)
     df = pd.read_csv(path, sep='\s+')
@@ -114,5 +114,5 @@ def get_stim_params(exp, pattern):
 # amplitudes = get_stim_params(1, 1)['amplitudes']
 # print(amplitudes*10)
 
-create_configs(r'../v1_Anke/exp1/template.json', 'exp_test', 'pattern_test', 10, 'mouse_0', overwrite=True)
+create_configs(r'../exp1/template.json', 'exp_test', 'pattern_test', [2,10],[0,1], overwrite=True)
 # delete_configs('exp1', 1, 10, 0)
