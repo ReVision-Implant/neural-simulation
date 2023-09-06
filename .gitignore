@@ -46,4 +46,3 @@ pyvenv.cfg
 !v1_Anke/**
 v1_Anke/networks/**
 v1_Anke**__pycache__**
-test/**
