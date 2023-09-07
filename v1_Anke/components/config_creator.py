@@ -2,12 +2,12 @@ import json
 import os
 import pandas as pd
 
-def create_configs(template, exp, patterns, amplitudes, networks, overwrite=False):
+def create_configs(template, exp, patterns, amplitudes, mice, overwrite=False):
 
     # Convert integer/string to list if necessary
     patterns = [patterns] if not isinstance(patterns, list) else patterns
     amplitudes = [amplitudes] if not isinstance(amplitudes, list) else amplitudes
-    networks = [networks] if not isinstance(networks, list) else networks
+    mice = [mice] if not isinstance(mice, list) else mice
     exp = 'exp' + str(exp) if str(exp)[:3] != 'exp' else str(exp)
 
     # Load template config.json
@@ -15,7 +15,9 @@ def create_configs(template, exp, patterns, amplitudes, networks, overwrite=Fals
         data = json.load(read_file)
 
     # Nested loop over all specified parameters (converted to str)
-    for pattern in ['pattern'+str(i) for i in patterns]:
+    for pattern in [str(i) for i in patterns]:
+        
+        pattern = 'pattern'+pattern if pattern[:7] != 'pattern' else pattern
 
         # Get pattern parameters from pattern.csv
         stim_params = get_stim_params(exp, pattern)
@@ -33,14 +35,16 @@ def create_configs(template, exp, patterns, amplitudes, networks, overwrite=Fals
             data['inputs']['Extracellular_Stim']['amplitudes'] = amplitudes
             amplitude = str(amplitude)+'uA'
 
-            for network in ['network'+str(i) for i in networks]:
+            for mouse in ['mouse_'+str(i) for i in mice]:
                 
-                # Set network dir in config.json
-                network_dir = os.path.join(os.path.dirname(data['manifest']['$NETWORK_DIR']), network)
+                mouse = 'mouse_'+mouse if mouse[:5] != 'mouse' else mouse
+
+                # Set mouse dir in config.json
+                network_dir = os.path.join(os.path.dirname(data['manifest']['$NETWORK_DIR']), mouse)
                 data['manifest']['$NETWORK_DIR'] = network_dir
                                             
                 # Set output dir in config.json
-                output_dir = os.path.join('$BASE_DIR', exp , 'output', pattern, amplitude, network)
+                output_dir = os.path.join('$BASE_DIR', exp , 'output', pattern, amplitude, mouse)
                 data['manifest']["$OUTPUT_DIR"] = output_dir
 
                 # Get path for config.json and create directory if it does not exist
@@ -50,7 +54,7 @@ def create_configs(template, exp, patterns, amplitudes, networks, overwrite=Fals
                     os.makedirs(file_dir)
                 
                 # Save config.json unless it already exists and overwrite is False
-                file_name =  'config.' + exp[0]+exp[-1] + '_' + pattern[0]+pattern[-1] + '_' + amplitude[0]+amplitude[-1] + '_' + network[0]+network[-1] + '.json' 
+                file_name =  'config.' + exp[0]+exp[3:] + '_' + pattern[0]+pattern[7:] + '_' + amplitude + '_' + mouse[0]+mouse[6:] + '.json' 
                 print(os.path.join(file_dir, file_name))
                 if (overwrite == True) or (not os.path.exists(os.path.join(file_dir, file_name))):
                     with open(os.path.join(file_dir, file_name), 'w') as write_file:
@@ -58,19 +62,19 @@ def create_configs(template, exp, patterns, amplitudes, networks, overwrite=Fals
                         print('created file: ',file_name)
     return data
 
-def delete_configs(exp, patterns=None, amplitudes=None, networks=None):
+def delete_configs(exp, patterns=None, amplitudes=None, mice=None):
 
     # Convert integer/string to list if necessary
     patterns = [patterns] if not isinstance(patterns, list) else patterns
     amplitudes = [amplitudes] if not isinstance(amplitudes, list) else amplitudes
-    networks = [networks] if not isinstance(networks, list) else networks
+    mice = [mice] if not isinstance(mice, list) else mice
     exp = 'exp' + str(exp) if str(exp)[:3] != 'exp' else str(exp)
 
     # 
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
 
     # If any of the input arguments is None, skip this statement and just remove empty directories
-    if patterns is None or amplitudes is None or networks is None:
+    if patterns is None or amplitudes is None or mice is None:
         pass
     else:
         # Nested loop over all specified parameters (converted to strings)
@@ -78,11 +82,11 @@ def delete_configs(exp, patterns=None, amplitudes=None, networks=None):
 
             for amplitude in [str(i)+'uA' for i in amplitudes]:
 
-                for network in ['network'+str(i) for i in networks]:
+                for mouse in ['mouse'+str(i) for i in mice]:
                     
                     # Get file name and path 
                     file_path = os.path.join(root, exp, 'config', pattern, amplitude)                
-                    file_name = 'config.' + exp[0]+exp[-1] + '_' + pattern[0]+pattern[-1] + '_' + amplitude[0]+amplitude[-1] + '_' + network[0]+network[-1] + '.json'
+                    file_name = 'config.' + exp[0]+exp[-1] + '_' + pattern[0]+pattern[-1] + '_' + amplitude[0]+amplitude[-1] + '_' + mouse[0]+mouse[-1] + '.json'
                     
                     # Remove file if it exists
                     if os.path.exists(os.path.join(file_path, file_name)):
@@ -114,5 +118,5 @@ def get_stim_params(exp, pattern):
 amplitudes = get_stim_params(1, 1)['amplitudes']
 # print(amplitudes*10)
 
-create_configs(r'../v1_Anke/exp1/template.json', 'exp1', 1, 10, 0, overwrite=True)
+create_configs(r'v1_Anke/exp1/template.json', 'exp_test', 'pattern_test', 10, 0, overwrite=True)
 # delete_configs('exp1', 1, 10, 0)
