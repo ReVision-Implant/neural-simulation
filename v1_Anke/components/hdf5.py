@@ -5,37 +5,36 @@ import matplotlib.pyplot as plt
 
 class HDF5:
 
-    def __init__(self, dir, plot=False):
+    def __init__(self, dir, v1=False, plot=False):
 
         self.dir = dir
         self.file = h5py.File(self.dir, 'r')
-        # self.get_positions_v1()
-        # self.get_rotations()
+        self.get_positions(v1)
+        self.get_rotations()
         if plot:
             self.plot_positions(labels=['X','Z','Y'])
 
-    def get_positions(self):
+    def get_positions(self, v1=False):
 
         self.name = os.path.split(self.dir)[1][:-9]
-        self.positions = self.file['nodes'][self.name]['0']['positions'][:,:]
+        
+        if v1:
 
-        self.x_pos = self.positions[:,0]
-        self.z_pos = self.positions[:,1]
-        self.y_pos = self.positions[:,2]
+            self.x_pos = np.array(self.file['nodes'][self.name]['0']['x'][:])
+            self.z_pos = np.array(self.file['nodes'][self.name]['0']['z'][:])
+            self.y_pos = np.array(self.file['nodes'][self.name]['0']['y'][:])
+            self.positions = np.vstack((self.x_pos, self.y_pos, self.z_pos)).T
 
-        return self.positions[:,:]
+            return self.positions
+            
+        else:
 
-    def get_positions_v1(self):
+            self.positions = self.file['nodes'][self.name]['0']['positions'][:,:]
+            self.x_pos = self.positions[:,0]
+            self.z_pos = self.positions[:,1]
+            self.y_pos = self.positions[:,2]
 
-        self.name = os.path.split(self.dir)[1][:-9]
-
-        self.x_pos = np.array(self.file['nodes'][self.name]['0']['x'][:])
-        self.z_pos = np.array(self.file['nodes'][self.name]['0']['z'][:])
-        self.y_pos = np.array(self.file['nodes'][self.name]['0']['y'][:])
-
-        self.positions = np.vstack((self.x_pos, self.y_pos, self.z_pos)).T
-
-        return self.positions
+            return self.positions[:,:]
 
     def get_rotations(self):
 
