@@ -5,7 +5,6 @@ import pandas as pd
 def create_configs(template, exp, patterns, amplitudes, mice, overwrite=False):
     """Create config files according to specified stimulation parameters. 
     All input parameters will automatically be converted to <parameter>_<name>.
-    E.g. Passing arguments 1, '1', [1], ['1'], 'pattern1', ['pattern1'], 'pattern_1', ['pattern_1'] will all be formatted to ['pattern_1']
 
     :param template: Template config.json that is modified to generate all other files. 
     For each experiment, it is generally a good idea to manually configure one config.json file.
@@ -16,6 +15,9 @@ def create_configs(template, exp, patterns, amplitudes, mice, overwrite=False):
     :param mice: Mouse names. int/str or list thereof.
     :param overwrite: Overwrite existing files if True. defaults to False.
     :return: None
+    
+    | Example:
+    | Passing arguments 1, '1', [1], ['1'], 'pattern1', ['pattern1'], 'pattern_1', ['pattern_1'] will all be formatted to ['pattern_1']
     """
 
     # Convert all parameters into [name]_[value] format

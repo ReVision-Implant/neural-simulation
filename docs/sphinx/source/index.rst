@@ -7,14 +7,16 @@ Welcome to neural-simulation's documentation!
 =============================================
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
    :caption: User Guide
 
-   install
-   support
-   examples
-   cli
+   general
+   comsol
+   bmtk
+   code
+   vnd
  
+   
 
 Indices and tables
 ==================
