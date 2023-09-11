@@ -148,8 +148,9 @@ def format_params(exp, patterns, amplitudes, mice):
     :param mice: Mouse names. int/str or list thereof.
     :return: standardised parameter names
     """    
-    exp = str(exp)
-    exp = format_param(exp, 'exp')
+    exp = [exp] if not isinstance(exp, list) else exp
+    exp = [format_param(str(i), 'exp') for i in exp]
+    exp = exp[0] if len(exp) == 1 else exp
 
     patterns = [patterns] if not isinstance(patterns, list) else patterns
     patterns = [format_param(str(i), 'pattern') for i in patterns]
@@ -181,7 +182,7 @@ def format_param(input, name):
     return output
 
 def get_dirs(exp, patterns, amplitudes, mice):
-    """Gets the directories to the nodes.h5, spikes.csv, spikes_bkg.csv, and electrode files.
+    """Gets the directories to the nodes.h5, spikes.csv, spikes_bkg.csv, pattern.csv, and electrodes.csv files.
     This function does this for all combinations of the input arguments and returns them in lists.
 
     :param exp: Experiment name. int/str.
@@ -195,7 +196,7 @@ def get_dirs(exp, patterns, amplitudes, mice):
     spikes_dirs = []
     spikes_bkg_dirs = []
     pattern_dirs = []
-
+    electrodes_dirs = []
     # Format params
     exp, patterns, amplitudes, mice = format_params(exp, patterns, amplitudes, mice) 
 
@@ -203,8 +204,8 @@ def get_dirs(exp, patterns, amplitudes, mice):
     radius = 400
 
     # Iterate over all parameters and get paths for each combination
-    for amplitude in amplitudes:
-        for pattern in patterns:
+    for pattern in patterns:
+        for amplitude in amplitudes:
             for mouse in mice:
                 root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
@@ -212,9 +213,11 @@ def get_dirs(exp, patterns, amplitudes, mice):
                 spikes_dirs.append(os.path.join(root,  exp, 'output', pattern, amplitude, mouse, 'spikes.csv'))
                 spikes_bkg_dirs.append(os.path.join(root,  exp, 'output', 'bkg', mouse, 'spikes.csv'))
                 pattern_dirs.append(os.path.join(root, 'components', 'stimulation', 'patterns', exp, pattern+'.csv'))
+                electrodes_dirs.append(os.path.join(root, 'components', 'stimulation', 'electrodes', exp, 'electrodes.csv'))
 
-    return dict(nodes_dirs=nodes_dirs, spikes_dirs=spikes_dirs, spikes_bkg_dirs=spikes_bkg_dirs, pattern_dirs=pattern_dirs, radius=radius, v1=True)
+    return dict(nodes_dirs=nodes_dirs, spikes_dirs=spikes_dirs, spikes_bkg_dirs=spikes_bkg_dirs, pattern_dirs=pattern_dirs, electrodes_dirs=electrodes_dirs, radius=radius, v1=True)
 
+"""
 def print_args(names=False, **kwargs):
     print(kwargs)
     length = 1
@@ -236,8 +239,8 @@ def print_args(names=False, **kwargs):
         res[i] = res[i][:-1]
 
     print(res)
-
+"""
 
 if __name__ == '__main__':
-    [print(key, ': ', value) for key, value in get_dirs(1,1,10,[0]).items()]
-    create_configs(r'v1_Anke/exp_1/template.json', 1,1,1,[1], overwrite=True)
+    # [print(key, ': ', value) for key, value in get_dirs(1,1,10,[0]).items()]
+    create_configs(r'v1_Anke/exp_1/template.json', 'test', 'test', 10, ['0'], overwrite=True)
