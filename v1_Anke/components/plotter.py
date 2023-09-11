@@ -404,3 +404,40 @@ def plot_depth(exp, electrode, stim_type, amplitude, networks, save=None, labels
         fig.savefig(save+'.svg', bbox_inches='tight')
     else:
         plt.show()
+
+
+   
+def get_fractions(exp, stim_type):
+    radius = 400 if exp == 1 else 200
+    ### Initialisation
+    images = np.zeros((3,8,radius*2,radius*2))
+    electrodes = [1,2,3,4,5,6,7,8]
+    amplitudes = [10,20,30]
+    FTA = np.zeros((3,8))
+    FNA = np.zeros((3,8))
+    AR = np.zeros((3,8))
+    fig, axs = plt.subplots(3,3, sharex=True, sharey=True, figsize=(16,13))
+    for column,electrode in enumerate(electrodes):
+        for row,amplitude in enumerate(amplitudes):
+            images[row,column,:,:] = get_image(**get_params(exp, electrode, stim_type, amplitude, ['0','1','2']))
+            node_pos = np.zeros((0,3))
+            n_spikes = np.zeros(0)
+            for network in ['0','1','2']:
+                node_pos_temp, n_spikes_temp = get_spikes(**get_params(exp, electrode, stim_type, amplitude, network))
+                node_pos = np.vstack((node_pos, node_pos_temp))
+                n_spikes = np.hstack((n_spikes, n_spikes_temp))
+            FNA[row,column] = np.sum(n_spikes>0)/np.sum(n_spikes>-1)
+            radius = np.sqrt(node_pos[:,0]**2 + node_pos[:,2]**2)
+            AR[row, column] = np.average(radius, weights= n_spikes)
+    # images = np.array(images)/np.nanmax(images)*0.9
+    # images = np.log10(images+0.1)+1
+
+    images = np.array(images)/np.nanmax(images)
+
+    for i in range(np.size(images,0)):
+        for j in range(np.size(images,1)):
+            image = images[i,j,:,:]/np.nanmax(images)
+            FTA[i,j] = np.sum(image>0.0)/np.sum(image!=None)    
+
+    return FTA, FNA, AR
+
