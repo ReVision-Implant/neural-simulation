@@ -1,4 +1,4 @@
-`Back to manual </docs/manual/README.md>`__
+.. _packages:
 
 Python package management
 =========================
@@ -13,18 +13,18 @@ sessions, you just need to activate the environment you previously made.
 Setting up a virtual environment
 --------------------------------
 
-+------------------+-----------------------------+---------------------+
-| Command          | Pip                         | Conda               |
-+==================+=============================+=====================+
-| Creating an      | ``$ pyth                    | ``$ cond            |
-| environment      | on3 -m venv [path/to/env]`` | a create -n [env]`` |
-+------------------+-----------------------------+---------------------+
-| Activating an    | ``$ source [                | ``$ con             |
-| environment      | path/to/env]/bin/activate`` | da activate [env]`` |
-+------------------+-----------------------------+---------------------+
-| Deactivating an  | ``$ deactivate``            | ``$                 |
-| environment      |                             |  conda deactivate`` |
-+------------------+-----------------------------+---------------------+
++------------------+-----------------------------------------+----------------------------+
+| Command          | Pip                                     | Conda                      |
++==================+=========================================+============================+
+| Creating an      | ``$ python3 -m venv [path/to/env]``     | ``$ conda create -n [env]``|
+| environment      |                                         |                            |                      
++------------------+-----------------------------------------+----------------------------+
+| Activating an    | ``$ source [path/to/env]/bin/activate`` | ``$ conda activate [env]`` |
+| environment      |                                         |                            |
++------------------+-----------------------------------------+----------------------------+
+| Deactivating an  | ``$ deactivate``                        | ``$ conda deactivate``     |
+| environment      |                                         |                            |
++------------------+-----------------------------------------+----------------------------+
 
 Managing packages
 -----------------
@@ -32,13 +32,14 @@ Managing packages
 +--------------+---------------------------+---------------------------+
 | Command      | Pip                       | Conda                     |
 +==============+===========================+===========================+
-| Installing   | ``$ pip3 install [p       | ``$ conda install [p      |
-| packages     | ackage1] [package2] ...`` | ackage1] [package2] ...`` |
+| Installing   | ``$ pip3 install          | ``$ conda install         |
+| packages     | [package1] [package2]     | [package1] [package2]     |
+|              | ...``                     | ...``                     |
 +--------------+---------------------------+---------------------------+
 | List of      | ``$ pip3 list``           | ``$ conda list``          |
 | installed    |                           |                           |
 | packages     |                           |                           |
 +--------------+---------------------------+---------------------------+
 
-`Other useful terminal commands <./terminal.md>`__
---------------------------------------------------
+:ref:`Other useful terminal commands <terminal>`
+------------------------------------------------

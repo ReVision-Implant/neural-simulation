@@ -7,8 +7,8 @@ def create_configs(template, exp, patterns, amplitudes, mice, overwrite=False):
     All input parameters will automatically be converted to <parameter>_<name>.
 
     :param template: Template config.json that is modified to generate all other files. 
-    For each experiment, it is generally a good idea to manually configure one config.json file.
-    If that works, this function will then do the rest. 
+        For each experiment, it is generally a good idea to manually configure one config.json file.
+        If that works, this function will then do the rest. 
     :param exp: Experiment name. int/str.
     :param patterns: Pattern names. int/str or list thereof.
     :param amplitudes: Amplitudes in uA. int/str or list thereof.
@@ -72,13 +72,16 @@ def create_configs(template, exp, patterns, amplitudes, mice, overwrite=False):
 def delete_configs(exp, patterns=None, amplitudes=None, mice=None):
     """Delete config files according to specified stimulation parameters. Also deletes empty folders.
     All input parameters will automatically be converted to <parameter>_<name>.
-    E.g. Passing arguments 1, '1', [1], ['1'], 'pattern1', ['pattern1'], 'pattern_1', ['pattern_1'] will all be formatted to ['pattern_1']
-
+    
     :param exp: Experiment name. int/str.
     :param patterns: Pattern names. int/str or list thereof.
     :param amplitudes: Amplitudes in uA. int/str or list thereof.
     :param mice: Mouse names. int/str or list thereof.
     :return: None
+    
+    Example::
+    
+        Passing arguments 1, '1', [1], ['1'], 'pattern1', ['pattern1'], 'pattern_1', ['pattern_1'] will all be formatted to ['pattern_1']
     """
 
     # Convert all parameters into [name]_[value] format
@@ -142,7 +145,7 @@ def get_stim_params(exp, pattern):
 
 def format_params(exp, patterns, amplitudes, mice):
     """Standardise parameters to <parameter>_<name>.
-    E.g. 1, '1', [1], ['1'], 'pattern1', ['pattern1'], 'pattern_1', ['pattern_1'] will all be formatted to ['pattern_1']
+    Example:: 1, '1', [1], ['1'], 'pattern1', ['pattern1'], 'pattern_1', ['pattern_1'] will all be formatted to ['pattern_1']
 
     :param exp: Experiment name. int/str.
     :param patterns: Pattern names. int/str or list thereof.
@@ -167,7 +170,10 @@ def format_params(exp, patterns, amplitudes, mice):
 
 def format_param(input, name):
     """Format parameter to <parameter>_<name>.
-    E.g. '1', 'pattern1', 'pattern_1', will all be formatted to 'pattern_1'
+
+    Example::
+
+        '1', 'pattern1', 'pattern_1', will all be formatted to 'pattern_1'
 
     :param input: _description_
     :param name: _description_
