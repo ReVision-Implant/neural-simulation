@@ -22,7 +22,6 @@ def translate_comsol(dir_in, dir_out, X, Y, Z):
     """    
 
     for f in os.listdir(dir_in):
-        if 
         path = os.path.join(dir_in,f)
         header = pd.read_csv(path, sep=';', nrows=9, header=None)
         body = pd.read_csv(path, sep='\s+',skiprows=9, header=None, engine='python')
