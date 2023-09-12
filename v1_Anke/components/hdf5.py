@@ -22,7 +22,7 @@ class HDF5:
         self.get_rotations()
         if plot:
             self.plot_positions(labels=['X','Z','Y'])
-
+        
     def get_positions(self, v1=False):
         """Get node positions.
 

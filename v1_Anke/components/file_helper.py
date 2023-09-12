@@ -251,4 +251,10 @@ def print_args(names=False, **kwargs):
 
 if __name__ == '__main__':
     # [print(key, ': ', value) for key, value in get_dirs(1,1,10,[0]).items()]
-    create_configs(r'v1_Anke/exp_1/template.json', 'test', 'test', 10, ['0'], overwrite=True)
+    create_configs(template = r'v1_Anke/exp_1/template.json',
+                exp = 'test',
+                pattern = 'test', 
+                amplitude = 10,
+                mice = ['0'], 
+                overwrite=True
+    )
