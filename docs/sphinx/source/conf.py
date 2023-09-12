@@ -19,12 +19,16 @@ release = '1.0'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'sphinx.ext.autodoc',
+    # 'sphinx.ext.autodoc',
+    # 'sphinx.ext.autosummary',
+    'autoapi.extension',
 ]
 
+autoapi_type = 'python'
+autoapi_dirs = ['../../../v1_Anke/components']
 templates_path = ['_templates']
 exclude_patterns = []
-
+autosummary_generate = True
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -36,3 +40,11 @@ html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 html_static_path = ['_static']
 html_css_files = ['my_theme.css']
 autoclass_content = 'both'
+autoapi_root = 'code'
+
+# Automatic generation of autosummary
+from sphinx.ext.autosummary import Autosummary
+from sphinx.ext.autosummary import get_documenter
+from docutils.parsers.rst import directives
+from sphinx.util.inspect import safe_getattr
+import re

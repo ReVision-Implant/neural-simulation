@@ -3,12 +3,10 @@ General
 =======
 
 .. toctree::
-   :maxdepth: 4
-   :caption: ToC
+   :maxdepth: 2
 
+   general/terminal
+   general/packages
+   general/vsc
    general/esat
    general/git
-   general/packages
-   general/terminal
-   general/vsc
-
