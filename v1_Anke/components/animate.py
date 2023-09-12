@@ -6,7 +6,7 @@ import numpy as np
 from matplotlib.animation import FuncAnimation
 import mpl_toolkits.axes_grid1
 import matplotlib.widgets
-from helper import get_params
+from file_helper import get_dirs
 
 class Player(FuncAnimation):
     def __init__(self, fig, func, frames=None, init_func=None, fargs=None,
@@ -90,7 +90,7 @@ class Player(FuncAnimation):
     def set_pos(self,t):
         self.t = self.slider.val/5
         self.func(self.t)
-
+conda 
     def update(self,t):
         self.slider.set_val(5*t)
 
@@ -100,15 +100,12 @@ ax.set_aspect('equal','box')
 ax.set(xlim=[-200,200], ylim=[-200,200], xlabel='x [um]', ylabel='y [um]')
 ax.legend()
 
-dictionary = get_params(3, 1, '-', 30, 0)
+dictionary = get_dirs(0, 0, 30, [1,2])
 nodes_dir = dictionary["nodes_dirs"][0]
 spikes_dir = dictionary["spikes_dirs"][0]
 
-v1 = True    
-if v1 == True:
-    node_pos = HDF5(nodes_dir).get_positions_v1()
-elif v1 == False:
-    node_pos = HDF5(nodes_dir).get_positions()
+v1 = True
+node_pos = HDF5(nodes_dir, v1=True).get_positions(v1=True)
 
 spikes = pd.read_csv(spikes_dir, sep='\s+')
 timestamps = spikes["timestamps"]

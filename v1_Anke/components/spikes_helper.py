@@ -4,7 +4,24 @@ import numpy as np
 import os
 
 def get_spikes(nodes_dirs, spikes_dirs, spikes_bkg_dirs, radius=None, depth=None, v1=True, **kwargs):
-    
+    """Get spikes and node positions from network and output files.
+
+    :param nodes_dirs: directories that point to network/nodes.h5
+    :type nodes_dirs: path or list thereof
+    :param spikes_dirs: directories that point to output/spikes.csv
+    :type spikes_dirs: path or list thereof
+    :param spikes_bkg_dirs: directories that point to output/bkg/spikes.csv
+    :type spikes_bkg_dirs: path or list thereof
+    :param radius: defaults to None.
+    :type radius: int, optional
+    :param depth: defaults to None.
+    :type depth: int, optional
+    :param v1: defaults to True.
+    :type v1: bool, optional
+    :return: node positions
+    :rtype: ndarray
+    """    
+        
     nodes_dirs = [nodes_dirs] if not isinstance(nodes_dirs, list) else nodes_dirs
     spikes_dirs = [spikes_dirs] if not isinstance(spikes_dirs, list) else spikes_dirs
     spikes_bkg_dirs = [spikes_bkg_dirs] if not isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs
@@ -52,7 +69,17 @@ def get_spikes(nodes_dirs, spikes_dirs, spikes_bkg_dirs, radius=None, depth=None
     return node_pos, n_spikes
 
 def get_grid(node_pos, n_spikes, radius, **kwargs):
+    """Get grid from spikes and node positions.
 
+    :param node_pos: node positions
+    :type node_pos: np.ndarray
+    :param n_spikes: number of spikes
+    :type n_spikes: np.ndarray
+    :param radius: radius of the cylinder
+    :type radius: int
+    :return: grid
+    :rtype: np.ndarray
+    """
     grid = np.zeros((radius*2,radius*2))
     for node in range(node_pos.shape[0]):
         grid_el = (np.floor(node_pos[node,[0,1,2]] + radius)).astype(int)
@@ -61,7 +88,15 @@ def get_grid(node_pos, n_spikes, radius, **kwargs):
     return grid
 
 def get_centroid_cov(node_pos, n_spikes, **kwargs):
+    """Get centroid and covariance matrix from spikes and node positions.
 
+    :param node_pos: node positions
+    :type node_pos: np.ndarray
+    :param n_spikes: number of spikes
+    :type n_spikes: np.ndarray
+    :return: centroid, covariance matrix
+    :rtype: np.ndarray, np.ndarray
+    """
     # Get centroid and cov matrix from spikes+locations from previous step
     centroid = np.average(node_pos, axis=0, weights=n_spikes)
     cov = np.cov(node_pos.T, fweights=n_spikes)

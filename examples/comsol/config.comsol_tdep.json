@@ -28,8 +28,8 @@
       "input_type": "lfp",
       "node_set": "all",
       "module": "comsol",
-      "comsol_files": "$STIM_DIR/COMSOL_tdep.txt",
-      "amplitudes": 10
+      "comsol_files": "$STIM_DIR/tdep.txt",
+      "amplitudes": 20
     }
   },
 

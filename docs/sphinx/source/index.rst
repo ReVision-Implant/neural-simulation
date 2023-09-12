@@ -3,18 +3,19 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to neural-simulation's documentation!
-=============================================
+Hybrid modelling guide
+======================
 
 .. toctree::
-   :maxdepth: 4
-   :caption: User Guide
+   :maxdepth: 2
 
-   install
-   support
-   examples
-   cli
+   general
+   comsol
+   bmtk
+   code
+   vnd
  
+   
 
 Indices and tables
 ==================

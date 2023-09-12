@@ -95,8 +95,8 @@ class CreateWaveform:
 
 def CreateBlockWaveform(n_pulses, phase_1_expr, amp_1_expr, T_1_expr, phase_2_expr, amp_2_expr, T_2_expr, save_name=None):
     """Creates a block waveform using the CreateWaveform class. Except for n_pulses, all arguments should be lambda expressions of n (units: ms).
-    E.g. Constant phase_1 (0.1ms): phase_1_expr = lambda n:0.1
-    E.g. For phase_1 that starts at 0.1 ms and gets 0.01 ms longer after each pulse: phase_1_expr = lambda n:0.1+n/10
+    Example:: Constant phase_1 (0.1ms): phase_1_expr = lambda n:0.1
+    Example:: For phase_1 that starts at 0.1 ms and gets 0.01 ms longer after each pulse: phase_1_expr = lambda n:0.1+n/10
 
     :param n_pulses: number of pulses that the waveform will be made up of 
     :type n_pulses: int

@@ -16,14 +16,6 @@ class ComsolMod(SimulatorMod):
     It is similar to BioNet's xstim module, but offers the additional flexibility of FEM, instead of relying on simplified analytical solutions.
     As such, this module allows to use BMTK as a part of the hybrid modelling approach, 
     where extracellular potentials are calculated using FEM in a first step and then imposed on a model of a neuronal network in a second step.
-
-    __init__: Called once at the beginning of the simulation. Sets user input parameters.
-
-    initialise: Called once at the beginning of the simulation. Initialises module and sets interpolators from COMSOL output.
-
-    step: Called every time step. Calculates the extracellular potentials of all segments at a certain point in time.
-
-    load_comsol: Helper function called in initialise. Reads COMSOL output and converts it to a pandas DataFrame.
     """
 
     def __init__(self, comsol_files, waveforms=None, amplitudes=1, 
@@ -176,7 +168,7 @@ class ComsolMod(SimulatorMod):
         For a stationary comsol study, the potentials are stored in the fourth column.
         For a time-dependent study, each subsequent column stores the potentials at one timepoints.
 
-        :param comsol_file: (str) "/path/to/comsol.txt"
+        :param comsol_file: (path) "/path/to/comsol.txt"
         :return: (pd DataFrame) Potentials extracted from comsol.txt
         """
 

@@ -13,7 +13,7 @@ class SubPlotter():
     """
 
     def __init__(self, ax, exp, pattern, amplitude, mice, depth=None, sigma=10, centroid=True, electrodes=True, ticks=True):
-        """Setting attributes and calling main functions
+        """Set attributes and call main functions
 
         :param ax: (maplotlib Axes object) Axes of the subplot.
         :param exp: (int/str) Experiment name.
@@ -118,7 +118,7 @@ class SubPlotter():
         """Plot the electrode locations as specified in pattern.csv.
         Electrodes with positive and negative amplitudes are plotted in a different colour.
 
-        :param **kwargs: Passed to ax.scatter().
+        :param \**kwargs: Passed to ax.scatter().
         """
         
         ### Get electrode names from pattern.csv
@@ -147,7 +147,7 @@ class SubPlotter():
     def plot_centroid(self, **kwargs):
         """Get the centroid location and plot it. 
         
-        :param **kwargs: Passed to ax.scatter().
+        :param \**kwargs: Passed to ax.scatter().
         """        
         ### Get centroid
         self.centroid, self.cov = get_centroid_cov(self.node_pos, self.n_spikes)
@@ -176,7 +176,7 @@ class SubPlotter():
 
         :param xticks: Passed to ax.set_xticks(). Defaults to [-182,0,182].
         :param yticks: Passed to ax.set_yticks(). Defaults to [-182,0,182].
-        :param **kwargs: Passed to ax.tick_params().
+        :param \**kwargs: Passed to ax.tick_params().
         """
         self.ax.set_xticks(xticks)
         self.ax.set_yticks(yticks)
@@ -206,14 +206,20 @@ class Plotter():
         All parameters (exp, patterns, amplitudes, mice) can be varied between subplot rows and columns.
         When there is only one row/column, row_param/col_param should be None.
         If row_param/col_param is not 'mice', the images of all specified mice are combined in all subplots.
-        E.g.
-        plot = Plotter(n_rows=3, n_cols=2)
-        plot.plot_all(exp=[1,2], patterns=[0,1,2], amplitudes=20, mice=[0,1,2], row_param='patterns', col_param='exp')
-        will create a 3x2 grid of plots where each plot shows the results of (exp[col], pattern[row], amplitude, mice[:])
-        E.g.
-        plot = Plotter(n_rows=1, n_cols=3)
-        plot.plot_all(exp=1, patterns=1, amplitudes=10, mice=[0,1,2], row_param=None, col_param='mice')
-        will create a 1x3 grid of plots where each plot shows the results of (exp, pattern, amplitude, mice[col])
+
+        Example::
+
+            plot = Plotter(n_rows=3, n_cols=2)
+            plot.plot_all(exp=[1,2], patterns=[0,1,2], amplitudes=20, mice=[0,1,2], row_param='patterns', col_param='exp')
+
+        will create a 3x2 grid of plots where each plot shows the results of (exp[col], pattern[row], amplitude, mice[:]).
+
+        Example::
+
+            plot = Plotter(n_rows=1, n_cols=3)
+            plot.plot_all(exp=1, patterns=1, amplitudes=10, mice=[0,1,2], row_param=None, col_param='mice')
+
+        will create a 1x3 grid of plots where each plot shows the results of (exp, pattern, amplitude, mice[col]).
 
         :param exp: (int/str) Experiment name.
         :param patterns: (int/str or list thereof) Pattern names. 
@@ -258,10 +264,12 @@ class Plotter():
     
 
     def set_all(self, func, **kwargs):
-        """Calls a function from the SubPlotter class for every SubPlotter object. 
-        E.g. 
-        :param func: (str) Name of the SubPlotter class function.
-        :param **kwargs: Passed to SubPlotter.func(**kwargs)
+        """Calls a function from the SubPlotter class for every SubPlotter object.
+        Example::
+
+            :param func: (str) Name of the SubPlotter class function.
+            :param \**kwargs: Passed to SubPlotter.func(\**kwargs)
+
         """
         for i in range(len(self.subplots.flatten())):
             subplot = self.subplots.flatten()[i]
@@ -272,14 +280,18 @@ class Plotter():
     def legend(self, **kwargs):
         """Sets the legend in the figure.
         First collects the handles and labels of all elements in any subplot.
-        Then removes elements with duplicate label.
-        fig = Plotter(1,2)
-        fig.plot_all(0,0,30,[1,2],'patterns','mice', False, False, False)
-        fig.set_all(func='set_ticks')
-        fig.set_all(func='plot_centroid')
-        fig.set_all(func='plot_electrodes')
-        :param **kwargs: Passed to self.fig.legend(**kwargs)
-        """        
+        Then removes elements with duplicate label. 
+        
+        :param \**kwargs: Passed to self.fig.legend(\**kwargs)      
+
+        Example::
+
+            fig = Plotter(1,2)
+            fig.plot_all(0,0,30,[1,2],'patterns','mice', False, False, False)
+            fig.set_all(func='set_ticks')
+            fig.set_all(func='plot_centroid')
+            fig.set_all(func='plot_electrodes')
+        """
         handles, labels = zip(*[ax.get_legend_handles_labels() for ax in self.axs])
         handles = [y for x in handles for y in x]
         labels = [y for x in labels for y in x]
