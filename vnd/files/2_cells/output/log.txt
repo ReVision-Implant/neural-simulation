@@ -1,0 +1,12 @@
+2022-10-20 09:32:25,387 [INFO] Created log file
+2022-10-20 09:32:25,454 [INFO] Building cells.
+2022-10-20 09:32:25,623 [INFO] Building recurrent connections
+2022-10-20 09:32:25,628 [INFO] Building virtual cell stimulations for lgn_spikes
+2022-10-20 09:32:26,017 [INFO] Running simulation for 2000.000 ms with the time step 0.100 ms
+2022-10-20 09:32:26,018 [INFO] Starting timestep: 0 at t_sim: 0.000 ms
+2022-10-20 09:32:26,018 [INFO] Block save every 5000 steps
+2022-10-20 09:32:27,122 [INFO]     step:5000 t_sim:500.00 ms
+2022-10-20 09:32:28,217 [INFO]     step:10000 t_sim:1000.00 ms
+2022-10-20 09:32:29,296 [INFO]     step:15000 t_sim:1500.00 ms
+2022-10-20 09:32:30,357 [INFO]     step:20000 t_sim:2000.00 ms
+2022-10-20 09:32:30,378 [INFO] Simulation completed in 4.361 seconds 
