@@ -90,7 +90,7 @@ class Player(FuncAnimation):
     def set_pos(self,t):
         self.t = self.slider.val/5
         self.func(self.t)
-conda 
+
     def update(self,t):
         self.slider.set_val(5*t)
 
