@@ -1,18 +1,21 @@
-# Comsol
+# COMSOL
 
 A small network of 100 multi-compartment biophysically detailed cells placed in a column with a 100 $\mu m$ radius and 100 $\mu m$ height . 
 The network receives input in the form of extracellular potentials defined by a .txt file that is exported from COMSOL. 
 
-Uses the BioNet simulator (requires NEURON)
+Uses the BioNet simulator (requires NEURON).
 
 ## Running:
 
 ```
 $ python run_bionet.py config_comsol_*.json
 ```
-config.comsol_tdep.json will use a COMSOL simulation with a single electrode placed near the center of the column.
-<br> config.comsol_stat.json will use a COMSOL simulation with two electrodes spaced along the x-axis.
-<br> config.comsol_stat2.json will use a COMSOL simulation with two electrodes spaced along the x-axis.
+
+All three configurations simulate the same stimulation configuration, where two probes, with one electrode each, are inserted into a cylindrical piece of tissue. Biphasic symmetric pulses are sent from one electrode to the other, i.e. they have opposite polarity. 
+
+- config.comsol_tdep.json uses a time-dependent COMSOL simulation.
+- config.comsol_stat.json uses a single stationary COMSOL simulation. The time dependency is described by the waveform in *examples/bio_components/stimulations/waveform.csv*.
+- config.comsol_stat2.json uses two COMSOL simulations, in which either of the electrodes is active. The output of both simulations are superimposed to get the actual extracellular potentials. The time dependency is described by the waveform in examples/bio_components/stimulations/waveform.csv.
 
 The output files have already been generated in the *outputs* directory containing log, spike trains and recorded cell variables. Running the simulations again will overwrite the existing files.
 
@@ -39,11 +42,26 @@ The COMSOL file path can be specified in config_comsol.json
       "module": "comsol",
       "comsol_file": "$STIM_DIR/comsol.txt",
       "waveform": "$STIM_DIR/waveform.csv",
-      "amplitude":
+      "amplitude": 10
     }
   }
 ```
 where *waveform* is optional. If it is specified, the COMSOL file should contain the output of a stationary study. If not, the COMSOL file should contain the output of a time-dependent study.
+
+It is also possible to specifiy multiple comsol_files and waveforms, in which case these arguments should be passed as a list, i.e. 
+
+```json
+  "inputs": {
+    "Extracellular_Stim": {
+      "input_type": "lfp",
+      "node_set": "all",
+      "module": "comsol",
+      "comsol_file": ["$STIM_DIR/comsol1.txt", "$STIM_DIR/comsol2.csv"],
+      "waveform": ["$STIM_DIR/waveform1.csv", "$STIM_DIR/waveform2.csv"],
+      "amplitude": 10
+    }
+  }
+```
 
 ## Plotting
 

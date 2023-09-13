@@ -29,7 +29,7 @@
       "node_set": "all",
       "module": "comsol",
       "comsol_files": "$STIM_DIR/tdep.txt",
-      "amplitudes": 20
+      "amplitudes": 20000
     }
   },
 
