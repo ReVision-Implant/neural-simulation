@@ -1,12 +1,48 @@
 VND installation
 ================
 
-Download and installation guide at `<https://www.ks.uiuc.edu/Research/vnd/>`_.
+Start by downloading any release from `this page <https://www.ks.uiuc.edu/Research/vnd/vnd-1.9.4/files/alpha/>`_. The full installation guide can be found `here <https://www.ks.uiuc.edu/Research/vnd/current/ig-alt.html>`_, but the instructions below should be sufficient.
 
-I couldn't get the final step of adding to the directory to PATH to work, but a workaround to launch vnd is to just type
+Use whatever vnd-[...].tar.gz version you downloaded instead of “vnd-1.9.4a53p7b.LINUXAMD64.opengl.tar.gz”
 
-``$ /[vnd-install-location]/bin/vnd}``
+You can use any location you have read/write access to. This guide uses $VSC_DATA (e.g. /data/leuven/338/vsc33895) as an example.
 
-or navigate to the ``[vnd-install-location]/bin`` directory and type
+Type what is after $ in your terminal prompt::
 
-``$ ./vnd``
+   $ mkdir $VSC_DATA/vnd
+   $ cd $VSC_DATA/vnd
+   $ mkdir lib
+   $ mkdir bin
+   $ mkdir ../my-temp
+   $ cd ../my-temp
+   $ mkdir vnd-installer
+   $ cd vnd-installer
+   $ mv ~/Downloads/vnd-1.9.4a53p7b.LINUXAMD64.opengl.tar.gz $VSC_DATA/my-temp/vnd-installer
+   $ cd $VSC_DATA/my-temp/vnd-installer
+   $ gunzip vnd-1.9.4a53p7b.LINUXAMD64.opengl.tar.gz
+   $ tar xvf vnd-1.9.4a53p7b.LINUXAMD64.opengl.tar
+   $ cd vnd-1.9.4a53
+
+Edit the following two lines (use the full path instead of $VSC_DATA) in ./configure in the terminal with ``$ vi configure`` or use any text editor::
+      
+   install_bin_dir="/data/leuven/338/vsc33895/vnd/bin";
+
+   install_library_dir="/data/leuven/338/vsc33895/vnd/lib/$install_name";
+
+Check you are still in $VSC_DATA/my-temp/vnd-installer/vnd-1.9.4a53 with ``$ pwd``, then continue the installation::
+
+   $ ./configure
+   $ cd src
+   $ make install
+
+
+Optionally, you can add the binary directory ($VSC_DATA/vnd/bin) to your PATH variable.
+A bash user might instead add this line to ~/.bashrc::
+
+   export PATH="${VSC_DATA}/vnd/bin:$PATH"
+
+In a new terminal window, type ``$ which vnd`` to check where vnd is installed or type ``vnd`` ro run VND.
+
+If the last step doesn't seem to work, a possible workaround installation is to explicitly point to the binary directory first::
+   
+   $ $VSC_DATA/vnd/bin/vnd

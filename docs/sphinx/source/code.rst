@@ -2,7 +2,7 @@ Other Python code
 =================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
    code/hdf5
    code/file_helper
