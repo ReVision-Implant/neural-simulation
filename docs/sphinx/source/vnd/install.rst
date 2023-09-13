@@ -1,4 +1,4 @@
-VND installation
+Installation
 ================
 
 Start by downloading any release from `this page <https://www.ks.uiuc.edu/Research/vnd/vnd-1.9.4/files/alpha/>`_. The full installation guide can be found `here <https://www.ks.uiuc.edu/Research/vnd/current/ig-alt.html>`_, but the instructions below should be sufficient.

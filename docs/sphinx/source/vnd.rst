@@ -6,4 +6,4 @@ VND
    :caption: ToC
 
    vnd/install
-
+   vnd/tutorial
