@@ -137,10 +137,10 @@ class SpikeScaler():
             timestamps = self.file['spikes/'+i+'/timestamps'][:]
             node_ids = self.file['spikes/'+i+'/node_ids'][:]
             try:
-                scaled_file.create_dataset('spikes/'+i+'/timestamps_scaled', data=timestamps*self.scale)
+                scaled_file.create_dataset('spikes/'+i+'/timestamps', data=timestamps*self.scale)
                 scaled_file.create_dataset('spikes/'+i+'/node_ids', data=node_ids)
             except:
-                scaled_file['spikes/'+i+'/timestamps_scaled'] = timestamps*self.scale
+                scaled_file['spikes/'+i+'/timestamps'] = timestamps*self.scale
                 scaled_file['spikes/'+i+'/node_ids'] = node_ids
         self.file.close()
         scaled_file.close()
