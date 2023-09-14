@@ -2,6 +2,7 @@ import h5py
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+import shutil
 
 class HDF5:
     """Helper class to extract data from .h5 files.
@@ -125,26 +126,25 @@ class SpikeScaler():
         :param dir: path to .h5 file.
         :type dir: path
         """        
-        self.path = os.path.abspath(__file__) + '/../../../' + path
-        self.file = h5py.File(self.path, 'r+')
+        self.source = os.path.abspath(__file__) + '/../../../' + path
+        self.dest = os.path.dirname(self.source)+"/spikes_scaled.h5"
         self.scale = scale
         self.scale_spike_timings()
 
     def scale_spike_timings(self):
-            
-        scaled_file = h5py.File(os.path.dirname(self.path)+"/spikes_scaled.h5", "w")
+
+        shutil.copyfile(self.source, self.dest)
+        self.file = h5py.File(self.dest, 'r+')
+
         for i in list(self.file['spikes'].keys()):
             timestamps = self.file['spikes/'+i+'/timestamps'][:]
-            node_ids = self.file['spikes/'+i+'/node_ids'][:]
+            del self.file['spikes/'+i+'/timestamps']
             try:
-                scaled_file.create_dataset('spikes/'+i+'/timestamps', data=timestamps*self.scale)
-                scaled_file.create_dataset('spikes/'+i+'/node_ids', data=node_ids)
+                self.file.create_dataset('spikes/'+i+'/timestamps', data=timestamps*self.scale)
             except:
-                scaled_file['spikes/'+i+'/timestamps'] = timestamps*self.scale
-                scaled_file['spikes/'+i+'/node_ids'] = node_ids
-        self.file.close()
-        scaled_file.close()
+                self.file['spikes/'+i+'/timestamps'] = timestamps*self.scale
 
+        self.file.close()
         return
 
 if __name__ == "__main__":
