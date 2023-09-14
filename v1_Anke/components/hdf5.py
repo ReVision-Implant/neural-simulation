@@ -125,7 +125,7 @@ class SpikeScaler():
 
         :param dir: path to .h5 file.
         :type dir: path
-        """        
+        """
         self.source = os.path.abspath(__file__) + '/../../../' + path
         self.dest = os.path.dirname(self.source)+"/spikes_scaled.h5"
         self.scale = scale
@@ -133,21 +133,29 @@ class SpikeScaler():
 
     def scale_spike_timings(self):
 
-        shutil.copyfile(self.source, self.dest)
-        self.file = h5py.File(self.dest, 'r+')
+        self.orig_file = h5py.File(self.source, 'r')
+        self.scaled_file = h5py.File(self.dest, 'w')
 
-        for i in list(self.file['spikes'].keys()):
-            timestamps = self.file['spikes/'+i+'/timestamps'][:]
-            del self.file['spikes/'+i+'/timestamps']
+        self.scaled_file.copy(self.orig_file['spikes'], 'spikes')
+
+        for i in list(self.scaled_file['spikes'].keys()):
+            timestamps = self.scaled_file['spikes/'+i+'/timestamps'][:]
+            del self.scaled_file['spikes/'+i+'/timestamps']
             try:
-                self.file.create_dataset('spikes/'+i+'/timestamps', data=timestamps*self.scale)
+                self.scaled_file.create_dataset('spikes/'+i+'/timestamps', data=timestamps*self.scale)
             except:
-                self.file['spikes/'+i+'/timestamps'] = timestamps*self.scale
+                self.scaled_file['spikes/'+i+'/timestamps'][:] = timestamps*self.scale
+            units = self.orig_file['spikes/'+i+'/timestamps'].attrs.__getitem__('units')
+            self.scaled_file['spikes/'+i+'/timestamps'].attrs.__setitem__('units', units)
 
-        self.file.close()
+
+        self.orig_file.close()
+        self.scaled_file.close()
         return
 
 if __name__ == "__main__":
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     hf = HDF5(root + '/examples/comsol/network/column_nodes.h5')
     hf.convert_to_v1()
+
+### !!!Copy whole spikes group to newly created h5!!!
