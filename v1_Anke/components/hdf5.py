@@ -17,13 +17,14 @@ class HDF5:
         :type plot: bool, optional
         """        
         self.dir = dir
-        self.file = h5py.File(self.dir, 'r')
-        self.get_positions(v1)
+        self.file = h5py.File(self.dir, 'r+')
+        self.v1 = v1
+        self.get_positions()
         self.get_rotations()
         if plot:
             self.plot_positions(labels=['X','Z','Y'])
         
-    def get_positions(self, v1=False):
+    def get_positions(self):
         """Get node positions.
 
         :param v1: if True, interpret nodes.h5 as V1 column. defaults to False.
@@ -33,11 +34,11 @@ class HDF5:
         """
         self.name = os.path.split(self.dir)[1][:-9]
         
-        if v1:
+        if self.v1:
 
             self.x_pos = np.array(self.file['nodes'][self.name]['0']['x'][:])
-            self.z_pos = np.array(self.file['nodes'][self.name]['0']['z'][:])
             self.y_pos = np.array(self.file['nodes'][self.name]['0']['y'][:])
+            self.z_pos = np.array(self.file['nodes'][self.name]['0']['z'][:])
             self.positions = np.vstack((self.x_pos, self.y_pos, self.z_pos)).T
 
             return self.positions
@@ -46,8 +47,8 @@ class HDF5:
 
             self.positions = self.file['nodes'][self.name]['0']['positions'][:,:]
             self.x_pos = self.positions[:,0]
-            self.z_pos = self.positions[:,1]
-            self.y_pos = self.positions[:,2]
+            self.y_pos = self.positions[:,1]
+            self.z_pos = self.positions[:,2]
 
             return self.positions[:,:]
 
@@ -68,9 +69,9 @@ class HDF5:
         if 'rotation_angle_zaxis' in self.file['nodes'][self.name]['0'].keys():
             self.z_rot = self.file['nodes'][self.name]['0']['rotation_angle_zaxis'][:]
         
-        self.rotations = np.vstack((self.x_rot, self.y_rot, self.z_rot)).T
+        # self.rotations = np.vstack((self.x_rot, self.y_rot, self.z_rot)).T
 
-        return self.rotations
+        return
 
     def plot_positions(self):
         """Plot node positions.
@@ -97,3 +98,23 @@ class HDF5:
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
         ax.set_zlabel('Z')
+
+    def convert_to_v1(self):
+        if self.v1:
+            pass
+        else:
+            try:
+                self.file.create_dataset('nodes/'+self.name+'/0/x', data=self.x_pos)
+                self.file.create_dataset('nodes/'+self.name+'/0/y', data=self.y_pos)
+                self.file.create_dataset('nodes/'+self.name+'/0/z', data=self.z_pos)
+            except:
+                self.file['nodes'][self.name]['0']['x'][...] = self.x_pos
+                self.file['nodes'][self.name]['0']['y'][...] = self.y_pos
+                self.file['nodes'][self.name]['0']['z'][...] = self.z_pos
+            self.file.close()
+
+
+if __name__ == "__main__":
+    root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    hf = HDF5(root + '/examples/comsol/network/column_nodes.h5')
+    hf.convert_to_v1()
