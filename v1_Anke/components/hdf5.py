@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class HDF5:
-    """ Helper class to extract spike data from output.h5 files.
+    """Helper class to extract data from .h5 files.
     """
     def __init__(self, dir, v1=False, plot=False):
         """Read .h5 file and call main functions.
@@ -99,7 +99,7 @@ class HDF5:
         ax.set_ylabel('Y')
         ax.set_zlabel('Z')
 
-    def convert_to_v1(self):
+    def convert_pos_to_v1(self):
         if self.v1:
             pass
         else:
@@ -112,7 +112,40 @@ class HDF5:
                 self.file['nodes'][self.name]['0']['y'][...] = self.y_pos
                 self.file['nodes'][self.name]['0']['z'][...] = self.z_pos
             self.file.close()
+    
+        return
+    
 
+class SpikeScaler():
+    """Helper class to scale spike timings for use in VND.
+    """
+    def __init__(self, path, scale):
+        """Read .h5 file and call main functions.
+
+        :param dir: path to .h5 file.
+        :type dir: path
+        """        
+        self.path = os.path.abspath(__file__) + '/../../../' + path
+        self.file = h5py.File(self.path, 'r+')
+        self.scale = scale
+        self.scale_spike_timings()
+
+    def scale_spike_timings(self):
+            
+        scaled_file = h5py.File(os.path.dirname(self.path)+"/spikes_scaled.h5", "w")
+        for i in list(self.file['spikes'].keys()):
+            timestamps = self.file['spikes/'+i+'/timestamps'][:]
+            node_ids = self.file['spikes/'+i+'/node_ids'][:]
+            try:
+                scaled_file.create_dataset('spikes/'+i+'/timestamps_scaled', data=timestamps*self.scale)
+                scaled_file.create_dataset('spikes/'+i+'/node_ids', data=node_ids)
+            except:
+                scaled_file['spikes/'+i+'/timestamps_scaled'] = timestamps*self.scale
+                scaled_file['spikes/'+i+'/node_ids'] = node_ids
+        self.file.close()
+        scaled_file.close()
+
+        return
 
 if __name__ == "__main__":
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
