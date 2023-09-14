@@ -108,7 +108,6 @@ def CreateBlockWaveform(n_pulses, phase_1_expr, amp_1_expr, T_1_expr, phase_2_ex
     :param T_1_expr: time between end of first phase and start of second phase in ms
     :type T_1_expr: lambda
     :param phase_2_expr: duration of second phase of pulse in ms
-    :param phase_2_expr: duration of second phase of pulse in ms
     :type phase_2_expr: lambda
     :param amp_2_expr: amplitude of second phase of pulse in µA
     :type amp_2_expr: lambda
@@ -162,5 +161,5 @@ if __name__ == '__main__':
         phase_2_expr = lambda n:0.8,
         amp_2_expr = lambda n:-1,
         T_2_expr = lambda n:4,
-        save_name = "/stimulation/waveforms/waveform_test.csv"
+        save_name = "/stimulation/waveforms/waveform.csv"
     )
