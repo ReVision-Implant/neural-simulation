@@ -8,3 +8,4 @@ BMTK
    :caption: ToC
 
    bmtk/install
+   bmtk/simulation
