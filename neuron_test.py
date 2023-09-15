@@ -1,6 +1,7 @@
 from neuron import h
 from neuron.units import ms, mV, µm
 h.load_file("stdrun.hoc")
+import numpy as np
 
 class BallAndStick:
     def __init__(self, gid):
@@ -54,4 +55,7 @@ soma_v = h.Vector().record(my_cell.soma(0.5)._ref_v)
 t = h.Vector().record(h._ref_t)
 h.finitialize(-65 * mV)
 h.continuerun(25 * ms)
-print(soma_v)
+res = [soma_v[i] for i in range(len(soma_v)) if i%10==0]
+print(res)
+print(np.array(res))
+h.topology()
