@@ -2,8 +2,8 @@ from neuron import h
 from neuron.units import ms, mV, µm
 h.load_file("stdrun.hoc")
 
-class BallAndStick:
-    def __init__(self):
+class BallAndStick():
+    def __init__(self, gid):
         self._gid = gid
         self.soma = h.Section(name="soma", cell=self)
         self.dend = h.Section(name="dend", cell=self)
