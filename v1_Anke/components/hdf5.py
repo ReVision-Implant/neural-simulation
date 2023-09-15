@@ -176,3 +176,5 @@ if __name__ == "__main__":
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     hf = HDF5(root + '/examples/comsol/network/column_nodes.h5')
     hf.convert_pos_to_v1()
+
+    spikes = SpikeScaler('/examples/comsol/outputs/output_stat/spikes.h5', 100)
