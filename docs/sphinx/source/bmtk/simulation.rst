@@ -51,10 +51,12 @@ Generating the ``waveform.csv`` file is done with :py:mod:`waveform`.
 The main class is called :py:class:`waveform.CreateWaveform` and constructs the waveform from a piecewise description.
 
 .. autoclass:: waveform.CreateWaveform
+  :no-index:
 
 There is an additional function :py:class:`waveform.CreateBlockWaveform` that can be used to more easily construct a waveform consisting of rectangular pulses.
 
 .. autofunction:: waveform.CreateBlockWaveform
+  :no-index:
 
 Running :py:mod:`waveform` will execute the lines below::
 
