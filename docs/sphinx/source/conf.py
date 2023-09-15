@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.join(os.path.abspath(__file__),r'../../../../v1_Anke/
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'neural-simulation'
+project = 'Hybrid Modelling'
 copyright = '2023, Nils Van Rompaey'
 author = 'Nils Van Rompaey'
 release = '1.0'

@@ -1,9 +1,9 @@
 Installation
 ================
 
-Start by downloading any release from `this page <https://www.ks.uiuc.edu/Research/vnd/vnd-1.9.4/files/alpha/>`_. The full installation guide can be found `here <https://www.ks.uiuc.edu/Research/vnd/current/ig-alt.html>`_, but the instructions below should be sufficient.
+Start by downloading any release from the `VND download page <https://www.ks.uiuc.edu/Research/vnd/vnd-1.9.4/files/alpha/>`_. The instructions below are based on the `original VND installation guide <https://www.ks.uiuc.edu/Research/vnd/current/ig-alt.html>`_.
 
-Use whatever vnd-[...].tar.gz version you downloaded instead of “vnd-1.9.4a53p7b.LINUXAMD64.opengl.tar.gz”
+Use whatever vnd-[...].tar.gz version you downloaded instead of “vnd-1.9.4a53p7b.LINUXAMD64.opengl.tar.gz”.
 
 You can use any location you have read/write access to. This guide uses $VSC_DATA (e.g. /data/leuven/338/vsc33895) as an example.
 
