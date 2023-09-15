@@ -46,3 +46,4 @@ pyvenv.cfg
 **cache**
 v1_Anke/networks/**
 !examples/comsol/**
+test/**
