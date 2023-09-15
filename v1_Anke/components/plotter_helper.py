@@ -207,19 +207,17 @@ class Plotter():
         When there is only one row/column, row_param/col_param should be None.
         If row_param/col_param is not 'mice', the images of all specified mice are combined in all subplots.
 
-        Example::
+        :Example: Create a 3x2 grid of plots where each plot shows the results of (exp[col], pattern[row], amplitude, mice[:])
+            ::
+            
+                plot = Plotter(n_rows=3, n_cols=2)
+                plot.plot_all(exp=[1,2], patterns=[0,1,2], amplitudes=20, mice=[0,1,2], row_param='patterns', col_param='exp')
 
-            plot = Plotter(n_rows=3, n_cols=2)
-            plot.plot_all(exp=[1,2], patterns=[0,1,2], amplitudes=20, mice=[0,1,2], row_param='patterns', col_param='exp')
+        :Example: Create a 1x3 grid of plots where each plot shows the results of (exp, pattern, amplitude, mice[col])
+            ::
 
-        will create a 3x2 grid of plots where each plot shows the results of (exp[col], pattern[row], amplitude, mice[:]).
-
-        Example::
-
-            plot = Plotter(n_rows=1, n_cols=3)
-            plot.plot_all(exp=1, patterns=1, amplitudes=10, mice=[0,1,2], row_param=None, col_param='mice')
-
-        will create a 1x3 grid of plots where each plot shows the results of (exp, pattern, amplitude, mice[col]).
+                plot = Plotter(n_rows=1, n_cols=3)
+                plot.plot_all(exp=1, patterns=1, amplitudes=10, mice=[0,1,2], row_param=None, col_param='mice')
 
         :param exp: (int/str) Experiment name.
         :param patterns: (int/str or list thereof) Pattern names. 
@@ -284,13 +282,15 @@ class Plotter():
         
         :param \**kwargs: Passed to self.fig.legend(\**kwargs)      
 
-        Example::
+        :Example: Plot
+            ::
 
-            fig = Plotter(1,2)
-            fig.plot_all(0,0,30,[1,2],'patterns','mice', False, False, False)
-            fig.set_all(func='set_ticks')
-            fig.set_all(func='plot_centroid')
-            fig.set_all(func='plot_electrodes')
+                fig = Plotter(1,2)
+                fig.plot_all(0,0,30,[1,2],'patterns','mice', False, False, False)
+                fig.set_all(func='set_ticks')
+                fig.set_all(func='plot_centroid')
+                fig.set_all(func='plot_electrodes')
+
         """
         handles, labels = zip(*[ax.get_legend_handles_labels() for ax in self.axs])
         handles = [y for x in handles for y in x]
