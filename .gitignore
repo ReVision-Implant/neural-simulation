@@ -45,5 +45,4 @@ pyvenv.cfg
 !v1_Anke/**
 **cache**
 v1_Anke/networks/**
-test/**
 !docs/sphinx/build
