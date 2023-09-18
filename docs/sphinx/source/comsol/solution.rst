@@ -2,8 +2,6 @@
    :format: latex
 ..
 
-`Back to ToC </docs/manual/README.md>`__
-
 Calculating extracellular potentials with COMSOL
 ================================================
 
@@ -82,11 +80,8 @@ be written as the outer product of two vectors.
    \end{bmatrix} 
    = \vec{V}_X \otimes \vec{A}_t
 
-Here, the full solution can be described by the FEM solution at one time
-point (:math:`\vec{V_X}`) and a time-dependent scaling factor (i.e. the
-current profile :math:`\vec{A_t}`, `which we will create in a next
-step </docs/manual/bmtk/simulation.md#generating-waveformcsv>`__). If
-possible, this is the easiest way to define extracellular potentials.
+Here, the full solution can be described by the FEM solution at one time point (:math:`\vec{V_X}`) and a time-dependent scaling factor (i.e. the current profile :math:`\vec{A_t}`, which we will create in a next step). 
+If possible, this is the easiest way to define extracellular potentials.
 
 3. Multiple stationary studies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -103,7 +98,7 @@ into a spatial component and a temporal component as in the paragraph
 above. Doing this decomposition for each electrode separately and
 linearly combining the solutions, only requires the FEM to be solved
 once for each electrode. In most complex cases, this should be easier
-than `the first method <#1-one-time-dependent-study>`__.
+than the first method.
 
 Output
 ------

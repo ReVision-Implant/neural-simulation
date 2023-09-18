@@ -3,10 +3,10 @@ Simulating the neural response with BMTK
 
 In order to simulate the neural activation of the tissue in response to the extracellular potentials, we need two things:
 
--  The extracellular potentials which were `calculated in COMSOL <../comsol/solution.md>`__.
+-  The extracellular potentials which were calculated in COMSOL.
 -  A computational model of the neural tissue in BMTK.
 
-Then, we can use the `comsol </examples/comsol/README.md>`__ module in BMTK’s BioNet to import the COMSOL output and simulate the behaviour of the neural network in response to the imposed extracellular potentials.
+Then, we can use the comsol module in BMTK’s BioNet to import the COMSOL output and simulate the behaviour of the neural network in response to the imposed extracellular potentials.
 
 Building a network
 ------------------
@@ -48,14 +48,14 @@ Generating waveform.csv (only for stationary COMSOL study/studies)
 ------------------------------------------------------------------
 
 Generating the ``waveform.csv`` file is done with :py:mod:`waveform`. 
-The main class is called :py:class:`waveform.CreateWaveform` and constructs the waveform from a piecewise description.
+The main class is called :py:class:`toolbox.waveform.CreateWaveform` and constructs the waveform from a piecewise description.
 
-.. autoclass:: waveform.CreateWaveform
+.. autoclass:: toolbox.waveform.CreateWaveform
   :no-index:
 
-There is an additional function :py:class:`waveform.CreateBlockWaveform` that can be used to more easily construct a waveform consisting of rectangular pulses.
+There is an additional function :py:class:`toolbox.waveform.CreateBlockWaveform` that can be used to more easily construct a waveform consisting of rectangular pulses.
 
-.. autofunction:: waveform.CreateBlockWaveform
+.. autofunction:: toolbox.waveform.CreateBlockWaveform
   :no-index:
 
 Running :py:mod:`waveform` will execute the lines below::
@@ -71,7 +71,7 @@ Running a simulation
 
 Once you have built one or several networks, you can run simulations
 with the previously built network(s). This also requires extracellular
-potentials that were `calculated in COMSOL <../comsol/solution.md>`__.
+potentials that were calculated in COMSOL.
 Depending on the stimulation parameters, the COMSOL output should be
 either stationary or time-dependent.
 

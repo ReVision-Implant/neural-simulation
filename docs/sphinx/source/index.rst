@@ -12,7 +12,7 @@ Hybrid Modelling
    general
    comsol
    bmtk
-   code
+   toolbox <_autosummary/toolbox>
    vnd
  
    
