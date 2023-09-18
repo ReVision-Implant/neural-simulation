@@ -1,8 +1,5 @@
-import os
-import math
 import pandas as pd
 import numpy as np
-import six
 from neuron import h
 
 from scipy.interpolate import NearestNDInterpolator as NNip
@@ -42,11 +39,11 @@ class ComsolMod(SimulatorMod):
             self._amplitudes = amplitudes
 
         else:
-            self._comsol_files = comsol_files if type(comsol_files) is list else list(comsol_files)
+            self._comsol_files = comsol_files if type(comsol_files) is list else [comsol_files]
             self._nb_files = len(self._comsol_files) 
-            self._waveforms = waveforms if type(waveforms) is list else list(waveforms)
-            _amplitudes = amplitudes if type(amplitudes) is list else list(amplitudes)
-            self._amplitudes = _amplitudes*len(self._comsol_files) if len(_amplitudes) == 1 else _amplitudes
+            self._waveforms = waveforms if type(waveforms) is list else [waveforms]
+            amplitudes = amplitudes if type(amplitudes) is list else [amplitudes]
+            self._amplitudes = amplitudes*len(self._comsol_files) if len(amplitudes) == 1 else amplitudes
             
             try:
                 assert self._nb_files == len(self._comsol_files) == len(self._waveforms) == len(self._amplitudes)
@@ -95,23 +92,24 @@ class ComsolMod(SimulatorMod):
                 self._NN[gid] = self._NNip(r05.T)       # Create map that points each segment to the closest COMSOL node
                 
             # Temporal interpolation
-            timestamps_comsol = np.array(list(self._data)[3:], dtype=float)[:,0]                        # Retrieve array of timestamps in COMSOL
+            timestamps_comsol = np.array(list(self._data)[3:], dtype=float)[:]                          # Retrieve array of timestamps in COMSOL
             timestamps_bmtk = np.arange(timestamps_comsol[0], timestamps_comsol[-1]+sim.dt, sim.dt)     # Create array of timestamps in BMTK
             self._data_temp = np.zeros((self._data.shape[0], len(timestamps_bmtk)))                     # Start with empty array
             for i in range(self._data.shape[0]):                                 
                 self._data_temp[i,:] = np.interp(timestamps_bmtk, timestamps_comsol, self._data.iloc[i,3:]).flatten()                                                          
             self._data = self._data_temp*self._amplitudes
-            self._period = int(timestamps_bmtk[-1]/sim.dt)
+            max_time = timestamps_bmtk[-1]    
+            self._period = int(max_time/sim.dt)
 
         else: # Else stationary study    
             self._Lip = [None]*self._nb_files
             self._L = [None]*self._nb_files
 
             for i in range(self._nb_files):     # For each COMSOL file                                           
-                self._data[i] =  self.load_comsol(self._comsol_files[i])                # Load COMSOL file
-                self._waveforms[i] = stimx_waveform_factory(self._waveforms[i])         # Load waveform                                                  
+                self._data[i] =  self.load_comsol(self._comsol_files[i])            # Load COMSOL file
+                self._waveforms[i] = stimx_waveform_factory(self._waveforms[i])     # Load waveform                                                  
 
-                self._Lip[i] = Lip(self._data[i][['x','y','z']], self._data[i][0])      # Create interpolator
+                self._Lip[i] = Lip(self._data[i][['x','y','z']], self._data[i][0])  # Create interpolator
                 self._L[i] = {}                                                         
 
             for gid in self._local_gids:        # Iterate over cells                          
@@ -144,11 +142,10 @@ class ComsolMod(SimulatorMod):
             cell = sim.net.get_cell_gid(gid)                                    
 
             
-            if self._waveforms is None:         # If time-dependent COMSOL study                                        
+            if self._waveforms is None:             # If time-dependent COMSOL study                                        
                 NN = self._NN[gid]                  # Point each node of the cell to the nearest COMSOL node
                 tstep = tstep % self._period        # Repeat periodic stimulation
-                v_ext = self._data[NN, tstep+1]     # Look up extracellular potentials at current time
-            
+                v_ext = self._data[NN, tstep]       # Look up extracellular potentials at current time
              
             else:       # Else stationary study          
                 v_ext = np.zeros(np.shape(self._L[0][gid]))     # Initialise v_ext as zero array               
@@ -159,7 +156,9 @@ class ComsolMod(SimulatorMod):
                     simulation_time = simulation_time % period                  # Repeat periodic stimulation
                     # Add potentials(x,y,z)*waveform(t)*amplitude of this iteration to v_ext
                     v_ext += self._L[i][gid]*self._waveforms[i].calculate(simulation_time)*self._amplitudes[i]
-            
+                v_ext[np.isnan(v_ext)] = 0
+            # if tstep == 10 and gid == 10:
+            #     print(v_ext)
             cell.set_e_extracellular(h.Vector(v_ext))       # Set extracellular potentials to v_ext 
 
     def load_comsol(self, comsol_file):
@@ -168,7 +167,7 @@ class ComsolMod(SimulatorMod):
         For a stationary comsol study, the potentials are stored in the fourth column.
         For a time-dependent study, each subsequent column stores the potentials at one timepoints.
 
-        :param comsol_file: (path) "/path/to/comsol.txt"
+        :param comsol_file: (str) "/path/to/comsol.txt"
         :return: (pd DataFrame) Potentials extracted from comsol.txt
         """
 
@@ -185,9 +184,12 @@ class ComsolMod(SimulatorMod):
         headers[0] = headers[0][2:]                     # Remove '% ' before first column name
         for i,col in enumerate(headers[3:]):            # Iterate over all elements in the header except first 3
             if len(data.columns) > 4:                   # If time-dependent comsol study
-                headers[i+3] = 1000*float(col[11:])     # Remove superfluous characters and convert from s to ms
+                for j, c in enumerate(col):
+                    if c.isdigit():
+                        break
+                headers[i+3] = 1000*float(col[j:])      # Remove superfluous characters and convert from s to ms
             else:                                       # Else stationary study
-                 headers[i+3] = 0                       # Rename 4th column
+                headers[i+3] = 0                        # Rename 4th column
         
         # Rename data with correct column headers
         data.columns = headers

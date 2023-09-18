@@ -1,7 +1,4 @@
 import numpy as np
-import sys
-sys.path.append('..')
-sys.path.append('../..')
 
 from bmtk.builder import NetworkBuilder
 from bmtk.builder.auxi.node_params import positions_columinar, xiter_random

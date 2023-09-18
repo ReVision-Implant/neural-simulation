@@ -45,6 +45,5 @@ pyvenv.cfg
 !v1_Anke/**
 **cache**
 v1_Anke/networks/**
-!examples/comsol/**
 test/**
 !docs/sphinx/build

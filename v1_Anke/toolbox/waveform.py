@@ -21,8 +21,6 @@ class CreateWaveform:
         :type piecewise: ndarray
         :param amplitude: If specified, normalise waveform to [-amplitude, amplitude]. Defaults to None.
         :type amplitude: int or None, optional
-        :param amplitude: If specified, normalise waveform to [-amplitude, amplitude]. Defaults to None.
-        :type amplitude: int or None, optional
         :param dt: timestep in ms, defaults to 0.025
         :type dt: float, optional
         :param path: if not None, path to the file where the waveform values are saved. Defaults to None.
@@ -39,7 +37,7 @@ class CreateWaveform:
             
         self.create_waveform()
 
-        self.normalise(self.max) if self.max is not None else None
+        self.normalise() if self.max is not None else None
 
         self.write_to_csv() if self.path is not None else None
 
@@ -48,7 +46,7 @@ class CreateWaveform:
         return
 
     def create_waveform(self):
-        """ Stores list of timepoints in self.times and calculates corresponding amplitudes, storing them in self.amplitudes. """ 
+        """ Store list of timepoints in self.times and calculates corresponding amplitudes, storing them in self.amplitudes. """ 
 
         self.t_start = 0
         self.times = []
@@ -64,7 +62,11 @@ class CreateWaveform:
         self.times = np.round(self.times,10)
 
     def normalise(self, max=None):
-        """ Scale the waveform such that the absolute value of the largest peak is equal to self.max """          
+        """ Scale the waveform such that the absolute value of the largest peak is equal to self.max.
+
+        :param max: Maximum value of the largest peak (in absolute terms). Defaults to None.
+        :type max: int
+        """          
 
         self.max = max if max is not None else self.max
         assert self.max is not None
@@ -72,7 +74,11 @@ class CreateWaveform:
         self.amplitudes = self.amplitudes/np.max(np.abs(self.amplitudes))*self.max
 
     def write_to_csv(self, path=None):
-        """ Write self.times and self.amplitudes to the .csv specified in self.path. """             
+        """ Write self.times and self.amplitudes to the .csv specified in self.path.
+
+        :param path: path to waveform.csv. defaults to None.
+        :type path: path
+        """          
         
         self.path = path if path is not None else self.path
         #assert os.path.exists(os.path.dirname(self.path))
@@ -94,7 +100,7 @@ class CreateWaveform:
 
 
 def CreateBlockWaveform(n_pulses, phase_1_expr, amp_1_expr, T_1_expr, phase_2_expr, amp_2_expr, T_2_expr, save_name=None):
-    """Creates a block waveform using the CreateWaveform class. Except for n_pulses, all arguments should be lambda expressions of n (units: ms).
+    """Create a block waveform using the CreateWaveform class. Except for n_pulses, all arguments should be lambda expressions of n (units: ms).
     Example:: Constant phase_1 (0.1ms): phase_1_expr = lambda n:0.1
     Example:: For phase_1 that starts at 0.1 ms and gets 0.01 ms longer after each pulse: phase_1_expr = lambda n:0.1+n/10
 
@@ -154,12 +160,12 @@ if __name__ == '__main__':
     
     '''
     CreateBlockWaveform(
-        n_pulses = 20,
+        n_pulses = 1,
         phase_1_expr = lambda n:0.2,
-        amp_1_expr = lambda n:4,
+        amp_1_expr = lambda n:-4,
         T_1_expr = lambda n:0,
         phase_2_expr = lambda n:0.8,
-        amp_2_expr = lambda n:-1,
+        amp_2_expr = lambda n:1,
         T_2_expr = lambda n:4,
-        save_name = "/stimulation/waveforms/waveform.csv"
+        # save_name = "/stimulation/waveforms/waveform.csv"
     )
