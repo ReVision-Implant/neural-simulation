@@ -63,7 +63,7 @@ def DirectionRule_EE(edge_props, src_node, trg_node):
 
 def run(config_file, **opts):
     conf = bionet.Config.from_json(config_file, validate=True, **opts)
-    conf.build_env(MPI_RANK)
+    conf.build_env()
     graph = bionet.BioNetwork.from_config(conf)
     sim = bionet.BioSimulator.from_config(conf, network=graph)
     sim.run()
