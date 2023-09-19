@@ -1,7 +1,8 @@
-from mpi4py import MPI
 from neuron import h
 from neuron.units import ms, mV
 import matplotlib.pyplot as plt
+
+from mpi4py import MPI
 
 pc = h.ParallelContext()
 id = int(pc.id())
@@ -11,9 +12,6 @@ comm = MPI.COMM_WORLD
 MPI_RANK = comm.Get_rank()
 
 print("I am {},{} of {}".format(id, MPI_RANK, nhost))
-
-from neuron import h
-from ballandstick import BallAndStick
 
 ### MPI must be initialized before we create a ParallelContext object
 h.nrnmpi_init()
