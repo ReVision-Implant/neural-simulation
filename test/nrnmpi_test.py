@@ -95,7 +95,7 @@ class BallAndStick(Cell):
         self.syn = h.ExpSyn(self.dend(0.5))
         self.syn.tau = 2 * ms
 
-        
+
 
 class Ring:
     """A network of *N* ball-and-stick cells where cell n makes an
@@ -174,8 +174,10 @@ if pc.id() == 0:
     # plot it
     plt.figure()
     for i, spike_times in data.items():
+        print(spike_times)
         plt.vlines(spike_times, i + 0.5, i + 1.5)
     plt.show()
+
 
 pc.barrier()
 pc.done()
