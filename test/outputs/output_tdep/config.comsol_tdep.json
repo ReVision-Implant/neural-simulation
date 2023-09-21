@@ -1,0 +1,76 @@
+{
+  "run": {
+    "tstop": 50.0,
+    "dt": 0.025,
+    "dL": 20.0,
+    "spike_threshold": -15,
+    "nsteps_block": 400
+  },
+  "target_simulator": "NEURON",
+  "conditions": {
+    "celsius": 34.0,
+    "v_init": -80
+  },
+  "inputs": {
+    "Extracellular_Stim": {
+      "input_type": "lfp",
+      "node_set": "all",
+      "module": "comsol",
+      "comsol_files": "./../bio_components/stimulations/tdep.txt",
+      "amplitudes": 20
+    }
+  },
+  "output": {
+    "log_file": "./outputs/output_tdep\\log.txt",
+    "output_dir": "./outputs/output_tdep",
+    "spikes_file": "./outputs/output_tdep\\spikes.h5",
+    "spikes_file_csv": "./outputs/output_tdep\\spikes.csv",
+    "spikes_sort_order": "time"
+  },
+  "components": {
+    "morphologies_dir": "./../bio_components/morphologies",
+    "synaptic_models_dir": "./../bio_components/synaptic_models",
+    "mechanisms_dir": "./../bio_components/mechanisms",
+    "biophysical_neuron_models_dir": "./../bio_components/biophysical_neuron_templates",
+    "point_neuron_models_dir": "./../bio_components/point_neuron_templates"
+  },
+  "node_sets": {
+    "biophys_cells": {
+      "model_type": "biophysical"
+    }
+  },
+  "reports": {
+    "calcium_concentration": {
+      "cells": "biophys_cells",
+      "variable_name": "cai",
+      "module": "membrane_report",
+      "file_name": "cai_report.h5",
+      "sections": "soma",
+      "enabled": true
+    },
+    "membrane_potential": {
+      "cells": "biophys_cells",
+      "variable_name": "v",
+      "module": "membrane_report",
+      "file_name": "v_report.h5",
+      "sections": "soma",
+      "enabled": true
+    }
+  },
+  "networks": {
+    "nodes": [
+      {
+        "nodes_file": "./network/column_nodes.h5",
+        "node_types_file": "./network/column_node_types.csv"
+      }
+    ],
+    "edges": [
+      {
+        "edges_file": "./network/column_column_edges.h5",
+        "edge_types_file": "./network/column_column_edge_types.csv"
+      }
+    ]
+  },
+  "config_path": "C:\\Users\\nilsv\\neural-simulation\\examples\\comsol\\config.comsol_tdep.json",
+  "config_dir": "C:\\Users\\nilsv\\neural-simulation\\examples\\comsol"
+}
