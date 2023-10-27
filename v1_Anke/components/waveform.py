@@ -156,11 +156,11 @@ if __name__ == '__main__':
     '''
     CreateBlockWaveform(
         n_pulses = 20,
-        phase_1_expr = lambda n:0.8,
-        amp_1_expr = lambda n:-0.25,
+        phase_1_expr = lambda n:1.6,
+        amp_1_expr = lambda n:-0.125,
         T_1_expr = lambda n:0,
         phase_2_expr = lambda n:0.2,
         amp_2_expr = lambda n:1,
-        T_2_expr = lambda n:4.4,
-        save_name = "/stimulation/waveforms/waveform_4.csv"
+        T_2_expr = lambda n:3.2,
+        save_name = "/stimulation/waveforms/waveform_8.csv"
     )
