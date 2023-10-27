@@ -68,9 +68,11 @@ class HDF5:
         if 'rotation_angle_zaxis' in self.file['nodes'][self.name]['0'].keys():
             self.z_rot = self.file['nodes'][self.name]['0']['rotation_angle_zaxis'][:]
         
-        self.rotations = np.vstack((self.x_rot, self.y_rot, self.z_rot)).T
+        #Create dictionary of present rotation angles {'axis_rot':self.axis_rot}
+        self.rotations = {a:getattr(self, a) for a in ['x_rot', 'y_rot', 'z_rot'] if hasattr(self,a)}
+        self.rotations = {k:v for k, v in self.rotations.items() if v is not None}
 
-        return self.rotations
+        return self.x_rot,self.y_rot,self.z_rot 
 
     def plot_positions(self):
         """Plot node positions.
@@ -97,3 +99,33 @@ class HDF5:
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
         ax.set_zlabel('Z')
+    
+    #function for getting the tuning angles
+    def get_tuning_angles(self):
+        self.name = os.path.split(self.dir)[1][:-9]
+        tuning_angles=np.array(self.file['nodes'][self.name]['0']['tuning_angle'][:])
+        return tuning_angles
+    
+    #function to get node_group_ids
+    def get_node_group_ids(self):
+        self.name=os.path.split(self.dir)[1][:-9]
+        node_group_id=np.array(self.file['nodes'][self.name]['node_group_id'][:])
+        return node_group_id
+
+    #function to get node_group_index
+    def get_node_group_index(self):
+        self.name=os.path.split(self.dir)[1][:-9]
+        node_group_index=np.array(self.file['nodes'][self.name]['node_group_index'][:])
+        return node_group_index   
+
+    #function to get node_id
+    def get_node_id(self):
+        self.name=os.path.split(self.dir)[1][:-9]
+        node_id=np.array(self.file['nodes'][self.name]['node_id'][:])
+        return node_id
+    
+    #function to get node_type_id
+    def get_node_type_id(self):
+        self.name=os.path.split(self.dir)[1][:-9]
+        node_type_id=np.array(self.file['nodes'][self.name]['node_type_id'][:])
+        return node_type_id
