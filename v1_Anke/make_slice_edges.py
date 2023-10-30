@@ -6,7 +6,7 @@ def make_slice_edges(path_h5file,path_h5_edgefile,path_edge_slice,v1=False):
     hdf5_edges_test=HDF5_EDGE(path_h5_edgefile);
 
     import sys;
-    module_path='C:Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/components';
+    module_path='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/components/hdf5.py';
     sys.path.append(module_path);
     from components.hdf5 import HDF5;
     hdf5_test=HDF5(path_h5file,v1=True);
@@ -64,4 +64,4 @@ def make_slice_edges(path_h5file,path_h5_edgefile,path_edge_slice,v1=False):
         zero_edge.create_dataset('nsyns',data=nsynsf)
 
 #test functie
-make_slice_edges('C:/Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/networks_100/network2/v1_nodes.h5','C:/Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/networks_100/network2/lgn_v1_edges.h5','C:/Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/lgn_v1_edges.h5');
+#make_slice_edges('C:/Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/networks_100/network2/v1_nodes.h5','C:/Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/networks_100/network2/lgn_v1_edges.h5','C:/Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/lgn_v1_edges.h5');

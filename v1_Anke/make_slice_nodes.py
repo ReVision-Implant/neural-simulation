@@ -1,7 +1,7 @@
 #helperfunction to make a slice from an h5 file
 def make_slice_nodes(path_h5file,path_slice):
     import sys;
-    module_path='C:Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/components';
+    module_path='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/components/hdf5.py';
     sys.path.append(module_path);
 
     import matplotlib.pyplot as plt;
@@ -79,7 +79,7 @@ def make_slice_nodes(path_h5file,path_slice):
 
  
 #test the function
-make_slice_nodes('C:/Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/networks_100/network2/v1_nodes.h5','C:/Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/v1_nodes.h5');
+#make_slice_nodes('C:/Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/networks_100/network2/v1_nodes.h5','C:/Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/v1_nodes.h5');
 #from components.hdf5 import HDF5;
 #hdf5_slice_test=HDF5('C:/Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/v1_nodes.h5',v1=True);
 #hdf5_slice_test.plot_positions()
