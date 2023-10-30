@@ -45,3 +45,4 @@ pyvenv.cfg
 !v1_Anke/**
 **cache**
 v1_Anke/virtual_mice/**
+v1_Anke/slices/**
