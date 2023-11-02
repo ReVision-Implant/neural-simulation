@@ -1,0 +1,3 @@
+node_type_id pop_name location morphology model_processing dynamics_params model_template model_type ei
+100 Scnn1a VisL4 Scnn1a-Tg3-Cre_Ai14-187849.05.02.01_491119823_m aibs_perisomatic 476126528_fit.json ctdb:Biophys1.hoc biophysical e
+101 Pvalb VisL4 Pvalb-IRES-Cre_Ai14-176848.03.01.01_491119484_m aibs_perisomatic 333604946_fit.json ctdb:Biophys1.hoc biophysical i

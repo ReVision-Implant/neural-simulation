@@ -1,0 +1,3 @@
+edge_type_id target_query source_query delay syn_weight model_template dynamics_params
+100 ei=='i' ei=='e' 2.0 0.035 Exp2Syn AMPA_ExcToInh.json
+101 ei=='e' ei=='i' 2.0 0.018 Exp2Syn GABA_InhToExc.json

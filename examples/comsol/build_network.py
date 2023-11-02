@@ -1,7 +1,4 @@
 import numpy as np
-import sys
-sys.path.append('..')
-sys.path.append('../..')
 
 from bmtk.builder import NetworkBuilder
 from bmtk.builder.auxi.node_params import positions_columinar, xiter_random
@@ -17,7 +14,7 @@ column = NetworkBuilder('column')
 column.add_nodes(
     N=n_nodes,
     pop_name='Scnn1a',
-    positions=positions_columinar(N=n_nodes, center=[0, 0, 0], min_radius = 1, max_radius=200, height=200, plot=True),
+    positions=positions_columinar(N=n_nodes, center=[0, 0, 0], min_radius = 1, max_radius=75, height=100, plot=True),
     rotation_angle_yaxis=xiter_random(N=n_nodes, min_x=0.0, max_x=2*np.pi),
     potental='exc',
     model_type='biophysical',

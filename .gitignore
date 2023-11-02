@@ -44,5 +44,4 @@ pyvenv.cfg
 !**v1_nodes.h5
 !v1_Anke/**
 **cache**
-v1_Anke/virtual_mice/**
-v1_Anke/slices/**
+v1_Anke/networks/**

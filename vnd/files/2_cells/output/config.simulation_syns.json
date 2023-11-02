@@ -1,0 +1,73 @@
+{
+  "run": {
+    "tstop": 2000.0,
+    "dt": 0.1,
+    "dL": 20.0,
+    "spike_threshold": -15,
+    "nsteps_block": 5000,
+    "overwrite_output_dir": true
+  },
+  "target_simulator": "NEURON",
+  "conditions": {
+    "celsius": 34.0,
+    "v_init": -80
+  },
+  "inputs": {
+    "lgn_spikes": {
+      "input_type": "spikes",
+      "module": "sonata",
+      "input_file": "/local1/workspace/scratch/vnd_on_off/inputs/virt_spikes.h5",
+      "node_set": "virt"
+    }
+  },
+  "output": {
+    "log_file": "/local1/workspace/scratch/vnd_on_off/output/log.txt",
+    "output_dir": "/local1/workspace/scratch/vnd_on_off/output",
+    "spikes_file": "/local1/workspace/scratch/vnd_on_off/output/spikes.h5",
+    "spikes_file_csv": "/local1/workspace/scratch/vnd_on_off/output/spikes.csv",
+    "spikes_sort_order": "time"
+  },
+  "reports": {
+    "v_report": {
+      "cells": [
+        0,
+        1
+      ],
+      "variable_name": "v",
+      "module": "membrane_report",
+      "sections": "all"
+    }
+  },
+  "network": "config.network.json",
+  "config_path": "/local1/workspace/scratch/vnd_on_off/config.simulation_syns.json",
+  "config_dir": "/local1/workspace/scratch/vnd_on_off",
+  "components": {
+    "morphologies_dir": "components/morphologies",
+    "synaptic_models_dir": "/local1/workspace/scratch/vnd_on_off/components/synaptic_models",
+    "mechanisms_dir": "/local1/workspace/scratch/vnd_on_off/components/mechanisms",
+    "biophysical_neuron_models_dir": "components/biophysical_neuron_templates",
+    "point_neuron_models_dir": "/local1/workspace/scratch/vnd_on_off/components/point_neuron_templates"
+  },
+  "networks": {
+    "nodes": [
+      {
+        "nodes_file": "/local1/workspace/scratch/vnd_on_off/network/v1_nodes.h5",
+        "node_types_file": "/local1/workspace/scratch/vnd_on_off/network/v1_node_types.csv"
+      },
+      {
+        "nodes_file": "/local1/workspace/scratch/vnd_on_off/network/virt_nodes.h5",
+        "node_types_file": "/local1/workspace/scratch/vnd_on_off/network/virt_node_types.csv"
+      }
+    ],
+    "edges": [
+      {
+        "edges_file": "/local1/workspace/scratch/vnd_on_off/network/v1_v1_edges.h5",
+        "edge_types_file": "/local1/workspace/scratch/vnd_on_off/network/v1_v1_edge_types.csv"
+      },
+      {
+        "edges_file": "/local1/workspace/scratch/vnd_on_off/network/virt_v1_edges.h5",
+        "edge_types_file": "/local1/workspace/scratch/vnd_on_off/network/virt_v1_edge_types.csv"
+      }
+    ]
+  }
+}
