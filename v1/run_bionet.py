@@ -1,7 +1,3 @@
-import os
-import sys
-sys.path.append('..')
-sys.path.append('../..')
 from bmtk.simulator import bionet
 from optparse import OptionParser, BadOptionError, AmbiguousOptionError
 from bmtk.simulator.bionet.pyfunction_cache import synaptic_weight

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import sys
 from bmtk.simulator import bionet
 
 def run(config_file):

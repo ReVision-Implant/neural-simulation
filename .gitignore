@@ -47,3 +47,4 @@ pyvenv.cfg
 v1_Anke/networks/**
 !docs/sphinx/build
 !**pyfunction_cache**
+!v1/components/mechanisms

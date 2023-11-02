@@ -34,8 +34,8 @@ Biphasic asymmetric pulses are sent from one electrode to the other, i.e. they h
 There are three configuration files:
 
 - config.comsol_tdep.json uses a time-dependent COMSOL simulation.
-- config.comsol_stat.json uses a single stationary COMSOL simulation. The time dependency is described by the waveform in *examples/bio_components/stimulations/waveform.csv*.
-- config.comsol_stat2.json uses two COMSOL simulations, in either of which only one electrode is active. The output of both simulations are superimposed to get the actual extracellular potentials. The time dependency is described by the waveform in *examples/bio_components/stimulations/waveform.csv*.
+- config.comsol_stat.json uses a single stationary COMSOL simulation. The time dependency is described by the waveform in *examples/bio_components/stimulations/waveform.csv*, which was generated with *waveform.py*.
+- config.comsol_stat2.json uses two COMSOL simulations, in either of which only one electrode is active. The output of both simulations are superimposed to get the actual extracellular potentials. The time dependency is described by the waveform in *examples/bio_components/stimulations/waveform.csv*, which was generated with *waveform.py*.
 
 
 ## Simulation Parameters

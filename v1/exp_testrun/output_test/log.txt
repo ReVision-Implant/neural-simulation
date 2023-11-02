@@ -1,13 +1,5 @@
-2023-08-29 09:26:47,220 [INFO] Created log file
-2023-08-29 09:26:47,861 [INFO] Building cells.
-2023-08-29 09:26:58,099 [INFO] Building recurrent connections
-2023-08-29 09:26:58,564 [INFO] Building virtual cell stimulations for LGN_spikes
-2023-08-29 09:27:01,556 [INFO] Building virtual cell stimulations for BKG_spikes
-2023-08-29 09:27:14,358 [INFO] Running simulation for 100.000 ms with the time step 0.025 ms
-2023-08-29 09:27:14,359 [INFO] Starting timestep: 0 at t_sim: 0.000 ms
-2023-08-29 09:27:14,359 [INFO] Block save every 1000 steps
-2023-08-29 09:28:25,811 [INFO]     step:1000 t_sim:25.00 ms
-2023-08-29 09:29:35,811 [INFO]     step:2000 t_sim:50.00 ms
-2023-08-29 09:30:45,933 [INFO]     step:3000 t_sim:75.00 ms
-2023-08-29 09:31:54,119 [INFO]     step:4000 t_sim:100.00 ms
-2023-08-29 09:31:54,514 [INFO] Simulation completed in 4.0 minutes, 40.16 seconds 
+2023-09-25 17:48:13,343 [INFO] Created log file
+2023-09-25 17:48:14,349 [INFO] Building cells.
+2023-09-25 17:48:28,926 [INFO] Building recurrent connections
+2023-09-25 17:48:29,517 [INFO] Building virtual cell stimulations for LGN_spikes
+2023-09-25 17:48:33,035 [INFO] Building virtual cell stimulations for BKG_spikes
