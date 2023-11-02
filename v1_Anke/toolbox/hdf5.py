@@ -19,14 +19,14 @@ class HDF5:
         """        
         self.dir = dir
         self.file = h5py.File(self.dir, 'r+')
-        self.v1 = v1
-        self.get_positions()
+        #self.v1 = v1
+        self.get_positions(v1)
         rot = self.get_rotations()
         print(rot)
         if plot:
             self.plot_positions(labels=['X','Z','Y'])
         
-    def get_positions(self):
+    def get_positions(self,v1=False):
         """Get node positions.
 
         :param v1: if True, interpret nodes.h5 as V1 column. defaults to False.
@@ -36,7 +36,7 @@ class HDF5:
         """
         self.name = os.path.split(self.dir)[1][:-9]
         
-        if self.v1:
+        if v1:
 
             self.x_pos = np.array(self.file['nodes'][self.name]['0']['x'][:])
             self.y_pos = np.array(self.file['nodes'][self.name]['0']['y'][:])
@@ -77,7 +77,7 @@ class HDF5:
         self.rotations = {a:getattr(self, a) for a in ['x_rot', 'y_rot', 'z_rot'] if hasattr(self,a)}
         self.rotations = {k:v for k, v in self.rotations.items() if v is not None}
 
-        return self.rotations
+        return self.x_rot,self.y_rot,self.z_rot
 
     def plot_positions(self):
         """Plot node positions.
@@ -129,6 +129,35 @@ class HDF5:
     
         return
     
+    #function for getting the tuning angles
+    def get_tuning_angles(self):
+        self.name = os.path.split(self.dir)[1][:-9]
+        tuning_angles=np.array(self.file['nodes'][self.name]['0']['tuning_angle'][:])
+        return tuning_angles
+    
+    #function to get node_group_ids
+    def get_node_group_ids(self):
+        self.name=os.path.split(self.dir)[1][:-9]
+        node_group_id=np.array(self.file['nodes'][self.name]['node_group_id'][:])
+        return node_group_id
+
+    #function to get node_group_index
+    def get_node_group_index(self):
+        self.name=os.path.split(self.dir)[1][:-9]
+        node_group_index=np.array(self.file['nodes'][self.name]['node_group_index'][:])
+        return node_group_index   
+
+    #function to get node_id
+    def get_node_id(self):
+        self.name=os.path.split(self.dir)[1][:-9]
+        node_id=np.array(self.file['nodes'][self.name]['node_id'][:])
+        return node_id
+    
+    #function to get node_type_id
+    def get_node_type_id(self):
+        self.name=os.path.split(self.dir)[1][:-9]
+        node_type_id=np.array(self.file['nodes'][self.name]['node_type_id'][:])
+        return node_type_id
 
 class SpikeScaler():
     """Scale spike timings for use in VND.

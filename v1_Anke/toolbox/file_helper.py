@@ -132,9 +132,9 @@ def get_stim_params(exp, pattern):
     :return: Dictionary containing all stimulation parameters
     """    
 
-    root = os.path.dirname(os.path.abspath(__file__))
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     pattern = str(pattern)+'.csv' if str(pattern)[-4:] != '.csv' else pattern
-    path = os.path.join(root, 'stimulation', 'patterns', exp, pattern)
+    path = os.path.join(root,'components', 'stimulation', 'patterns', exp, pattern)
     df = pd.read_csv(path, sep='\s+')
     
     comsol_files = df['comsol'].tolist()
