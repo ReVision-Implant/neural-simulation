@@ -1,4 +1,0 @@
-electrode pos_x pos_y pos_z comsol waveform amplitude
-0 -16. 295. 0. exp1/01-.txt waveform_assym.csv 1
-1 -16. 295. 182. exp1/02-.txt waveform_assym.csv -.5
-2 -16. 295. -182. exp1/03-.txt waveform_assym.csv -.5
