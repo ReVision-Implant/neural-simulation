@@ -6,7 +6,7 @@
     "$LGN_DIR": "$BASE_DIR/components",
     "$NETWORK_DIR": "$BASE_DIR/slices/mouse_1",
     "$COMPONENT_DIR": "$BASE_DIR/components",
-    "$STIM_DIR": "$BASE_DIR/components/stimulations"
+    "$STIM_DIR": "$BASE_DIR/components/stimulation"
   },
   "run": {
     "tstop": 200.0,

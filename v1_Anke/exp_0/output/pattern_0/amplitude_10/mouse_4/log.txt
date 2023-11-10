@@ -1,0 +1,2 @@
+2023-11-03 14:28:07,552 [INFO] Created log file
+2023-11-03 14:28:07,556 [INFO] Running NEURON with mpi (36 cores).

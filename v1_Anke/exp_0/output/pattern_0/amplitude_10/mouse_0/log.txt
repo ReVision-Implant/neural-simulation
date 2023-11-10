@@ -1,0 +1,3 @@
+2023-11-09 14:09:10,014 [INFO] Created log file
+2023-11-09 14:09:10,018 [INFO] Running NEURON with mpi (36 cores).
+2023-11-09 14:09:13,139 [ERROR] Source node population None not found. Please update v1_to_v1 edges
