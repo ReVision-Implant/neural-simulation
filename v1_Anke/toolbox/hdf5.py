@@ -22,7 +22,7 @@ class HDF5:
         #self.v1 = v1
         self.get_positions(v1)
         rot = self.get_rotations()
-        print(rot)
+        
         if plot:
             self.plot_positions(labels=['X','Z','Y'])
         
@@ -201,9 +201,9 @@ class SpikeScaler():
         
         return
 
-if __name__ == "__main__":
-    root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    hf = HDF5(root + '/examples/comsol/network/column_nodes.h5')
-    hf.convert_pos_to_v1()
+#if __name__ == "__main__":
+    #root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    #hf = HDF5(root + '/examples/comsol/network/column_nodes.h5')
+    #hf.convert_pos_to_v1()
 
-    spikes = SpikeScaler('/examples/comsol/outputs/output_stat/spikes.h5', 100)
+    #spikes = SpikeScaler('/examples/comsol/outputs/output_stat/spikes.h5', 100)
