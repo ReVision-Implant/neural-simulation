@@ -8,9 +8,9 @@ def slice_mouse(mouse_number):
 
     mouse_number=str(mouse_number);
 
-    make_slice_nodes('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/virtual_mice/mouse_'+mouse_number+'/v1_nodes.h5', '/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/slices/slice_mouse_'+mouse_number+'/v1_nodes.h5');
-    make_slice_edges('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/virtual_mice/mouse_'+mouse_number+'/v1_nodes.h5', '/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/virtual_mice/mouse_'+mouse_number+'/v1_v1_edges.h5','/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/slices/slice_mouse_'+mouse_number+'/v1_v1_edges.h5',v1=True);
-    make_slice_edges('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/virtual_mice/mouse_'+mouse_number+'/v1_nodes.h5', '/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/virtual_mice/mouse_'+mouse_number+'/lgn_v1_edges.h5','/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/slices/slice_mouse_'+mouse_number+'/lgn_v1_edges.h5',v1=False);
-    make_slice_edges('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/virtual_mice/mouse_'+mouse_number+'/v1_nodes.h5', '/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/virtual_mice/mouse_'+mouse_number+'/bkg_v1_edges.h5','/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/slices/slice_mouse_'+mouse_number+'/bkg_v1_edges.h5',v1=False);
+    make_slice_nodes('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/virtual_mice/mouse_'+mouse_number+'/', '/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/slices/mouse_'+mouse_number+'/');
+    make_slice_edges('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/virtual_mice/mouse_'+mouse_number+'/v1_nodes.h5', '/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/virtual_mice/mouse_'+mouse_number+'/v1_v1_edges.h5','/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/slices/mouse_'+mouse_number+'/v1_v1_edges.h5',v1=True);
+    make_slice_edges('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/virtual_mice/mouse_'+mouse_number+'/v1_nodes.h5', '/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/virtual_mice/mouse_'+mouse_number+'/lgn_v1_edges.h5','/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/slices/mouse_'+mouse_number+'/lgn_v1_edges.h5',v1=False);
+    make_slice_edges('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/virtual_mice/mouse_'+mouse_number+'/v1_nodes.h5', '/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/virtual_mice/mouse_'+mouse_number+'/bkg_v1_edges.h5','/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/slices/mouse_'+mouse_number+'/bkg_v1_edges.h5',v1=False);
 
 #copy the lgn, bkg nodes and csv files manually 
