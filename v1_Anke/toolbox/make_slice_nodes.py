@@ -8,7 +8,7 @@ def make_slice_nodes(path_h5file,path_slice):
     import numpy as np;
     from hdf5 import HDF5;
 
-    hdf5_test=HDF5(path_h5file,v1=True);
+    hdf5_test=HDF5(path_h5file+'v1_nodes.h5',v1=True);
     #hdf5_test.plot_positions()
 
     #get positions that lie within slice
@@ -33,11 +33,14 @@ def make_slice_nodes(path_h5file,path_slice):
     #get the node_group_index
     node_group_index=hdf5_test.get_node_group_index();
     node_group_index_slice=node_group_index[slice_condition];
+    new_node_group_index=np.arange(len(node_group_index_slice));
+    #print(new_node_group_index[:10]);
 
     #get node_id
     node_id=hdf5_test.get_node_id();
     node_id_slice=node_id[slice_condition];
-    #print(node_id_slice.shape)
+    new_id=np.arange(len(node_id_slice));
+    #print(new_id[:10]);
 
     #get node_type_id
     node_type_id=hdf5_test.get_node_type_id();
@@ -47,7 +50,7 @@ def make_slice_nodes(path_h5file,path_slice):
     # create a new h5 file for the slice
     import h5py
 
-    with h5py.File(path_slice, 'w') as slice_test:
+    with h5py.File(path_slice+'v1_nodes.h5', 'w') as slice_test:
         nodes=slice_test.create_group('nodes')
         v1=nodes.create_group('v1')
         zero=v1.create_group('0')
@@ -68,18 +71,13 @@ def make_slice_nodes(path_h5file,path_slice):
         v1.create_dataset('node_group_id',data=group_node_ids_slice);
 
         #add group node index: indicates the index within that group that contains all the attributes for a particular node
-        v1.create_dataset('node_group_index',data=node_group_index_slice);
+        v1.create_dataset('node_group_index',data=new_node_group_index);
 
         #add node_id: assigns a key to uniquely identify and lookup a node within a population
-        v1.create_dataset('node_id',data=node_id_slice);
+        v1.create_dataset('node_id',data=new_id);
 
         #add node_type_id
         v1.create_dataset('node_type_id',data=node_type_id_slice);
 
-
- 
-#test the function
-#make_slice_nodes('C:/Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/networks_100/network2/v1_nodes.h5','C:/Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/v1_nodes.h5');
-#from components.hdf5 import HDF5;
-#hdf5_slice_test=HDF5('C:/Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/v1_nodes.h5',v1=True);
-#hdf5_slice_test.plot_positions()
+# test
+#make_slice_nodes('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/virtual_mice/mouse_1/','/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/slices/mouse_1/');
