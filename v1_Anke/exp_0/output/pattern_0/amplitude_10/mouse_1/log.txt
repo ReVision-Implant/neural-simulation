@@ -1,14 +1,14 @@
-2023-12-01 19:07:55,482 [INFO] Created log file
-2023-12-01 19:07:55,580 [INFO] Running NEURON with mpi (36 cores).
-2023-12-01 19:08:22,374 [INFO] Building cells.
-2023-12-01 19:14:46,164 [INFO] Building recurrent connections
-2023-12-01 21:32:06,445 [INFO] Building virtual cell stimulations for LGN_spikes
-2023-12-01 21:33:36,252 [INFO] Building virtual cell stimulations for BKG_spikes
-2023-12-01 21:35:13,361 [INFO] Running simulation for 100.000 ms with the time step 0.025 ms
-2023-12-01 21:35:13,361 [INFO] Starting timestep: 0 at t_sim: 0.000 ms
-2023-12-01 21:35:13,361 [INFO] Block save every 1000 steps
-2023-12-01 22:04:30,798 [INFO]     step:1000 t_sim:25.00 ms
-2023-12-01 22:26:35,948 [INFO]     step:2000 t_sim:50.00 ms
-2023-12-01 22:48:40,590 [INFO]     step:3000 t_sim:75.00 ms
-2023-12-01 23:10:48,104 [INFO]     step:4000 t_sim:100.00 ms
-2023-12-01 23:10:48,885 [INFO] Simulation completed in 95.0 minutes, 44.78 seconds 
+2023-12-08 11:54:18,117 [INFO] Created log file
+2023-12-08 11:54:18,121 [INFO] Running NEURON with mpi (36 cores).
+2023-12-08 11:54:26,086 [INFO] Building cells.
+2023-12-08 12:00:45,895 [INFO] Building recurrent connections
+2023-12-08 14:02:03,379 [INFO] Building virtual cell stimulations for LGN_spikes
+2023-12-08 14:03:31,640 [INFO] Building virtual cell stimulations for BKG_spikes
+2023-12-08 14:05:10,318 [INFO] Running simulation for 100.000 ms with the time step 0.025 ms
+2023-12-08 14:05:10,319 [INFO] Starting timestep: 0 at t_sim: 0.000 ms
+2023-12-08 14:05:10,319 [INFO] Block save every 1000 steps
+2023-12-08 14:34:24,082 [INFO]     step:1000 t_sim:25.00 ms
+2023-12-08 14:56:30,481 [INFO]     step:2000 t_sim:50.00 ms
+2023-12-08 15:18:37,250 [INFO]     step:3000 t_sim:75.00 ms
+2023-12-08 15:40:44,519 [INFO]     step:4000 t_sim:100.00 ms
+2023-12-08 15:40:45,071 [INFO] Simulation completed in 95.0 minutes, 39.03 seconds 
