@@ -32,6 +32,8 @@ from bmtk.simulator.bionet.pyfunction_cache import add_cell_model, add_cell_proc
 from bmtk.simulator.bionet.io_tools import io
 from bmtk.simulator.bionet.nml_reader import NMLTree
 
+#import pdb #Addition by Anke to debug
+
 
 """
 Functions for loading NEURON cell objects.
@@ -95,12 +97,14 @@ def Biophys1_dict(cell):
 def aibs_perisomatic(hobj, cell, dynamics_params):
     if dynamics_params is not None:
         fix_axon_peri(hobj)
+        #pdb.set_trace() #Anke: execution will pause here
         set_params_peri(hobj, dynamics_params)
 
     return hobj
 
 
 def fix_axon_peri(hobj):
+
     """Replace reconstructed axon with a stub
 
     :param hobj: hoc object
