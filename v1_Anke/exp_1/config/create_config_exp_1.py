@@ -6,4 +6,3 @@ from file_helper import create_configs;
 
 create_configs('./template.json',1, [0], [10,20], [0,1], overwrite=True);
 
-print('test')
