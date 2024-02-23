@@ -32,8 +32,6 @@ from bmtk.simulator.bionet.pyfunction_cache import add_cell_model, add_cell_proc
 from bmtk.simulator.bionet.io_tools import io
 from bmtk.simulator.bionet.nml_reader import NMLTree
 
-#import pdb #Addition by Anke to debug
-
 
 """
 Functions for loading NEURON cell objects.
@@ -93,14 +91,50 @@ def Biophys1_dict(cell):
     hobj = h.Biophys1(str(morphology_file))
     return hobj
 
-
-def aibs_perisomatic(hobj, cell, dynamics_params):
+def aibs_perisomatic(hobj, cell, dynamics_params): #modifications by Anke; to undo decomment the fix_axon_peri and leave out fix axon_peri_multiple
     if dynamics_params is not None:
-        fix_axon_peri(hobj)
-        #pdb.set_trace() #Anke: execution will pause here
-        set_params_peri(hobj, dynamics_params)
+        #fix_axon_peri(hobj)
+        fix_axon_peri_multiple_stubs(hobj, 4, [30,30,30,30],[1,1,1,1])
+        #test
+        print('hello there, this is the new code')
+        set_params_peri(hobj, dynamics_params) # first morphology, then axon is deleted + replaced and then the dynamic parameters are set
 
     return hobj
+
+def fix_axon_peri_multiple_stubs(hobj, num_stubs, stub_lengths,stub_diameters):
+    """
+    Replace reconstructed axon with multiple stubs.
+
+    :param hobj: hoc object
+    :param num_stubs: Number of stubs to create.
+    :param stub_lenghts: List of lenghts for the stubs. 
+    :param stub_diameters. 
+    """
+    # Delete existing axon sections
+    for sec in hobj.axon:
+        h.delete_section(sec=sec)
+    
+    # Create new axon structure with specified number of stubs
+    h.execute('create axon[{num_stubs}]', hobj)
+
+    # Set properties for each stub
+    for i in range (num_stubs):
+        hobj.axon[i].L= stub_lengths[i]
+        hobj.axon[i].diam = stub_diameters[i]
+        hobj.axonal.append(sec=hobj.axon[i])
+        hobj.all.append(sec=hobj.axon[i])
+    
+    # Connect axon sections
+    for i in range(num_stubs -1):
+    hobj.axon[i+1].connect(hobj.axon[i], 1, 0) 
+
+    #connect the first stub to the soma
+    hobj.axon[0].connect(hobj.soma[0], 0.5, 0) 
+
+    # Define the shape of the axon
+    h.define_shape()
+
+    return hobj    
 
 
 def fix_axon_peri(hobj):
