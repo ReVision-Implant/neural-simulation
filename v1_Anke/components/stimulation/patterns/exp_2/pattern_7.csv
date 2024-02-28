@@ -1,4 +1,4 @@
 electrode   comsol          waveform            amplitude
-0           electrode_0_ex_vivo_full.txt    waveform_0.csv  1
-2           electrode_2_ex_vivo_full.txt    waveform_0.csv  -0.5
-3           electrode_3_ex_vivo_full.txt    waveform_0.csv   -0.5
+0           electrode_0.txt    waveform_0.csv  1
+2           electrode_2.txt    waveform_0.csv  -0.5
+3           electrode_3.txt    waveform_0.csv   -0.5
