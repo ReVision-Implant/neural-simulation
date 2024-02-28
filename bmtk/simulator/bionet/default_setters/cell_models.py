@@ -95,8 +95,6 @@ def aibs_perisomatic(hobj, cell, dynamics_params): # UNDID modifications by Anke
     if dynamics_params is not None:
         fix_axon_peri(hobj)
         #fix_axon_peri_multiple_stubs(hobj, 4, [30,30,30,30],[1,1,1,1])
-        #test
-        print('hello there, this is the new code within neural sim')
         set_params_peri(hobj, dynamics_params) # first morphology, then axon is deleted + replaced and then the dynamic parameters are set
 
     return hobj
