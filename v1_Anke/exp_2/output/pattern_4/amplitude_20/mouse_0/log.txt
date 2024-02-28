@@ -1,5 +1,0 @@
-2024-02-26 12:32:12,440 [INFO] Created log file
-2024-02-26 12:32:12,444 [INFO] Running NEURON with mpi (36 cores).
-2024-02-26 12:32:20,222 [INFO] Building cells.
-2024-02-26 12:38:39,840 [INFO] Building recurrent connections
-2024-02-26 14:39:22,852 [INFO] Building virtual cell stimulations for LGN_spikes
