@@ -48,4 +48,4 @@ v1_Anke/virtual_mice/**
 v1_Anke/slices/**
 v1_Anke/virtual_mice_mask/**
 v1_Anke/virtual_mice_adj_coordinates/**
-bmtk/**
+bmtk/bmtk/simulator/bionet/**

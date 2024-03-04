@@ -7,7 +7,8 @@ from bmtk.simulator import bionet
 
 
 build_env_bionet(
-    base_dir='v1_Anke/small_population_exp/simulation',
+    #base_dir='v1_Anke/small_population_exp/simulation',
+    base_dir='v1/Anke/small_population_exp/simulation_long_axonss'
     #base_dir='v1_Anke/small_population_exp/simulation_directed_axons', #use directed axons
     config_file='config.json',
     network_dir='v1_Anke/small_population_exp/network',
