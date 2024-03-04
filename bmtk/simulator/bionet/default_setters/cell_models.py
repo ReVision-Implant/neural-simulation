@@ -95,8 +95,39 @@ def Biophys1_dict(cell):
 def aibs_perisomatic(hobj, cell, dynamics_params):
     if dynamics_params is not None:
         fix_axon_peri(hobj)
+        #fix_axon_peri_multiple_stubs(hobj, 4, [30,30,30,30],[1,1,1,1])
+        print('joepie it works')
         set_params_peri(hobj, dynamics_params)
+    return hobj
 
+def fix_axon_peri_multiple_stubs(hobj, num_stubs, stub_lengths,stub_diameters):
+    """
+    Replace reconstructed axon with multiple stubs.
+    :param hobj: hoc object
+    :param num_stubs: Number of stubs to create.
+    :param stub_lenghts: List of lenghts for the stubs. 
+    :param stub_diameters. 
+    """
+    # Delete existing axon sections
+    for sec in hobj.axon:
+        h.delete_section(sec=sec)
+    
+    # Create new axon structure with specified number of stubs
+    h.execute('create axon[{num_stubs}]', hobj)
+    # Set properties for each stub
+    for i in range (num_stubs):
+        hobj.axon[i].L= stub_lengths[i]
+        hobj.axon[i].diam = stub_diameters[i]
+        hobj.axonal.append(sec=hobj.axon[i])
+        hobj.all.append(sec=hobj.axon[i])
+    
+    # Connect axon sections
+    for i in range(num_stubs -1):
+    hobj.axon[i+1].connect(hobj.axon[i], 1, 0) # first parameter 1 =where section is connected; value 1 means the connection is made at the end ofthe section; which is the distal end of the section being connected to, second parameter: connection is made at the proximal end of the section being connected to
+    #connect the first stub to the soma
+    hobj.axon[0].connect(hobj.soma[0], 0.5, 0) #0.5 means that the connection is made at the midpoint of the soma
+    # Define the shape of the axon
+    h.define_shape()
     return hobj
 
 
