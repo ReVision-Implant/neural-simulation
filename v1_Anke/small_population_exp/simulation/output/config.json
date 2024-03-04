@@ -55,7 +55,8 @@
   "output": {
     "log_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation\\output\\log.txt",
     "output_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation\\output",
-    "spikes_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation\\output\\spikes.h5"
+    "spikes_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation\\output\\spikes.h5",
+    "spikes_file_csv": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation\\output\\spikes.csv"
   },
   "reports": {
     "v_report": {
