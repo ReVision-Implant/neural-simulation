@@ -7,12 +7,12 @@ from bmtk.simulator import bionet
 
 
 build_env_bionet(
-    #base_dir='v1_Anke/small_population_exp/simulation',
-    base_dir='v1/Anke/small_population_exp/simulation_long_axonss'
-    #base_dir='v1_Anke/small_population_exp/simulation_directed_axons', #use directed axons
+    base_dir='simulation',
+    #base_dir='simulation_long_axons',
+    #base_dir='simulation_directed_axons', #use directed axons
     config_file='config.json',
-    network_dir='v1_Anke/small_population_exp/network',
-    #network_dir='v1_Anke/small_population_exp/network_directed_axons', #use the directed axons
+    network_dir='network',
+    #network_dir='network_directed_axons', #use the directed axons
     tstop=2000.0, dt=0.1,
     report_vars=['v'], # Record membrane potential
     current_clamp={  # Creates a step current from 500.0 ms to 1500.0 ms  
@@ -21,5 +21,6 @@ build_env_bionet(
         'duration': 1000.0
     },
     include_examples=True,    # Copies components files
-    compile_mechanisms=True #will try to compile NEURON mechanisms
+    compile_mechanisms=True #will try to compile NEURON mechanisms -> often fails and must be done manually; left it in so it will give an error and remember me to do it manually
+
 )

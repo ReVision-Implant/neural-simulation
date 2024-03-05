@@ -37,7 +37,7 @@ net.add_edges(
 )
 
 net.build()
-net.save_nodes(output_dir='v1_Anke/small_population_exp/network')
-net.save_edges(output_dir='v1_Anke/small_population_exp/network')
+net.save_nodes(output_dir='network')
+net.save_edges(output_dir='network')
 #net.save_nodes(output_dir='v1_Anke/small_population_exp/network_directed_axons')
 #net.save_edges(output_dir='v1_Anke/small_population_exp/network_directed_axons')
