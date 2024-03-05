@@ -32,6 +32,8 @@ from bmtk.simulator.bionet.pyfunction_cache import add_cell_model, add_cell_proc
 from bmtk.simulator.bionet.io_tools import io
 from bmtk.simulator.bionet.nml_reader import NMLTree
 
+import logging
+logging.basicConfig(file_name=log_file,level=logging.INFO,format='%(asctime)s [%(levelname)s] %(message)s')
 
 """
 Functions for loading NEURON cell objects.
@@ -93,12 +95,49 @@ def Biophys1_dict(cell):
 
 
 def aibs_perisomatic(hobj, cell, dynamics_params):
+    logging.info('log test.')
     if dynamics_params is not None:
         fix_axon_peri(hobj)
+        logging.info('fix_axon_peri was called.')
+        #fix_axon_peri_multiple_stubs(hobj, 4, [30,30,30,30], [1,1,1,1])
         set_params_peri(hobj, dynamics_params)
 
     return hobj
 
+def fix_axon_peri_multiple_stubs(hobj, num_stubs, stub_lengths, stub_diameters):
+    """
+    Replace reconstructed axon with multiple stubs.
+    :param hobj: hoc object
+    :param num_stubs: Number of stubs to create
+    :param stub_lengths: list of lenghts for the stubs
+    :param stub_diameters 
+    """
+
+    #Delete existing axon sections
+    for sec in hobj.axon:
+        h.delete_section(sec=sec)
+
+    #Create new axon structure with specified number of stubs
+    h.execute('create axon[{num_stubs}]', hobj)
+
+    #Set properties for each stub
+    for i in range (num_stubs):
+        hobj.axon[i].L=stub_lenghts[i]
+        hobj.axon[i].diam=stub_diameters[i]
+        hobj.axonal.append(sec=hobj.axon[i])
+        hobj.all.append(sec=hobj.axon[i])
+
+    #Connect axon sections
+    for i in range (num_stubs-1):
+        hobj.axon[i+1].connect(hobj.axon[i],1,0) #first parameter 1 = where section is connected; value 1 means the connection is made at the end of the section; which is the distal end of the section being connected to, second parameter: connection is made at the proximal end of the section being connected to
+
+    #connect the first stub to the soma
+    hobj.axon[0].connect(hobj.soma[0], 0.5, 0) #0.5 means that the connection is made at the midpoint of the soma
+
+    #Define the shape of the axon
+    h.define_shape()
+
+    return hobj
 
 def fix_axon_peri(hobj):
     """Replace reconstructed axon with a stub
