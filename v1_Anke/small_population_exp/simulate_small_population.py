@@ -7,8 +7,8 @@ from bmtk.simulator import bionet
 
 
 build_env_bionet(
-    X#base_dir='simulation',
-    #base_dir='simulation_long_axons',
+    #base_dir='simulation',
+    base_dir='simulation_long_axons',
     #base_dir='simulation_directed_axons', #use directed axons
     config_file='config.json',
     network_dir='network',
