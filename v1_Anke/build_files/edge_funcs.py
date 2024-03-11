@@ -7,8 +7,8 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-cc_prob_dict = json.load(open('build_files/biophys_props/v1_conn_props.json', 'r'))
-lgn_params = json.load(open('build_files/biophys_props/lgn_conn_props.json', 'r'))
+cc_prob_dict = json.load(open('/Users/ankev/Documents/Github/neural-simulation/v1_Anke/build_files/biophys_props/v1_conn_props.json', 'r'))
+lgn_params = json.load(open('/Users/ankev/Documents/Github/neural-simulation/v1_Anke/build_files/biophys_props/lgn_conn_props.json', 'r'))
 
 
 def compute_pair_type_parameters(source_type, target_type):
