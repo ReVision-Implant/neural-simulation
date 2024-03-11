@@ -1,2 +1,0 @@
-2024-03-11 12:12:28,267 [INFO] Created log file
-2024-03-11 12:12:28,354 [INFO] Building cells.
