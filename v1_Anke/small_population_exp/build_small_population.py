@@ -1,7 +1,5 @@
 #This script builds a small population of 100 neurons. The goal is to test different types of axons and parameters
 
-#Option 1: changing the direction of the axon with aibs_perisomatic_directed
-
 module_path='/Users/ankev/Documents/Github/neural-simulation/v1_Anke'
 import sys;
 sys.path.append(module_path)
@@ -22,8 +20,7 @@ net.add_nodes(
     rotation_angle_zaxis=xiter_random(N=100, min_x=0.0, max_x=2*np.pi),
     model_type='biophysical',
     model_template='ctdb:Biophys1.hoc',
-    #model_processing='aibs_perisomatic',
-    #model_processing='aibs_perisomatic_directed', #will find a general direction of the extisting axon before it is cut and use that direction adding the stub
+    model_processing='aibs_perisomatic',
     dynamics_params="487661754_fit.json",
     morphology="Cux2-CreERT2_Ai14-211772.05.02.01_496085150_m.swc"
 )
@@ -42,7 +39,5 @@ net.add_edges(
 )
 
 net.build()
-#net.save_nodes(output_dir='network')
-#net.save_edges(output_dir='network')
-#net.save_nodes(output_dir='network_directed_axons')
-#net.save_edges(output_dir='network_directed_axons')
+net.save_nodes(output_dir='network')
+net.save_edges(output_dir='network')
