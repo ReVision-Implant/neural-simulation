@@ -1,14 +1,14 @@
 #This script builds a small population of 100 neurons. The goal is to test different types of axons and parameters
 #Option 1: changing the direction of the axon with aibs_perisomatic_directed (change in build file first!)
-#Option 2: make axons longer (adjust code in bmtk folder)
+#Option 2: make axons longer (adjust code run file)
 
 from bmtk.utils.sim_setup import build_env_bionet
 from bmtk.simulator import bionet
 
 
 build_env_bionet(
-    base_dir='simulation',
-    #base_dir='simulation_long_axons',
+    #base_dir='simulation',
+    base_dir='simulation_long_axons',
     #base_dir='simulation_directed_axons', #use directed axons
     config_file='config.json',
     network_dir='network',
