@@ -8,10 +8,10 @@ from bmtk.simulator import bionet
 
 build_env_bionet(
     #base_dir='simulation',
-    base_dir='simulation_long_axons',
+    #base_dir='simulation_long_axons',
     #base_dir='simulation_directed_axons', #use directed axons
     config_file='config.json',
-    network_dir='network',
+    #network_dir='network',
     #network_dir='network_directed_axons', #use the directed axons
     tstop=2000.0, dt=0.1,
     report_vars=['v'], # Record membrane potential

@@ -17,7 +17,7 @@ net.add_nodes(
     rotation_angle_zaxis=xiter_random(N=100, min_x=0.0, max_x=2*np.pi),
     model_type='biophysical',
     model_template='ctdb:Biophys1.hoc',
-    model_processing='aibs_perisomatic',
+    #model_processing='aibs_perisomatic',
     #model_processing='aibs_perisomatic_directed', #will find a general direction of the extisting axon before it is cut and use that direction adding the stub
     dynamics_params='472363762_fit.json',
     morphology='Scnn1a_473845048_m.swc'
@@ -37,7 +37,7 @@ net.add_edges(
 )
 
 net.build()
-net.save_nodes(output_dir='network')
-net.save_edges(output_dir='network')
-#net.save_nodes(output_dir='v1_Anke/small_population_exp/network_directed_axons')
-#net.save_edges(output_dir='v1_Anke/small_population_exp/network_directed_axons')
+#net.save_nodes(output_dir='network')
+#net.save_edges(output_dir='network')
+#net.save_nodes(output_dir='network_directed_axons')
+#net.save_edges(output_dir='network_directed_axons')

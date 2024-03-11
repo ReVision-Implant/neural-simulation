@@ -1,0 +1,78 @@
+{
+  "network": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_directed_axons\\circuit_config.json",
+  "simulation": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_directed_axons\\simulation_config.json",
+  "config_path": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_directed_axons\\config.json",
+  "config_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_directed_axons",
+  "components": {
+    "biophysical_neuron_models_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_directed_axons\\components\\biophysical_neuron_models",
+    "filter_models_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_directed_axons\\components\\filter_models",
+    "mechanisms_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_directed_axons\\components\\mechanisms",
+    "morphologies_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_directed_axons\\components\\morphologies",
+    "point_neuron_models_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_directed_axons\\components\\point_neuron_models",
+    "synaptic_models_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_directed_axons\\components\\synaptic_models",
+    "templates_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_directed_axons\\components\\templates",
+    "__pycache___dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_directed_axons\\components\\__pycache__"
+  },
+  "networks": {
+    "nodes": [
+      {
+        "nodes_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\network_directed_axons\\small_network_nodes.h5",
+        "node_types_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\network_directed_axons\\small_network_node_types.csv"
+      }
+    ],
+    "edges": [
+      {
+        "edges_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\network_directed_axons\\small_network_small_network_edges.h5",
+        "edge_types_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\network_directed_axons\\small_network_small_network_edge_types.csv"
+      }
+    ],
+    "gap_juncs": []
+  },
+  "target_simulator": "NEURON",
+  "run": {
+    "tstart": 0.0,
+    "tstop": 2000.0,
+    "dt": 0.1,
+    "dL": 20.0,
+    "spike_threshold": -15.0,
+    "nsteps_block": 5000
+  },
+  "conditions": {
+    "celsius": 34.0,
+    "v_init": -80.0
+  },
+  "inputs": {
+    "current_clamp": {
+      "input_type": "current_clamp",
+      "module": "IClamp",
+      "node_set": "all",
+      "gids": "all",
+      "amp": 0.12,
+      "delay": 500.0,
+      "duration": 1000.0
+    }
+  },
+  "output": {
+    "log_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_directed_axons\\output\\log.txt",
+    "output_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_directed_axons\\output",
+    "spikes_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_directed_axons\\output\\spikes.h5",
+    "spikes_file_csv": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_directed_axons\\output\\spikes.csv"
+  },
+  "reports": {
+    "v_report": {
+      "variable_name": "v",
+      "cells": "all",
+      "module": "membrane_report",
+      "sections": "soma"
+    }
+  },
+  "node_sets_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_directed_axons\\node_sets.json",
+  "node_sets": {
+    "biophysical_nodes": {
+      "model_type": "biophysical"
+    },
+    "point_nodes": {
+      "model_type": "point_process"
+    }
+  }
+}
