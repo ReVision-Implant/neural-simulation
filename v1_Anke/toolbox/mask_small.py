@@ -53,16 +53,16 @@ def apply_mask(positions): # still need to adjust coordinates!! ##
         #print(interpolated_value)
         if interpolated_value==1000.000000:
             #print(positions[coordinate])
-            if positions[coordinate,1]>320X:
-                positions[coordinate,1]+=10
-            elif positions[coordinate,1]==320:
+            if positions[coordinate,1]>81:
+                positions[coordinate,1]+=1
+            elif positions[coordinate,1]==81:
                 positions[coordinate,1]+=random.choice([10.1,-10.1])
-            elif positions[coordinate,1]>170 and positions[coordinate,1]<300:
-                 positions[coordinate,1]+=10   
-            elif positions[coordinate,1]==170:
-                positions[coordinate,1]+=random.choice([10.1,-10.1])
+            elif positions[coordinate,1]>66 and positions[coordinate,1]<75:
+                 positions[coordinate,1]+=1   
+            elif positions[coordinate,1]==66:
+                positions[coordinate,1]+=random.choice([1.1,-1.1])
             else:
-                positions[coordinate,1]+=-10
+                positions[coordinate,1]+=-1
             #print(positions[coordinate])
     return positions
         
