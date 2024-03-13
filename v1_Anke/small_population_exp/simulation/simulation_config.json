@@ -24,8 +24,8 @@
     "node_set": "all",
     "module": "comsol",
     "comsol_file": ["$STIM_DIR/comsol/electrode_1_small","$STIM_DIR/comsol/electrode_2_small"],
-    "waveforms": ["$STIM_DIR/waveforms/waveform_0.csv","$STIM_DIR/waveforms/waveform_0.csv"],
-    "amplitudes": [1,-1]
+    "waveform": ["$STIM_DIR/waveforms/waveform_0.csv","$STIM_DIR/waveforms/waveform_0.csv"],
+    "amplitude": [1,-1]
     
   }
 },
