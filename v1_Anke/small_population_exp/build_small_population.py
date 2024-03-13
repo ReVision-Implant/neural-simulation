@@ -7,7 +7,7 @@ sys.path.append(module_path)
 import numpy as np
 
 from bmtk.builder.networks import NetworkBuilder
-from bmtk.builder.auxi.node_params import positions_columinar, xiter_random
+from bmtk.builder.auxi.node_params import positions_columnar, xiter_random
 from bmtk.builder.auxi.edge_connectors import distance_connector
 from build_files.edge_funcs import connect_cells
 
@@ -15,7 +15,7 @@ net = NetworkBuilder("small_network")
 net.add_nodes(
     N=100,
     pop_name='e23Cux2',
-    positions=positions_columinar(N=100, center=[0, 50.0, 0], max_radius=30.0, height=100.0),
+    positions=positions_columnar(N=100, center=[0, 50.0, 0], max_radius=65.0, height=80.0), 
     rotation_angle_yaxis=xiter_random(N=100, min_x=0.0, max_x=2*np.pi),
     rotation_angle_zaxis=xiter_random(N=100, min_x=0.0, max_x=2*np.pi),
     model_type='biophysical',
@@ -39,5 +39,5 @@ net.add_edges(
 )
 
 net.build()
-net.save_nodes(output_dir='network')
-net.save_edges(output_dir='network')
+net.save_nodes(output_dir='network_test')
+net.save_edges(output_dir='network_test')
