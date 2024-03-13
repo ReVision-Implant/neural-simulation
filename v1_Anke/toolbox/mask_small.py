@@ -47,13 +47,13 @@ values = data[0]
 
 interp=Lip(points,values);
 
-def apply_mask(positions): # need to adjust !! ##
+def apply_mask(positions): # still need to adjust coordinates!! ##
     for coordinate in range(positions.shape[0]):
         interpolated_value=interp(positions[coordinate]);
         #print(interpolated_value)
         if interpolated_value==1000.000000:
             #print(positions[coordinate])
-            if positions[coordinate,1]>320:
+            if positions[coordinate,1]>320X:
                 positions[coordinate,1]+=10
             elif positions[coordinate,1]==320:
                 positions[coordinate,1]+=random.choice([10.1,-10.1])
