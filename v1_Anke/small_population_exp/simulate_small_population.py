@@ -13,11 +13,11 @@ build_env_bionet(
     network_dir='network',
     tstop=2000.0, dt=0.1,
     report_vars=['v'], # Record membrane potential
-    current_clamp={  # Creates a step current from 500.0 ms to 1500.0 ms  
-        'amp': 0.120,
-        'delay': 500.0,
-        'duration': 1000.0
-    },
+    #current_clamp={  # Creates a step current from 500.0 ms to 1500.0 ms  
+     #   'amp': 0.120,
+    #    'delay': 500.0,
+    #    'duration': 1000.0
+    #},
     #include_examples=True,    # Copies components files
     #compile_mechanisms=True #will try to compile NEURON mechanisms -> often fails and must be done manually; left it in so it will give an error and remember me to do it manually
 
