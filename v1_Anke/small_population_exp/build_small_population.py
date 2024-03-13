@@ -11,16 +11,15 @@ from bmtk.builder.auxi.node_params import positions_columnar, xiter_random
 from bmtk.builder.auxi.edge_connectors import distance_connector
 from build_files.edge_funcs import connect_cells
 import sys;
-module_path='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/toolbox';
+module_path='/Users/ankev/Documents/Github/neural-simulation/v1_Anke/toolbox';
 sys.path.append(module_path)
-from mask import apply_mask_small
+from mask_small import apply_mask_small
 
 net = NetworkBuilder("small_network")
 net.add_nodes(
     N=100,
     pop_name='e23Cux2',
-    positions_no_mask=positions_columnar(N=100, center=[0, 50.0, 0], max_radius=65.0, height=80.0),
-    positions=apply_mask_small(positions_no_mask), 
+    positions=apply_mask_small(positions_columnar(N=100, center=[0, 50.0, 0], max_radius=65.0, height=80.0)),
     rotation_angle_yaxis=xiter_random(N=100, min_x=0.0, max_x=2*np.pi),
     rotation_angle_zaxis=xiter_random(N=100, min_x=0.0, max_x=2*np.pi),
     model_type='biophysical',

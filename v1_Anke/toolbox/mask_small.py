@@ -40,14 +40,14 @@ def load_comsol(comsol_file):
         return data
 
 
-mask='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/components/stimulation/comsol/mask_small.txt';
+mask='/Users/ankev/Documents/Github/neural-simulation/v1_Anke/components/stimulation/comsol/mask_small.txt';
 data=load_comsol(mask)
 points = data[['x', 'y', 'z']]
 values = data[0]
 
 interp=Lip(points,values);
 
-def apply_mask(positions): # still need to adjust coordinates!! ##
+def apply_mask_small(positions): # still need to adjust coordinates!! ##
     for coordinate in range(positions.shape[0]):
         interpolated_value=interp(positions[coordinate]);
         #print(interpolated_value)
