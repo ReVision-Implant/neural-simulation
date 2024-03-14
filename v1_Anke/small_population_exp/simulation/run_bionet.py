@@ -3,8 +3,8 @@ import os, sys
 from bmtk.simulator import bionet
 
 
-def run(config_file):
-    conf = bionet.Config.from_json(config_file, validate=True)
+def run(config_file,**opts):
+    conf = bionet.Config.from_json(config_file, validate=True,**opts)
     conf.build_env()
 
     graph = bionet.BioNetwork.from_config(conf)
