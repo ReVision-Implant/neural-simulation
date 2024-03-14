@@ -9,3 +9,4 @@
 2024-03-14 10:18:08,969 [INFO] Block save every 1000 steps
 2024-03-14 10:47:15,357 [INFO]     step:1000 t_sim:25.00 ms
 2024-03-14 11:09:09,706 [INFO]     step:2000 t_sim:50.00 ms
+2024-03-14 11:31:04,987 [INFO]     step:3000 t_sim:75.00 ms
