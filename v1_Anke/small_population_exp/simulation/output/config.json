@@ -46,15 +46,15 @@
       "input_type": "lfp",
       "node_set": "all",
       "module": "comsol",
-      "comsol_file": [
-        "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation/components/stimulation/comsol/electrode_1_small",
-        "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation/components/stimulation/comsol/electrode_2_small"
+      "comsol_files": [
+        "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation/components/stimulation/comsol/electrode_1_small.txt",
+        "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation/components/stimulation/comsol/electrode_2_small.txt"
       ],
-      "waveform": [
+      "waveforms": [
         "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation/components/stimulation/waveforms/waveform_0.csv",
         "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation/components/stimulation/waveforms/waveform_0.csv"
       ],
-      "amplitude": [
+      "amplitudes": [
         1,
         -1
       ]
