@@ -30,12 +30,11 @@
   },
   "target_simulator": "NEURON",
   "run": {
-    "tstart": 0.0,
-    "tstop": 2000.0,
-    "dt": 0.1,
+    "tstop": 100.0,
+    "dt": 0.025,
     "dL": 20.0,
     "spike_threshold": -15.0,
-    "nsteps_block": 5000
+    "nsteps_block": 1000
   },
   "conditions": {
     "celsius": 34.0,
@@ -55,8 +54,8 @@
         "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation/components/stimulation/waveforms/waveform_0.csv"
       ],
       "amplitudes": [
-        1,
-        -1
+        10,
+        -10
       ]
     }
   },
