@@ -1,0 +1,111 @@
+2024-03-15 16:13:58,231 [INFO] Created log file
+2024-03-15 16:13:58,295 [INFO] Building cells.
+2024-03-15 16:13:58,351 [INFO] Fixing cell #0, e23Cux2
+2024-03-15 16:13:58,411 [INFO] Fixing cell #1, e23Cux2
+2024-03-15 16:13:58,491 [INFO] Fixing cell #2, e23Cux2
+2024-03-15 16:13:58,551 [INFO] Fixing cell #3, e23Cux2
+2024-03-15 16:13:58,612 [INFO] Fixing cell #4, e23Cux2
+2024-03-15 16:13:58,671 [INFO] Fixing cell #5, e23Cux2
+2024-03-15 16:13:58,731 [INFO] Fixing cell #6, e23Cux2
+2024-03-15 16:13:58,793 [INFO] Fixing cell #7, e23Cux2
+2024-03-15 16:13:58,858 [INFO] Fixing cell #8, e23Cux2
+2024-03-15 16:13:58,911 [INFO] Fixing cell #9, e23Cux2
+2024-03-15 16:13:58,975 [INFO] Fixing cell #10, e23Cux2
+2024-03-15 16:13:59,046 [INFO] Fixing cell #11, e23Cux2
+2024-03-15 16:13:59,111 [INFO] Fixing cell #12, e23Cux2
+2024-03-15 16:13:59,249 [INFO] Fixing cell #13, e23Cux2
+2024-03-15 16:13:59,327 [INFO] Fixing cell #14, e23Cux2
+2024-03-15 16:13:59,391 [INFO] Fixing cell #15, e23Cux2
+2024-03-15 16:13:59,451 [INFO] Fixing cell #16, e23Cux2
+2024-03-15 16:13:59,512 [INFO] Fixing cell #17, e23Cux2
+2024-03-15 16:13:59,575 [INFO] Fixing cell #18, e23Cux2
+2024-03-15 16:13:59,671 [INFO] Fixing cell #19, e23Cux2
+2024-03-15 16:13:59,731 [INFO] Fixing cell #20, e23Cux2
+2024-03-15 16:13:59,802 [INFO] Fixing cell #21, e23Cux2
+2024-03-15 16:13:59,946 [INFO] Fixing cell #22, e23Cux2
+2024-03-15 16:14:00,031 [INFO] Fixing cell #23, e23Cux2
+2024-03-15 16:14:00,095 [INFO] Fixing cell #24, e23Cux2
+2024-03-15 16:14:00,162 [INFO] Fixing cell #25, e23Cux2
+2024-03-15 16:14:00,226 [INFO] Fixing cell #26, e23Cux2
+2024-03-15 16:14:00,287 [INFO] Fixing cell #27, e23Cux2
+2024-03-15 16:14:00,358 [INFO] Fixing cell #28, e23Cux2
+2024-03-15 16:14:00,422 [INFO] Fixing cell #29, e23Cux2
+2024-03-15 16:14:00,486 [INFO] Fixing cell #30, e23Cux2
+2024-03-15 16:14:00,552 [INFO] Fixing cell #31, e23Cux2
+2024-03-15 16:14:00,612 [INFO] Fixing cell #32, e23Cux2
+2024-03-15 16:14:00,681 [INFO] Fixing cell #33, e23Cux2
+2024-03-15 16:14:00,744 [INFO] Fixing cell #34, e23Cux2
+2024-03-15 16:14:00,809 [INFO] Fixing cell #35, e23Cux2
+2024-03-15 16:14:00,871 [INFO] Fixing cell #36, e23Cux2
+2024-03-15 16:14:00,932 [INFO] Fixing cell #37, e23Cux2
+2024-03-15 16:14:01,001 [INFO] Fixing cell #38, e23Cux2
+2024-03-15 16:14:01,062 [INFO] Fixing cell #39, e23Cux2
+2024-03-15 16:14:01,132 [INFO] Fixing cell #40, e23Cux2
+2024-03-15 16:14:01,195 [INFO] Fixing cell #41, e23Cux2
+2024-03-15 16:14:01,261 [INFO] Fixing cell #42, e23Cux2
+2024-03-15 16:14:01,326 [INFO] Fixing cell #43, e23Cux2
+2024-03-15 16:14:01,393 [INFO] Fixing cell #44, e23Cux2
+2024-03-15 16:14:01,462 [INFO] Fixing cell #45, e23Cux2
+2024-03-15 16:14:01,527 [INFO] Fixing cell #46, e23Cux2
+2024-03-15 16:14:01,593 [INFO] Fixing cell #47, e23Cux2
+2024-03-15 16:14:01,662 [INFO] Fixing cell #48, e23Cux2
+2024-03-15 16:14:01,727 [INFO] Fixing cell #49, e23Cux2
+2024-03-15 16:14:01,793 [INFO] Fixing cell #50, e23Cux2
+2024-03-15 16:14:01,859 [INFO] Fixing cell #51, e23Cux2
+2024-03-15 16:14:01,926 [INFO] Fixing cell #52, e23Cux2
+2024-03-15 16:14:01,994 [INFO] Fixing cell #53, e23Cux2
+2024-03-15 16:14:02,136 [INFO] Fixing cell #54, e23Cux2
+2024-03-15 16:14:02,224 [INFO] Fixing cell #55, e23Cux2
+2024-03-15 16:14:02,289 [INFO] Fixing cell #56, e23Cux2
+2024-03-15 16:14:02,356 [INFO] Fixing cell #57, e23Cux2
+2024-03-15 16:14:02,426 [INFO] Fixing cell #58, e23Cux2
+2024-03-15 16:14:02,493 [INFO] Fixing cell #59, e23Cux2
+2024-03-15 16:14:02,561 [INFO] Fixing cell #60, e23Cux2
+2024-03-15 16:14:02,627 [INFO] Fixing cell #61, e23Cux2
+2024-03-15 16:14:02,693 [INFO] Fixing cell #62, e23Cux2
+2024-03-15 16:14:02,766 [INFO] Fixing cell #63, e23Cux2
+2024-03-15 16:14:02,832 [INFO] Fixing cell #64, e23Cux2
+2024-03-15 16:14:02,910 [INFO] Fixing cell #65, e23Cux2
+2024-03-15 16:14:02,976 [INFO] Fixing cell #66, e23Cux2
+2024-03-15 16:14:03,043 [INFO] Fixing cell #67, e23Cux2
+2024-03-15 16:14:03,111 [INFO] Fixing cell #68, e23Cux2
+2024-03-15 16:14:03,186 [INFO] Fixing cell #69, e23Cux2
+2024-03-15 16:14:03,257 [INFO] Fixing cell #70, e23Cux2
+2024-03-15 16:14:03,327 [INFO] Fixing cell #71, e23Cux2
+2024-03-15 16:14:03,393 [INFO] Fixing cell #72, e23Cux2
+2024-03-15 16:14:03,466 [INFO] Fixing cell #73, e23Cux2
+2024-03-15 16:14:03,532 [INFO] Fixing cell #74, e23Cux2
+2024-03-15 16:14:03,606 [INFO] Fixing cell #75, e23Cux2
+2024-03-15 16:14:03,676 [INFO] Fixing cell #76, e23Cux2
+2024-03-15 16:14:03,743 [INFO] Fixing cell #77, e23Cux2
+2024-03-15 16:14:03,821 [INFO] Fixing cell #78, e23Cux2
+2024-03-15 16:14:03,893 [INFO] Fixing cell #79, e23Cux2
+2024-03-15 16:14:03,966 [INFO] Fixing cell #80, e23Cux2
+2024-03-15 16:14:04,043 [INFO] Fixing cell #81, e23Cux2
+2024-03-15 16:14:04,126 [INFO] Fixing cell #82, e23Cux2
+2024-03-15 16:14:04,201 [INFO] Fixing cell #83, e23Cux2
+2024-03-15 16:14:04,278 [INFO] Fixing cell #84, e23Cux2
+2024-03-15 16:14:04,351 [INFO] Fixing cell #85, e23Cux2
+2024-03-15 16:14:04,425 [INFO] Fixing cell #86, e23Cux2
+2024-03-15 16:14:04,501 [INFO] Fixing cell #87, e23Cux2
+2024-03-15 16:14:04,576 [INFO] Fixing cell #88, e23Cux2
+2024-03-15 16:14:04,644 [INFO] Fixing cell #89, e23Cux2
+2024-03-15 16:14:04,721 [INFO] Fixing cell #90, e23Cux2
+2024-03-15 16:14:04,794 [INFO] Fixing cell #91, e23Cux2
+2024-03-15 16:14:04,872 [INFO] Fixing cell #92, e23Cux2
+2024-03-15 16:14:04,951 [INFO] Fixing cell #93, e23Cux2
+2024-03-15 16:14:05,046 [INFO] Fixing cell #94, e23Cux2
+2024-03-15 16:14:05,121 [INFO] Fixing cell #95, e23Cux2
+2024-03-15 16:14:05,194 [INFO] Fixing cell #96, e23Cux2
+2024-03-15 16:14:05,276 [INFO] Fixing cell #97, e23Cux2
+2024-03-15 16:14:05,351 [INFO] Fixing cell #98, e23Cux2
+2024-03-15 16:14:05,428 [INFO] Fixing cell #99, e23Cux2
+2024-03-15 16:14:05,448 [INFO] Building recurrent connections
+2024-03-15 16:14:11,001 [INFO] Running simulation for 100.000 ms with the time step 0.025 ms
+2024-03-15 16:14:11,001 [INFO] Starting timestep: 0 at t_sim: 0.000 ms
+2024-03-15 16:14:11,003 [INFO] Block save every 1000 steps
+2024-03-15 16:15:04,451 [INFO]     step:1000 t_sim:25.00 ms
+2024-03-15 16:15:49,514 [INFO]     step:2000 t_sim:50.00 ms
+2024-03-15 16:16:35,611 [INFO]     step:3000 t_sim:75.00 ms
+2024-03-15 16:17:23,805 [INFO]     step:4000 t_sim:100.00 ms
+2024-03-15 16:17:23,830 [INFO] Simulation completed in 3.0 minutes, 12.83 seconds 
