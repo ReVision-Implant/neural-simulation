@@ -18,12 +18,14 @@ sys.path.append(module_path)
 from mask_small import apply_mask_small
 
 net = NetworkBuilder("small_network")
+depth_range=[40,120]
+radial_range=[0,65]
+N=137
 net.add_nodes(
     N=137,
     pop_name='e23Cux2',
     #positions = positions_columnar(N=137, center=[0, 50.0, 0], max_radius=65.0, height=80.0),
-    positions_no_mask = generate_random_positions(N, [40,120], [0,65]),
-    positions=apply_mask_small(positions_no_mask),
+    positions=apply_mask_small(generate_random_positions(N, depth_range, radial_range)),
     rotation_angle_yaxis=xiter_random(N=100, min_x=0.0, max_x=2*np.pi),
     rotation_angle_zaxis=xiter_random(N=100, min_x=0.0, max_x=2*np.pi),
     model_type='biophysical',
