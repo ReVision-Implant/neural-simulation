@@ -19,7 +19,7 @@ net = NetworkBuilder("small_network")
 net.add_nodes(
     N=100,
     pop_name='e23Cux2',
-    positions = positions_columnar(N=100, center=[0, 50.0, 0], max_radius=65.0, height=80.0),
+    positions = positions_columnar(N=137, center=[0, 50.0, 0], max_radius=65.0, height=80.0),
     #positions=apply_mask_small(positions_columnar(N=100, center=[0, 50.0, 0], max_radius=65.0, height=80.0)),
     rotation_angle_yaxis=xiter_random(N=100, min_x=0.0, max_x=2*np.pi),
     rotation_angle_zaxis=xiter_random(N=100, min_x=0.0, max_x=2*np.pi),
