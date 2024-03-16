@@ -26,6 +26,7 @@ net.add_nodes(
     pop_name='e23Cux2',
     #positions = positions_columnar(N=137, center=[0, 50.0, 0], max_radius=65.0, height=80.0),
     positions=apply_mask_small(generate_random_positions(N, depth_range, radial_range)),
+    rotation_angle_xais=xiter_random(N=137, min_x=0.0, max_x=2*np.pi),
     rotation_angle_yaxis=xiter_random(N=137, min_x=0.0, max_x=2*np.pi),
     rotation_angle_zaxis=xiter_random(N=137, min_x=0.0, max_x=2*np.pi),
     model_type='biophysical',
