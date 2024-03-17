@@ -6,7 +6,7 @@ from bmtk.simulator import bionet
 
 
 build_env_bionet(
-    base_dir='simulation_basic',
+    base_dir='simulation_axon_10_diam_1',
     #base_dir='simulation_long_4',
     config_file='config.json',
     network_dir='network_mask_dense',
