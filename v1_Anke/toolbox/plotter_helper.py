@@ -28,7 +28,7 @@ class SubPlotter():
         """   
         ### Setting attributes
         self.ax = ax
-        exp, mice = format_params(exp, pattern, amplitude, mice)
+        exp, mice = format_params(exp, mice)
         self.exp = exp
         #self.pattern = pattern[0]
         #self.amplitude = amplitude[0]
