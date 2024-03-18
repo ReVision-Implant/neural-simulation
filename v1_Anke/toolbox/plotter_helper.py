@@ -6,6 +6,7 @@ from scipy.ndimage import gaussian_filter
 from scipy.stats import norm
 from file_helper import format_params, get_dirs
 from spikes_helper import get_grid, get_spikes, get_centroid_cov
+from ipdb import set_trace
 
 class SubPlotter():
     """The SubPlotter class can be used together with the Plotter class to modify individual subplots. 
@@ -62,6 +63,7 @@ class SubPlotter():
         self.grid = np.zeros((self.size,self.size))
 
         ### Get the node positions and corresponding spike count of each neuron
+        set_trace()
         self.node_pos, self.n_spikes = get_spikes(**self.__dict__)
 
         ### Get grid based on spikes
