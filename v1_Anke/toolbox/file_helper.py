@@ -220,7 +220,7 @@ def get_dirs(exp, patterns, amplitudes, mice):
                 nodes_dirs.append(os.path.join(root, 'networks', mouse, 'small_network_nodes.h5'))
                 spikes_dirs.append(os.path.join(root,  exp, 'output', pattern, amplitude, mouse, 'spikes.csv'))
                 #spikes_bkg_dirs.append(os.path.join(root,  exp, 'output', 'bkg', mouse, 'spikes.csv'))
-                #pattern_dirs.append(os.path.join(root, 'components', 'stimulation', 'patterns', exp, pattern+'.csv'))
+                pattern_dirs.append(os.path.join(root, 'components', 'stimulation', 'patterns', exp, pattern+'.csv'))
                 electrodes_dirs.append(os.path.join(root, 'components', 'stimulation', 'electrodes', exp, 'electrodes.csv'))
 
     return dict(nodes_dirs=nodes_dirs, spikes_dirs=spikes_dirs,spikes_bkg_dirs=spikes_bkg_dirs, pattern_dirs=pattern_dirs, electrodes_dirs=electrodes_dirs, radius=radius, v1=True)
