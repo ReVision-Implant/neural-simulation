@@ -201,7 +201,7 @@ class Plotter():
         self.n_cols = n_cols
         self.fig, self.axs = plt.subplots(n_rows, n_cols, sharex=True, sharey=True, figsize=(5*n_cols,5*n_rows))
 
-    def plot_all(self, exp, patterns, amplitudes, mice, row_param=None, col_param=None, depth=None, sigma=10, centroid=True, electrodes=True, ticks=True):
+    def plot_all(self, exp, patterns, mice, row_param=None, col_param=None, depth=None, sigma=10, centroid=True, electrodes=True, ticks=True):
         """Iteratively populate all subplots. For more control over each specific subplot, use SubPlotter explicitly.
         All parameters (exp, patterns, amplitudes, mice) can be varied between subplot rows and columns.
         When there is only one row/column, row_param/col_param should be None.
@@ -231,10 +231,10 @@ class Plotter():
         :param electrodes: (bool) If True, plot electrodes. Defaults to True.
         :param ticks: (bool) If True, set ticks to default value. Defaults to True
         """        
-        exp, patterns, amplitudes, mice = format_params(exp, patterns, amplitudes, mice)    
+        exp, patterns, mice = format_params(exp, patterns, mice)    
         self.exp = exp
         self.patterns = patterns
-        self.amplitudes = amplitudes
+        #self.amplitudes = amplitudes
         self.mice = mice
         self.depth = depth
         self.sigma = sigma
@@ -256,7 +256,7 @@ class Plotter():
                     ax = self.axs[row+col]
                 else:
                     ax = self.axs[row, col]
-                self.subplots[row,col] = SubPlotter(ax, self.exp, self.patterns, self.amplitudes, self.mice, self.depth, self.sigma, centroid=centroid, electrodes=electrodes, ticks=ticks)
+                self.subplots[row,col] = SubPlotter(ax, self.exp, self.patterns, self.mice, self.depth, self.sigma, centroid=centroid, electrodes=electrodes, ticks=ticks)
     
         return
     
