@@ -217,13 +217,13 @@ def get_dirs(exp, patterns, amplitudes, mice):
             for mouse in mice:
                 root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
-                nodes_dirs.append(os.path.join(root, 'networks', mouse, 'v1_nodes.h5'))
+                nodes_dirs.append(os.path.join(root, 'networks', mouse, 'small_network_nodes.h5'))
                 spikes_dirs.append(os.path.join(root,  exp, 'output', pattern, amplitude, mouse, 'spikes.csv'))
-                spikes_bkg_dirs.append(os.path.join(root,  exp, 'output', 'bkg', mouse, 'spikes.csv'))
-                pattern_dirs.append(os.path.join(root, 'components', 'stimulation', 'patterns', exp, pattern+'.csv'))
+                #spikes_bkg_dirs.append(os.path.join(root,  exp, 'output', 'bkg', mouse, 'spikes.csv'))
+                #pattern_dirs.append(os.path.join(root, 'components', 'stimulation', 'patterns', exp, pattern+'.csv'))
                 electrodes_dirs.append(os.path.join(root, 'components', 'stimulation', 'electrodes', exp, 'electrodes.csv'))
 
-    return dict(nodes_dirs=nodes_dirs, spikes_dirs=spikes_dirs, spikes_bkg_dirs=spikes_bkg_dirs, pattern_dirs=pattern_dirs, electrodes_dirs=electrodes_dirs, radius=radius, v1=True)
+    return dict(nodes_dirs=nodes_dirs, spikes_dirs=spikes_dirs,spikes_bkg_dirs=spikes_bkg_dirs, pattern_dirs=pattern_dirs, electrodes_dirs=electrodes_dirs, radius=radius, v1=True)
 
 """
 def print_args(names=False, **kwargs):
