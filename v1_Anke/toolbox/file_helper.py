@@ -1,6 +1,7 @@
 import json
 import os
 import pandas as pd
+from ipdb import set_trace
 
 def create_configs(template, exp, patterns, amplitudes, mice, overwrite=False):
     """Create config files according to specified stimulation parameters. 
@@ -166,6 +167,8 @@ def format_params(exp, patterns, amplitudes, mice):
     mice = [mice] if not isinstance(mice, list) else mice
     mice = [format_param(str(i), 'mouse') for i in mice]
 
+    set_trace()
+
     return exp, patterns, amplitudes, mice
 
 def format_param(input, name):
@@ -217,8 +220,8 @@ def get_dirs(exp, patterns, amplitudes, mice):
             for mouse in mice:
                 root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
-                nodes_dirs.append(os.path.join(root, 'networks', mouse, 'small_network_nodes.h5'))
-                spikes_dirs.append(os.path.join(root,  exp, 'output', pattern, amplitude, mouse, 'spikes.csv'))
+                nodes_dirs.append(os.path.join(root, 'networks', 'network_mask_dense', 'small_network_nodes.h5'))
+                spikes_dirs.append(os.path.join(root,  exp, 'output', 'spikes.csv'))
                 #spikes_bkg_dirs.append(os.path.join(root,  exp, 'output', 'bkg', mouse, 'spikes.csv'))
                 pattern_dirs.append(os.path.join(root, 'components', 'stimulation', 'patterns', 'small', pattern+'.csv'))
                 electrodes_dirs.append(os.path.join(root, 'components', 'stimulation', 'electrodes', exp, 'electrodes.csv'))
