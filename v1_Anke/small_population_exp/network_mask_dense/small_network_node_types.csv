@@ -1,0 +1,2 @@
+node_type_id model_template dynamics_params pop_name model_processing model_type morphology
+100 ctdb:Biophys1.hoc 487661754_fit.json e23Cux2 aibs_perisomatic biophysical Cux2-CreERT2_Ai14-211772.05.02.01_496085150_m.swc

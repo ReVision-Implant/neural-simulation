@@ -54,13 +54,13 @@ def apply_mask_small(positions): # still need to adjust coordinates!! ##
         if interpolated_value==1000.000000:
             #print(positions[coordinate])
             if positions[coordinate,1]>81:
-                positions[coordinate,1]+=1
+                positions[coordinate,1]+=1+6.4
             elif positions[coordinate,1]==81:
-                positions[coordinate,1]+=random.choice([10.1,-10.1])
+                positions[coordinate,1]+=random.choice([16.5,-16.5])
             elif positions[coordinate,1]>66 and positions[coordinate,1]<75:
-                 positions[coordinate,1]+=1   
+                 positions[coordinate,1]+=1+6.4   
             elif positions[coordinate,1]==66:
-                positions[coordinate,1]+=random.choice([1.1,-1.1])
+                positions[coordinate,1]+=random.choice([7.5,-7.5])
             else:
                 positions[coordinate,1]+=-1
             #print(positions[coordinate])
