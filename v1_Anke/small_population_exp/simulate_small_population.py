@@ -11,7 +11,7 @@ build_env_bionet(
     config_file='config.json',
     network_dir='network_mask_dense',
     tstop=100.0, dt=0.025,
-    #report_vars=['v'], # Record membrane potential
+    report_vars=['v'], # Record membrane potential
     #current_clamp={  # Creates a step current from 500.0 ms to 1500.0 ms  
      #   'amp': 0.120,
     #    'delay': 500.0,
