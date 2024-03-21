@@ -7,7 +7,7 @@ def connector(source, target):
         return None
     if source['node_id'] == 1:
         return None
-    return 2
+    return 1
 
 net = NetworkBuilder("net")
 pos_neuron_1=[7, 101, 44]
@@ -27,9 +27,9 @@ net.add_nodes(
 net.add_edges(
     source={'pop_name': 'e23Cux2'}, target={'pop_name': 'e23Cux2'},
     connection_rule=connector,
-    syn_weight=1,
+    syn_weight=100,
     target_sections=['basal', 'apical'],
-    distance_range=[0.0,1.0], # determines where on the post-syn cell to place the synapse. The placement is random within the given section and range
+    distance_range=[0.0,150.0], # determines where on the post-syn cell to place the synapse. The placement is random within the given section and range
     delay=1.6,
     dynamics_params='AMPA_ExcToExc.json',
     model_template='exp2syn'
