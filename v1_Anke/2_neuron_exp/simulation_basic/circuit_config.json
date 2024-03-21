@@ -17,14 +17,14 @@
   "networks": {
     "nodes": [
       {
-        "nodes_file": "$NETWORK_DIR\\2_neuron_network_nodes.h5",
-        "node_types_file": "$NETWORK_DIR\\2_neuron_network_node_types.csv"
+        "nodes_file": "$NETWORK_DIR\\net_nodes.h5",
+        "node_types_file": "$NETWORK_DIR\\net_node_types.csv"
       }
     ],
     "edges": [
       {
-        "edges_file": "$NETWORK_DIR\\2_neuron_network_2_neuron_network_edges.h5",
-        "edge_types_file": "$NETWORK_DIR\\2_neuron_network_2_neuron_network_edge_types.csv"
+        "edges_file": "$NETWORK_DIR\\net_net_edges.h5",
+        "edge_types_file": "$NETWORK_DIR\\net_net_edge_types.csv"
       }
     ],
     "gap_juncs": []
