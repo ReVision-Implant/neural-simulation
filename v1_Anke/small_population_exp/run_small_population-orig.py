@@ -3,7 +3,7 @@
 
 from bmtk.simulator import bionet
 
-conf = bionet.Config.from_json('simulation_basic/config.json')
+conf = bionet.Config.from_json('simulation_basic_el_1_5/config.json')
 #conf=bionet.Config.from_json('simulation_long_axons/config.json')
 conf.build_env()
 net = bionet.BioNetwork.from_config(conf)
