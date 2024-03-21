@@ -41,7 +41,7 @@
       "variable_name": "v",
       "cells": "all",
       "module": "membrane_report",
-      "sections": "soma"
+      "sections": ["soma","axon"]
     }
   },
   "node_sets_file": "$BASE_DIR\\node_sets.json"
