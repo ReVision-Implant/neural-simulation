@@ -36,5 +36,5 @@ net.add_edges(
 )
 
 net.build()
-net.save_nodes(output_dir='both_far_z')
-net.save_edges(output_dir='both_far_z')
+net.save_nodes(output_dir='networks/both_far_z')
+net.save_edges(output_dir='networks/both_far_z')
