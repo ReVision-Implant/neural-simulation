@@ -7,7 +7,7 @@ def connector(source, target):
         return None
     if source['node_id'] == 1:
         return None
-    return 1
+    return 2
 
 net = NetworkBuilder("net")
 pos_neuron_1=[7, 101, 44]
