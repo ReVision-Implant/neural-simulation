@@ -23,7 +23,7 @@
     "input_type": "lfp",
     "node_set": "all",
     "module": "comsol",
-    "comsol_files": ["$STIM_DIR/comsol/electrode_1_small.txt","$STIM_DIR/comsol/electrode_2_small.txt"],
+    "comsol_files": ["$STIM_DIR/comsol/electrode_0_small.txt","$STIM_DIR/comsol/electrode_1_small.txt"],
     "waveforms": ["$STIM_DIR/waveforms/waveform_0.csv","$STIM_DIR/waveforms/waveform_0.csv"],
     "amplitudes": [10,-10]
     
