@@ -1,18 +1,22 @@
-
 import numpy as np
 from bmtk.builder.networks import NetworkBuilder
 
+def connector(source, target):
+    count=0
+    if source['node_id'] == target['node_id']:
+        return None
+    if source['node_id'] == 1:
+        return None
+    return 1
 
 net = NetworkBuilder("2_neuron_network")
-pos_neuron_1=[7,101,44]
-pos_neuron_2=[40,101,44]
+pos_neuron_1=[7, 101, 44]
+pos_neuron_2=[40, 101, 44]
+
 net.add_nodes(
-    N=2,
+    N =2,
     pop_name='e23Cux2',
-    positions=np.row_stack((pos_neuron_1,pos_neuron_2)),
-    #rotation_angle_xais=xiter_random(N=137, min_x=0.0, max_x=2*np.pi),
-    #rotation_angle_yaxis=xiter_random(N=137, min_x=0.0, max_x=2*np.pi),
-    #rotation_angle_zaxis=xiter_random(N=137, min_x=0.0, max_x=2*np.pi),
+    positions=np.row_stack((pos_neuron_1, pos_neuron_2)),
     model_type='biophysical',
     model_template='ctdb:Biophys1.hoc',
     model_processing='aibs_perisomatic',
@@ -20,10 +24,9 @@ net.add_nodes(
     morphology="Cux2-CreERT2_Ai14-211772.05.02.01_496085150_m.swc"
 )
 
-
 net.add_edges(
     source={'pop_name': 'e23Cux2'}, target={'pop_name': 'e23Cux2'},
-    connection_rule=1,
+    connection_rule=connector,
     syn_weight=1,
     target_sections=['basal', 'apical'],
     delay=1.6,
