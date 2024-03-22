@@ -37,7 +37,7 @@ def fix_axon_peri_multiple_stubs(hobj, num_stubs, stub_lengths, stub_diameters):
         hobj.axon[i+1].connect(hobj.axon[i],1,0) #first parameter 1 = where section is connected; value 1 means the connection is made at the end of the section; which is the distal end of the section being connected to, second parameter: connection is made at the proximal end of the section being connected to
 
     #connect the first stub to the soma
-    hobj.axon[0].connect(hobj.soma[0], 1, 0) #0.5 means that the connection is made at the midpoint of the soma
+    hobj.axon[0].connect(hobj.soma[0], 0, 0) #0.5 means that the connection is made at the midpoint of the soma
 
     #Define the shape of the axon
     h.define_shape()
@@ -58,11 +58,11 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
     return hobj
 
 
-#add_cell_processor(aibs_perisomatic, overwrite=True)
+add_cell_processor(aibs_perisomatic, overwrite=True)
 
 
 #conf = bionet.Config.from_json('simulation/config.json')
-conf=bionet.Config.from_json('sim_basic_both_far_z/config.json')
+conf=bionet.Config.from_json('sim_axon_10_diam_1_begin_both_far_z/config.json')
 conf.build_env()
 net = bionet.BioNetwork.from_config(conf)
 sim = bionet.BioSimulator.from_config(conf, network=net)
