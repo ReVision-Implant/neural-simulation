@@ -45,6 +45,44 @@ def fix_axon_peri_multiple_stubs(hobj, num_stubs, stub_lengths, stub_diameters):
     return hobj
 
 
+def set_params_peri_axon_model(hobj, biophys_params):
+    """Set biophysical parameters for the cell
+
+    :param hobj: NEURON's cell object
+    :param biophys_params: name of json file with biophys params for cell's model which determine spiking behavior
+    :return:
+    """
+    passive = biophys_params['passive'][0]
+    conditions = biophys_params['conditions'][0]
+    genome = biophys_params['genome']
+
+    # Set passive properties
+    cm_dict = dict([(c['section'], c['cm']) for c in passive['cm']])
+    for sec in hobj.all:
+        sec.Ra = passive['ra']
+        sec.cm = cm_dict[sec.name().split(".")[1][:4]]
+        sec.insert('pas')
+
+        for seg in sec:
+            seg.pas.e = passive["e_pas"]
+
+    # Insert channels and set parameters
+    for p in genome:
+        sections = [s for s in hobj.all if s.name().split(".")[1][:4] == p["section"]]
+
+        for sec in sections:
+            if p["mechanism"] != "":
+                sec.insert(p["mechanism"])
+            setattr(sec, p["name"], p["value"])
+
+    # Set reversal potentials
+    for erev in conditions['erev']:
+        sections = [s for s in hobj.all if s.name().split(".")[1][:4] == erev["section"]]
+        for sec in sections:
+            sec.ena = erev["ena"]
+            sec.ek = erev["ek"]
+
+
 def aibs_perisomatic(hobj, cell, dynamics_params):
     if dynamics_params is not None:
         node_id = cell["node_id"]
@@ -53,7 +91,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         
         # fix_axon_peri(hobj)
         fix_axon_peri_multiple_stubs(hobj, 10, [30,30,30,30,30,30,30,30,30,30], [1,1,1,1,1,1,1,1,1,1])
-        set_params_peri(hobj, dynamics_params)
+        set_params_peri_axon_model(hobj, dynamics_params)
 
     return hobj
 
