@@ -10,8 +10,8 @@ def connector(source, target):
     return 1
 
 net = NetworkBuilder("net")
-pos_neuron_1=[1, 95, 150]
-pos_neuron_2=[1, 95, 200]
+pos_neuron_1=[1, 95, 29.5]
+pos_neuron_2=[1, 95, -100]
 
 net.add_nodes(
     N =2,
@@ -36,5 +36,5 @@ net.add_edges(
 )
 
 net.build()
-net.save_nodes(output_dir='networks/far_z')
-net.save_edges(output_dir='networks/far_z')
+net.save_nodes(output_dir='networks/1_close_z_test')
+net.save_edges(output_dir='networks/1_close_z_test')
