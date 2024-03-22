@@ -58,11 +58,11 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
     return hobj
 
 
-add_cell_processor(aibs_perisomatic, overwrite=True)
+#add_cell_processor(aibs_perisomatic, overwrite=True)
 
 
 #conf = bionet.Config.from_json('simulation/config.json')
-conf=bionet.Config.from_json('simulation_basic_both_far/config.json')
+conf=bionet.Config.from_json('sim_basic_1_close_x/config.json')
 conf.build_env()
 net = bionet.BioNetwork.from_config(conf)
 sim = bionet.BioSimulator.from_config(conf, network=net)

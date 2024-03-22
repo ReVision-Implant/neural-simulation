@@ -1,0 +1,2 @@
+edge_type_id target_query source_query target_sections syn_weight distance_range model_template delay dynamics_params
+100 pop_name=='e23Cux2' pop_name=='e23Cux2' "['basal', 'apical']" 100 "[0.0, 150.0]" exp2syn 1.6 AMPA_ExcToExc.json
