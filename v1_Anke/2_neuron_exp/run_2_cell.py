@@ -62,7 +62,7 @@ add_cell_processor(aibs_perisomatic, overwrite=True)
 
 
 #conf = bionet.Config.from_json('simulation/config.json')
-conf=bionet.Config.from_json('sim_axon_10_diam_1/conduct_gpas_3/config.json')
+conf=bionet.Config.from_json('sim_axon_10_diam_1/conduct_gpas_0.0000003/config.json')
 conf.build_env()
 net = bionet.BioNetwork.from_config(conf)
 sim = bionet.BioSimulator.from_config(conf, network=net)
