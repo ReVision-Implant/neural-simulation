@@ -48,4 +48,5 @@ v1_Anke/virtual_mice/**
 v1_Anke/slices/**
 v1_Anke/virtual_mice_mask/**
 v1_Anke/virtual_mice_adj_coordinates/**
+v1_Anke/virtueal_mice_mask_overlap/**
 bmtk/bmtk/simulator/bionet/**
