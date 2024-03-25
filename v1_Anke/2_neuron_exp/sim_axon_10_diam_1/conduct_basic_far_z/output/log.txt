@@ -1,13 +1,13 @@
-2024-03-22 11:21:51,862 [INFO] Created log file
-2024-03-22 11:21:52,581 [INFO] Building cells.
-2024-03-22 11:21:52,671 [INFO] Fixing cell #0, e23Cux2
-2024-03-22 11:21:52,771 [INFO] Fixing cell #1, e23Cux2
-2024-03-22 11:21:52,777 [INFO] Building recurrent connections
-2024-03-22 11:21:53,811 [INFO] Running simulation for 100.000 ms with the time step 0.025 ms
-2024-03-22 11:21:53,811 [INFO] Starting timestep: 0 at t_sim: 0.000 ms
-2024-03-22 11:21:53,811 [INFO] Block save every 1000 steps
-2024-03-22 11:21:54,343 [INFO]     step:1000 t_sim:25.00 ms
-2024-03-22 11:21:54,881 [INFO]     step:2000 t_sim:50.00 ms
-2024-03-22 11:21:55,413 [INFO]     step:3000 t_sim:75.00 ms
-2024-03-22 11:21:56,031 [INFO]     step:4000 t_sim:100.00 ms
-2024-03-22 11:21:56,054 [INFO] Simulation completed in 2.242 seconds 
+2024-03-25 14:38:24,005 [INFO] Created log file
+2024-03-25 14:38:24,089 [INFO] Building cells.
+2024-03-25 14:38:24,149 [INFO] Fixing cell #0, e23Cux2
+2024-03-25 14:38:24,215 [INFO] Fixing cell #1, e23Cux2
+2024-03-25 14:38:24,223 [INFO] Building recurrent connections
+2024-03-25 14:38:25,180 [INFO] Running simulation for 100.000 ms with the time step 0.025 ms
+2024-03-25 14:38:25,180 [INFO] Starting timestep: 0 at t_sim: 0.000 ms
+2024-03-25 14:38:25,180 [INFO] Block save every 1000 steps
+2024-03-25 14:38:25,755 [INFO]     step:1000 t_sim:25.00 ms
+2024-03-25 14:38:26,385 [INFO]     step:2000 t_sim:50.00 ms
+2024-03-25 14:38:26,985 [INFO]     step:3000 t_sim:75.00 ms
+2024-03-25 14:38:27,595 [INFO]     step:4000 t_sim:100.00 ms
+2024-03-25 14:38:27,605 [INFO] Simulation completed in 2.425 seconds 
