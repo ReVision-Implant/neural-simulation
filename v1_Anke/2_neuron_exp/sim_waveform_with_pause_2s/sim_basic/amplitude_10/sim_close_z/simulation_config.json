@@ -15,7 +15,7 @@
   },
   "conditions": {
     "celsius": 34.0,
-    "v_init": -80.0
+    "v_init": -96.0
   },
   "inputs": {
     "Extracellular_Stim": {
