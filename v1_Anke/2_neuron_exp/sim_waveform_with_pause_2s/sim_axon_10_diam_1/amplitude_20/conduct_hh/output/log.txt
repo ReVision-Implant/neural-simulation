@@ -1,305 +1,96 @@
-2024-03-26 13:03:32,982 [INFO] Created log file
-2024-03-26 13:03:33,036 [INFO] Building cells.
-2024-03-26 13:03:33,086 [INFO] Fixing cell #0, e23Cux2
-2024-03-26 13:03:33,086 [INFO] passive model added to Biophys1[0].soma[0]
-2024-03-26 13:03:33,086 [INFO] passive model added to Biophys1[0].dend[0]
-2024-03-26 13:03:33,086 [INFO] passive model added to Biophys1[0].dend[1]
-2024-03-26 13:03:33,086 [INFO] passive model added to Biophys1[0].dend[2]
-2024-03-26 13:03:33,086 [INFO] passive model added to Biophys1[0].dend[3]
-2024-03-26 13:03:33,086 [INFO] passive model added to Biophys1[0].dend[4]
-2024-03-26 13:03:33,086 [INFO] passive model added to Biophys1[0].dend[5]
-2024-03-26 13:03:33,086 [INFO] passive model added to Biophys1[0].dend[6]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[7]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[8]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[9]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[10]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[11]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[12]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[13]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[14]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[15]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[16]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[17]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[18]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[19]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[20]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[21]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[22]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[23]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[24]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[25]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[26]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[27]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[28]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[29]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[30]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[31]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[32]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[33]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[34]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[35]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[36]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[37]
-2024-03-26 13:03:33,108 [INFO] passive model added to Biophys1[0].dend[38]
-2024-03-26 13:03:33,113 [INFO] passive model added to Biophys1[0].dend[39]
-2024-03-26 13:03:33,113 [INFO] passive model added to Biophys1[0].dend[40]
-2024-03-26 13:03:33,113 [INFO] passive model added to Biophys1[0].dend[41]
-2024-03-26 13:03:33,113 [INFO] passive model added to Biophys1[0].dend[42]
-2024-03-26 13:03:33,113 [INFO] passive model added to Biophys1[0].dend[43]
-2024-03-26 13:03:33,113 [INFO] passive model added to Biophys1[0].dend[44]
-2024-03-26 13:03:33,113 [INFO] passive model added to Biophys1[0].dend[45]
-2024-03-26 13:03:33,113 [INFO] passive model added to Biophys1[0].dend[46]
-2024-03-26 13:03:33,114 [INFO] passive model added to Biophys1[0].dend[47]
-2024-03-26 13:03:33,114 [INFO] passive model added to Biophys1[0].dend[48]
-2024-03-26 13:03:33,114 [INFO] passive model added to Biophys1[0].dend[49]
-2024-03-26 13:03:33,114 [INFO] passive model added to Biophys1[0].dend[50]
-2024-03-26 13:03:33,114 [INFO] passive model added to Biophys1[0].dend[51]
-2024-03-26 13:03:33,114 [INFO] passive model added to Biophys1[0].dend[52]
-2024-03-26 13:03:33,114 [INFO] passive model added to Biophys1[0].apic[0]
-2024-03-26 13:03:33,114 [INFO] passive model added to Biophys1[0].apic[1]
-2024-03-26 13:03:33,115 [INFO] passive model added to Biophys1[0].apic[2]
-2024-03-26 13:03:33,115 [INFO] passive model added to Biophys1[0].apic[3]
-2024-03-26 13:03:33,115 [INFO] passive model added to Biophys1[0].apic[4]
-2024-03-26 13:03:33,115 [INFO] passive model added to Biophys1[0].apic[5]
-2024-03-26 13:03:33,115 [INFO] passive model added to Biophys1[0].apic[6]
-2024-03-26 13:03:33,115 [INFO] passive model added to Biophys1[0].apic[7]
-2024-03-26 13:03:33,115 [INFO] passive model added to Biophys1[0].apic[8]
-2024-03-26 13:03:33,115 [INFO] passive model added to Biophys1[0].apic[9]
-2024-03-26 13:03:33,115 [INFO] passive model added to Biophys1[0].apic[10]
-2024-03-26 13:03:33,116 [INFO] passive model added to Biophys1[0].apic[11]
-2024-03-26 13:03:33,116 [INFO] passive model added to Biophys1[0].apic[12]
-2024-03-26 13:03:33,116 [INFO] passive model added to Biophys1[0].apic[13]
-2024-03-26 13:03:33,116 [INFO] passive model added to Biophys1[0].apic[14]
-2024-03-26 13:03:33,116 [INFO] passive model added to Biophys1[0].apic[15]
-2024-03-26 13:03:33,116 [INFO] passive model added to Biophys1[0].apic[16]
-2024-03-26 13:03:33,116 [INFO] passive model added to Biophys1[0].apic[17]
-2024-03-26 13:03:33,116 [INFO] passive model added to Biophys1[0].apic[18]
-2024-03-26 13:03:33,117 [INFO] passive model added to Biophys1[0].apic[19]
-2024-03-26 13:03:33,117 [INFO] passive model added to Biophys1[0].apic[20]
-2024-03-26 13:03:33,117 [INFO] passive model added to Biophys1[0].apic[21]
-2024-03-26 13:03:33,117 [INFO] passive model added to Biophys1[0].apic[22]
-2024-03-26 13:03:33,117 [INFO] passive model added to Biophys1[0].apic[23]
-2024-03-26 13:03:33,117 [INFO] passive model added to Biophys1[0].apic[24]
-2024-03-26 13:03:33,119 [INFO] passive model added to Biophys1[0].apic[25]
-2024-03-26 13:03:33,119 [INFO] passive model added to Biophys1[0].apic[26]
-2024-03-26 13:03:33,119 [INFO] passive model added to Biophys1[0].apic[27]
-2024-03-26 13:03:33,119 [INFO] passive model added to Biophys1[0].apic[28]
-2024-03-26 13:03:33,119 [INFO] passive model added to Biophys1[0].apic[29]
-2024-03-26 13:03:33,119 [INFO] passive model added to Biophys1[0].apic[30]
-2024-03-26 13:03:33,119 [INFO] passive model added to Biophys1[0].apic[31]
-2024-03-26 13:03:33,119 [INFO] passive model added to Biophys1[0].apic[32]
-2024-03-26 13:03:33,119 [INFO] passive model added to Biophys1[0].apic[33]
-2024-03-26 13:03:33,119 [INFO] passive model added to Biophys1[0].apic[34]
-2024-03-26 13:03:33,119 [INFO] passive model added to Biophys1[0].apic[35]
-2024-03-26 13:03:33,119 [INFO] passive model added to Biophys1[0].apic[36]
-2024-03-26 13:03:33,119 [INFO] passive model added to Biophys1[0].apic[37]
-2024-03-26 13:03:33,119 [INFO] hh added to Biophys1[0].axon[0]
-2024-03-26 13:03:33,119 [INFO] hh added to Biophys1[0].axon[1]
-2024-03-26 13:03:33,119 [INFO] hh added to Biophys1[0].axon[2]
-2024-03-26 13:03:33,119 [INFO] hh added to Biophys1[0].axon[3]
-2024-03-26 13:03:33,119 [INFO] hh added to Biophys1[0].axon[4]
-2024-03-26 13:03:33,119 [INFO] hh added to Biophys1[0].axon[5]
-2024-03-26 13:03:33,119 [INFO] hh added to Biophys1[0].axon[6]
-2024-03-26 13:03:33,119 [INFO] hh added to Biophys1[0].axon[7]
-2024-03-26 13:03:33,119 [INFO] hh added to Biophys1[0].axon[8]
-2024-03-26 13:03:33,119 [INFO] hh added to Biophys1[0].axon[9]
-2024-03-26 13:03:33,186 [INFO] Fixing cell #1, e23Cux2
-2024-03-26 13:03:33,186 [INFO] passive model added to Biophys1[1].soma[0]
-2024-03-26 13:03:33,186 [INFO] passive model added to Biophys1[1].dend[0]
-2024-03-26 13:03:33,186 [INFO] passive model added to Biophys1[1].dend[1]
-2024-03-26 13:03:33,186 [INFO] passive model added to Biophys1[1].dend[2]
-2024-03-26 13:03:33,186 [INFO] passive model added to Biophys1[1].dend[3]
-2024-03-26 13:03:33,205 [INFO] passive model added to Biophys1[1].dend[4]
-2024-03-26 13:03:33,206 [INFO] passive model added to Biophys1[1].dend[5]
-2024-03-26 13:03:33,206 [INFO] passive model added to Biophys1[1].dend[6]
-2024-03-26 13:03:33,207 [INFO] passive model added to Biophys1[1].dend[7]
-2024-03-26 13:03:33,207 [INFO] passive model added to Biophys1[1].dend[8]
-2024-03-26 13:03:33,207 [INFO] passive model added to Biophys1[1].dend[9]
-2024-03-26 13:03:33,207 [INFO] passive model added to Biophys1[1].dend[10]
-2024-03-26 13:03:33,208 [INFO] passive model added to Biophys1[1].dend[11]
-2024-03-26 13:03:33,208 [INFO] passive model added to Biophys1[1].dend[12]
-2024-03-26 13:03:33,208 [INFO] passive model added to Biophys1[1].dend[13]
-2024-03-26 13:03:33,208 [INFO] passive model added to Biophys1[1].dend[14]
-2024-03-26 13:03:33,208 [INFO] passive model added to Biophys1[1].dend[15]
-2024-03-26 13:03:33,208 [INFO] passive model added to Biophys1[1].dend[16]
-2024-03-26 13:03:33,208 [INFO] passive model added to Biophys1[1].dend[17]
-2024-03-26 13:03:33,208 [INFO] passive model added to Biophys1[1].dend[18]
-2024-03-26 13:03:33,209 [INFO] passive model added to Biophys1[1].dend[19]
-2024-03-26 13:03:33,209 [INFO] passive model added to Biophys1[1].dend[20]
-2024-03-26 13:03:33,209 [INFO] passive model added to Biophys1[1].dend[21]
-2024-03-26 13:03:33,209 [INFO] passive model added to Biophys1[1].dend[22]
-2024-03-26 13:03:33,209 [INFO] passive model added to Biophys1[1].dend[23]
-2024-03-26 13:03:33,209 [INFO] passive model added to Biophys1[1].dend[24]
-2024-03-26 13:03:33,209 [INFO] passive model added to Biophys1[1].dend[25]
-2024-03-26 13:03:33,210 [INFO] passive model added to Biophys1[1].dend[26]
-2024-03-26 13:03:33,210 [INFO] passive model added to Biophys1[1].dend[27]
-2024-03-26 13:03:33,210 [INFO] passive model added to Biophys1[1].dend[28]
-2024-03-26 13:03:33,210 [INFO] passive model added to Biophys1[1].dend[29]
-2024-03-26 13:03:33,210 [INFO] passive model added to Biophys1[1].dend[30]
-2024-03-26 13:03:33,210 [INFO] passive model added to Biophys1[1].dend[31]
-2024-03-26 13:03:33,210 [INFO] passive model added to Biophys1[1].dend[32]
-2024-03-26 13:03:33,211 [INFO] passive model added to Biophys1[1].dend[33]
-2024-03-26 13:03:33,211 [INFO] passive model added to Biophys1[1].dend[34]
-2024-03-26 13:03:33,211 [INFO] passive model added to Biophys1[1].dend[35]
-2024-03-26 13:03:33,211 [INFO] passive model added to Biophys1[1].dend[36]
-2024-03-26 13:03:33,211 [INFO] passive model added to Biophys1[1].dend[37]
-2024-03-26 13:03:33,211 [INFO] passive model added to Biophys1[1].dend[38]
-2024-03-26 13:03:33,211 [INFO] passive model added to Biophys1[1].dend[39]
-2024-03-26 13:03:33,211 [INFO] passive model added to Biophys1[1].dend[40]
-2024-03-26 13:03:33,212 [INFO] passive model added to Biophys1[1].dend[41]
-2024-03-26 13:03:33,212 [INFO] passive model added to Biophys1[1].dend[42]
-2024-03-26 13:03:33,212 [INFO] passive model added to Biophys1[1].dend[43]
-2024-03-26 13:03:33,212 [INFO] passive model added to Biophys1[1].dend[44]
-2024-03-26 13:03:33,212 [INFO] passive model added to Biophys1[1].dend[45]
-2024-03-26 13:03:33,212 [INFO] passive model added to Biophys1[1].dend[46]
-2024-03-26 13:03:33,212 [INFO] passive model added to Biophys1[1].dend[47]
-2024-03-26 13:03:33,213 [INFO] passive model added to Biophys1[1].dend[48]
-2024-03-26 13:03:33,213 [INFO] passive model added to Biophys1[1].dend[49]
-2024-03-26 13:03:33,213 [INFO] passive model added to Biophys1[1].dend[50]
-2024-03-26 13:03:33,213 [INFO] passive model added to Biophys1[1].dend[51]
-2024-03-26 13:03:33,213 [INFO] passive model added to Biophys1[1].dend[52]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[0]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[1]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[2]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[3]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[4]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[5]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[6]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[7]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[8]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[9]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[10]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[11]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[12]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[13]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[14]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[15]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[16]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[17]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[18]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[19]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[20]
-2024-03-26 13:03:33,214 [INFO] passive model added to Biophys1[1].apic[21]
-2024-03-26 13:03:33,218 [INFO] passive model added to Biophys1[1].apic[22]
-2024-03-26 13:03:33,218 [INFO] passive model added to Biophys1[1].apic[23]
-2024-03-26 13:03:33,218 [INFO] passive model added to Biophys1[1].apic[24]
-2024-03-26 13:03:33,218 [INFO] passive model added to Biophys1[1].apic[25]
-2024-03-26 13:03:33,219 [INFO] passive model added to Biophys1[1].apic[26]
-2024-03-26 13:03:33,219 [INFO] passive model added to Biophys1[1].apic[27]
-2024-03-26 13:03:33,219 [INFO] passive model added to Biophys1[1].apic[28]
-2024-03-26 13:03:33,219 [INFO] passive model added to Biophys1[1].apic[29]
-2024-03-26 13:03:33,220 [INFO] passive model added to Biophys1[1].apic[30]
-2024-03-26 13:03:33,220 [INFO] passive model added to Biophys1[1].apic[31]
-2024-03-26 13:03:33,220 [INFO] passive model added to Biophys1[1].apic[32]
-2024-03-26 13:03:33,220 [INFO] passive model added to Biophys1[1].apic[33]
-2024-03-26 13:03:33,220 [INFO] passive model added to Biophys1[1].apic[34]
-2024-03-26 13:03:33,220 [INFO] passive model added to Biophys1[1].apic[35]
-2024-03-26 13:03:33,221 [INFO] passive model added to Biophys1[1].apic[36]
-2024-03-26 13:03:33,221 [INFO] passive model added to Biophys1[1].apic[37]
-2024-03-26 13:03:33,221 [INFO] hh added to Biophys1[1].axon[0]
-2024-03-26 13:03:33,221 [INFO] hh added to Biophys1[1].axon[1]
-2024-03-26 13:03:33,221 [INFO] hh added to Biophys1[1].axon[2]
-2024-03-26 13:03:33,222 [INFO] hh added to Biophys1[1].axon[3]
-2024-03-26 13:03:33,222 [INFO] hh added to Biophys1[1].axon[4]
-2024-03-26 13:03:33,222 [INFO] hh added to Biophys1[1].axon[5]
-2024-03-26 13:03:33,222 [INFO] hh added to Biophys1[1].axon[6]
-2024-03-26 13:03:33,222 [INFO] hh added to Biophys1[1].axon[7]
-2024-03-26 13:03:33,222 [INFO] hh added to Biophys1[1].axon[8]
-2024-03-26 13:03:33,223 [INFO] hh added to Biophys1[1].axon[9]
-2024-03-26 13:03:33,226 [INFO] Building recurrent connections
-2024-03-26 13:03:34,176 [INFO] Running simulation for 2300.000 ms with the time step 0.025 ms
-2024-03-26 13:03:34,176 [INFO] Starting timestep: 0 at t_sim: 0.000 ms
-2024-03-26 13:03:34,176 [INFO] Block save every 1000 steps
-2024-03-26 13:03:34,729 [INFO]     step:1000 t_sim:25.00 ms
-2024-03-26 13:03:35,310 [INFO]     step:2000 t_sim:50.00 ms
-2024-03-26 13:03:35,890 [INFO]     step:3000 t_sim:75.00 ms
-2024-03-26 13:03:36,432 [INFO]     step:4000 t_sim:100.00 ms
-2024-03-26 13:03:36,956 [INFO]     step:5000 t_sim:125.00 ms
-2024-03-26 13:03:37,465 [INFO]     step:6000 t_sim:150.00 ms
-2024-03-26 13:03:37,961 [INFO]     step:7000 t_sim:175.00 ms
-2024-03-26 13:03:38,478 [INFO]     step:8000 t_sim:200.00 ms
-2024-03-26 13:03:39,012 [INFO]     step:9000 t_sim:225.00 ms
-2024-03-26 13:03:39,529 [INFO]     step:10000 t_sim:250.00 ms
-2024-03-26 13:03:40,077 [INFO]     step:11000 t_sim:275.00 ms
-2024-03-26 13:03:40,627 [INFO]     step:12000 t_sim:300.00 ms
-2024-03-26 13:03:41,113 [INFO]     step:13000 t_sim:325.00 ms
-2024-03-26 13:03:41,629 [INFO]     step:14000 t_sim:350.00 ms
-2024-03-26 13:03:42,115 [INFO]     step:15000 t_sim:375.00 ms
-2024-03-26 13:03:42,616 [INFO]     step:16000 t_sim:400.00 ms
-2024-03-26 13:03:43,134 [INFO]     step:17000 t_sim:425.00 ms
-2024-03-26 13:03:43,652 [INFO]     step:18000 t_sim:450.00 ms
-2024-03-26 13:03:44,217 [INFO]     step:19000 t_sim:475.00 ms
-2024-03-26 13:03:44,719 [INFO]     step:20000 t_sim:500.00 ms
-2024-03-26 13:03:45,251 [INFO]     step:21000 t_sim:525.00 ms
-2024-03-26 13:03:45,800 [INFO]     step:22000 t_sim:550.00 ms
-2024-03-26 13:03:46,379 [INFO]     step:23000 t_sim:575.00 ms
-2024-03-26 13:03:46,887 [INFO]     step:24000 t_sim:600.00 ms
-2024-03-26 13:03:47,417 [INFO]     step:25000 t_sim:625.00 ms
-2024-03-26 13:03:47,948 [INFO]     step:26000 t_sim:650.00 ms
-2024-03-26 13:03:48,483 [INFO]     step:27000 t_sim:675.00 ms
-2024-03-26 13:03:49,048 [INFO]     step:28000 t_sim:700.00 ms
-2024-03-26 13:03:49,550 [INFO]     step:29000 t_sim:725.00 ms
-2024-03-26 13:03:50,127 [INFO]     step:30000 t_sim:750.00 ms
-2024-03-26 13:03:50,665 [INFO]     step:31000 t_sim:775.00 ms
-2024-03-26 13:03:51,229 [INFO]     step:32000 t_sim:800.00 ms
-2024-03-26 13:03:51,791 [INFO]     step:33000 t_sim:825.00 ms
-2024-03-26 13:03:52,325 [INFO]     step:34000 t_sim:850.00 ms
-2024-03-26 13:03:52,890 [INFO]     step:35000 t_sim:875.00 ms
-2024-03-26 13:03:53,409 [INFO]     step:36000 t_sim:900.00 ms
-2024-03-26 13:03:53,970 [INFO]     step:37000 t_sim:925.00 ms
-2024-03-26 13:03:54,504 [INFO]     step:38000 t_sim:950.00 ms
-2024-03-26 13:03:55,022 [INFO]     step:39000 t_sim:975.00 ms
-2024-03-26 13:03:55,557 [INFO]     step:40000 t_sim:1000.00 ms
-2024-03-26 13:03:56,072 [INFO]     step:41000 t_sim:1025.00 ms
-2024-03-26 13:03:56,636 [INFO]     step:42000 t_sim:1050.00 ms
-2024-03-26 13:03:57,154 [INFO]     step:43000 t_sim:1075.00 ms
-2024-03-26 13:03:57,719 [INFO]     step:44000 t_sim:1100.00 ms
-2024-03-26 13:03:58,236 [INFO]     step:45000 t_sim:1125.00 ms
-2024-03-26 13:03:58,785 [INFO]     step:46000 t_sim:1150.00 ms
-2024-03-26 13:03:59,318 [INFO]     step:47000 t_sim:1175.00 ms
-2024-03-26 13:03:59,904 [INFO]     step:48000 t_sim:1200.00 ms
-2024-03-26 13:04:00,449 [INFO]     step:49000 t_sim:1225.00 ms
-2024-03-26 13:04:01,046 [INFO]     step:50000 t_sim:1250.00 ms
-2024-03-26 13:04:01,560 [INFO]     step:51000 t_sim:1275.00 ms
-2024-03-26 13:04:02,126 [INFO]     step:52000 t_sim:1300.00 ms
-2024-03-26 13:04:02,647 [INFO]     step:53000 t_sim:1325.00 ms
-2024-03-26 13:04:03,264 [INFO]     step:54000 t_sim:1350.00 ms
-2024-03-26 13:04:03,864 [INFO]     step:55000 t_sim:1375.00 ms
-2024-03-26 13:04:04,432 [INFO]     step:56000 t_sim:1400.00 ms
-2024-03-26 13:04:05,017 [INFO]     step:57000 t_sim:1425.00 ms
-2024-03-26 13:04:05,591 [INFO]     step:58000 t_sim:1450.00 ms
-2024-03-26 13:04:06,125 [INFO]     step:59000 t_sim:1475.00 ms
-2024-03-26 13:04:06,657 [INFO]     step:60000 t_sim:1500.00 ms
-2024-03-26 13:04:07,222 [INFO]     step:61000 t_sim:1525.00 ms
-2024-03-26 13:04:07,833 [INFO]     step:62000 t_sim:1550.00 ms
-2024-03-26 13:04:08,397 [INFO]     step:63000 t_sim:1575.00 ms
-2024-03-26 13:04:08,963 [INFO]     step:64000 t_sim:1600.00 ms
-2024-03-26 13:04:09,480 [INFO]     step:65000 t_sim:1625.00 ms
-2024-03-26 13:04:09,999 [INFO]     step:66000 t_sim:1650.00 ms
-2024-03-26 13:04:10,548 [INFO]     step:67000 t_sim:1675.00 ms
-2024-03-26 13:04:11,080 [INFO]     step:68000 t_sim:1700.00 ms
-2024-03-26 13:04:11,631 [INFO]     step:69000 t_sim:1725.00 ms
-2024-03-26 13:04:12,162 [INFO]     step:70000 t_sim:1750.00 ms
-2024-03-26 13:04:12,733 [INFO]     step:71000 t_sim:1775.00 ms
-2024-03-26 13:04:13,294 [INFO]     step:72000 t_sim:1800.00 ms
-2024-03-26 13:04:13,830 [INFO]     step:73000 t_sim:1825.00 ms
-2024-03-26 13:04:14,362 [INFO]     step:74000 t_sim:1850.00 ms
-2024-03-26 13:04:14,968 [INFO]     step:75000 t_sim:1875.00 ms
-2024-03-26 13:04:15,500 [INFO]     step:76000 t_sim:1900.00 ms
-2024-03-26 13:04:16,051 [INFO]     step:77000 t_sim:1925.00 ms
-2024-03-26 13:04:16,582 [INFO]     step:78000 t_sim:1950.00 ms
-2024-03-26 13:04:17,146 [INFO]     step:79000 t_sim:1975.00 ms
-2024-03-26 13:04:17,681 [INFO]     step:80000 t_sim:2000.00 ms
-2024-03-26 13:04:18,200 [INFO]     step:81000 t_sim:2025.00 ms
-2024-03-26 13:04:18,763 [INFO]     step:82000 t_sim:2050.00 ms
-2024-03-26 13:04:19,311 [INFO]     step:83000 t_sim:2075.00 ms
-2024-03-26 13:04:19,892 [INFO]     step:84000 t_sim:2100.00 ms
-2024-03-26 13:04:20,427 [INFO]     step:85000 t_sim:2125.00 ms
-2024-03-26 13:04:20,952 [INFO]     step:86000 t_sim:2150.00 ms
-2024-03-26 13:04:21,492 [INFO]     step:87000 t_sim:2175.00 ms
-2024-03-26 13:04:22,021 [INFO]     step:88000 t_sim:2200.00 ms
-2024-03-26 13:04:22,590 [INFO]     step:89000 t_sim:2225.00 ms
-2024-03-26 13:04:23,106 [INFO]     step:90000 t_sim:2250.00 ms
-2024-03-26 13:04:23,671 [INFO]     step:91000 t_sim:2275.00 ms
-2024-03-26 13:04:24,193 [INFO]     step:92000 t_sim:2300.00 ms
-2024-03-26 13:04:24,208 [INFO] Simulation completed in 50.03 seconds 
+2024-03-26 13:18:23,341 [INFO] Created log file
+2024-03-26 13:18:23,433 [INFO] Building cells.
+2024-03-26 13:18:23,483 [INFO] Fixing cell #0, e23Cux2
+2024-03-26 13:18:23,483 [INFO] passive model added to Biophys1[0].soma[0]
+2024-03-26 13:18:23,483 [INFO] passive model added to Biophys1[0].dend[0]
+2024-03-26 13:18:23,483 [INFO] passive model added to Biophys1[0].dend[1]
+2024-03-26 13:18:23,483 [INFO] passive model added to Biophys1[0].dend[2]
+2024-03-26 13:18:23,483 [INFO] passive model added to Biophys1[0].dend[3]
+2024-03-26 13:18:23,483 [INFO] passive model added to Biophys1[0].dend[4]
+2024-03-26 13:18:23,483 [INFO] passive model added to Biophys1[0].dend[5]
+2024-03-26 13:18:23,483 [INFO] passive model added to Biophys1[0].dend[6]
+2024-03-26 13:18:23,498 [INFO] passive model added to Biophys1[0].dend[7]
+2024-03-26 13:18:23,498 [INFO] passive model added to Biophys1[0].dend[8]
+2024-03-26 13:18:23,498 [INFO] passive model added to Biophys1[0].dend[9]
+2024-03-26 13:18:23,499 [INFO] passive model added to Biophys1[0].dend[10]
+2024-03-26 13:18:23,499 [INFO] passive model added to Biophys1[0].dend[11]
+2024-03-26 13:18:23,499 [INFO] passive model added to Biophys1[0].dend[12]
+2024-03-26 13:18:23,499 [INFO] passive model added to Biophys1[0].dend[13]
+2024-03-26 13:18:23,499 [INFO] passive model added to Biophys1[0].dend[14]
+2024-03-26 13:18:23,499 [INFO] passive model added to Biophys1[0].dend[15]
+2024-03-26 13:18:23,499 [INFO] passive model added to Biophys1[0].dend[16]
+2024-03-26 13:18:23,499 [INFO] passive model added to Biophys1[0].dend[17]
+2024-03-26 13:18:23,499 [INFO] passive model added to Biophys1[0].dend[18]
+2024-03-26 13:18:23,499 [INFO] passive model added to Biophys1[0].dend[19]
+2024-03-26 13:18:23,499 [INFO] passive model added to Biophys1[0].dend[20]
+2024-03-26 13:18:23,499 [INFO] passive model added to Biophys1[0].dend[21]
+2024-03-26 13:18:23,499 [INFO] passive model added to Biophys1[0].dend[22]
+2024-03-26 13:18:23,499 [INFO] passive model added to Biophys1[0].dend[23]
+2024-03-26 13:18:23,502 [INFO] passive model added to Biophys1[0].dend[24]
+2024-03-26 13:18:23,502 [INFO] passive model added to Biophys1[0].dend[25]
+2024-03-26 13:18:23,502 [INFO] passive model added to Biophys1[0].dend[26]
+2024-03-26 13:18:23,502 [INFO] passive model added to Biophys1[0].dend[27]
+2024-03-26 13:18:23,502 [INFO] passive model added to Biophys1[0].dend[28]
+2024-03-26 13:18:23,503 [INFO] passive model added to Biophys1[0].dend[29]
+2024-03-26 13:18:23,503 [INFO] passive model added to Biophys1[0].dend[30]
+2024-03-26 13:18:23,503 [INFO] passive model added to Biophys1[0].dend[31]
+2024-03-26 13:18:23,503 [INFO] passive model added to Biophys1[0].dend[32]
+2024-03-26 13:18:23,503 [INFO] passive model added to Biophys1[0].dend[33]
+2024-03-26 13:18:23,504 [INFO] passive model added to Biophys1[0].dend[34]
+2024-03-26 13:18:23,504 [INFO] passive model added to Biophys1[0].dend[35]
+2024-03-26 13:18:23,504 [INFO] passive model added to Biophys1[0].dend[36]
+2024-03-26 13:18:23,504 [INFO] passive model added to Biophys1[0].dend[37]
+2024-03-26 13:18:23,504 [INFO] passive model added to Biophys1[0].dend[38]
+2024-03-26 13:18:23,504 [INFO] passive model added to Biophys1[0].dend[39]
+2024-03-26 13:18:23,504 [INFO] passive model added to Biophys1[0].dend[40]
+2024-03-26 13:18:23,505 [INFO] passive model added to Biophys1[0].dend[41]
+2024-03-26 13:18:23,505 [INFO] passive model added to Biophys1[0].dend[42]
+2024-03-26 13:18:23,505 [INFO] passive model added to Biophys1[0].dend[43]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].dend[44]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].dend[45]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].dend[46]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].dend[47]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].dend[48]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].dend[49]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].dend[50]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].dend[51]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].dend[52]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[0]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[1]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[2]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[3]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[4]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[5]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[6]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[7]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[8]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[9]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[10]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[11]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[12]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[13]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[14]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[15]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[16]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[17]
+2024-03-26 13:18:23,506 [INFO] passive model added to Biophys1[0].apic[18]
+2024-03-26 13:18:23,510 [INFO] passive model added to Biophys1[0].apic[19]
+2024-03-26 13:18:23,510 [INFO] passive model added to Biophys1[0].apic[20]
+2024-03-26 13:18:23,510 [INFO] passive model added to Biophys1[0].apic[21]
+2024-03-26 13:18:23,510 [INFO] passive model added to Biophys1[0].apic[22]
+2024-03-26 13:18:23,510 [INFO] passive model added to Biophys1[0].apic[23]
+2024-03-26 13:18:23,510 [INFO] passive model added to Biophys1[0].apic[24]
+2024-03-26 13:18:23,510 [INFO] passive model added to Biophys1[0].apic[25]
+2024-03-26 13:18:23,510 [INFO] passive model added to Biophys1[0].apic[26]
+2024-03-26 13:18:23,511 [INFO] passive model added to Biophys1[0].apic[27]
+2024-03-26 13:18:23,511 [INFO] passive model added to Biophys1[0].apic[28]
+2024-03-26 13:18:23,511 [INFO] passive model added to Biophys1[0].apic[29]
+2024-03-26 13:18:23,512 [INFO] passive model added to Biophys1[0].apic[30]
+2024-03-26 13:18:23,512 [INFO] passive model added to Biophys1[0].apic[31]
+2024-03-26 13:18:23,513 [INFO] passive model added to Biophys1[0].apic[32]
+2024-03-26 13:18:23,513 [INFO] passive model added to Biophys1[0].apic[33]
+2024-03-26 13:18:23,513 [INFO] passive model added to Biophys1[0].apic[34]
+2024-03-26 13:18:23,514 [INFO] passive model added to Biophys1[0].apic[35]
+2024-03-26 13:18:23,515 [INFO] passive model added to Biophys1[0].apic[36]
+2024-03-26 13:18:23,515 [INFO] passive model added to Biophys1[0].apic[37]
+2024-03-26 13:18:23,516 [INFO] hh added to Biophys1[0].axon[0]

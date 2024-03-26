@@ -65,7 +65,7 @@ def set_params_peri_axon_hh(hobj, biophys_params):
         if 'axon' in sec.name():
             io.log_info(f'hh added to {sec}')
             sec.insert('hh')
-            sec.insert('xtra')
+            sec.insert('xtra') #need to find other way; this does not work
         else:    
             io.log_info(f'passive model added to {sec}')
             sec.insert('pas')
@@ -110,7 +110,7 @@ add_cell_processor(aibs_perisomatic, overwrite=True)
 
 
 #conf = bionet.Config.from_json('simulation/config.json')
-conf=bionet.Config.from_json('sim_waveform_with_pause_2s/axon_10_diam_1/amplitude_20/conduct_hh/config.json')
+conf=bionet.Config.from_json('sim_waveform_with_pause_2s/sim_axon_10_diam_1/amplitude_20/conduct_hh/config.json')
 conf.build_env()
 net = bionet.BioNetwork.from_config(conf)
 sim = bionet.BioSimulator.from_config(conf, network=net)
