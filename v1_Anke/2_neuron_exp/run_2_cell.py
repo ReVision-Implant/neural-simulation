@@ -46,7 +46,7 @@ def fix_axon_peri_multiple_stubs(hobj, num_stubs, stub_lengths, stub_diameters):
     return hobj
 
 
-def set_params_peri_axon_model(hobj, biophys_params):
+def set_params_peri_axon_hh(hobj, biophys_params):
     """Set biophysical parameters for the cell
     :param hobj: NEURON's cell object
     :param biophys_params: name of json file with biophys params for cell's model which determine spiking behavior
@@ -99,17 +99,17 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         
         # fix_axon_peri(hobj)
         fix_axon_peri_multiple_stubs(hobj, 10, [30,30,30,30,30,30,30,30,30,30], [1,1,1,1,1,1,1,1,1,1])
-        #set_params_peri(hobj, dynamics_params)
-        set_params_peri_axon_model(hobj, dynamics_params)
+        set_params_peri(hobj, dynamics_params)
+        #set_params_peri_axon_hh(hobj, dynamics_params)
 
     return hobj
 
 
-#add_cell_processor(aibs_perisomatic, overwrite=True)
+add_cell_processor(aibs_perisomatic, overwrite=True)
 
 
 #conf = bionet.Config.from_json('simulation/config.json')
-conf=bionet.Config.from_json('sim_waveform_with_pause_2s/sim_basic/amplitude_20/sim_far/config.json')
+conf=bionet.Config.from_json('sim_waveform_5ms_pause/axon_10_diam_1/amplitude_20/conduct_basic/config.json')
 conf.build_env()
 net = bionet.BioNetwork.from_config(conf)
 sim = bionet.BioSimulator.from_config(conf, network=net)
