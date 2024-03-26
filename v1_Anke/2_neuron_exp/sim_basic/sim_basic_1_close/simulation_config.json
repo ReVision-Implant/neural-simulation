@@ -7,7 +7,7 @@
   "target_simulator": "NEURON",
   "run": {
     "tstart": 0.0,
-    "tstop": 100.0,
+    "tstop": 200.0,
     "dt": 0.025,
     "dL": 20.0,
     "spike_threshold": -15.0,
@@ -15,7 +15,7 @@
   },
   "conditions": {
     "celsius": 34.0,
-    "v_init": -80.0
+    "v_init": -96.0
   },
   "inputs": {
     "Extracellular_Stim": {
@@ -23,7 +23,7 @@
     "node_set": "all",
     "module": "comsol",
     "comsol_files": ["$STIM_DIR/comsol/electrode_1_small.txt","$STIM_DIR/comsol/electrode_2_small.txt"],
-    "waveforms": ["$STIM_DIR/waveforms/waveform_test.csv","$STIM_DIR/waveforms/waveform_test.csv"],
+    "waveforms": ["$STIM_DIR/waveforms/waveform_pause_20ms.csv","$STIM_DIR/waveforms/waveform_pause_20ms.csv"],
     "amplitudes": [10,-10]
     
   }
