@@ -109,7 +109,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 
 #conf = bionet.Config.from_json('simulation/config.json')
-conf=bionet.Config.from_json('sim_basic/sim_basic_1_close/config.json')
+conf=bionet.Config.from_json('sim_waveform_5ms_pause/sim_basic/amplitude_10/sim_close_z/config.json')
 conf.build_env()
 net = bionet.BioNetwork.from_config(conf)
 sim = bionet.BioSimulator.from_config(conf, network=net)
