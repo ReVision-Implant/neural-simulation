@@ -99,8 +99,8 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         
         # fix_axon_peri(hobj)
         fix_axon_peri_multiple_stubs(hobj, 10, [30,30,30,30,30,30,30,30,30,30], [1,1,1,1,1,1,1,1,1,1])
-        set_params_peri(hobj, dynamics_params)
-        #set_params_peri_axon_model(hobj, dynamics_params)
+        #set_params_peri(hobj, dynamics_params)
+        set_params_peri_axon_model(hobj, dynamics_params)
 
     return hobj
 
@@ -109,7 +109,7 @@ add_cell_processor(aibs_perisomatic, overwrite=True)
 
 
 #conf = bionet.Config.from_json('simulation/config.json')
-conf=bionet.Config.from_json('sim_axon_10_diam_1/amplitude_20/conduct_basic_far/config.json')
+conf=bionet.Config.from_json('sim_axon_10_diam_1/amplitude_20/conduct_hh/config.json')
 conf.build_env()
 net = bionet.BioNetwork.from_config(conf)
 sim = bionet.BioSimulator.from_config(conf, network=net)
