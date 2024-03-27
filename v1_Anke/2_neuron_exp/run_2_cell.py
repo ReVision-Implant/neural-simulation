@@ -62,25 +62,23 @@ def set_params_peri_axon_hh(hobj, biophys_params):
     for sec in hobj.all:
         sec.Ra = passive['ra']
         sec.cm = cm_dict[sec.name().split(".")[1][:4]]
-        if 'axon' in sec.name():
-            io.log_info(f'hh added to {sec}')
-            sec.insert('hh')
-            sec.insert('xtra') #need to find other way; this does not work
-        else:    
-            io.log_info(f'passive model added to {sec}')
-            sec.insert('pas')
-            for seg in sec:
-                seg.pas.e = passive["e_pas"]
+        sec.insert('pas')
+        for seg in sec:
+            seg.pas.e = passive["e_pas"]
             
 
     # Insert channels and set parameters
     for p in genome:
         sections = [s for s in hobj.all if s.name().split(".")[1][:4] == p["section"]]
+        soma_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "soma"]
+        axon_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "axon"]
+        non_axon_sections = [s for s in hobj.all if s not in axon_sections]
 
         for sec in sections:
             if p["mechanism"] != "":
-                sec.insert(p["mechanism"])    
+                sec.insert(p["mechanism"])     
             setattr(sec, p["name"], p["value"])
+    
 
     # Set reversal potentials
     for erev in conditions['erev']:
@@ -110,7 +108,7 @@ add_cell_processor(aibs_perisomatic, overwrite=True)
 
 
 #conf = bionet.Config.from_json('simulation/config.json')
-conf=bionet.Config.from_json('sim_waveform_with_pause_2s/sim_axon_10_diam_1/amplitude_20/conduct_hh/config.json')
+conf=bionet.Config.from_json('sim_waveform_5ms_pause/axon_10_diam_1/amplitude_20/conduct_hh/config.json')
 conf.build_env()
 net = bionet.BioNetwork.from_config(conf)
 sim = bionet.BioSimulator.from_config(conf, network=net)

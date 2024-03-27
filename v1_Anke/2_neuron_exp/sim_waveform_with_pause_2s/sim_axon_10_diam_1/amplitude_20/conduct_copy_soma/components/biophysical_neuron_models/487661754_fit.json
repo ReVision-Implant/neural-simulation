@@ -41,7 +41,7 @@
           "ek": -107.0
         }
       ], 
-      "v_init": -75
+      "v_init": -95.9708480834961
     }
   ], 
   "genome": [
@@ -121,9 +121,9 @@
       "section": "soma", 
       "name": "g_pas", 
       "value": 4.2038141349805653e-06, 
-      "mechanism": "" 
-    
+      "mechanism": ""
     }, 
+    
     {
       "section": "dend", 
       "name": "g_pas", 
