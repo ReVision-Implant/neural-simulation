@@ -46,7 +46,7 @@ def fix_axon_peri_multiple_stubs(hobj, num_stubs, stub_lengths, stub_diameters):
     return hobj
 
 
-def set_params_peri_axon_hh(hobj, biophys_params):
+def set_params_peri_axon_copy_soma(hobj, biophys_params):
     """Set biophysical parameters for the cell
     :param hobj: NEURON's cell object
     :param biophys_params: name of json file with biophys params for cell's model which determine spiking behavior
@@ -63,32 +63,58 @@ def set_params_peri_axon_hh(hobj, biophys_params):
         sec.Ra = passive['ra']
         sec.cm = cm_dict[sec.name().split(".")[1][:4]]
         sec.insert('pas')
+
         for seg in sec:
             seg.pas.e = passive["e_pas"]
             
 
     # Insert channels and set parameters
     for p in genome:
-        sections = [s for s in hobj.all if s.name().split(".")[1][:4] == p["section"]]
+        dend_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "dend"]
         soma_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "soma"]
         axon_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "axon"]
-        non_axon_sections = [s for s in hobj.all if s not in axon_sections]
 
-        for sec in sections:
-            if p["mechanism"] != "":
-                sec.insert(p["mechanism"])     
-            setattr(sec, p["name"], p["value"])
-    
+        if p["section"] == "dend":
+            for dend_sec in dend_sections:
+                if p["mechanism"] != "":
+                    dend_sec.insert(p["mechanism"])     
+                setattr(dend_sec, p["name"], p["value"])
+
+        if p["section"] == "soma":
+            for soma_sec in soma_sections:
+                io.log_info(f'soma section param set')
+                if p["mechanism"] != "":
+                    soma_sec.insert(p["mechanism"])
+                setattr(soma_sec, p["name"], p["value"])        
+            for axon_sec in axon_sections:
+                io.log_info(f'axon section param set')
+                if p["mechanism"] != "":
+                    axon_sec.insert(p["mechanism"])
+                setattr(axon_sec, p["name"], p["value"])
+        
+        else:
+            io.log_info(f'axon section nothing happens')
+            continue
 
     # Set reversal potentials
     for erev in conditions['erev']:
-        sections = [s for s in hobj.all if s.name().split(".")[1][:4] == erev["section"]]
-        for sec in sections:
-            sec.ena = erev["ena"]
-            sec.ek = erev["ek"]
-        
+        soma_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "soma"]
+        axon_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "axon"]
+        dend_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "dend"]
 
+        #if erev["section"] == "dend":
+        #    for dend_sec in dend_sections:
+        #        dend_sec.ena=erev["ena"]
+        #        dend_sec.ena=erev["ek"]
 
+        if erev["section"] == "soma":
+            io.log_info(f'erev potentials for soma and axons')
+            for soma_sec in soma_sections:
+                soma_sec.ena = erev["ena"]
+                soma_sec.ek = erev["ek"]
+            for axon_sec in axon_sections:
+                axon_sec.ena = erev["ena"]
+                axon_sec.ek = erev["ek"]    
 
 def aibs_perisomatic(hobj, cell, dynamics_params):
     if dynamics_params is not None:
@@ -99,7 +125,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         # fix_axon_peri(hobj)
         fix_axon_peri_multiple_stubs(hobj, 10, [30,30,30,30,30,30,30,30,30,30], [1,1,1,1,1,1,1,1,1,1])
         #set_params_peri(hobj, dynamics_params)
-        set_params_peri_axon_hh(hobj, dynamics_params)
+        set_params_peri_axon_copy_soma(hobj, dynamics_params)
 
     return hobj
 
@@ -108,7 +134,7 @@ add_cell_processor(aibs_perisomatic, overwrite=True)
 
 
 #conf = bionet.Config.from_json('simulation/config.json')
-conf=bionet.Config.from_json('sim_waveform_5ms_pause/axon_10_diam_1/amplitude_20/conduct_hh/config.json')
+conf=bionet.Config.from_json('sim_waveform_5ms_pause/axon_10_diam_1/amplitude_20/conduct_copy_soma/config.json')
 conf.build_env()
 net = bionet.BioNetwork.from_config(conf)
 sim = bionet.BioSimulator.from_config(conf, network=net)
