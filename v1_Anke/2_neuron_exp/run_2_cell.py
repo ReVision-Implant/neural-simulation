@@ -71,38 +71,51 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
     # Insert channels and set parameters
     for p in genome:
         dend_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "dend"]
-        soma_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "soma"]
-        axon_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "axon"]
+        soma_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "soma"]
+        axon_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "axon"]
+        apic_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "apic"]
 
         if p["section"] == "dend":
+            io.log_info(f'dyn param dend')
             for dend_sec in dend_sections:
                 if p["mechanism"] != "":
                     dend_sec.insert(p["mechanism"])     
                 setattr(dend_sec, p["name"], p["value"])
 
+        if p["section"] == "apic":
+            io.log_info(f'dyn param apic')
+            for apic_sec in apic_sections:
+                if p["mechanism"] != "":
+                    apic_sec.insert(p["mechanism"])
+                setattr(apic_sec, p["name"], p["value"])    
+                        
+
         if p["section"] == "soma":
+            io.log_info(f'soma & axon section param set')
             for soma_sec in soma_sections:
-                io.log_info(f'soma section param set')
                 if p["mechanism"] != "":
                     soma_sec.insert(p["mechanism"])
                 setattr(soma_sec, p["name"], p["value"])        
             for axon_sec in axon_sections:
-                io.log_info(f'axon section param set')
                 if p["mechanism"] != "":
                     axon_sec.insert(p["mechanism"])
                 setattr(axon_sec, p["name"], p["value"])
         
-        else:
+        if p["section"] == "axon":
             io.log_info(f'axon section nothing happens')
             continue
+
+        else:
+            io.log_error(f'another section that was not taken into account!! -> check')    
 
     # Set reversal potentials
     for erev in conditions['erev']:
         soma_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "soma"]
         axon_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "axon"]
-        dend_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "dend"]
+        #dend_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "dend"]
+        #apic_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "apic"]
 
-        #if erev["section"] == "dend":
+        #if erev["section"] == "dend":  -> left out because dendrites always passive in v1 model bmtk
         #    for dend_sec in dend_sections:
         #        dend_sec.ena=erev["ena"]
         #        dend_sec.ena=erev["ek"]
@@ -134,7 +147,7 @@ add_cell_processor(aibs_perisomatic, overwrite=True)
 
 
 #conf = bionet.Config.from_json('simulation/config.json')
-conf=bionet.Config.from_json('sim_waveform_5ms_pause/axon_10_diam_1/amplitude_20/conduct_copy_soma/config.json')
+conf=bionet.Config.from_json('sim_waveform_with_pause_2s/sim_axon_10_diam_1/amplitude_20/conduct_copy_soma/config.json')
 conf.build_env()
 net = bionet.BioNetwork.from_config(conf)
 sim = bionet.BioSimulator.from_config(conf, network=net)
