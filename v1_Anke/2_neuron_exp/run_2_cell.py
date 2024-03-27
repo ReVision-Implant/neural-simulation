@@ -121,7 +121,7 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
         #        dend_sec.ena=erev["ek"]
 
         if erev["section"] == "soma":
-            io.log_info(f'erev potentials for soma and axons')
+            #io.log_info(f'erev potentials for soma and axons')
             for soma_sec in soma_sections:
                 soma_sec.ena = erev["ena"]
                 soma_sec.ek = erev["ek"]
