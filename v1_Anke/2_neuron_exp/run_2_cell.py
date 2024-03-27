@@ -76,14 +76,14 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
         apic_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "apic"]
 
         if p["section"] == "dend":
-            io.log_info(f'dyn param dend')
+            #io.log_info(f'dyn param dend')
             for dend_sec in dend_sections:
                 if p["mechanism"] != "":
                     dend_sec.insert(p["mechanism"])     
                 setattr(dend_sec, p["name"], p["value"])
 
         elif p["section"] == "apic":
-            io.log_info(f'dyn param apic')
+            #io.log_info(f'dyn param apic')
             for apic_sec in apic_sections:
                 if p["mechanism"] != "":
                     apic_sec.insert(p["mechanism"])
@@ -91,7 +91,7 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
                         
 
         elif p["section"] == "soma":
-            io.log_info(f'soma & axon section param set')
+            #io.log_info(f'soma & axon section param set')
             for soma_sec in soma_sections:
                 if p["mechanism"] != "":
                     soma_sec.insert(p["mechanism"])
@@ -102,7 +102,7 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
                 setattr(axon_sec, p["name"], p["value"])
         
         elif p["section"] == "axon":
-            io.log_info(f'axon section nothing happens')
+            #io.log_info(f'axon section nothing happens')
             continue
 
         else:
