@@ -2,3 +2,5 @@
 2024-03-28 12:46:46,640 [INFO] Running NEURON with mpi (36 cores).
 2024-03-28 12:46:54,574 [INFO] Building cells.
 2024-03-28 12:53:13,324 [INFO] Building recurrent connections
+2024-03-28 14:54:16,943 [INFO] Building virtual cell stimulations for LGN_spikes
+2024-03-28 14:55:44,248 [INFO] Building virtual cell stimulations for BKG_spikes
