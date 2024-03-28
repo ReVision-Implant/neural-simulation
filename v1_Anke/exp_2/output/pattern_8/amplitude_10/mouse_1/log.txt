@@ -4,3 +4,6 @@
 2024-03-28 12:53:13,324 [INFO] Building recurrent connections
 2024-03-28 14:54:16,943 [INFO] Building virtual cell stimulations for LGN_spikes
 2024-03-28 14:55:44,248 [INFO] Building virtual cell stimulations for BKG_spikes
+2024-03-28 14:57:32,794 [INFO] Running simulation for 100.000 ms with the time step 0.025 ms
+2024-03-28 14:57:32,809 [INFO] Starting timestep: 0 at t_sim: 0.000 ms
+2024-03-28 14:57:32,809 [INFO] Block save every 1000 steps
