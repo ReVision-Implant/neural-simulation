@@ -1,7 +1,7 @@
 from bmtk.utils.sim_setup import build_env_bionet
 
 build_env_bionet(
-    base_dir='sim_waveform_with_pause_2s/sim_axon_10_diam_5/amplitude_20/conduct_copy_soma',
+    base_dir='sim_waveform_with_pause_2s/sim_axon_10_diam_12/amplitude_20/conduct_copy_soma',
     config_file='config.json',
     network_dir='networks/far_z',
     tstop=3000.0, dt=0.025,
