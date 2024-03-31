@@ -279,22 +279,17 @@ class Plotter():
         """Sets the legend in the figure.
         First collects the handles and labels of all elements in any subplot.
         Then removes elements with duplicate label. 
-        
-        :param \**kwargs: Passed to self.fig.legend(\**kwargs)      
+    
+    :param \**kwargs: Passed to self.fig.legend(\**kwargs) """
+        handles = []
+        labels = []
 
-        :Example: Plot
-            ::
+        for row in self.axs:
+            for ax in row:
+                h, l = ax.get_legend_handles_labels()
+                handles.extend(h)
+                labels.extend(l)
 
-                fig = Plotter(1,2)
-                fig.plot_all(0,0,30,[1,2],'patterns','mice', False, False, False)
-                fig.set_all(func='set_ticks')
-                fig.set_all(func='plot_centroid')
-                fig.set_all(func='plot_electrodes')
-
-        """
-        handles, labels = zip(*[ax.get_legend_handles_labels() for ax in self.axs])
-        handles = [y for x in handles for y in x]
-        labels = [y for x in labels for y in x]
         i = 0
         while i < len(labels):
             if labels[i] in labels[:i]:
@@ -302,8 +297,17 @@ class Plotter():
                 handles[i:i+1] = []
                 i -= 1
             i += 1
+
         self.fig.legend(handles=handles, labels=labels, **kwargs)
 
+    def set_titles(self, titles):
+        """Set titles for individual subplots.
+        
+        :param titles: List of titles for each subplot, ordered row by row.
+        """
+        for i, row in enumerate(self.axs):
+            for j, ax in enumerate(row):
+                ax.set_title(titles[i][j])
 
 if __name__ == "__main__":
 
