@@ -12,15 +12,16 @@ n_rows=2
 n_cols=2
 row_param ="amplitudes"
 col_param ="patterns"
+dir='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_2/output/plots/spatial/layer4_symm_ampl.png'
 
 plot=Plotter(n_rows,n_cols)
 
-#electrodes not plotted at the correct locations???
+
 
 plot.plot_all(exp, patterns, amplitudes, mice, row_param, col_param, depth=None, sigma=10, centroid=True, electrodes=True, ticks=True)
 plot.legend()
 titles = [['layer 4 symm, 10 µA', 'layer 4 asymm, 20 µA'], ['layer 4 symm, 20 µA', 'layer 4 asymm, 20µA']]
 plot.set_titles(titles)
 
-
+plt.savefig(dir)
 plt.show()
