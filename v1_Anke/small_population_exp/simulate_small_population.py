@@ -9,7 +9,7 @@ build_env_bionet(
     base_dir='simulation_no_connection_test',
     #base_dir='simulation_long_4',
     config_file='config.json',
-    network_dir='network_no_connection_test',
+    network_dir='network_no_connections_test',
     tstop=100.0, dt=0.025,
     #report_vars=['v'], # Record membrane potential
     #current_clamp={  # Creates a step current from 500.0 ms to 1500.0 ms  

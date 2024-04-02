@@ -1,0 +1,78 @@
+{
+  "network": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test\\circuit_config.json",
+  "simulation": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test\\simulation_config.json",
+  "config_path": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test\\config.json",
+  "config_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test",
+  "components": {
+    "biophysical_neuron_models_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test\\components\\biophysical_neuron_models",
+    "filter_models_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test\\components\\filter_models",
+    "mechanisms_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test\\components\\mechanisms",
+    "morphologies_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test\\components\\morphologies",
+    "point_neuron_models_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test\\components\\point_neuron_models",
+    "synaptic_models_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test\\components\\synaptic_models",
+    "templates_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test\\components\\templates",
+    "__pycache___dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test\\components\\__pycache__"
+  },
+  "networks": {
+    "nodes": [
+      {
+        "nodes_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\network_no_connections_test\\small_network_nodes.h5",
+        "node_types_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\network_no_connections_test\\small_network_node_types.csv"
+      }
+    ],
+    "edges": [
+      {
+        "edges_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\network_no_connections_test\\small_network_small_network_edges.h5",
+        "edge_types_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\network_no_connections_test\\small_network_small_network_edge_types.csv"
+      }
+    ],
+    "gap_juncs": []
+  },
+  "target_simulator": "NEURON",
+  "run": {
+    "tstop": 100.0,
+    "dt": 0.025,
+    "dL": 20.0,
+    "spike_threshold": -15.0,
+    "nsteps_block": 1000
+  },
+  "conditions": {
+    "celsius": 34.0,
+    "v_init": -80.0
+  },
+  "inputs": {
+    "Extracellular_Stim": {
+      "input_type": "lfp",
+      "node_set": "all",
+      "module": "comsol",
+      "comsol_files": [
+        "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test/components/stimulation/comsol/electrode_1_small.txt",
+        "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test/components/stimulation/comsol/electrode_2_small.txt"
+      ],
+      "waveforms": [
+        "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test/components/stimulation/waveforms/waveform_0.csv",
+        "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test/components/stimulation/waveforms/waveform_0.csv"
+      ],
+      "amplitudes": [
+        10,
+        -10
+      ]
+    }
+  },
+  "output": {
+    "log_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test\\output\\log.txt",
+    "output_dir": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test\\output",
+    "spikes_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test\\output\\spikes.h5",
+    "spikes_file_csv": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test\\output\\spikes.csv"
+  },
+  "reports": {},
+  "node_sets_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\small_population_exp\\simulation_no_connection_test\\node_sets.json",
+  "node_sets": {
+    "biophysical_nodes": {
+      "model_type": "biophysical"
+    },
+    "point_nodes": {
+      "model_type": "point_process"
+    }
+  }
+}
