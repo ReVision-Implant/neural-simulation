@@ -47,7 +47,7 @@
       "variable_name": "e_extracellular",
       "module": "membrane_report",
       "file_name": "e_report.h5",
-      "sections": "all",
+      "sections": ["soma","axon"],
       "enabled": true
     }
   },

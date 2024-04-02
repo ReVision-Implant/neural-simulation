@@ -138,15 +138,11 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         io.log_info(f'Fixing cell #{node_id}, {cell_type}')
         
         # fix_axon_peri(hobj)
-        fix_axon_peri_multiple_stubs(hobj, 5, [30,30,30,30,30], [1,1,1,1,1])
+        fix_axon_peri_multiple_stubs(hobj, 5, [30,30,30,30,30,30,30,30,30,30], [1,1,1,1,1,1,1,1,1,1])
         #set_params_peri(hobj, dynamics_params)
         set_params_peri_axon_copy_soma(hobj, dynamics_params)
 
     return hobj
-
-
-add_cell_processor(aibs_perisomatic, overwrite=True)
-
 
 def plot_axon_vm(output_dir='output', pop_name='net'):
     import h5py
@@ -194,18 +190,21 @@ def plot_axon_extracell_input(output_dir='output', pop_name='net'):
     plt.title('Extracellular input (axon)')
     plt.legend()
     
+add_cell_processor(aibs_perisomatic, overwrite=True)
 
 
 
-#conf = bionet.Config.from_json('simulation/config.json')
-conf=bionet.Config.from_json('config.json')
+
+dir='sim_waveform_with_pause_2s/sim_axon_10_diam_12/amplitude_20/conduct_copy_soma'
+output= dir+'/output'
+
+conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
 net = bionet.BioNetwork.from_config(conf)
 sim = bionet.BioSimulator.from_config(conf, network=net)
 sim.run()
 
-
 # plot_traces(config_file='config.json', report_name='v_report', population='net', show=False)
-plot_axon_extracell_input()
-plot_axon_vm()
+plot_axon_extracell_input(output_dir = output)
+plot_axon_vm(output_dir=output)
 plt.show()
