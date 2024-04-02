@@ -10,7 +10,7 @@ def connector(source, target):
     return 1
 
 net = NetworkBuilder("net")
-pos_neuron_1=[1, 95, 58]
+pos_neuron_1=[1, 95, 0]
 pos_neuron_2=[1, 95, 100]
 
 net.add_nodes(
@@ -36,5 +36,5 @@ net.add_edges(
 )
 
 net.build()
-net.save_nodes(output_dir='networks/neuron_pos_58')
-net.save_edges(output_dir='networks/neuron_pos_58')
+net.save_nodes(output_dir='networks/mid_neuron_horizontal')
+net.save_edges(output_dir='networks/mid_neuron_horizontal')
