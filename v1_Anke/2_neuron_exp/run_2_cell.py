@@ -100,6 +100,7 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
                 if p["mechanism"] != "":
                     axon_sec.insert(p["mechanism"])
                 setattr(axon_sec, p["name"], p["value"])
+                io.log_info(f'test')
         
         elif p["section"] == "axon":
             #io.log_info(f'axon section nothing happens')
@@ -112,13 +113,6 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
     for erev in conditions['erev']:
         soma_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "soma"]
         axon_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "axon"]
-        #dend_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "dend"]
-        #apic_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "apic"]
-
-        #if erev["section"] == "dend":  -> left out because dendrites always passive in v1 model bmtk
-        #    for dend_sec in dend_sections:
-        #        dend_sec.ena=erev["ena"]
-        #        dend_sec.ena=erev["ek"]
 
         if erev["section"] == "soma":
             #io.log_info(f'erev potentials for soma and axons')
@@ -126,6 +120,7 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
                 soma_sec.ena = erev["ena"]
                 soma_sec.ek = erev["ek"]
             for axon_sec in axon_sections:
+                io.log_info(f'axon_sec', {axon_sec})
                 axon_sec.ena = erev["ena"]
                 axon_sec.ek = erev["ek"]    
 
@@ -183,7 +178,21 @@ def set_params_peri_active_axon(hobj, biophys_params):
             for axon_sec in axon_sections:
                 if p["mechanism"] == "":
                     setattr(axon_sec, p["name"], p["value"])
-                    io.log_info(f'gpas axon set',{p["name"], p["value"]})
+                    #io.log_info(f'gpas axon set')
+
+                axon_sec.insert("hh")
+                #setattr(axon_sec, "gnabar_mammalian_spike", 0.420)
+                #setattr(axon_sec, "gkbar_mammalian_spike", 0.250)
+                #setattr(axon_sec, "gcabar_mammalian_spike", 0.00075)
+                #setattr(axon_sec, "gkcbar_mammalian_spike", 0.00011)
+                #io.log_info(f'hh axon set')
+
+                #axon_sec.insert("cad")
+                #setattr(axon_sec, "depth_cad", 0.1)
+                #setattr(axon_sec, "taur_cad", 1.5)
+                #io.log_info(f'cad axon set',{axon_sec})
+
+
         
         elif p["section"] == "axon":
             #io.log_info(f'axon section nothing happens')
@@ -194,25 +203,10 @@ def set_params_peri_active_axon(hobj, biophys_params):
 
     # Set reversal potentials
     for erev in conditions['erev']:
-        soma_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "soma"]
-        axon_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "axon"]
-        #dend_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "dend"]
-        #apic_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "apic"]
-
-        #if erev["section"] == "dend":  -> left out because dendrites always passive in v1 model bmtk
-        #    for dend_sec in dend_sections:
-        #        dend_sec.ena=erev["ena"]
-        #        dend_sec.ena=erev["ek"]
-
-        if erev["section"] == "soma":
-            #io.log_info(f'erev potentials for soma and axons')
-            for soma_sec in soma_sections:
-                soma_sec.ena = erev["ena"]
-                soma_sec.ek = erev["ek"]
-            for axon_sec in axon_sections:
-                axon_sec.ena = erev["ena"]
-                axon_sec.ek = erev["ek"]   
-
+        sections = [s for s in hobj.all if s.name().split(".")[1][:4] == erev["section"]]
+        for sec in sections:
+            sec.ena = erev["ena"]
+            sec.ek = erev["ek"]
 
 
 def aibs_perisomatic(hobj, cell, dynamics_params):
@@ -222,10 +216,10 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         io.log_info(f'Fixing cell #{node_id}, {cell_type}')
         
         #fix_axon_peri(hobj)
-        fix_axon_peri_multiple_stubs(hobj, 2, [30,30], [12,12])
+        fix_axon_peri_multiple_stubs(hobj, 2, [30,30], [1,1])
         #set_params_peri(hobj, dynamics_params)
-        #set_params_peri_axon_copy_soma(hobj, dynamics_params)
-        set_params_peri_active_axon(hobj,dynamics_params)
+        set_params_peri_axon_copy_soma(hobj, dynamics_params)
+        #set_params_peri_active_axon(hobj,dynamics_params)
 
     return hobj
 
@@ -233,7 +227,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 add_cell_processor(aibs_perisomatic, overwrite=True)
 
 
-dir='sim_waveform_5ms_pause/axon_2_diam_12/conduct_copy_soma_n58'
+dir='sim_waveform_5ms_pause/axon_2_diam_1/test_n58'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()

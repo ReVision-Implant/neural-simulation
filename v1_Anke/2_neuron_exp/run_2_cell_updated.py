@@ -114,13 +114,6 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
     for erev in conditions['erev']:
         soma_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "soma"]
         axon_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "axon"]
-        #dend_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "dend"]
-        #apic_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "apic"]
-
-        #if erev["section"] == "dend":  -> left out because dendrites always passive in v1 model bmtk
-        #    for dend_sec in dend_sections:
-        #        dend_sec.ena=erev["ena"]
-        #        dend_sec.ena=erev["ek"]
 
         if erev["section"] == "soma":
             #io.log_info(f'erev potentials for soma and axons')
@@ -130,19 +123,6 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
             for axon_sec in axon_sections:
                 axon_sec.ena = erev["ena"]
                 axon_sec.ek = erev["ek"]    
-
-def aibs_perisomatic(hobj, cell, dynamics_params):
-    if dynamics_params is not None:
-        node_id = cell["node_id"]
-        cell_type = cell['pop_name']       
-        io.log_info(f'Fixing cell #{node_id}, {cell_type}')
-        
-        # fix_axon_peri(hobj)
-        fix_axon_peri_multiple_stubs(hobj, 10, [30,30,30,30,30,30,30,30,30,30], [12,12,12,12,12,12,12,12,12,12])
-        #set_params_peri(hobj, dynamics_params)
-        set_params_peri_axon_copy_soma(hobj, dynamics_params)
-
-    return hobj
 
 def plot_axon_vm(output_dir='output', pop_name='net'):
     import h5py
@@ -189,13 +169,26 @@ def plot_axon_extracell_input(output_dir='output', pop_name='net'):
     
     plt.title('Extracellular input (axon)')
     plt.legend()
+
+def aibs_perisomatic(hobj, cell, dynamics_params):
+    if dynamics_params is not None:
+        node_id = cell["node_id"]
+        cell_type = cell['pop_name']       
+        io.log_info(f'Fixing cell #{node_id}, {cell_type}')
+        
+        # fix_axon_peri(hobj)
+        fix_axon_peri_multiple_stubs(hobj, 2, [30,30], [12,12])
+        #set_params_peri(hobj, dynamics_params)
+        set_params_peri_axon_copy_soma(hobj, dynamics_params)
+
+    return hobj    
     
 add_cell_processor(aibs_perisomatic, overwrite=True)
 
 
 
 
-dir='sim_waveform_5ms_pause/axon_10_diam_1/amplitude_20/conduct_copy_soma_n58'
+dir='sim_waveform_5ms_pause/axon_2_diam_1/test_n58'
 output= dir+'/output'
 
 conf=bionet.Config.from_json(dir+'/config.json')
