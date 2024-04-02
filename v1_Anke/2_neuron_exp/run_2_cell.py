@@ -129,6 +129,92 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
                 axon_sec.ena = erev["ena"]
                 axon_sec.ek = erev["ek"]    
 
+def set_params_peri_active_axon(hobj, biophys_params):
+    """Set biophysical parameters for the cell
+    :param hobj: NEURON's cell object
+    :param biophys_params: name of json file with biophys params for cell's model which determine spiking behavior
+    :return:
+    """
+    passive = biophys_params['passive'][0]
+    conditions = biophys_params['conditions'][0]
+    genome = biophys_params['genome']
+
+
+    # Set passive properties
+    cm_dict = dict([(c['section'], c['cm']) for c in passive['cm']])
+    for sec in hobj.all:
+        sec.Ra = passive['ra']
+        sec.cm = cm_dict[sec.name().split(".")[1][:4]]
+        sec.insert('pas')
+
+        for seg in sec:
+            seg.pas.e = passive["e_pas"]         
+
+    # Insert channels and set parameters
+    for p in genome:
+        dend_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "dend"]
+        soma_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "soma"]
+        axon_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "axon"]
+        apic_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "apic"]
+
+        if p["section"] == "dend":
+            #io.log_info(f'dyn param dend')
+            for dend_sec in dend_sections:
+                if p["mechanism"] != "":
+                    dend_sec.insert(p["mechanism"])     
+                setattr(dend_sec, p["name"], p["value"])
+
+        elif p["section"] == "apic":
+            #io.log_info(f'dyn param apic')
+            for apic_sec in apic_sections:
+                if p["mechanism"] != "":
+                    apic_sec.insert(p["mechanism"])
+                setattr(apic_sec, p["name"], p["value"])    
+                        
+
+        elif p["section"] == "soma":
+            #io.log_info(f'soma & axon section param set')
+            for soma_sec in soma_sections:
+                if p["mechanism"] != "":
+                    soma_sec.insert(p["mechanism"])
+                setattr(soma_sec, p["name"], p["value"])
+
+        elif p["section"] == "axon":               
+            for axon_sec in axon_sections:
+                if p["mechanism"] == "":
+                    setattr(axon_sec, p["name"], p["value"])
+                    io.log_info(f'gpas axon set',{p["name"], p["value"]})
+        
+        elif p["section"] == "axon":
+            #io.log_info(f'axon section nothing happens')
+            continue
+
+        else:
+            io.log_error(f'another section that was not taken into account!! -> check')    
+
+    # Set reversal potentials
+    for erev in conditions['erev']:
+        soma_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "soma"]
+        axon_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "axon"]
+        #dend_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "dend"]
+        #apic_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "apic"]
+
+        #if erev["section"] == "dend":  -> left out because dendrites always passive in v1 model bmtk
+        #    for dend_sec in dend_sections:
+        #        dend_sec.ena=erev["ena"]
+        #        dend_sec.ena=erev["ek"]
+
+        if erev["section"] == "soma":
+            #io.log_info(f'erev potentials for soma and axons')
+            for soma_sec in soma_sections:
+                soma_sec.ena = erev["ena"]
+                soma_sec.ek = erev["ek"]
+            for axon_sec in axon_sections:
+                axon_sec.ena = erev["ena"]
+                axon_sec.ek = erev["ek"]   
+
+
+
 def aibs_perisomatic(hobj, cell, dynamics_params):
     if dynamics_params is not None:
         node_id = cell["node_id"]
@@ -138,7 +224,8 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         #fix_axon_peri(hobj)
         fix_axon_peri_multiple_stubs(hobj, 2, [30,30], [12,12])
         #set_params_peri(hobj, dynamics_params)
-        set_params_peri_axon_copy_soma(hobj, dynamics_params)
+        #set_params_peri_axon_copy_soma(hobj, dynamics_params)
+        set_params_peri_active_axon(hobj,dynamics_params)
 
     return hobj
 
