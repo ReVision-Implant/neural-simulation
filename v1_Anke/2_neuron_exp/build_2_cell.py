@@ -17,6 +17,9 @@ net.add_nodes(
     N =2,
     pop_name='e23Cux2',
     positions=np.row_stack((pos_neuron_1, pos_neuron_2)),
+    rotation_angle_xaxis = (np.pi)/2,
+    rotation_angle_yaxis = 0,
+    rotation_angle_zaxis = 0,
     model_type='biophysical',
     model_template='ctdb:Biophys1.hoc',
     model_processing='aibs_perisomatic',
@@ -36,5 +39,5 @@ net.add_edges(
 )
 
 net.build()
-net.save_nodes(output_dir='networks/mid_neuron_horizontal')
-net.save_edges(output_dir='networks/mid_neuron_horizontal')
+net.save_nodes(output_dir='networks/mid_neuron_90d_x')
+net.save_edges(output_dir='networks/mid_neuron_90d_x')

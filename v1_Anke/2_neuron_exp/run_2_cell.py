@@ -212,8 +212,8 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
     return hobj
 
 
-add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='sim_waveform_5ms_pause/axon_2_diam_1/test_n58'
+#add_cell_processor(aibs_perisomatic, overwrite=True)
+dir='sim_mid_neuron/waveform_5ms/sim_basic/amplitude_20/horizontal_close'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
