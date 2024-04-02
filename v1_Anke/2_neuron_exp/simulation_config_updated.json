@@ -51,5 +51,5 @@
       "enabled": true
     }
   },
-  "node_sets_file": "node_sets.json"
+  "node_sets_file": "$BASE_DIR\\node_sets.json"
 }
