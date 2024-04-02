@@ -1,0 +1,4 @@
+2024-04-02 11:02:17,497 [INFO] Created log file
+2024-04-02 11:02:17,502 [INFO] Running NEURON with mpi (36 cores).
+2024-04-02 11:02:25,583 [INFO] Building cells.
+2024-04-02 11:08:45,018 [INFO] Building recurrent connections
