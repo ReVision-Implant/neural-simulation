@@ -40,7 +40,7 @@
       "variable_name": "v",
       "cells": "all",
       "module": "membrane_report",
-      "sections": "all"
+      "sections": ["soma","axon"]
     },
     "extracellular": {
       "cells": "all",
