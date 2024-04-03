@@ -238,7 +238,7 @@ def get_axon_direction(hobj):
     axon_seg_coor = np.zeros((4, 3))
     # unit_v = np.asarray([0,1,0])
     axon_seg_coor[0] = soma_end
-    axon_seg_coor[1] = soma_end + (unit_v * 30.)
+    axon_seg_coor[1] = soma_end + (unit_v * 30.) # 30 units away from the soma in the direction of the axon
     axon_seg_coor[2] = soma_end + (unit_v * 60.)
     axon_seg_coor[3] = soma_end + (unit_v * 90.)
 
@@ -258,8 +258,8 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         set_params_peri_axon_copy_soma(hobj, dynamics_params)
         #set_params_peri_active_axon(hobj,dynamics_params)
         axon_seg_coordin,soma_mid = get_axon_direction(hobj)
-        io.log_info(axon_seg_coordin)
         io.log_info(soma_mid)
+        io.log_info(axon_seg_coordin)
 
     return hobj
 
@@ -274,3 +274,4 @@ conf.build_env()
 net = bionet.BioNetwork.from_config(conf)
 sim = bionet.BioSimulator.from_config(conf, network=net)
 sim.run()
+

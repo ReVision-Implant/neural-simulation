@@ -10,16 +10,16 @@ def connector(source, target):
     return 1
 
 net = NetworkBuilder("net")
-pos_neuron_1=[1, 95, 0]
-pos_neuron_2=[1, 95, 100]
+pos_neuron_1=[-14, 60, 12.5]
+pos_neuron_2=[-15, 60, 12.5]
 
 net.add_nodes(
     N =2,
     pop_name='e23Cux2',
     positions=np.row_stack((pos_neuron_1, pos_neuron_2)),
-    rotation_angle_xaxis = (np.pi)/2,
-    rotation_angle_yaxis = 0,
-    rotation_angle_zaxis = 0,
+    #rotation_angle_xaxis = (np.pi)/2,
+    #rotation_angle_yaxis = 0,
+    #rotation_angle_zaxis = 0,
     model_type='biophysical',
     model_template='ctdb:Biophys1.hoc',
     model_processing='aibs_perisomatic',
@@ -39,5 +39,5 @@ net.add_edges(
 )
 
 net.build()
-net.save_nodes(output_dir='networks/mid_neuron_90d_x')
-net.save_edges(output_dir='networks/mid_neuron_90d_x')
+net.save_nodes(output_dir='networks/test_network')
+net.save_edges(output_dir='networks/test_network')
