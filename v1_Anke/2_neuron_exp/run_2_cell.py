@@ -200,6 +200,83 @@ def set_params_peri_active_axon(hobj, biophys_params):
             sec.ena = erev["ena"]
             sec.ek = erev["ek"]
 
+def set_params_peri_hh_axon(hobj, biophys_params):
+    io.log_info(f'set hh model: gNa = 0.04 and gK = 0.035')
+
+    passive = biophys_params['passive'][0]
+    conditions = biophys_params['conditions'][0]
+    genome = biophys_params['genome']
+
+    # Set passive properties
+    cm_dict = dict([(c['section'], c['cm']) for c in passive['cm']])
+    for sec in hobj.all:
+        sec.Ra = passive['ra']
+        sec.cm = cm_dict[sec.name().split(".")[1][:4]]
+        sec.insert('pas')
+
+        for seg in sec:
+            seg.pas.e = passive["e_pas"]         
+
+    # Insert channels and set parameters
+    for p in genome:
+        dend_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "dend"]
+        soma_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "soma"]
+        axon_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "axon"]
+        apic_sections = [s for s in hobj.all if s.name().split(".")[1][:4] == "apic"]
+
+        if p["section"] == "dend":
+            #io.log_info(f'dyn param dend')
+            for dend_sec in dend_sections:
+                if p["mechanism"] != "":
+                    dend_sec.insert(p["mechanism"])     
+                setattr(dend_sec, p["name"], p["value"])
+
+        elif p["section"] == "apic":
+            #io.log_info(f'dyn param apic')
+            for apic_sec in apic_sections:
+                if p["mechanism"] != "":
+                    apic_sec.insert(p["mechanism"])
+                setattr(apic_sec, p["name"], p["value"])    
+                        
+
+        elif p["section"] == "soma":
+            #io.log_info(f'soma & axon section param set')
+            for soma_sec in soma_sections:
+                if p["mechanism"] != "":
+                    soma_sec.insert(p["mechanism"])
+                setattr(soma_sec, p["name"], p["value"])
+
+        elif p["section"] == "axon":               
+            for axon_sec in axon_sections:
+                if p["mechanism"] == "":
+                    setattr(axon_sec, p["name"], p["value"])
+
+                # Insert transient Na and K channels
+                axon_sec.insert("NaTs")  # Transient sodium current
+                axon_sec.insert("K_T")    # Transient potassium current
+
+                # Set parameters for spiking mechanisms
+                setattr(axon_sec, "gbar_NaTs", 0.04)  
+                setattr(axon_sec, "gbar_K_T", 0.035) 
+
+        else:
+            io.log_error(f'another section that was not taken into account!! -> check')    
+
+    # Set reversal potentials
+    for erev in conditions['erev']:
+        soma_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "soma"]
+        axon_sections=[s for s in hobj.all if s.name().split(".")[1][:4] == "axon"]
+
+        if erev["section"] == "soma":
+            #io.log_info(f'erev potentials for soma and axons')
+            for soma_sec in soma_sections:
+                soma_sec.ena = erev["ena"]
+                soma_sec.ek = erev["ek"]
+            for axon_sec in axon_sections:
+                #io.log_info(f'axon_sec', {axon_sec})
+                axon_sec.ena = erev["ena"]
+                axon_sec.ek = erev["ek"]  
+
 
 def get_axon_direction(hobj):
     for sec in hobj.somatic:
@@ -258,7 +335,8 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         fix_axon_peri_multiple_stubs(hobj, 2, [30,30], [1,1])
         #set_params_peri(hobj, dynamics_params)
         #set_params_peri_axon_copy_soma(hobj, dynamics_params)
-        set_params_peri_active_axon(hobj,dynamics_params)
+        #set_params_peri_active_axon(hobj,dynamics_params)
+        set_params_peri_hh_axon(hobj, dynamics_params)
         axon_seg_coordin,soma_mid = get_axon_direction(hobj)
         io.log_info(soma_mid)
         io.log_info(axon_seg_coordin)
