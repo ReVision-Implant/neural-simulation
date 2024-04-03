@@ -200,6 +200,7 @@ def set_params_peri_active_axon(hobj, biophys_params):
             sec.ena = erev["ena"]
             sec.ek = erev["ek"]
 
+
 def get_axon_direction(hobj):
     for sec in hobj.somatic:
         n3d = int(h.n3d(sec=sec))  # get number of n3d points in each section
@@ -256,8 +257,8 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         #fix_axon_peri(hobj)
         fix_axon_peri_multiple_stubs(hobj, 2, [30,30], [1,1])
         #set_params_peri(hobj, dynamics_params)
-        set_params_peri_axon_copy_soma(hobj, dynamics_params)
-        #set_params_peri_active_axon(hobj,dynamics_params)
+        #set_params_peri_axon_copy_soma(hobj, dynamics_params)
+        set_params_peri_active_axon(hobj,dynamics_params)
         axon_seg_coordin,soma_mid = get_axon_direction(hobj)
         io.log_info(soma_mid)
         io.log_info(axon_seg_coordin)
