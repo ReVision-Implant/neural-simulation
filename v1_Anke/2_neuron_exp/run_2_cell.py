@@ -35,11 +35,10 @@ def fix_axon_peri_multiple_stubs(hobj, num_stubs, stub_lengths, stub_diameters):
 
     #Connect axon sections
     for i in range (num_stubs-1):
-        hobj.axon[i+1].connect(hobj.axon[i],0,1) #first parameter 1 = where section is connected; value 1 means the connection is made at the end of the section; which is the distal end of the section being connected to, second parameter: connection is made at the proximal end of the section being connected to
+        hobj.axon[i+1].connect(hobj.axon[i],1,0) #first parameter 1 = where section is connected; value 1 means the connection is made at the end of the section; which is the distal end of the section being connected to, second parameter: connection is made at the proximal end of the section being connected to
 
     #connect the first stub to the soma
-    hobj.axon[0].connect(hobj.soma[0], 0, 1) #0.5 means that the connection is made at the midpoint of the soma
-
+    hobj.axon[0].connect(hobj.soma[0], 1, 0) #connect to the end of the soma (1) and beginning axon stub (0)
     #Define the shape of the axon
     h.define_shape()
 
@@ -100,7 +99,7 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
                 if p["mechanism"] != "":
                     axon_sec.insert(p["mechanism"])
                 setattr(axon_sec, p["name"], p["value"])
-                io.log_info(f'test')
+                #io.log_info(f'test')
         
         elif p["section"] == "axon":
             #io.log_info(f'axon section nothing happens')
@@ -120,7 +119,7 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
                 soma_sec.ena = erev["ena"]
                 soma_sec.ek = erev["ek"]
             for axon_sec in axon_sections:
-                io.log_info(f'axon_sec', {axon_sec})
+                #io.log_info(f'axon_sec', {axon_sec})
                 axon_sec.ena = erev["ena"]
                 axon_sec.ek = erev["ek"]    
 
@@ -204,7 +203,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         io.log_info(f'Fixing cell #{node_id}, {cell_type}')
         
         #fix_axon_peri(hobj)
-        fix_axon_peri_multiple_stubs(hobj, 10, [30,30,30,30,30,30,30,30,30,30], [1,1,1,1,1,1,1,1,1,1])
+        fix_axon_peri_multiple_stubs(hobj, 3, [30,30,30], [1,1,1])
         #set_params_peri(hobj, dynamics_params)
         set_params_peri_axon_copy_soma(hobj, dynamics_params)
         #set_params_peri_active_axon(hobj,dynamics_params)
@@ -213,7 +212,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='sim_waveform_5ms_pause/axon_10_diam_1/amplitude_20/conduct_copy_soma_n58'
+dir='sim_waveform_5ms_pause/axon_3_diam_1/amplitude_20/copy_soma_n58'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
