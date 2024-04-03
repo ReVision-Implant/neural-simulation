@@ -136,6 +136,7 @@ def set_params_peri_active_axon(hobj, biophys_params):
     passive = biophys_params['passive'][0]
     conditions = biophys_params['conditions'][0]
     genome = biophys_params['genome']
+    io.log_info(f'set active axon properties')
 
     # Set passive properties
     cm_dict = dict([(c['section'], c['cm']) for c in passive['cm']])
@@ -253,7 +254,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         io.log_info(f'Fixing cell #{node_id}, {cell_type}')
         
         #fix_axon_peri(hobj)
-        fix_axon_peri_multiple_stubs(hobj, 3, [30,30,30], [1,1,1])
+        fix_axon_peri_multiple_stubs(hobj, 2, [30,30], [1,1])
         #set_params_peri(hobj, dynamics_params)
         set_params_peri_axon_copy_soma(hobj, dynamics_params)
         #set_params_peri_active_axon(hobj,dynamics_params)
@@ -266,7 +267,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 
 #here is the code to edit when just running the simulations, above are all the involved functions
-#add_cell_processor(aibs_perisomatic, overwrite=True)
+add_cell_processor(aibs_perisomatic, overwrite=True)
 dir='sim_waveform_5ms_pause/axon_2_diam_1/amplitude_20/test'
 
 conf=bionet.Config.from_json(dir+'/config.json')
