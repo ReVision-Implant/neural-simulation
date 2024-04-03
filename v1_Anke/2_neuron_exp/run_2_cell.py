@@ -11,10 +11,8 @@ from neuron import h
 from ipdb import set_trace
 import os
 import numpy as np
-try:
-    from sklearn.decomposition import PCA
-except Exception as e:
-    pass
+from sklearn.decomposition import PCA
+
 
 def fix_axon_peri_multiple_stubs(hobj, num_stubs, stub_lengths, stub_diameters):
     """
@@ -208,6 +206,7 @@ def get_axon_direction(hobj):
         mid_point = int(n3d / 2)
         soma_mid = np.asarray([h.x3d(mid_point, sec=sec), h.y3d(mid_point, sec=sec), h.z3d(mid_point, sec=sec)])
 
+
     for sec in hobj.all:
         section_name = sec.name().split(".")[1][:4]
         if section_name == 'axon':
@@ -240,10 +239,10 @@ def get_axon_direction(hobj):
     # unit_v = np.asarray([0,1,0])
     axon_seg_coor[0] = soma_end
     axon_seg_coor[1] = soma_end + (unit_v * 30.)
-    axon_seg_coor[2] = soma_end + (unit_v * 30.)
-    axon_seg_coor[3] = soma_end + (unit_v * 60.)
+    axon_seg_coor[2] = soma_end + (unit_v * 60.)
+    axon_seg_coor[3] = soma_end + (unit_v * 90.)
 
-    return axon_seg_coor
+    return axon_seg_coor, soma_mid
 
 
 
@@ -258,8 +257,9 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         #set_params_peri(hobj, dynamics_params)
         set_params_peri_axon_copy_soma(hobj, dynamics_params)
         #set_params_peri_active_axon(hobj,dynamics_params)
-        axon_seg_coordin = get_axon_direction(hobj)
+        axon_seg_coordin,soma_mid = get_axon_direction(hobj)
         io.log_info(axon_seg_coordin)
+        io.log_info(soma_mid)
 
     return hobj
 
