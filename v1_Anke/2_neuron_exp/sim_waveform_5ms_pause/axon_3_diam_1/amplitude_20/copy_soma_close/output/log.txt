@@ -1,0 +1,15 @@
+2024-04-03 11:52:52,336 [INFO] Created log file
+2024-04-03 11:52:53,088 [INFO] Building cells.
+2024-04-03 11:52:53,156 [INFO] Fixing cell #0, e23Cux2
+2024-04-03 11:52:53,156 [INFO] copy soma to axons!
+2024-04-03 11:52:53,240 [INFO] Fixing cell #1, e23Cux2
+2024-04-03 11:52:53,241 [INFO] copy soma to axons!
+2024-04-03 11:52:53,255 [INFO] Building recurrent connections
+2024-04-03 11:52:54,150 [INFO] Running simulation for 100.000 ms with the time step 0.025 ms
+2024-04-03 11:52:54,150 [INFO] Starting timestep: 0 at t_sim: 0.000 ms
+2024-04-03 11:52:54,150 [INFO] Block save every 1000 steps
+2024-04-03 11:52:54,713 [INFO]     step:1000 t_sim:25.00 ms
+2024-04-03 11:52:55,293 [INFO]     step:2000 t_sim:50.00 ms
+2024-04-03 11:52:55,856 [INFO]     step:3000 t_sim:75.00 ms
+2024-04-03 11:52:56,481 [INFO]     step:4000 t_sim:100.00 ms
+2024-04-03 11:52:56,501 [INFO] Simulation completed in 2.351 seconds 

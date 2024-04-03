@@ -38,7 +38,7 @@ def fix_axon_peri_multiple_stubs(hobj, num_stubs, stub_lengths, stub_diameters):
         hobj.axon[i+1].connect(hobj.axon[i],1,0) #first parameter 1 = where section is connected; value 1 means the connection is made at the end of the section; which is the distal end of the section being connected to, second parameter: connection is made at the proximal end of the section being connected to
 
     #connect the first stub to the soma
-    hobj.axon[0].connect(hobj.soma[0], 1, 0) #connect to the end of the soma (1) and beginning axon stub (0)
+    hobj.axon[0].connect(hobj.soma[0], 0.5, 0) #connect to the middle of soma (1) and beginning axon stub (0)
     #Define the shape of the axon
     h.define_shape()
 
@@ -54,7 +54,7 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
     passive = biophys_params['passive'][0]
     conditions = biophys_params['conditions'][0]
     genome = biophys_params['genome']
-
+    io.log_info('copy soma to axons!')
 
     # Set passive properties
     cm_dict = dict([(c['section'], c['cm']) for c in passive['cm']])
@@ -212,7 +212,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='sim_waveform_5ms_pause/axon_3_diam_1/amplitude_20/copy_soma_n58'
+dir='sim_waveform_5ms_pause/axon_3_diam_1/amplitude_20/copy_soma_close'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
