@@ -204,16 +204,16 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         io.log_info(f'Fixing cell #{node_id}, {cell_type}')
         
         #fix_axon_peri(hobj)
-        fix_axon_peri_multiple_stubs(hobj, 3, [30,30,30], [1,1,1])
+        fix_axon_peri_multiple_stubs(hobj, 10, [30,30,30,30,30,30,30,30,30,30], [1,1,1,1,1,1,1,1,1,1])
         #set_params_peri(hobj, dynamics_params)
-        #set_params_peri_axon_copy_soma(hobj, dynamics_params)
-        set_params_peri_active_axon(hobj,dynamics_params)
+        set_params_peri_axon_copy_soma(hobj, dynamics_params)
+        #set_params_peri_active_axon(hobj,dynamics_params)
 
     return hobj
 
 
-#add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='sim_mid_neuron/waveform_5ms/sim_basic/amplitude_20/horizontal_close'
+add_cell_processor(aibs_perisomatic, overwrite=True)
+dir='sim_waveform_5ms_pause/axon_10_diam_1/amplitude_20/conduct_copy_soma_n58'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
