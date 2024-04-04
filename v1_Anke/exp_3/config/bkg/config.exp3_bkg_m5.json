@@ -4,7 +4,7 @@
     "$OUTPUT_DIR": "$BASE_DIR/exp_3/output/bkg/mouse_5",
     "$BKG_DIR": "$BASE_DIR/components",
     "$LGN_DIR": "$BASE_DIR/components",
-    "$NETWORK_DIR": "$BASE_DIR/virtual_mice_mask/mouse_5",
+    "$NETWORK_DIR": "$BASE_DIR/virtual_mice_mask_no_v1_edges/mouse_5",
     "$COMPONENT_DIR": "$BASE_DIR/components",
     "$STIM_DIR": "$BASE_DIR/components/stimulation"
   },
