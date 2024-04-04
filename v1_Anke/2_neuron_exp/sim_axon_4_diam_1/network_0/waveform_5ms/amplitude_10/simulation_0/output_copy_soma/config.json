@@ -16,14 +16,14 @@
   "networks": {
     "nodes": [
       {
-        "nodes_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\networks\\network_1\\net_nodes.h5",
-        "node_types_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\networks\\network_1\\net_node_types.csv"
+        "nodes_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\networks\\network_0\\net_nodes.h5",
+        "node_types_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\networks\\network_0\\net_node_types.csv"
       }
     ],
     "edges": [
       {
-        "edges_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\networks\\network_1\\net_net_edges.h5",
-        "edge_types_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\networks\\network_1\\net_net_edge_types.csv"
+        "edges_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\networks\\network_0\\net_net_edges.h5",
+        "edge_types_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\networks\\network_0\\net_net_edge_types.csv"
       }
     ],
     "gap_juncs": []
@@ -72,8 +72,7 @@
       "cells": "all",
       "module": "membrane_report",
       "sections": [
-        "soma",
-        "axon"
+        "soma"
       ]
     }
   },
