@@ -333,8 +333,8 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         
         #fix_axon_peri(hobj)
         fix_axon_peri_multiple_stubs(hobj, 4, [30,30,30,30], [1,1,1,1])
-        set_params_peri(hobj, dynamics_params)
-        #set_params_peri_axon_copy_soma(hobj, dynamics_params)
+        #set_params_peri(hobj, dynamics_params)
+        set_params_peri_axon_copy_soma(hobj, dynamics_params)
         #set_params_peri_active_axon(hobj,dynamics_params)
         #set_params_peri_hh_axon(hobj, dynamics_params)
 
