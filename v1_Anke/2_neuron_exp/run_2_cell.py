@@ -138,7 +138,7 @@ def set_params_peri_active_axon(hobj, biophys_params):
     genome = biophys_params['genome']
     io.log_info(f'set active axon properties')
 
-    # Set passive properties
+    # Set passive properties 
     cm_dict = dict([(c['section'], c['cm']) for c in passive['cm']])
     for sec in hobj.all:
         sec.Ra = passive['ra']
@@ -207,7 +207,7 @@ def set_params_peri_5_channel(hobj, biophys_params):
     conditions = biophys_params['conditions'][0]
     genome = biophys_params['genome']
 
-    # Set passive properties
+    # Set passive properties --> to do: adapt so not set for axon!! -> other values for axon inserted !
     cm_dict = dict([(c['section'], c['cm']) for c in passive['cm']])
     for sec in hobj.all:
         sec.Ra = passive['ra']
@@ -263,6 +263,7 @@ def set_params_peri_5_channel(hobj, biophys_params):
 
                 setattr(axon_sec, "ena", 61.02) #sodium resting potential (mV)
                 setattr(axon_sec, "ek", -102.03) #potassium resting potential (mV)
+
 
         else:
             io.log_error(f'another section that was not taken into account!! -> check')    
