@@ -200,8 +200,8 @@ def set_params_peri_active_axon(hobj, biophys_params):
             sec.ena = erev["ena"]
             sec.ek = erev["ek"]
 
-def set_params_peri_hh_axon(hobj, biophys_params):
-    io.log_info(f'set hh model: gNa = 0.04 and gK = 0.035')
+def set_params_peri_5_channel(hobj, biophys_params):
+    io.log_info(f'set 5 channel model')
 
     passive = biophys_params['passive'][0]
     conditions = biophys_params['conditions'][0]
@@ -248,16 +248,21 @@ def set_params_peri_hh_axon(hobj, biophys_params):
 
         elif p["section"] == "axon":               
             for axon_sec in axon_sections:
-                if p["mechanism"] == "":
-                    setattr(axon_sec, p["name"], p["value"])
 
                 # Insert transient Na and K channels
-                axon_sec.insert("NaTs")  # Transient sodium current
-                axon_sec.insert("K_T")    # Transient potassium current
+                axon_sec.insert("mammalian_spike")  # Transient sodium current
+                axon_sec.insert("cad")    # Transient potassium current
 
                 # Set parameters for spiking mechanisms
-                setattr(axon_sec, "gbar_NaTs", 0.04)  
-                setattr(axon_sec, "gbar_K_T", 0.035) 
+                setattr(axon_sec, "gnabar_mammalian_spike", 0.06) #maximum sodium conductance (S/cm^2) 
+                setattr(axon_sec, "gkbar_mammalian_spike", 0.035) #maximum potassium delayed rectifier conductance
+                setattr(axon_sec,"gcabar_mammalian_spike", 0.001) #maximu calcium conductance
+                setattr(axon_sec, "gkcbar_mammalian_spike", 0.00017) #maximum calcium-dependent potassium conductance
+                setattr(axon_sec, "depth_cad", 0.1) #caclium pump depth(microns)
+                setattr(axon_sec, "taur_cad", 1.5) #time constant (msec)
+
+                setattr(axon_sec, "ena", 61.02) #sodium resting potential (mV)
+                setattr(axon_sec, "ek", -102.03) #potassium resting potential (mV)
 
         else:
             io.log_error(f'another section that was not taken into account!! -> check')    
@@ -271,11 +276,7 @@ def set_params_peri_hh_axon(hobj, biophys_params):
             #io.log_info(f'erev potentials for soma and axons')
             for soma_sec in soma_sections:
                 soma_sec.ena = erev["ena"]
-                soma_sec.ek = erev["ek"]
-            for axon_sec in axon_sections:
-                #io.log_info(f'axon_sec', {axon_sec})
-                axon_sec.ena = erev["ena"]
-                axon_sec.ek = erev["ek"]  
+                soma_sec.ek = erev["ek"]  
 
 
 def get_axon_direction(hobj):
@@ -334,9 +335,9 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         #fix_axon_peri(hobj)
         fix_axon_peri_multiple_stubs(hobj, 2, [30,30], [1,1])
         #set_params_peri(hobj, dynamics_params)
-        set_params_peri_axon_copy_soma(hobj, dynamics_params)
+        #set_params_peri_axon_copy_soma(hobj, dynamics_params)
         #set_params_peri_active_axon(hobj,dynamics_params)
-        #set_params_peri_hh_axon(hobj, dynamics_params)
+        set_params_peri_5_channel(hobj, dynamics_params)
 
         #axon_seg_coordin,soma_mid = get_axon_direction(hobj)
         #io.log_info(soma_mid)
@@ -348,7 +349,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 #here is the code to edit when just running the simulations, above are all the involved functions
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='sim_axon_2_diam_1/network_1/waveform_4_-8/amplitude_10/simulation_0'
+dir='sim_axon_2_diam_1/network_1/waveform_4_5ms/amplitude_10/simulation_0'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
