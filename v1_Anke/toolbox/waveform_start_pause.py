@@ -173,8 +173,8 @@ if __name__ == '__main__':
         phase_1_expr = lambda n:0.2,
         amp_1_expr = lambda n:-1,
         T_1_expr = lambda n:0,
-        phase_2_expr = lambda n:0.8,
-        amp_2_expr = lambda n:0.25,
+        phase_2_expr = lambda n:1.6,
+        amp_2_expr = lambda n:0.125,
         T_2_expr = lambda n:4,
-        save_name = "/components/stimulation/waveforms/waveform_4_-4_5ms.csv"
+        save_name = "/components/stimulation/waveforms/waveform_4_-8_5ms.csv"
     )
