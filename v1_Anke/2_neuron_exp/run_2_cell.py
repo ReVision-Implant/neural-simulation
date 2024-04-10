@@ -210,12 +210,16 @@ def set_params_peri_5_channel(hobj, biophys_params):
     # Set passive properties --> to do: adapt so not set for axon!! -> other values for axon inserted !
     cm_dict = dict([(c['section'], c['cm']) for c in passive['cm']])
     for sec in hobj.all:
-        sec.Ra = passive['ra']
-        sec.cm = cm_dict[sec.name().split(".")[1][:4]]
-        sec.insert('pas')
+        if "axon" not in sec.name():  # Check if the section is not an axon
+            sec.Ra = passive['ra']
+            sec.cm = cm_dict[sec.name().split(".")[1][:4]]
+            sec.insert('pas')
 
-        for seg in sec:
-            seg.pas.e = passive["e_pas"]         
+            for seg in sec:
+                seg.pas.e = passive["e_pas"]  
+
+        else:
+            print('axon!')       
 
     # Insert channels and set parameters
     for p in genome:
@@ -250,16 +254,21 @@ def set_params_peri_5_channel(hobj, biophys_params):
             for axon_sec in axon_sections:
 
                 # Insert transient Na and K channels
-                axon_sec.insert("mammalian_spike")  # Transient sodium current
-                axon_sec.insert("cad")    # Transient potassium current
+                axon_sec.insert("mammalian_spike") 
+                axon_sec.insert("cad")    
+                axon_sec.insert("pas")
 
                 # Set parameters for spiking mechanisms
-                setattr(axon_sec, "gnabar_mammalian_spike", 0.06) #maximum sodium conductance (S/cm^2) 
-                setattr(axon_sec, "gkbar_mammalian_spike", 0.035) #maximum potassium delayed rectifier conductance
+                setattr(axon_sec, "gnabar_mammalian_spike", 0.420) #maximum sodium conductance (S/cm^2) 
+                setattr(axon_sec, "gkbar_mammalian_spike", 0.250) #maximum potassium delayed rectifier conductance
                 setattr(axon_sec,"gcabar_mammalian_spike", 0.001) #maximu calcium conductance
-                setattr(axon_sec, "gkcbar_mammalian_spike", 0.00017) #maximum calcium-dependent potassium conductance
-                setattr(axon_sec, "depth_cad", 0.1) #caclium pump depth(microns)
+                setattr(axon_sec, "gkcbar_mammalian_spike", 0.00075) #maximum calcium-dependent potassium conductance
+                setattr(axon_sec, "depth_cad", 0.1) #calcium pump depth(microns)
                 setattr(axon_sec, "taur_cad", 1.5) #time constant (msec)
+
+                setattr(axon_sec, "e_pas", -65.02) # passive membrane potential
+                setattr(axon_sec, "g_pas", 0.001)   # leakage conductance
+
 
                 setattr(axon_sec, "ena", 61.02) #sodium resting potential (mV)
                 setattr(axon_sec, "ek", -102.03) #potassium resting potential (mV)

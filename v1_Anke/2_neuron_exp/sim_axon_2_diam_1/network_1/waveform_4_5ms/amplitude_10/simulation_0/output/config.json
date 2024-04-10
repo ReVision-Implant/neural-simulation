@@ -55,8 +55,8 @@
         "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\sim_axon_2_diam_1\\network_1\\waveform_4_5ms\\amplitude_10\\simulation_0/components/stimulation/waveforms/waveform_4_5ms.csv"
       ],
       "amplitudes": [
-        10,
-        -10
+        20,
+        -20
       ]
     }
   },
