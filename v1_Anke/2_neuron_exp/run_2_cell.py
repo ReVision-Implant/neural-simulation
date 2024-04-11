@@ -344,9 +344,7 @@ def set_params_peri_hh(hobj, biophys_params):
             for axon_sec in axon_sections:
 
                 # Insert transient Na and K channels
-                axon_sec.insert("mammalian_spike") 
-                axon_sec.insert("cad")    
-                axon_sec.insert("pas")
+                axon_sec.insert("hh_model") 
 
                 # Set parameters for spiking mechanisms
                 setattr(axon_sec, "gnabar_hh_model", 0.04) #maximum sodium conductance (S/cm^2) 
