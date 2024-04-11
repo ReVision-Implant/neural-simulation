@@ -106,11 +106,11 @@ def set_params_peri_active_axon(hobj, biophys_params):
 
                 # Insert mechanisms for spiking
                 axon_sec.insert("NaTs")  # Transient sodium current
-                axon_sec.insert("K_T")    # Transient potassium current
+                axon_sec.insert("Kv3_1")   
 
                 # Set parameters for spiking mechanisms
-                setattr(axon_sec, "gbar_NaTs", 1.0)  
-                setattr(axon_sec, "gbar_K_T", 1.0) 
+                setattr(axon_sec, "gbar_NaTs", 0.1)  
+                setattr(axon_sec, "gbar_Kv3_1", 0.1) 
 
         else:
             io.log_error(f'another section that was not taken into account!! -> check')    
@@ -138,7 +138,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='sim_axon_2_diam_1/network_1/waveform_4_5ms/amplitude_10/simulation_0'
+dir='sim_axon_2_diam_1/network_1/waveform_4_-4/amplitude_10/simulation_0'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
