@@ -219,7 +219,7 @@ def set_params_peri_5_channel(hobj, biophys_params):
                 seg.pas.e = passive["e_pas"]  
 
         else:
-            print('axon!')       
+            print('axon!')
 
     # Insert channels and set parameters
     for p in genome:
@@ -259,6 +259,8 @@ def set_params_peri_5_channel(hobj, biophys_params):
                 axon_sec.insert("pas")
 
                 # Set parameters for spiking mechanisms
+                axon_sec.Ra = 136.6 #axial resistance in ohm-cm
+                axon_sec.cm = 1 #membrane capacitance (µF/cm2)
                 setattr(axon_sec, "gnabar_mammalian_spike", 0.420) #maximum sodium conductance (S/cm^2) 
                 setattr(axon_sec, "gkbar_mammalian_spike", 0.250) #maximum potassium delayed rectifier conductance
                 setattr(axon_sec,"gcabar_mammalian_spike", 0.001) #maximu calcium conductance
