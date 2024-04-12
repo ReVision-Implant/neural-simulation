@@ -10,7 +10,7 @@ def connector(source, target):
     return 1
 
 net = NetworkBuilder("net")
-pos_neuron_1=[-34.7, 26.2, 11.5]
+pos_neuron_1=[-34.7, 26.2, 10.5]
 pos_neuron_2=[-100, -100, -100]
 
 net.add_nodes(
