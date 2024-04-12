@@ -102,8 +102,6 @@ def set_params_peri_5_channel(hobj, biophys_params):
                 # Insert transient Na and K channels
                 axon_sec.insert("mammalian_spike") 
                 axon_sec.insert("cad")    
-                axon_sec.insert("pas")
-                axon_sec.insert("xtra")
 
                 # Set parameters for spiking mechanisms
                 axon_sec.Ra = 136.6 #axial resistance in ohm-cm
@@ -112,8 +110,8 @@ def set_params_peri_5_channel(hobj, biophys_params):
                 setattr(axon_sec, "gkbar_mammalian_spike", 0.250) #maximum potassium delayed rectifier conductance
                 setattr(axon_sec,"gcabar_mammalian_spike", 0.00075) #maximum calcium conductance
                 setattr(axon_sec, "gkcbar_mammalian_spike", 0.00011) #maximum calcium-dependent potassium conductance
-                setattr(axon_sec, "depth_cad", 0.1) #calcium pump depth(microns)
-                setattr(axon_sec, "taur_cad", 1.5) #time constant (msec)
+                setattr(axon_sec, "depth_cad", 0.01) #calcium pump depth(microns)
+                setattr(axon_sec, "taur_cad",1.5) #time constant (msec)
 
                 setattr(axon_sec, "g_pas", 0.0001)   # leakage conductance
                 setattr(axon_sec, "e_pas", -65.02)
