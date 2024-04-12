@@ -24,7 +24,8 @@
     "module": "comsol",
     "comsol_files": ["$STIM_DIR/comsol/Electrode_1.txt","$STIM_DIR/comsol/Electrode_2.txt"],
     "waveforms": ["$STIM_DIR/waveforms/waveform_4_5ms.csv","$STIM_DIR/waveforms/waveform_4_5ms.csv"],
-    "amplitudes": [10,-10]
+    "amplitudes": [10,-10],
+    "enabled": true 
     
   }
 },
@@ -40,6 +41,13 @@
       "cells": "all",
       "module": "membrane_report",
       "sections": ["soma","axon"]
+    },
+    "extracellular": {
+      "variable_name": "extra_cellular",
+      "module": "membrane_report",
+      "file_name": "e_report.h5",
+      "sections": "all",
+      "enabled": true
     }
   },
   "node_sets_file": "$BASE_DIR\\node_sets.json"
