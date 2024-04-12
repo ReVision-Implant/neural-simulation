@@ -59,7 +59,6 @@ def set_params_peri_5_channel(hobj, biophys_params):
     # Set passive properties --> to do: adapt so not set for axon!! -> other values for axon inserted !
     cm_dict = dict([(c['section'], c['cm']) for c in passive['cm']])
     for sec in hobj.all:
-        if "axon" not in sec.name():  # Check if the section is not an axon
             sec.Ra = passive['ra']
             sec.cm = cm_dict[sec.name().split(".")[1][:4]]
             sec.insert('pas')
@@ -67,8 +66,6 @@ def set_params_peri_5_channel(hobj, biophys_params):
             for seg in sec:
                 seg.pas.e = passive["e_pas"]  
 
-        else:
-            print('axon!')
 
     # Insert channels and set parameters
     for p in genome:
@@ -110,19 +107,20 @@ def set_params_peri_5_channel(hobj, biophys_params):
                 # Set parameters for spiking mechanisms
                 axon_sec.Ra = 136.6 #axial resistance in ohm-cm
                 axon_sec.cm = 1 #membrane capacitance (µF/cm2)
-                setattr(axon_sec, "gnabar_mammalian_spike", 0.124) #maximum sodium conductance (S/cm^2) 
-                setattr(axon_sec, "gkbar_mammalian_spike", 0.050) #maximum potassium delayed rectifier conductance
-                setattr(axon_sec,"gcabar_mammalian_spike", 0.001) #maximum calcium conductance
-                setattr(axon_sec, "gkcbar_mammalian_spike", 0.00075) #maximum calcium-dependent potassium conductance
+                setattr(axon_sec, "gnabar_mammalian_spike", 0.420) #maximum sodium conductance (S/cm^2) 
+                setattr(axon_sec, "gkbar_mammalian_spike", 0.250) #maximum potassium delayed rectifier conductance
+                setattr(axon_sec,"gcabar_mammalian_spike", 0.00075) #maximum calcium conductance
+                setattr(axon_sec, "gkcbar_mammalian_spike", 0.00011) #maximum calcium-dependent potassium conductance
                 setattr(axon_sec, "depth_cad", 0.1) #calcium pump depth(microns)
                 setattr(axon_sec, "taur_cad", 1.5) #time constant (msec)
 
-                setattr(axon_sec, "e_pas", -64.56) # passive membrane potential
-                setattr(axon_sec, "g_pas", 0.001)   # leakage conductance
+                setattr(axon_sec, "g_pas", 0.0001)   # leakage conductance
+                setattr(axon_sec, "e_pas", -65.02)
 
 
                 setattr(axon_sec, "ena", 61.02) #sodium resting potential (mV)
                 setattr(axon_sec, "ek", -101.31) #potassium resting potential (mV)
+                
 
 
         else:
@@ -146,14 +144,14 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         cell_type = cell['pop_name']       
         io.log_info(f'Fixing cell #{node_id}, {cell_type}')
         
-        fix_axon_peri_multiple_stubs(hobj, 2, [30,30], [1,1])
+        fix_axon_peri_multiple_stubs(hobj, 3, [30,30,30], [1,1,1])
         set_params_peri_5_channel(hobj, dynamics_params)
 
     return hobj
 
 #here is the code to edit when just running the simulations, above are all the involved functions
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='sim_axon_2_diam_1/network_1/waveform_4_5ms/amplitude_10/simulation_0'
+dir='sim_axon_3_diam_1/network_B/waveform_4_5ms/amplitude_10/simulation_0'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
