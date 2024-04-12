@@ -57,7 +57,8 @@
       "amplitudes": [
         10,
         -10
-      ]
+      ],
+      "enabled": true
     }
   },
   "output": {

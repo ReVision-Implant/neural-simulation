@@ -41,14 +41,8 @@
       "cells": "all",
       "module": "membrane_report",
       "sections": ["soma","axon"]
-    },
-    "extracellular": {
-      "variable_name": "extra_cellular",
-      "module": "membrane_report",
-      "file_name": "e_report.h5",
-      "sections": "all",
-      "enabled": true
     }
+
   },
   "node_sets_file": "$BASE_DIR\\node_sets.json"
 }

@@ -103,6 +103,7 @@ def set_params_peri_5_channel(hobj, biophys_params):
                 axon_sec.insert("mammalian_spike") 
                 axon_sec.insert("cad")    
                 axon_sec.insert("pas")
+                axon_sec.insert("xtra")
 
                 # Set parameters for spiking mechanisms
                 axon_sec.Ra = 136.6 #axial resistance in ohm-cm
