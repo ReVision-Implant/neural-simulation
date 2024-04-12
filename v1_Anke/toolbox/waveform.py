@@ -147,7 +147,7 @@ def CreateBlockWaveform(n_pulses, phase_1_expr, amp_1_expr, T_1_expr, phase_2_ex
         t_start = t_start+phase_1+T_1+phase_2+T_2   # Update t_start
 
     # Construct path and pass piecewise to CreateWaveform() 
-    dir_path = os.path.dirname(os.path.realpath(__file__))                                  # Directory of this file: waveform.py           
+    dir_path = 'C:/Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/'
     path = dir_path + save_name if save_name is not None else None      # Save .csv file in /.../stimulations/
     CreateWaveform(piecewise, max=1, path=path, plot=True)
 
@@ -161,11 +161,11 @@ if __name__ == '__main__':
     '''
     CreateBlockWaveform(
         n_pulses = 20,
-        phase_1_expr = lambda n:0.2,
+        phase_1_expr = lambda n:0.4,
         amp_1_expr = lambda n:-1,
         T_1_expr = lambda n:0,
-        phase_2_expr = lambda n:0.2,
+        phase_2_expr = lambda n:0.4,
         amp_2_expr = lambda n:1,
-        T_2_expr = lambda n:4.6,
-         save_name = "/stimulation/waveforms/waveform_zero_amp.csv"
+        T_2_expr = lambda n:4.2,
+         save_name = "/components/stimulation/waveforms/waveform_test.csv"
     )
