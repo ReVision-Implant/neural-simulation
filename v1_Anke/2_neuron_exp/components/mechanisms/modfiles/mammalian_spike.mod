@@ -51,14 +51,6 @@ STATE {
 	m h n c 
 }
 
-INITIAL {
-: The initial values were determined at a resting value of -65.02 mV 
-    m = 0.0353
-    h = 0.9054
-    n = 0.0677
-    c = 0.0019
-}
-
 ASSIGNED {
 	v (mV)
 	celsius (degC)
