@@ -51,12 +51,12 @@
         "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\sim_axon_3_diam_1\\network_B\\waveform_test\\amplitude_20\\simulation_0/components/stimulation/comsol/Electrode_2.txt"
       ],
       "waveforms": [
-        "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\sim_axon_3_diam_1\\network_B\\waveform_test\\amplitude_20\\simulation_0/components/stimulation/waveforms/waveform_test.csv",
-        "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\sim_axon_3_diam_1\\network_B\\waveform_test\\amplitude_20\\simulation_0/components/stimulation/waveforms/waveform_test.csv"
+        "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\sim_axon_3_diam_1\\network_B\\waveform_test\\amplitude_20\\simulation_0/components/stimulation/waveforms/waveform_test3.csv",
+        "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\sim_axon_3_diam_1\\network_B\\waveform_test\\amplitude_20\\simulation_0/components/stimulation/waveforms/waveform_test3.csv"
       ],
       "amplitudes": [
-        50,
-        -50
+        20,
+        -20
       ],
       "enabled": true
     }
