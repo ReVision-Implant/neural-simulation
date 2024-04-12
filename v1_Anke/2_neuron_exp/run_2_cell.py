@@ -426,13 +426,13 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         fix_axon_peri_multiple_stubs(hobj, 2, [30,30], [1,1])
         #set_params_peri(hobj, dynamics_params)
         #set_params_peri_axon_copy_soma(hobj, dynamics_params)
-        #set_params_peri_active_axon(hobj,dynamics_params)
+        set_params_peri_active_axon(hobj,dynamics_params)
         #set_params_peri_5_channel(hobj, dynamics_params)
-        set_params_peri_hh(hobj, dynamics_params)
+        #set_params_peri_hh(hobj, dynamics_params)
 
-        #axon_seg_coordin,soma_mid = get_axon_direction(hobj)
-        #io.log_info(soma_mid)
-        #io.log_info(axon_seg_coordin)
+        axon_seg_coordin,soma_mid = get_axon_direction(hobj)
+        io.log_info(soma_mid)
+        io.log_info(axon_seg_coordin)
 
     return hobj
 
