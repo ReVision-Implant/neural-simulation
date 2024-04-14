@@ -23,7 +23,7 @@
     "node_set": "all",
     "module": "comsol",
     "comsol_files": ["$STIM_DIR/comsol/Electrode_1.txt","$STIM_DIR/comsol/Electrode_2.txt"],
-    "waveforms": ["$STIM_DIR/waveforms/waveform_4_5ms.csv","$STIM_DIR/waveforms/waveform_4_5ms.csv"],
+    "waveforms": ["$STIM_DIR/waveforms/waveform_test.csv","$STIM_DIR/waveforms/waveform_test.csv"],
     "amplitudes": [10,-10],
     "enabled": true 
     

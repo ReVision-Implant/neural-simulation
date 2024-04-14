@@ -51,8 +51,8 @@
         "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\sim_axon_3_diam_3\\network_B\\waveform_4_5ms\\amplitude_10\\simulation_0/components/stimulation/comsol/Electrode_2.txt"
       ],
       "waveforms": [
-        "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\sim_axon_3_diam_3\\network_B\\waveform_4_5ms\\amplitude_10\\simulation_0/components/stimulation/waveforms/waveform_4_5ms.csv",
-        "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\sim_axon_3_diam_3\\network_B\\waveform_4_5ms\\amplitude_10\\simulation_0/components/stimulation/waveforms/waveform_4_5ms.csv"
+        "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\sim_axon_3_diam_3\\network_B\\waveform_4_5ms\\amplitude_10\\simulation_0/components/stimulation/waveforms/waveform_test.csv",
+        "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\sim_axon_3_diam_3\\network_B\\waveform_4_5ms\\amplitude_10\\simulation_0/components/stimulation/waveforms/waveform_test.csv"
       ],
       "amplitudes": [
         10,
