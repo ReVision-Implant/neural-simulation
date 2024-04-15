@@ -1,12 +1,12 @@
-2024-04-14 19:14:09,321 [INFO] Created log file
-2024-04-14 19:14:09,376 [INFO] Building cells.
-2024-04-14 19:14:09,421 [INFO] Fixing cell #0, e23Cux2
-2024-04-14 19:14:09,433 [INFO] set 5 channel model
-2024-04-14 19:14:09,488 [INFO] Fixing cell #1, e23Cux2
-2024-04-14 19:14:09,488 [INFO] set 5 channel model
-2024-04-14 19:14:09,502 [INFO] Building recurrent connections
-2024-04-14 19:14:10,298 [INFO] Running simulation for 15.000 ms with the time step 0.025 ms
-2024-04-14 19:14:10,298 [INFO] Starting timestep: 0 at t_sim: 0.000 ms
-2024-04-14 19:14:10,298 [INFO] Block save every 600 steps
-2024-04-14 19:14:10,591 [INFO]     step:600 t_sim:15.00 ms
-2024-04-14 19:14:10,626 [INFO] Simulation completed in 0.3281 seconds 
+2024-04-15 08:25:33,229 [INFO] Created log file
+2024-04-15 08:25:33,282 [INFO] Building cells.
+2024-04-15 08:25:33,348 [INFO] Fixing cell #0, e23Cux2
+2024-04-15 08:25:33,348 [INFO] set 5 channel model
+2024-04-15 08:25:33,413 [INFO] Fixing cell #1, e23Cux2
+2024-04-15 08:25:33,428 [INFO] set 5 channel model
+2024-04-15 08:25:33,429 [INFO] Building recurrent connections
+2024-04-15 08:25:34,364 [INFO] Running simulation for 15.000 ms with the time step 0.025 ms
+2024-04-15 08:25:34,364 [INFO] Starting timestep: 0 at t_sim: 0.000 ms
+2024-04-15 08:25:34,364 [INFO] Block save every 600 steps
+2024-04-15 08:25:34,680 [INFO]     step:600 t_sim:15.00 ms
+2024-04-15 08:25:34,701 [INFO] Simulation completed in 0.3375 seconds 
