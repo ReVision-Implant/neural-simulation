@@ -47,7 +47,7 @@ def fix_axon_peri_multiple_stubs(hobj, num_stubs, stub_lengths, stub_diameters):
 
 
 def set_params_peri_axon_copy_soma(hobj, biophys_params):
-    """Set biophysical parameters for the cell
+    """Set biophysical parameters for the cell: copy soma properties "manually"
     :param hobj: NEURON's cell object
     :param biophys_params: name of json file with biophys params for cell's model which determine spiking behavior
     :return:
@@ -60,12 +60,13 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
     # Set passive properties
     cm_dict = dict([(c['section'], c['cm']) for c in passive['cm']])
     for sec in hobj.all:
-        sec.Ra = passive['ra']
-        sec.cm = cm_dict[sec.name().split(".")[1][:4]]
-        sec.insert('pas')
+        if "axon" not in sec.name():
+            sec.Ra = passive['ra']
+            sec.cm = cm_dict[sec.name().split(".")[1][:4]]
+            sec.insert('pas')
 
-        for seg in sec:
-            seg.pas.e = passive["e_pas"]
+            for seg in sec:
+                seg.pas.e = passive["e_pas"]
             
 
     # Insert channels and set parameters
@@ -95,16 +96,50 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
             for soma_sec in soma_sections:
                 if p["mechanism"] != "":
                     soma_sec.insert(p["mechanism"])
-                setattr(soma_sec, p["name"], p["value"])        
-            for axon_sec in axon_sections:
-                if p["mechanism"] != "":
-                    axon_sec.insert(p["mechanism"])
-                setattr(axon_sec, p["name"], p["value"])
-                #io.log_info(f'test')
+                setattr(soma_sec, p["name"], p["value"])
+
         
         elif p["section"] == "axon":
-            #io.log_info(f'axon section nothing happens')
-            continue
+            for axon_sec in axon_sections:
+
+                axon_sec.insert("Im")
+                setattr(axon_sec,"gbar_Im", 0.0002836840689563063)
+
+                axon_sec.insert("Ih")
+                setattr(axon_sec,"gbar_Ih", 4.314651014112247e-08)
+
+                axon_sec.insert("NaTs")
+                setattr(axon_sec,"gbar_NaTs", 0.6838817113482546)
+
+                axon_sec.insert("Nap")
+                setattr(axon_sec,"gbar_Nap", 1.04318930264212e-06)
+
+                axon_sec.insert("K_P")
+                setattr(axon_sec,"gbar_K_P", 0.036052174780731472)
+
+                axon_sec.insert("SK")
+                setattr(axon_sec, "gbar_SK", 0.00094374958161976691)
+
+                axon_sec.insert("Kv3_1")
+                setattr(axon_sec, "gbar_Kv3_1", 0.078343411969861318)
+
+                axon_sec.insert("Ca_HVA")
+                setattr(axon_sec, "gbar_Ca_HVA",5.0646472578986803e-05)
+
+                axon_sec.insert("Ca_LVA")
+                setattr(axon_sec, "gbar_Ca_LVA",0.0019267653289255383)
+
+                axon_sec.insert("CaDynamics")
+                setattr(axon_sec,"gamma_CaDynamics", 0.0053853684151723069)
+                setattr(axon_sec,"decay_CaDynamics", 902.50775936148148)
+
+                axon_sec.Ra = 288.289293394
+                axon_sec.cm = 1.0
+                axon_sec.insert("pas")
+                setattr(axon_sec, "g_pas", 4.2038141349805653e-06)
+                setattr(axon_sec, "e_pas", -95.9708480834961)
+                axon_sec.ena = 53.0
+                axon_sec.ek = -107.0
 
         else:
             io.log_error(f'another section that was not taken into account!! -> check')    
@@ -118,11 +153,7 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
             #io.log_info(f'erev potentials for soma and axons')
             for soma_sec in soma_sections:
                 soma_sec.ena = erev["ena"]
-                soma_sec.ek = erev["ek"]
-            for axon_sec in axon_sections:
-                #io.log_info(f'axon_sec', {axon_sec})
-                axon_sec.ena = erev["ena"]
-                axon_sec.ek = erev["ek"]    
+                soma_sec.ek = erev["ek"]  
 
 
 def aibs_perisomatic(hobj, cell, dynamics_params):
@@ -131,8 +162,9 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         cell_type = cell['pop_name']       
         io.log_info(f'Fixing cell #{node_id}, {cell_type}')
     
-        fix_axon_peri_multiple_stubs(hobj, 3, [30,30,30], [1,1,1])   
-        set_params_peri_axon_copy_soma(hobj, dynamics_params)
+        fix_axon_peri_multiple_stubs(hobj, 3, [30,30,30], [3,3,3])
+        set_params_peri(hobj,dynamics_params)   
+        #set_params_peri_axon_copy_soma(hobj, dynamics_params)
 
     return hobj
 
@@ -140,7 +172,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 #here is the code to edit when just running the simulations, above are all the involved functions
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='sim_axon_3_diam_1/network_B/waveform_4_5ms/amplitude_10/simulation_0'
+dir='sim_axon_3_diam_3/network_B/waveform_4_5ms/amplitude_10/simulation_0'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
