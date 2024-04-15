@@ -106,10 +106,10 @@ def set_params_peri_5_channel(hobj, biophys_params):
                 # Set parameters for spiking mechanisms
                 axon_sec.Ra = 136.6 #axial resistance in ohm-cm
                 axon_sec.cm = 1 #membrane capacitance (µF/cm2)
-                setattr(axon_sec, "gnabar_mammalian_spike", 0.150) #maximum sodium conductance (S/cm^2) 
-                setattr(axon_sec, "gkbar_mammalian_spike", 0.090) #maximum potassium delayed rectifier conductance
-                setattr(axon_sec,"gcabar_mammalian_spike", 0.00075) #maximum calcium conductance
-                setattr(axon_sec, "gkcbar_mammalian_spike", 0.00017) #maximum calcium-dependent potassium conductance
+                setattr(axon_sec, "gnabar_mammalian_spike", 0.124) #maximum sodium conductance (S/cm^2) 
+                setattr(axon_sec, "gkbar_mammalian_spike", 0.050) #maximum potassium delayed rectifier conductance
+                setattr(axon_sec,"gcabar_mammalian_spike", 0.001) #maximum calcium conductance
+                setattr(axon_sec, "gkcbar_mammalian_spike", 0.00075) #maximum calcium-dependent potassium conductance
                 setattr(axon_sec, "depth_cad", 0.01) #calcium pump depth(microns)
                 setattr(axon_sec, "taur_cad",1.5) #time constant (msec)
 
@@ -143,14 +143,14 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         cell_type = cell['pop_name']       
         io.log_info(f'Fixing cell #{node_id}, {cell_type}')
         
-        fix_axon_peri_multiple_stubs(hobj, 3, [30,30,30], [3,3,3])
+        fix_axon_peri_multiple_stubs(hobj, 6, [15,15,15,15,15,15], [3,3,3,3,3,3])
         set_params_peri_5_channel(hobj, dynamics_params)
 
     return hobj
 
 #here is the code to edit when just running the simulations, above are all the involved functions
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='sim_axon_3_diam_3/network_B/waveform_4_5ms/amplitude_10/simulation_0'
+dir='sim_axon_6_diam_3/network_B/waveform_400µs/amplitude_20/simulation_0'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
