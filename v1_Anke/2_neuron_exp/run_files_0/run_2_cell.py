@@ -210,7 +210,6 @@ def set_params_peri_5_channel(hobj, biophys_params):
     # Set passive properties --> to do: adapt so not set for axon!! -> other values for axon inserted !
     cm_dict = dict([(c['section'], c['cm']) for c in passive['cm']])
     for sec in hobj.all:
-        if "axon" not in sec.name():  # Check if the section is not an axon
             sec.Ra = passive['ra']
             sec.cm = cm_dict[sec.name().split(".")[1][:4]]
             sec.insert('pas')
@@ -218,8 +217,6 @@ def set_params_peri_5_channel(hobj, biophys_params):
             for seg in sec:
                 seg.pas.e = passive["e_pas"]  
 
-        else:
-            print('axon!')
 
     # Insert channels and set parameters
     for p in genome:
@@ -256,7 +253,6 @@ def set_params_peri_5_channel(hobj, biophys_params):
                 # Insert transient Na and K channels
                 axon_sec.insert("mammalian_spike") 
                 axon_sec.insert("cad")    
-                axon_sec.insert("pas")
 
                 # Set parameters for spiking mechanisms
                 axon_sec.Ra = 136.6 #axial resistance in ohm-cm
@@ -265,15 +261,16 @@ def set_params_peri_5_channel(hobj, biophys_params):
                 setattr(axon_sec, "gkbar_mammalian_spike", 0.050) #maximum potassium delayed rectifier conductance
                 setattr(axon_sec,"gcabar_mammalian_spike", 0.001) #maximum calcium conductance
                 setattr(axon_sec, "gkcbar_mammalian_spike", 0.00075) #maximum calcium-dependent potassium conductance
-                setattr(axon_sec, "depth_cad", 0.1) #calcium pump depth(microns)
-                setattr(axon_sec, "taur_cad", 1.5) #time constant (msec)
+                setattr(axon_sec, "depth_cad", 0.01) #calcium pump depth(microns)
+                setattr(axon_sec, "taur_cad",1.5) #time constant (msec)
 
-                setattr(axon_sec, "e_pas", -64.56) # passive membrane potential
-                setattr(axon_sec, "g_pas", 0.001)   # leakage conductance
+                setattr(axon_sec, "g_pas", 0.0001)   # leakage conductance
+                setattr(axon_sec, "e_pas", -65.02)
 
 
                 setattr(axon_sec, "ena", 61.02) #sodium resting potential (mV)
                 setattr(axon_sec, "ek", -101.31) #potassium resting potential (mV)
+                
 
 
         else:
