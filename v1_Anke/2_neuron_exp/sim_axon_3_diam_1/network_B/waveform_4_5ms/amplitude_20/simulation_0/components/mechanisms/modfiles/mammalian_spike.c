@@ -480,12 +480,6 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, NrnThread* _nt)
   h = h0;
   m = m0;
   n = n0;
- {
-   m = 0.0353 ;
-   h = 0.9054 ;
-   n = 0.0677 ;
-   c = 0.0019 ;
-   }
  
 }
 }
@@ -713,14 +707,6 @@ static const char* nmodl_file_text =
   "\n"
   "STATE {\n"
   "	m h n c \n"
-  "}\n"
-  "\n"
-  "INITIAL {\n"
-  ": The initial values were determined at a resting value of -65.02 mV \n"
-  "    m = 0.0353\n"
-  "    h = 0.9054\n"
-  "    n = 0.0677\n"
-  "    c = 0.0019\n"
   "}\n"
   "\n"
   "ASSIGNED {\n"

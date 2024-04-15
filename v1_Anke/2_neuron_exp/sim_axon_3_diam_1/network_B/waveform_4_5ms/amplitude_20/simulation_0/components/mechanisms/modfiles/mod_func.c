@@ -7,7 +7,6 @@ extern void _Ca_HVA_reg();
 extern void _Ca_LVA_reg();
 extern void _CaDynamics_reg();
 extern void _capump_reg();
-extern void _hh_model_reg();
 extern void _Ih_reg();
 extern void _Im_reg();
 extern void _Im_v2_reg();
@@ -23,6 +22,7 @@ extern void _NaTs_reg();
 extern void _NaV_reg();
 extern void _SK_reg();
 extern void _vecevent_reg();
+extern void _xtra_reg();
 
 void modl_reg(){
 	//nrn_mswindll_stdio(stdin, stdout, stderr);
@@ -33,7 +33,6 @@ fprintf(stderr," Ca_HVA.mod");
 fprintf(stderr," Ca_LVA.mod");
 fprintf(stderr," CaDynamics.mod");
 fprintf(stderr," capump.mod");
-fprintf(stderr," hh_model.mod");
 fprintf(stderr," Ih.mod");
 fprintf(stderr," Im.mod");
 fprintf(stderr," Im_v2.mod");
@@ -49,13 +48,13 @@ fprintf(stderr," NaTs.mod");
 fprintf(stderr," NaV.mod");
 fprintf(stderr," SK.mod");
 fprintf(stderr," vecevent.mod");
+fprintf(stderr," xtra.mod");
 fprintf(stderr, "\n");
     }
 _Ca_HVA_reg();
 _Ca_LVA_reg();
 _CaDynamics_reg();
 _capump_reg();
-_hh_model_reg();
 _Ih_reg();
 _Im_reg();
 _Im_v2_reg();
@@ -71,4 +70,5 @@ _NaTs_reg();
 _NaV_reg();
 _SK_reg();
 _vecevent_reg();
+_xtra_reg();
 }
