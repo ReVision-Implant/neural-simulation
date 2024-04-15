@@ -111,8 +111,8 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
                 axon_sec.insert("NaTs")
                 setattr(axon_sec,"gbar_NaTs", 0.6838817113482546)
 
-                axon_sec.insert("Nap")
-                setattr(axon_sec,"gbar_Nap", 1.04318930264212e-06)
+                #axon_sec.insert("Nap")
+                #setattr(axon_sec,"gbar_Nap", 1.04318930264212e-06)
 
                 axon_sec.insert("K_P")
                 setattr(axon_sec,"gbar_K_P", 0.036052174780731472)
@@ -162,9 +162,9 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         cell_type = cell['pop_name']       
         io.log_info(f'Fixing cell #{node_id}, {cell_type}')
     
-        fix_axon_peri_multiple_stubs(hobj, 3, [30,30,30], [3,3,3])
-        set_params_peri(hobj,dynamics_params)   
-        #set_params_peri_axon_copy_soma(hobj, dynamics_params)
+        fix_axon_peri_multiple_stubs(hobj, 3, [30,30,30], [1,1,1])
+        #set_params_peri(hobj,dynamics_params)   
+        set_params_peri_axon_copy_soma(hobj, dynamics_params)
 
     return hobj
 
@@ -172,7 +172,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 #here is the code to edit when just running the simulations, above are all the involved functions
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='sim_axon_3_diam_3/network_B/waveform_4_5ms/amplitude_10/simulation_0'
+dir='sim_axon_3_diam_1/network_B/waveform_4_5ms/amplitude_10/simulation_0'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
