@@ -39,7 +39,7 @@
   },
   "conditions": {
     "celsius": 34.0,
-    "v_init": -91.0
+    "v_init": -70.0
   },
   "output": {
     "log_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\2_neuron_exp\\sim_axon_3_diam_1\\network_B\\waveform_pause\\amplitude_10\\simulation_0\\output\\log.txt",

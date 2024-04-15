@@ -111,8 +111,8 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
                 axon_sec.insert("NaTs")
                 setattr(axon_sec,"gbar_NaTs", 0.6838817113482546)
 
-                #axon_sec.insert("Nap")
-                #setattr(axon_sec,"gbar_Nap", 1.04318930264212e-06)
+                axon_sec.insert("Nap")
+                setattr(axon_sec,"gbar_Nap", 1.04318930264212e-06)
 
                 #axon_sec.insert("K_P")
                 #setattr(axon_sec,"gbar_K_P", 0.036052174780731472)
@@ -120,11 +120,11 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
                 #axon_sec.insert("K_T")
                 #setattr(axon_sec,"gbar_K_T",1.4388693124094332e-09)
 
-                axon_sec.insert("SK")
-                setattr(axon_sec, "gbar_SK", 0.00094374958161976691)
+                #axon_sec.insert("SK")
+                #setattr(axon_sec, "gbar_SK", 0.00094374958161976691)
 
-                #axon_sec.insert("Kv3_1")
-                #setattr(axon_sec, "gbar_Kv3_1", 0.078343411969861318)
+                axon_sec.insert("Kv3_1")
+                setattr(axon_sec, "gbar_Kv3_1", 0.078343411969861318)
                 #axon_sec.insert("mammalian_spike")
                 #setattr(axon_sec, "gkbar_mammalian_spike",0.05)
 
