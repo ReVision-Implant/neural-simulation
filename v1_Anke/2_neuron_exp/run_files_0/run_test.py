@@ -102,11 +102,11 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
         elif p["section"] == "axon":
             for axon_sec in axon_sections:
 
-                axon_sec.insert("Im")
-                setattr(axon_sec,"gbar_Im", 0.0002836840689563063)
+                #axon_sec.insert("Im")
+                #setattr(axon_sec,"gbar_Im", 0.0002836840689563063)
 
-                axon_sec.insert("Ih")
-                setattr(axon_sec,"gbar_Ih", 4.314651014112247e-08)
+                #axon_sec.insert("Ih")
+                #setattr(axon_sec,"gbar_Ih", 4.314651014112247e-08)
 
                 axon_sec.insert("NaTs")
                 setattr(axon_sec,"gbar_NaTs", 0.6838817113482546)
@@ -114,24 +114,29 @@ def set_params_peri_axon_copy_soma(hobj, biophys_params):
                 #axon_sec.insert("Nap")
                 #setattr(axon_sec,"gbar_Nap", 1.04318930264212e-06)
 
-                axon_sec.insert("K_P")
-                setattr(axon_sec,"gbar_K_P", 0.036052174780731472)
+                #axon_sec.insert("K_P")
+                #setattr(axon_sec,"gbar_K_P", 0.036052174780731472)
+
+                #axon_sec.insert("K_T")
+                #setattr(axon_sec,"gbar_K_T",1.4388693124094332e-09)
 
                 axon_sec.insert("SK")
                 setattr(axon_sec, "gbar_SK", 0.00094374958161976691)
 
-                axon_sec.insert("Kv3_1")
-                setattr(axon_sec, "gbar_Kv3_1", 0.078343411969861318)
+                #axon_sec.insert("Kv3_1")
+                #setattr(axon_sec, "gbar_Kv3_1", 0.078343411969861318)
+                #axon_sec.insert("mammalian_spike")
+                #setattr(axon_sec, "gkbar_mammalian_spike",0.05)
 
-                axon_sec.insert("Ca_HVA")
-                setattr(axon_sec, "gbar_Ca_HVA",5.0646472578986803e-05)
+                #axon_sec.insert("Ca_HVA")
+                #setattr(axon_sec, "gbar_Ca_HVA",5.0646472578986803e-05)
 
-                axon_sec.insert("Ca_LVA")
-                setattr(axon_sec, "gbar_Ca_LVA",0.0019267653289255383)
+                #axon_sec.insert("Ca_LVA")
+                #setattr(axon_sec, "gbar_Ca_LVA",0.0019267653289255383)
 
-                axon_sec.insert("CaDynamics")
-                setattr(axon_sec,"gamma_CaDynamics", 0.0053853684151723069)
-                setattr(axon_sec,"decay_CaDynamics", 902.50775936148148)
+               #axon_sec.insert("CaDynamics")
+               #setattr(axon_sec,"gamma_CaDynamics", 0.0053853684151723069)
+                #setattr(axon_sec,"decay_CaDynamics", 902.50775936148148)
 
                 axon_sec.Ra = 288.289293394
                 axon_sec.cm = 1.0
