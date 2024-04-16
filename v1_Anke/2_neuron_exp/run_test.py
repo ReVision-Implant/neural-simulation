@@ -47,7 +47,7 @@ def fix_axon_peri_multiple_stubs(hobj, num_stubs, stub_lengths, stub_diameters):
 
 
 def set_params_peri_simpl_hh(hobj, biophys_params):
-    """Set biophysical parameters for the cell according to a geometrically simplified model:
+    """Set biophysical parameters for the cell according to a geometrically simplified hh model:
     :param hobj: NEURON's cell object
     :param biophys_params: name of json file with biophys params for cell's model which determine spiking behavior
     :return:
@@ -107,9 +107,7 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
 
                 axon_sec.insert("Nap")
                 setattr(axon_sec,"gbar_Nap", 0.002)
-
         
-
                 axon_sec.insert("Kv3_1")
                 setattr(axon_sec, "gbar_Kv3_1", 1.6)
 
@@ -152,7 +150,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 #here is the code to edit when just running the simulations, above are all the involved functions
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='sim_axon_3_diam_1/network_B/waveform_4_5ms/amplitude_10/simulation_0'
+dir='sim_axon_3_diam_1/network_B/waveform_4_5ms/amplitude_20/simulation_0'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
