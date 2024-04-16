@@ -55,7 +55,7 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
     passive = biophys_params['passive'][0]
     conditions = biophys_params['conditions'][0]
     genome = biophys_params['genome']
-    io.log_info('copy soma to axons!')
+    io.log_info('hh simplified model incoming')
 
     # Set passive properties
     cm_dict = dict([(c['section'], c['cm']) for c in passive['cm']])
@@ -140,7 +140,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         cell_type = cell['pop_name']       
         io.log_info(f'Fixing cell #{node_id}, {cell_type}')
     
-        fix_axon_peri_multiple_stubs(hobj, 3, [30,30,30], [1,1,1])
+        fix_axon_peri_multiple_stubs(hobj, 4, [30,30,30,30], [1,1,1,1])
         #set_params_peri(hobj,dynamics_params)   
         set_params_peri_simpl_hh(hobj, dynamics_params)
 
@@ -150,7 +150,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 #here is the code to edit when just running the simulations, above are all the involved functions
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='sim_axon_3_diam_1/network_B/waveform_4_5ms/amplitude_20/simulation_0'
+dir='sim_axon_4_diam_1/network_C/waveform_4_5ms/amplitude_10/simulation_0'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
