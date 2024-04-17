@@ -77,7 +77,7 @@ PROCEDURE trates(vm) {
 
 :NAT h
 	a = 0.062 * (-(v +114))/(1 - (exp((v+114)/11)))
-	b = 1.7 / ( 1 + exp((v + 31.8)/13.4))
+	b = 1.7 / ( 1 + exp(-(v + 31.8)/13.4))
 	tau_h = 1 / (a + b)
 	h_inf = a * tau_h
 
@@ -88,14 +88,14 @@ PROCEDURE trates(vm) {
 	p_inf = a*tau_p
 
 :K n (non-inactivating, delayed rectifier)
-	a = 0.2120*exp(0.04)
-	b = 0.1974*exp(0)
+	a = 0.2120*exp(0.04*v)
+	b = 0.1974*exp(0*v)
 	tau_n = 1 / (a + b)
 	n_inf = a * tau_n
 
 :K c
-	a = 0.00713*exp(-0.1942)
-	b = 0.0935*exp(0.0058)
+	a = 0.00713*exp(-0.1942*v)
+	b = 0.0935*exp(0.0058*v)
 	tau_c = 1/ (a + b)
 	c_inf = a *tau_c
 

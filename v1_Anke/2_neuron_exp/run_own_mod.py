@@ -103,9 +103,12 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
             for axon_sec in axon_sections:
 
                 axon_sec.insert("mammalian_spike_Anke")
-                setattr(axon_sec,"gnatbar_mammalian_spike_Anke", 1.5)
-                setattr(axon_sec,"gnapbar_mammalian_spike_Anke", 0.002)
+                #setattr(axon_sec,"gnatbar_mammalian_spike_Anke", 1.5)
+                setattr(axon_sec,"gnatbar_mammalian_spike_Anke", 0)
+                #setattr(axon_sec,"gnapbar_mammalian_spike_Anke", 0.002)
+                setattr(axon_sec,"gnapbar_mammalian_spike_Anke", 0)
                 setattr(axon_sec, "gkbar_mammalian_spike_Anke", 1.6)
+                #setattr(axon_sec, "gkbar_mammalian_spike_Anke", 0)
 
                 axon_sec.Ra = 150
                 axon_sec.cm = 1.0
@@ -146,7 +149,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 #here is the code to edit when just running the simulations, above are all the involved functions
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='modfile_Anke/axon_4_diam_1/network_C/no_stim/simulation_0'
+dir='modfile_Anke/axon_4_diam_1/network_C/waveform_4_5ms/amplitude_10/simulation_0'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
