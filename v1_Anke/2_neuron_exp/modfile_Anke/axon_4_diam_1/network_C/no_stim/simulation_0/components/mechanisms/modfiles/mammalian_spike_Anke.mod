@@ -77,7 +77,7 @@ PROCEDURE trates(vm) {
 
 :NAT h
 	a = 0.062 * (-(v +114))/(1 - (exp((v+114)/11)))
-	b = 1.7 / ( 1 + exp((v + 31.8)/13.4))
+	b = 1.7 / ( 1 + exp(-(v + 31.8)/13.4))
 	tau_h = 1 / (a + b)
 	h_inf = a * tau_h
 

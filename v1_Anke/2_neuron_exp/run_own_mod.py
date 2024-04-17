@@ -103,10 +103,10 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
             for axon_sec in axon_sections:
 
                 axon_sec.insert("mammalian_spike_Anke")
-                #setattr(axon_sec,"gnatbar_mammalian_spike_Anke", 1.5)
-                setattr(axon_sec,"gnatbar_mammalian_spike_Anke", 0)
-                #setattr(axon_sec,"gnapbar_mammalian_spike_Anke", 0.002)
-                setattr(axon_sec,"gnapbar_mammalian_spike_Anke", 0)
+                setattr(axon_sec,"gnatbar_mammalian_spike_Anke", 1.5)
+                #setattr(axon_sec,"gnatbar_mammalian_spike_Anke", 0)
+                setattr(axon_sec,"gnapbar_mammalian_spike_Anke", 0.002)
+                #setattr(axon_sec,"gnapbar_mammalian_spike_Anke", 0)
                 setattr(axon_sec, "gkbar_mammalian_spike_Anke", 1.6)
                 #setattr(axon_sec, "gkbar_mammalian_spike_Anke", 0)
 

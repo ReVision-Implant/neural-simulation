@@ -367,7 +367,7 @@ static int  trates ( _threadargsprotocomma_ double _lvm ) {
    tau_m = 1.0 / ( _la + _lb ) ;
    m_inf = _la * tau_m ;
    _la = 0.062 * ( - ( v + 114.0 ) ) / ( 1.0 - ( exp ( ( v + 114.0 ) / 11.0 ) ) ) ;
-   _lb = 1.7 / ( 1.0 + exp ( ( v + 31.8 ) / 13.4 ) ) ;
+   _lb = 1.7 / ( 1.0 + exp ( - ( v + 31.8 ) / 13.4 ) ) ;
    tau_h = 1.0 / ( _la + _lb ) ;
    h_inf = _la * tau_h ;
    _la = ( 0.01 * ( v + 27.0 ) ) / ( 1.0 - ( exp ( - ( v + 27.0 ) / 10.2 ) ) ) ;
@@ -696,7 +696,7 @@ static const char* nmodl_file_text =
   "\n"
   ":NAT h\n"
   "	a = 0.062 * (-(v +114))/(1 - (exp((v+114)/11)))\n"
-  "	b = 1.7 / ( 1 + exp((v + 31.8)/13.4))\n"
+  "	b = 1.7 / ( 1 + exp(-(v + 31.8)/13.4))\n"
   "	tau_h = 1 / (a + b)\n"
   "	h_inf = a * tau_h\n"
   "\n"
