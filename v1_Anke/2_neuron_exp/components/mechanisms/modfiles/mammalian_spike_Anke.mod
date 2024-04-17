@@ -34,24 +34,26 @@ PARAMETER {
 }
 
 STATE {
-	m h p n
+	m h p n c
 }
 
 ASSIGNED {
 	v (mV)
 	celsius (degC)
-	inat	(mA/cm2)
 	ik	(mA/cm2)
-	inap  (mA/cm2)
+	ina (mA/cm2)
+		inat	(mA/cm2)
+		inap  (mA/cm2)
 	m_inf h_inf p_inf n_inf c_inf
 	tau_m tau_h tau_p tau_n tau_c
 }
 
 BREAKPOINT {
 	SOLVE states METHOD cnexp
-	inat = gnatbar * m*m*m*h * (v - ena)
-	inap = gnapbar * p*p*p*(v - ena)
-    idrk = gkbar * n*n*n*(0.9 + 0.1*c) * (v - ek)
+    ik = gkbar * n*n*n*(0.9 + 0.1*c) * (v - ek)
+		inat = gnatbar * m*m*m*h * (v - ena)
+		inap = gnapbar * p*p*p*(v - ena)
+		ina = inat + inap
 }
 
 DERIVATIVE states {	
@@ -82,8 +84,8 @@ PROCEDURE trates(vm) {
 :NAP p
 	a = (0.01 * (v+27)) / (1 - (exp(-(v+27)/10.2)))
 	b = 0.00025 * (-(v+34))/(1 - (exp((v + 34)/10)))
-	tau_p
-	p_inf
+	tau_p = 1/ (a+b)
+	p_inf = a*tau_p
 
 :K n (non-inactivating, delayed rectifier)
 	a = 0.2120*exp(0.04)
