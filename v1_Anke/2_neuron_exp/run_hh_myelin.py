@@ -47,7 +47,7 @@ def fix_axon_peri_multiple_stubs(hobj, num_stubs, stub_lengths, stub_diameters):
 
 
 def set_params_peri_simpl_hh(hobj, biophys_params):
-    """Set biophysical parameters for the cell according to a geometrically simplified hh model:
+    """
     :param hobj: NEURON's cell object
     :param biophys_params: name of json file with biophys params for cell's model which determine spiking behavior
     :return:
@@ -100,23 +100,33 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
 
         
         elif p["section"] == "axon":
+            n=0
             for axon_sec in axon_sections:
+                if n % 2 == 0:
+                    axon_sec.insert("mammalian_spike_Anke")
+                    setattr(axon_sec,"gnatbar_mammalian_spike_Anke", 1.5)
+                    setattr(axon_sec,"gnapbar_mammalian_spike_Anke", 0.002)
+                    setattr(axon_sec, "gkbar_mammalian_spike_Anke", 1.6)
 
-                axon_sec.insert("mammalian_spike_Anke")
-                setattr(axon_sec,"gnatbar_mammalian_spike_Anke", 1.5)
-                #setattr(axon_sec,"gnatbar_mammalian_spike_Anke", 0)
-                setattr(axon_sec,"gnapbar_mammalian_spike_Anke", 0.002)
-                #setattr(axon_sec,"gnapbar_mammalian_spike_Anke", 0)
-                setattr(axon_sec, "gkbar_mammalian_spike_Anke", 1.6)
-                #setattr(axon_sec, "gkbar_mammalian_spike_Anke", 0)
+                    axon_sec.Ra = 150
+                    axon_sec.cm = 1.0
+                    axon_sec.insert("pas")
+                    setattr(axon_sec, "g_pas", 0.04)
+                    setattr(axon_sec, "e_pas", -70)
+                    axon_sec.ena = 55.0
+                    axon_sec.ek = -77.0
+                    n+=1
+                    print(n)
 
-                axon_sec.Ra = 150
-                axon_sec.cm = 1.0
-                axon_sec.insert("pas")
-                setattr(axon_sec, "g_pas", 0.04)
-                setattr(axon_sec, "e_pas", -70)
-                axon_sec.ena = 55.0
-                axon_sec.ek = -77.0
+                else: #parameters for internodal segment from Moore et al 1978
+                    axon_sec.Ra = 150
+                    axon_sec.cm = 0.005
+                    axon_sec.insert("pas")
+                    setattr(axon_sec, "g_pas", 0.0000015)
+                    setattr(axon_sec, "e_pas", -70)
+                    n+=1
+                    print(n)
+
 
         else:
             io.log_error(f'another section that was not taken into account!! -> check')    
