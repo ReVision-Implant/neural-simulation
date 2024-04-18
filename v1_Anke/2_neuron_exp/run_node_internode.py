@@ -150,8 +150,8 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         io.log_info(f'Fixing cell #{node_id}, {cell_type}')
     
         fix_axon_peri_multiple_stubs(hobj, 4, [30,30,30,30], [1,1,1,1])
-        set_params_peri(hobj, dynamics_params)   
-        #set_params_peri_simpl_hh(hobj, dynamics_params)
+        #set_params_peri(hobj, dynamics_params)   
+        set_params_peri_simpl_hh(hobj, dynamics_params)
 
     return hobj
 
@@ -159,7 +159,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 #here is the code to edit when just running the simulations, above are all the involved functions
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='sim_node_internode/axon_4/waveform_4_5ms/amplitude_10/simulation_0'
+dir='sim_node_internode/axon_4/waveform_0/amplitude_10/simulation_0'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
