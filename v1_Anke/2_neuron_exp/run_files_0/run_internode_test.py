@@ -102,7 +102,7 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
         elif p["section"] == "axon":
             n=0
             for axon_sec in axon_sections:
-                if n % 2 == 0:
+                if n % 2 != 0:
                     axon_sec.insert("mammalian_spike_Anke")
                     setattr(axon_sec,"gnatbar_mammalian_spike_Anke", 1.5)
                     setattr(axon_sec,"gnapbar_mammalian_spike_Anke", 0.002)
@@ -112,7 +112,7 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
                     axon_sec.cm = 1.0
                     axon_sec.insert("pas")
                     setattr(axon_sec, "g_pas", 0.04)
-                    setattr(axon_sec, "e_pas", -70)
+                    setattr(axon_sec, "e_pas", -95.97)
                     axon_sec.ena = 55.0
                     axon_sec.ek = -77.0
                     n+=1
@@ -123,7 +123,7 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
                     axon_sec.cm = 0.005
                     axon_sec.insert("pas")
                     setattr(axon_sec, "g_pas", 0.0000015)
-                    setattr(axon_sec, "e_pas", -70)
+                    setattr(axon_sec, "e_pas", -95.97)
                     n+=1
                     print(n,"internode")
 

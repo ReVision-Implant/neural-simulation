@@ -15,7 +15,7 @@
   },
   "conditions": {
     "celsius": 34.0,
-    "v_init": -70.0
+    "v_init": -96.0
   },
   "inputs": {
     "Extracellular_Stim": {
@@ -24,7 +24,7 @@
     "module": "comsol",
     "comsol_files": ["$STIM_DIR/comsol/Electrode_1.txt","$STIM_DIR/comsol/Electrode_2.txt"],
     "waveforms": ["$STIM_DIR/waveforms/waveform_4_5ms.csv","$STIM_DIR/waveforms/waveform_4_5ms.csv"],
-    "amplitudes": [10,-10],
+    "amplitudes": [30,-30],
     "enabled": true 
     
   }
