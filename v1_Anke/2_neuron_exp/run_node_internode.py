@@ -102,7 +102,7 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
         elif p["section"] == "axon":
             n=0
             for axon_sec in axon_sections:
-                if n % 2 == 0:
+                if n % 2 != 0:
                     axon_sec.insert("mammalian_spike_Anke")
                     setattr(axon_sec,"gnatbar_mammalian_spike_Anke", 1.5)
                     setattr(axon_sec,"gnapbar_mammalian_spike_Anke", 0.002)
@@ -116,7 +116,7 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
                     axon_sec.ena = 55.0
                     axon_sec.ek = -77.0
                     n+=1
-                    print(n)
+                    print(n,"node")
 
                 else: #parameters for internodal segment from Moore et al 1978
                     axon_sec.Ra = 150
@@ -125,7 +125,7 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
                     setattr(axon_sec, "g_pas", 0.0000015)
                     setattr(axon_sec, "e_pas", -70)
                     n+=1
-                    print(n)
+                    print(n,"internode")
 
 
         else:
@@ -150,8 +150,8 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         io.log_info(f'Fixing cell #{node_id}, {cell_type}')
     
         fix_axon_peri_multiple_stubs(hobj, 4, [30,30,30,30], [1,1,1,1])
-        #set_params_peri(hobj,dynamics_params)   
-        set_params_peri_simpl_hh(hobj, dynamics_params)
+        set_params_peri(hobj, dynamics_params)   
+        #set_params_peri_simpl_hh(hobj, dynamics_params)
 
     return hobj
 
@@ -159,7 +159,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 #here is the code to edit when just running the simulations, above are all the involved functions
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='modfile_Anke/axon_4_diam_1/network_C/waveform_0/amplitude_20/simulation_0'
+dir='sim_node_internode/axon_4/waveform_4_5ms/amplitude_10/simulation_0'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()

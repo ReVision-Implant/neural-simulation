@@ -1,0 +1,12 @@
+2024-04-18 12:42:56,882 [INFO] Created log file
+2024-04-18 12:42:56,953 [INFO] Building cells.
+2024-04-18 12:42:57,023 [INFO] Fixing cell #0, e23Cux2
+2024-04-18 12:42:57,023 [INFO] hh simplified model incoming
+2024-04-18 12:42:57,087 [INFO] Fixing cell #1, e23Cux2
+2024-04-18 12:42:57,087 [INFO] hh simplified model incoming
+2024-04-18 12:42:57,104 [INFO] Building recurrent connections
+2024-04-18 12:42:58,015 [INFO] Running simulation for 25.000 ms with the time step 0.025 ms
+2024-04-18 12:42:58,015 [INFO] Starting timestep: 0 at t_sim: 0.000 ms
+2024-04-18 12:42:58,015 [INFO] Block save every 1000 steps
+2024-04-18 12:42:58,525 [INFO]     step:1000 t_sim:25.00 ms
+2024-04-18 12:42:58,560 [INFO] Simulation completed in 0.5449 seconds 
