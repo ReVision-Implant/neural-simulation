@@ -6,6 +6,14 @@ from bmtk.simulator import bionet
 from optparse import OptionParser, BadOptionError, AmbiguousOptionError
 from bmtk.simulator.bionet.pyfunction_cache import synaptic_weight
 import numpy as np
+from bmtk.simulator.bionet.pyfunction_cache import add_cell_processor
+from bmtk.simulator.bionet.default_setters.cell_models import fix_axon_peri, set_params_peri
+from bmtk.simulator.bionet.io_tools import io
+from bmtk.simulator.bionet.nml_reader import NMLTree
+from neuron import h
+from ipdb import set_trace
+import os
+from sklearn.decomposition import PCA
 
 from mpi4py import MPI
 comm = MPI.COMM_WORLD
@@ -190,7 +198,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         cell_type = cell['pop_name']       
         io.log_info(f'Fixing cell #{node_id}, {cell_type}')
     
-        fix_axon_peri_multiple_stubs(hobj, 4, [30,30,30,30], [1,1,1,1])  
+        fix_axon_peri_multiple_stubs(hobj, 14, [30,30,30,30,30,30,30,30,30,30,30,30,30,30], [1,1,1,1,1,1,1,1,1,1,1,1,1,1])  
         set_params_peri_simpl_hh(hobj, dynamics_params)
 
     return hobj
