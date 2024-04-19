@@ -118,7 +118,7 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
                     n+=1
                     print(n,"node")
 
-                else: #parameters for internodal segment from Moore et al 1978
+                else: 
                     axon_sec.Ra = 150
                     axon_sec.cm = 0.005
                     axon_sec.insert("pas")
@@ -159,7 +159,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 #here is the code to edit when just running the simulations, above are all the involved functions
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='sim_internode_tests/network_F/waveform_0/simulation_0'
+dir='sim_internode_tests/internode_coggan/network_C/waveform_4_5ms/amplitude_10/simulation_0'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
