@@ -11,9 +11,6 @@ from bmtk.simulator.bionet.default_setters.cell_models import fix_axon_peri, set
 from bmtk.simulator.bionet.io_tools import io
 from bmtk.simulator.bionet.nml_reader import NMLTree
 from neuron import h
-from ipdb import set_trace
-import os
-from sklearn.decomposition import PCA
 
 from mpi4py import MPI
 comm = MPI.COMM_WORLD
