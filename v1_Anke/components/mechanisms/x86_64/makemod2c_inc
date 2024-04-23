@@ -1,0 +1,9 @@
+
+./mammalian_spike_Anke.c: ../mammalian_spike_Anke.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd ".."; MODLUNIT=$(NRNUNITS) $(NOCMODL) mammalian_spike_Anke.mod -o "/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/components/mechanisms/modfiles/x86_64")
+
+./mammalian_spike_Anke.o: ./mammalian_spike_Anke.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I".." $(INCLUDES) -fPIC -c $< -o $@
+
