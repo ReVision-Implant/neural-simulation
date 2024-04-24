@@ -30,7 +30,7 @@
   },
   "target_simulator": "NEURON",
   "run": {
-    "tstart": 4.0,
+    "tstart": 0.0,
     "tstop": 25.0,
     "dt": 0.025,
     "dL": 20.0,
