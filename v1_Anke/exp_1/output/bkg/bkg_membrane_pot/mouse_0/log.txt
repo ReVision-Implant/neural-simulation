@@ -1,4 +1,4 @@
-2024-04-22 12:26:43,168 [INFO] Created log file
-2024-04-22 12:26:43,172 [INFO] Running NEURON with mpi (36 cores).
-2024-04-22 12:26:51,007 [INFO] Building cells.
-2024-04-22 12:26:51,237 [INFO] Fixing cell #3384, i1Htr3a
+2024-04-23 10:54:30,766 [INFO] Created log file
+2024-04-23 10:54:30,770 [INFO] Running NEURON with mpi (36 cores).
+2024-04-23 10:54:38,090 [INFO] Building cells.
+2024-04-23 10:54:38,310 [INFO] Fixing cell #3384, i1Htr3a
