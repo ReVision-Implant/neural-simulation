@@ -10,7 +10,6 @@ import os
 import numpy as np
 from sklearn.decomposition import PCA
 
-print("test")
 
 def fix_axon_peri_multiple_stubs(hobj, num_stubs, stub_lengths, stub_diameters):
     """
