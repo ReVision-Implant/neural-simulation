@@ -4,6 +4,8 @@ from bmtk.simulator.bionet.pyfunction_cache import add_cell_processor
 from bmtk.simulator.bionet.default_setters.cell_models import fix_axon_peri, set_params_peri
 from bmtk.simulator.bionet.io_tools import io
 from bmtk.simulator.bionet.nml_reader import NMLTree
+import sys
+sys.path.append("Users/ankev/nrn")
 from neuron import h
 from ipdb import set_trace
 import os
