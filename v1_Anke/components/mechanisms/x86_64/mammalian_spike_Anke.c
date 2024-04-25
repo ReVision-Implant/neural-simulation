@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "scoplib_ansi.h"
+#include "mech_api.h"
 #undef PI
 #define nil 0
 #include "md1redef.h"
@@ -33,9 +33,9 @@ extern double hoc_Exp(double);
 #define trates trates__mammalian_spike_Anke 
  
 #define _threadargscomma_ _p, _ppvar, _thread, _nt,
-#define _threadargsprotocomma_ double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt,
+#define _threadargsprotocomma_ double* _p, Datum* _ppvar, Datum* _thread, NrnThread* _nt,
 #define _threadargs_ _p, _ppvar, _thread, _nt
-#define _threadargsproto_ double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
+#define _threadargsproto_ double* _p, Datum* _ppvar, Datum* _thread, NrnThread* _nt
  	/*SUPPRESS 761*/
 	/*SUPPRESS 762*/
 	/*SUPPRESS 763*/
@@ -46,36 +46,67 @@ extern double hoc_Exp(double);
 #define t _nt->_t
 #define dt _nt->_dt
 #define gnatbar _p[0]
+#define gnatbar_columnindex 0
 #define gkbar _p[1]
+#define gkbar_columnindex 1
 #define gnapbar _p[2]
+#define gnapbar_columnindex 2
 #define ik _p[3]
+#define ik_columnindex 3
 #define inat _p[4]
+#define inat_columnindex 4
 #define inap _p[5]
+#define inap_columnindex 5
 #define m_inf _p[6]
+#define m_inf_columnindex 6
 #define h_inf _p[7]
+#define h_inf_columnindex 7
 #define p_inf _p[8]
+#define p_inf_columnindex 8
 #define n_inf _p[9]
+#define n_inf_columnindex 9
 #define c_inf _p[10]
+#define c_inf_columnindex 10
 #define tau_m _p[11]
+#define tau_m_columnindex 11
 #define tau_h _p[12]
+#define tau_h_columnindex 12
 #define tau_p _p[13]
+#define tau_p_columnindex 13
 #define tau_n _p[14]
+#define tau_n_columnindex 14
 #define tau_c _p[15]
+#define tau_c_columnindex 15
 #define m _p[16]
+#define m_columnindex 16
 #define h _p[17]
+#define h_columnindex 17
 #define p _p[18]
+#define p_columnindex 18
 #define n _p[19]
+#define n_columnindex 19
 #define c _p[20]
+#define c_columnindex 20
 #define ena _p[21]
+#define ena_columnindex 21
 #define ek _p[22]
+#define ek_columnindex 22
 #define Dm _p[23]
+#define Dm_columnindex 23
 #define Dh _p[24]
+#define Dh_columnindex 24
 #define Dp _p[25]
+#define Dp_columnindex 25
 #define Dn _p[26]
+#define Dn_columnindex 26
 #define Dc _p[27]
+#define Dc_columnindex 27
 #define ina _p[28]
+#define ina_columnindex 28
 #define v _p[29]
+#define v_columnindex 29
 #define _g _p[30]
+#define _g_columnindex 30
 #define _ion_ena	*_ppvar[0]._pval
 #define _ion_ina	*_ppvar[1]._pval
 #define _ion_dinadv	*_ppvar[2]._pval
@@ -169,15 +200,15 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 };
  static double _sav_indep;
  static void nrn_alloc(Prop*);
-static void  nrn_init(_NrnThread*, _Memb_list*, int);
-static void nrn_state(_NrnThread*, _Memb_list*, int);
- static void nrn_cur(_NrnThread*, _Memb_list*, int);
-static void  nrn_jacob(_NrnThread*, _Memb_list*, int);
+static void  nrn_init(NrnThread*, _Memb_list*, int);
+static void nrn_state(NrnThread*, _Memb_list*, int);
+ static void nrn_cur(NrnThread*, _Memb_list*, int);
+static void  nrn_jacob(NrnThread*, _Memb_list*, int);
  
 static int _ode_count(int);
 static void _ode_map(int, double**, double**, double*, Datum*, double*, int);
-static void _ode_spec(_NrnThread*, _Memb_list*, int);
-static void _ode_matsol(_NrnThread*, _Memb_list*, int);
+static void _ode_spec(NrnThread*, _Memb_list*, int);
+static void _ode_matsol(NrnThread*, _Memb_list*, int);
  
 #define _cvode_ieq _ppvar[6]._i
  static void _ode_matsol_instance1(_threadargsproto_);
@@ -249,7 +280,7 @@ static void nrn_alloc(Prop* _prop) {
  static void _update_ion_pointer(Datum*);
  extern Symbol* hoc_lookup(const char*);
 extern void _nrn_thread_reg(int, int, void(*)(Datum*));
-extern void _nrn_thread_table_reg(int, void(*)(double*, Datum*, Datum*, _NrnThread*, int));
+extern void _nrn_thread_table_reg(int, void(*)(double*, Datum*, Datum*, NrnThread*, int));
 extern void hoc_register_tolerance(int, HocStateTolerance*, Symbol***);
 extern void _cvode_abstol( Symbol**, double*, int);
 
@@ -279,7 +310,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 mammalian_spike_Anke C:/Users/ankev/Documents/GitHub/neural-simulation/v1_Anke/2_neuron_exp/components/mechanisms/modfiles/mammalian_spike_Anke.mod\n");
+ 	ivoc_help("help ?1 mammalian_spike_Anke /lustre1/scratch/356/vsc35693/neural-simulation/v1_Anke/components/mechanisms/modfiles/mammalian_spike_Anke.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -298,7 +329,7 @@ static int _ode_spec1(_threadargsproto_);
  static int states(_threadargsproto_);
  
 /*CVODE*/
- static int _ode_spec1 (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {int _reset = 0; {
+ static int _ode_spec1 (double* _p, Datum* _ppvar, Datum* _thread, NrnThread* _nt) {int _reset = 0; {
    trates ( _threadargscomma_ v ) ;
    Dm = ( m_inf - m ) / tau_m ;
    Dh = ( h_inf - h ) / tau_h ;
@@ -308,7 +339,7 @@ static int _ode_spec1(_threadargsproto_);
    }
  return _reset;
 }
- static int _ode_matsol1 (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
+ static int _ode_matsol1 (double* _p, Datum* _ppvar, Datum* _thread, NrnThread* _nt) {
  trates ( _threadargscomma_ v ) ;
  Dm = Dm  / (1. - dt*( ( ( ( - 1.0 ) ) ) / tau_m )) ;
  Dh = Dh  / (1. - dt*( ( ( ( - 1.0 ) ) ) / tau_h )) ;
@@ -318,7 +349,7 @@ static int _ode_spec1(_threadargsproto_);
   return 0;
 }
  /*END CVODE*/
- static int states (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) { {
+ static int states (double* _p, Datum* _ppvar, Datum* _thread, NrnThread* _nt) { {
    trates ( _threadargscomma_ v ) ;
     m = m + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / tau_m)))*(- ( ( ( m_inf ) ) / tau_m ) / ( ( ( ( - 1.0 ) ) ) / tau_m ) - m) ;
     h = h + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / tau_h)))*(- ( ( ( h_inf ) ) / tau_h ) / ( ( ( ( - 1.0 ) ) ) / tau_h ) - h) ;
@@ -355,7 +386,7 @@ static int  trates ( _threadargsprotocomma_ double _lvm ) {
  
 static void _hoc_trates(void) {
   double _r;
-   double* _p; Datum* _ppvar; Datum* _thread; _NrnThread* _nt;
+   double* _p; Datum* _ppvar; Datum* _thread; NrnThread* _nt;
    if (_extcall_prop) {_p = _extcall_prop->param; _ppvar = _extcall_prop->dparam;}else{ _p = (double*)0; _ppvar = (Datum*)0; }
   _thread = _extcall_thread;
   _nt = nrn_threads;
@@ -366,7 +397,7 @@ static void _hoc_trates(void) {
  
 static int _ode_count(int _type){ return 5;}
  
-static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
+static void _ode_spec(NrnThread* _nt, _Memb_list* _ml, int _type) {
    double* _p; Datum* _ppvar; Datum* _thread;
    Node* _nd; double _v; int _iml, _cntml;
   _cntml = _ml->_nodecount;
@@ -394,7 +425,7 @@ static void _ode_matsol_instance1(_threadargsproto_) {
  _ode_matsol1 (_p, _ppvar, _thread, _nt);
  }
  
-static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
+static void _ode_matsol(NrnThread* _nt, _Memb_list* _ml, int _type) {
    double* _p; Datum* _ppvar; Datum* _thread;
    Node* _nd; double _v; int _iml, _cntml;
   _cntml = _ml->_nodecount;
@@ -417,7 +448,7 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
    nrn_update_ion_pointer(_k_sym, _ppvar, 5, 4);
  }
 
-static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
+static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, NrnThread* _nt) {
   int _i; double _save;{
   c = c0;
   h = h0;
@@ -428,7 +459,7 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
 }
 }
 
-static void nrn_init(_NrnThread* _nt, _Memb_list* _ml, int _type){
+static void nrn_init(NrnThread* _nt, _Memb_list* _ml, int _type){
 double* _p; Datum* _ppvar; Datum* _thread;
 Node *_nd; double _v; int* _ni; int _iml, _cntml;
 #if CACHEVEC
@@ -454,7 +485,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   }
 }
 
-static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{ {
+static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, NrnThread* _nt, double _v){double _current=0.;v=_v;{ {
    ik = gkbar * n * n * n * ( 0.9 + 0.1 * c ) * ( v - ek ) ;
    inat = gnatbar * m * m * m * h * ( v - ena ) ;
    inap = gnapbar * p * p * p * ( v - ena ) ;
@@ -466,7 +497,7 @@ static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread
 } return _current;
 }
 
-static void nrn_cur(_NrnThread* _nt, _Memb_list* _ml, int _type) {
+static void nrn_cur(NrnThread* _nt, _Memb_list* _ml, int _type) {
 double* _p; Datum* _ppvar; Datum* _thread;
 Node *_nd; int* _ni; double _rhs, _v; int _iml, _cntml;
 #if CACHEVEC
@@ -512,7 +543,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
  
 }
 
-static void nrn_jacob(_NrnThread* _nt, _Memb_list* _ml, int _type) {
+static void nrn_jacob(NrnThread* _nt, _Memb_list* _ml, int _type) {
 double* _p; Datum* _ppvar; Datum* _thread;
 Node *_nd; int* _ni; int _iml, _cntml;
 #if CACHEVEC
@@ -536,7 +567,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
  
 }
 
-static void nrn_state(_NrnThread* _nt, _Memb_list* _ml, int _type) {
+static void nrn_state(NrnThread* _nt, _Memb_list* _ml, int _type) {
 double* _p; Datum* _ppvar; Datum* _thread;
 Node *_nd; double _v = 0.0; int* _ni; int _iml, _cntml;
 #if CACHEVEC
@@ -571,11 +602,11 @@ static void _initlists(){
  double _x; double* _p = &_x;
  int _i; static int _first = 1;
   if (!_first) return;
- _slist1[0] = &(m) - _p;  _dlist1[0] = &(Dm) - _p;
- _slist1[1] = &(h) - _p;  _dlist1[1] = &(Dh) - _p;
- _slist1[2] = &(n) - _p;  _dlist1[2] = &(Dn) - _p;
- _slist1[3] = &(p) - _p;  _dlist1[3] = &(Dp) - _p;
- _slist1[4] = &(c) - _p;  _dlist1[4] = &(Dc) - _p;
+ _slist1[0] = m_columnindex;  _dlist1[0] = Dm_columnindex;
+ _slist1[1] = h_columnindex;  _dlist1[1] = Dh_columnindex;
+ _slist1[2] = n_columnindex;  _dlist1[2] = Dn_columnindex;
+ _slist1[3] = p_columnindex;  _dlist1[3] = Dp_columnindex;
+ _slist1[4] = c_columnindex;  _dlist1[4] = Dc_columnindex;
 _first = 0;
 }
 
@@ -584,7 +615,7 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "mammalian_spike_Anke.mod";
+static const char* nmodl_filename = "/lustre1/scratch/356/vsc35693/neural-simulation/v1_Anke/components/mechanisms/modfiles/mammalian_spike_Anke.mod";
 static const char* nmodl_file_text = 
   "TITLE HH style channels for spiking retinal ganglion cells\n"
   ":\n"
