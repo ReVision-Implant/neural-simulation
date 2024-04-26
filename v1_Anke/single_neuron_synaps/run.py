@@ -147,11 +147,8 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
 
 def aibs_perisomatic(hobj, cell, dynamics_params):
     if dynamics_params is not None:
-        node_id = cell["node_id"]
-        cell_type = cell['pop_name']       
-        io.log_info(f'Fixing cell #{node_id}, {cell_type}')
-    
-        fix_axon_peri_multiple_stubs(hobj, 4, [30,30,30,30], [1,1,1,1])
+        print("fix multiple stubs")
+        fix_axon_peri_multiple_stubs(hobj, 2, [30,30,30,30,30,30,30,30,30,30,30,30,30,30], [1,1,1,1,1,1,1,1,1,1,1,1,1,1])
         #set_params_peri(hobj, dynamics_params)   
         set_params_peri_simpl_hh(hobj, dynamics_params)
 
