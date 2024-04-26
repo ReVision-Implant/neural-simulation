@@ -128,7 +128,9 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
                     axon_sec.Ra = 150
                     axon_sec.cm = 0.005
                     axon_sec.insert("pas")
-                    setattr(axon_sec, "g_pas", 0.0000015)
+                    gpas_2=0.0000015*200/30
+                    print(gpas_2)
+                    setattr(axon_sec, "g_pas", gpas_2)
                     setattr(axon_sec, "e_pas", -70)
                     n+=1
                     print(n,"internode")
@@ -167,7 +169,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 #here is the code to edit when just running the simulations, above are all the involved functions
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='simulation_4'
+dir='simulation_5'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
