@@ -104,7 +104,7 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
         elif p["section"] == "axon":
             n=0
             for axon_sec in axon_sections:
-                if n % 2 == 0:
+                if n % 2 != 0:
                     axon_sec.insert("mammalian_spike_Anke")
                     setattr(axon_sec,"gnatbar_mammalian_spike_Anke", 1.5)
                     setattr(axon_sec,"gnapbar_mammalian_spike_Anke", 0.002)
@@ -148,7 +148,7 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
 def aibs_perisomatic(hobj, cell, dynamics_params):
     if dynamics_params is not None:
         print("fix multiple stubs")
-        fix_axon_peri_multiple_stubs(hobj, 2, [30,30,30,30,30,30,30,30,30,30,30,30,30,30], [1,1,1,1,1,1,1,1,1,1,1,1,1,1])
+        fix_axon_peri_multiple_stubs(hobj, 4, [30,30,30,30,30,30,30,30,30,30,30,30,30,30], [1,1,1,1,1,1,1,1,1,1,1,1,1,1])
         #set_params_peri(hobj, dynamics_params)   
         set_params_peri_simpl_hh(hobj, dynamics_params)
 
@@ -158,7 +158,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 #here is the code to edit when just running the simulations, above are all the involved functions
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='simulation_1'
+dir='simulation_2'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()

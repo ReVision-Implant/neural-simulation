@@ -14,13 +14,13 @@
   },
   "conditions": {
     "celsius": 34.0,
-    "v_init": -70.0
+    "v_init": -80.0
   },
   "inputs": {
     "mthalamus_spikes": {
       "input_type": "spikes",
       "module": "sonata",
-      "input_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\single_neuron_synaps\\inputs\\mthalamus_spikes.h5",
+      "input_file": "C:\\Users\\ankev\\Documents\\GitHub\\neural-simulation\\v1_Anke\\single_neuron_synaps\\inputs\\Poisson_5Hz\\mthalamus_spikes.h5",
       "node_set": "mthalamus"
     }
   },
@@ -28,7 +28,7 @@
     "log_file": "log.txt",
     "output_dir": "$OUTPUT_DIR",
     "spikes_file": "spikes.h5",
-    "spikes_file_csv":"spikes.csv"
+    "spikes_file_csv": "spikes.csv"
   },
   "reports": {
     "v_report": {

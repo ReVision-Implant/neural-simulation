@@ -1,0 +1,15 @@
+2024-04-26 14:55:04,215 [INFO] Created log file
+2024-04-26 14:55:04,282 [INFO] Building cells.
+2024-04-26 14:55:04,359 [INFO] hh simplified model incoming
+2024-04-26 14:55:04,374 [INFO] Building recurrent connections
+2024-04-26 14:55:04,375 [INFO] Building virtual cell stimulations for mthalamus_spikes
+2024-04-26 14:55:04,425 [INFO] Running simulation for 3000.000 ms with the time step 0.100 ms
+2024-04-26 14:55:04,427 [INFO] Starting timestep: 0 at t_sim: 0.000 ms
+2024-04-26 14:55:04,427 [INFO] Block save every 5000 steps
+2024-04-26 14:55:04,736 [INFO]     step:5000 t_sim:500.00 ms
+2024-04-26 14:55:05,098 [INFO]     step:10000 t_sim:1000.00 ms
+2024-04-26 14:55:05,426 [INFO]     step:15000 t_sim:1500.00 ms
+2024-04-26 14:55:05,732 [INFO]     step:20000 t_sim:2000.00 ms
+2024-04-26 14:55:06,127 [INFO]     step:25000 t_sim:2500.00 ms
+2024-04-26 14:55:06,457 [INFO]     step:30000 t_sim:3000.00 ms
+2024-04-26 14:55:06,479 [INFO] Simulation completed in 2.054 seconds 
