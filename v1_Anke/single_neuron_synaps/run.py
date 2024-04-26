@@ -161,7 +161,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 #here is the code to edit when just running the simulations, above are all the involved functions
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='sim_node_internode/axon_4/waveform_4_5ms/amplitude_20/simulation_0'
+dir='simulation_1'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
