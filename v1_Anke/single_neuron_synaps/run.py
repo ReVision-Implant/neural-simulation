@@ -154,8 +154,8 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         print("fix multiple stubs")
         node_internode_pair=7
         number_stubs= node_internode_pair*2
-        stubs_lengths = generate_stub_length(node_internode_pair)
-        stubs_diam = [1] *node_internode_pair*2
+        stubs_lengths = [30]*number_stubs
+        stubs_diam = [1] *number_stubs
         print(number_stubs,stubs_lengths,stubs_diam)
         fix_axon_peri_multiple_stubs(hobj, number_stubs, stubs_lengths, stubs_diam)
         #set_params_peri(hobj, dynamics_params)   
@@ -167,7 +167,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 #here is the code to edit when just running the simulations, above are all the involved functions
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='simulation_3'
+dir='simulation_4'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()

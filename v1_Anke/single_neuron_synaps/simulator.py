@@ -1,7 +1,7 @@
 from bmtk.utils.sim_setup import build_env_bionet
 
 build_env_bionet(
-    base_dir='simulation_3',
+    base_dir='simulation_4',
     config_file='config.json',
     network_dir='networks/network_1',
     tstop=3000.0, dt=0.1,
