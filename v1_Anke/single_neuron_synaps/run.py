@@ -144,11 +144,20 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
                 soma_sec.ena = erev["ena"]
                 soma_sec.ek = erev["ek"]  
 
+def generate_stub_length(repeat_count):
+    pattern = [30] + [1] * 30
+    stubs = pattern * repeat_count
+    return stubs
 
 def aibs_perisomatic(hobj, cell, dynamics_params):
     if dynamics_params is not None:
         print("fix multiple stubs")
-        fix_axon_peri_multiple_stubs(hobj, 4, [30,30,30,30,30,30,30,30,30,30,30,30,30,30], [1,1,1,1,1,1,1,1,1,1,1,1,1,1])
+        node_internode_pair=7
+        number_stubs= node_internode_pair*2
+        stubs_lengths = generate_stub_length(node_internode_pair)
+        stubs_diam = [1] *node_internode_pair*2
+        print(number_stubs,stubs_lengths,stubs_diam)
+        fix_axon_peri_multiple_stubs(hobj, number_stubs, stubs_lengths, stubs_diam)
         #set_params_peri(hobj, dynamics_params)   
         set_params_peri_simpl_hh(hobj, dynamics_params)
 
@@ -158,7 +167,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 #here is the code to edit when just running the simulations, above are all the involved functions
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='simulation_2'
+dir='simulation_1'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
