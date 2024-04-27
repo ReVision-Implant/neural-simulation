@@ -155,14 +155,18 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
             for axon_sec in axon_sections:
                 if n % 2 != 0:
                     axon_sec.insert("mammalian_spike_Anke")
-                    setattr(axon_sec,"gnatbar_mammalian_spike_Anke", 1.5)
-                    setattr(axon_sec,"gnapbar_mammalian_spike_Anke", 0.002)
-                    setattr(axon_sec, "gkbar_mammalian_spike_Anke", 1.6)
+                    gnatbar=1.5/30
+                    gnapbar=0.002/30
+                    gkbar=1.6/30
+                    gpas=0.04/30
+                    setattr(axon_sec,"gnatbar_mammalian_spike_Anke", gnatbar)
+                    setattr(axon_sec,"gnapbar_mammalian_spike_Anke", gnapbar)
+                    setattr(axon_sec, "gkbar_mammalian_spike_Anke", gkbar)
 
                     axon_sec.Ra = 150
                     axon_sec.cm = 1.0
                     axon_sec.insert("pas")
-                    setattr(axon_sec, "g_pas", 0.04)
+                    setattr(axon_sec, "g_pas", gpas)
                     setattr(axon_sec, "e_pas", -70)
                     axon_sec.ena = 55.0
                     axon_sec.ek = -77.0
@@ -196,7 +200,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
         cell_type = cell['pop_name']       
         io.log_info(f'Fixing cell #{node_id}, {cell_type}')
     
-        fix_axon_peri_multiple_stubs(hobj, 14, [30,30,30,30,30,30,30,30,30,30,30,30,30,30], [1,1,1,1,1,1,1,1,1,1,1,1,1,1])  
+        fix_axon_peri_multiple_stubs(hobj, 10, [30,30,30,30,30,30,30,30,30,30], [1,1,1,1,1,1,1,1,1,1])  
         set_params_peri_simpl_hh(hobj, dynamics_params)
 
     return hobj
