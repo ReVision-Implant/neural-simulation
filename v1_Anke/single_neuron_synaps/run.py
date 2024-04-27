@@ -106,9 +106,9 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
             for axon_sec in axon_sections:
                 if n % 2 != 0:
                     axon_sec.insert("mammalian_spike_Anke")
-                    gnat=1.5/30
-                    gnap=0.002/30
-                    gkbar=1.6/30
+                    gnat=1.5/20
+                    gnap=0.002/20
+                    gkbar=1.6/20
                     setattr(axon_sec,"gnatbar_mammalian_spike_Anke", gnat)
                     setattr(axon_sec,"gnapbar_mammalian_spike_Anke", gnap)
                     setattr(axon_sec, "gkbar_mammalian_spike_Anke", gkbar)
@@ -116,7 +116,7 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
                     axon_sec.Ra = 150
                     axon_sec.cm = 1.0
                     axon_sec.insert("pas")
-                    gpas=0.04/30
+                    gpas=0.04/20
                     setattr(axon_sec, "g_pas", gpas)
                     setattr(axon_sec, "e_pas", -70)
                     axon_sec.ena = 55.0
@@ -154,9 +154,9 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
 def aibs_perisomatic(hobj, cell, dynamics_params):
     if dynamics_params is not None:
         print("fix multiple stubs")
-        node_internode_pair=5
+        node_internode_pair=6
         number_stubs= node_internode_pair*2
-        stubs_lengths = [50,30,50,30,50,30,50,30,50,30]
+        stubs_lengths = [50,20,50,20,50,20,50,20,50,20,50,20]
         stubs_diam = [1] *number_stubs
         print(number_stubs,stubs_lengths,stubs_diam)
         fix_axon_peri_multiple_stubs(hobj, number_stubs, stubs_lengths, stubs_diam)
@@ -169,7 +169,7 @@ def aibs_perisomatic(hobj, cell, dynamics_params):
 
 #here is the code to edit when just running the simulations, above are all the involved functions
 add_cell_processor(aibs_perisomatic, overwrite=True)
-dir='simulation_8'
+dir='simulation_9'
 
 conf=bionet.Config.from_json(dir+'/config.json')
 conf.build_env()
