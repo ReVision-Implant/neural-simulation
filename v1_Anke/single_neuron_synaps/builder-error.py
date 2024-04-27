@@ -3,7 +3,7 @@ from bmtk.builder.networks import NetworkBuilder
 
 cortex = NetworkBuilder('mcortex')
 cortex.add_nodes(
-    pop_name='e23Cux2',
+    cell_name='e23Cux2',
     potental='exc',
     model_type='biophysical',
     model_template='ctdb:Biophys1.hoc',

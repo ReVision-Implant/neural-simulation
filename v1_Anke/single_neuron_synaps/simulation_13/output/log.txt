@@ -1,2 +1,2 @@
-2024-04-27 20:27:51,581 [INFO] Created log file
-2024-04-27 20:27:51,649 [ERROR] Node population mcortex does not exists (or consists of only virtual nodes). mthalamus_to_mcortex edges cannot create connections.
+2024-04-27 20:36:42,215 [INFO] Created log file
+2024-04-27 20:36:42,260 [ERROR] Node population mcortex does not exists (or consists of only virtual nodes). mthalamus_to_mcortex edges cannot create connections.
