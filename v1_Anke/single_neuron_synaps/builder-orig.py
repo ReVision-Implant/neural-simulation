@@ -8,8 +8,8 @@ cortex.add_nodes(
     model_type='biophysical',
     model_template='ctdb:Biophys1.hoc',
     model_processing='aibs_perisomatic',
-    dynamics_params="487661754_fit.json",
-    morphology="Cux2-CreERT2_Ai14-211772.05.02.01_496085150_m.swc"
+    dynamics_params='472363762_fit.json',
+    morphology='Scnn1a_473845048_m.swc'
 )
 
 cortex.build()
@@ -36,6 +36,6 @@ thalamus.add_edges(
 )
 
 thalamus.build()
-thalamus.save_nodes(output_dir='networks/network_2')
-thalamus.save_edges(output_dir='networks/network_2')
+thalamus.save_nodes(output_dir='networks/network_1')
+thalamus.save_edges(output_dir='networks/network_1')
 
