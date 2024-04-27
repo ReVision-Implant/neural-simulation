@@ -104,7 +104,7 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
         elif p["section"] == "axon":
             n=0
             for axon_sec in axon_sections:
-                if n % 2 == 0:
+                if n % 2 != 0:
                     axon_sec.insert("mammalian_spike_Anke")
                     gnat=1.5/30
                     gnap=0.002/30
