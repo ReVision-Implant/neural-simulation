@@ -3,7 +3,7 @@ from bmtk.builder.networks import NetworkBuilder
 
 cortex = NetworkBuilder('mcortex')
 cortex.add_nodes(
-    cell_name='Scnn1a_473845048',
+    pop_name='e23Cux2',
     potental='exc',
     model_type='biophysical',
     model_template='ctdb:Biophys1.hoc',
@@ -13,7 +13,7 @@ cortex.add_nodes(
 )
 
 cortex.build()
-cortex.save_nodes(output_dir='networks/network_1')
+cortex.save_nodes(output_dir='networks/network_2')
 
 thalamus = NetworkBuilder('mthalamus')
 thalamus.add_nodes(
@@ -25,7 +25,7 @@ thalamus.add_nodes(
 
 thalamus.add_edges(
     source={'pop_name': 'tON'}, target=cortex.nodes(),
-    connection_rule=5,
+    connection_rule=2,
     syn_weight=0.001,
     delay=2.0,
     weight_function=None,
