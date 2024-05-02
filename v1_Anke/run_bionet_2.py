@@ -177,7 +177,7 @@ def set_params_peri_simpl_hh(hobj, biophys_params):
                     axon_sec.cm = 0.005
                     axon_sec.insert("pas")
                     gpas_2=0.0000015*(200/30)
-                    setattr(axon_sec, "g_pas", g_pas_2)
+                    setattr(axon_sec, "g_pas", gpas_2)
                     setattr(axon_sec, "e_pas", -70)
                     n+=1
 
