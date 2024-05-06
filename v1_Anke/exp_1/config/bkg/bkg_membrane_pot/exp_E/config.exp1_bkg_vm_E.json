@@ -9,10 +9,8 @@
     "$STIM_DIR": "$BASE_DIR/components/stimulation"
   },
   "run": {
-    "tstop_part1": 1500,
-    "dt_part1": 1,
-    "tstop_part2":1600,
-    "dt_part2": 0.025,
+    "tstop": 1600,
+    "dt": 0.025,
     "dL": 20.0,
     "spike_threshold": -15,
     "nsteps_block": 1000,
