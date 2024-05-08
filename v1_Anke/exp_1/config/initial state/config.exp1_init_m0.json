@@ -9,9 +9,8 @@
     "$STIM_DIR": "$BASE_DIR/components/stimulation"
   },
   "run": {
-    "start_from_state": "$OUTPUT_DIR/initial_state_m0.h5",
-    "tstop": 100.0,
-    "dt": 0.025,
+    "tstop": 1500.0,
+    "dt": 0.5,
     "dL": 20.0,
     "spike_threshold": -15,
     "nsteps_block": 1000,
