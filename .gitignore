@@ -54,4 +54,6 @@ v1_Anke/virtual_mice_mask_no_v1_edges/**
 v1_Anke/virtual_mice_mask_small/** 
 v1_Anke/exp_2/output/bkg/bkg_membrane_pot/** 
 v1_Anke/exp_1/output/bkg/bkg_membrane_pot/** 
+v1_Anke/exp_1/output/**
+v1_Anke/old_simulations/**
 bmtk/bmtk/simulator/bionet/**
