@@ -55,17 +55,19 @@ def get_spikes(nodes_dirs, spikes_dirs, spikes_bkg_dirs, radius=None, depth=None
     return node_pos, n_spikes
 
 path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
-node_dirs_A = [path+'/virtual_mice_mask/mouse_0/v1_nodes.h5']
-spike_dirs_A = [path+'/exp_2/output/pattern_0/amplitude_10/mouse_0/spikes.csv']
-spike_bkg_dirs_A= [path+'/exp_2/output/bkg/mouse_0/spikes.csv']
+node_dirs_A = [path+'/virtual_mice_mask/mouse_1/v1_nodes.h5']
+spike_dirs_A = [path+'/exp_2/output/pattern_0/amplitude_10/mouse_1/spikes.csv']
+spike_bkg_dirs_A= [path+'/exp_2/output/bkg/mouse_1/spikes.csv']
 node_pos_A, n_spikes_A = get_spikes(nodes_dirs = node_dirs_A, spikes_dirs = spike_dirs_A, spikes_bkg_dirs = spike_bkg_dirs_A)
 
-node_dirs_B = [path+'/virtual_mice_mask/mouse_0/v1_nodes.h5']
-spike_dirs_B = [path+'/exp_2/output/pattern_4/amplitude_10/mouse_0/spikes.csv']
-spike_bkg_dirs_B= [path+'/exp_2/output/bkg/mouse_0/spikes.csv']
+node_dirs_B = [path+'/virtual_mice_mask/mouse_1/v1_nodes.h5']
+spike_dirs_B = [path+'/exp_2/output/pattern_4/amplitude_10/mouse_1/spikes.csv']
+spike_bkg_dirs_B= [path+'/exp_2/output/bkg/mouse_1/spikes.csv']
 node_pos_B, n_spikes_B = get_spikes(nodes_dirs = node_dirs_B, spikes_dirs = spike_dirs_B, spikes_bkg_dirs = spike_bkg_dirs_B)
 
-#print(n_spikes_A.shape)
+#rint(n_spikes_A.shape)
+#print(node_pos_A.shape)
 #print(n_spikes_B.shape)
+#print(node_pos_B.shape)
 #print(np.max(n_spikes_A))
 #print(np.max(n_spikes_B))
