@@ -4,8 +4,9 @@ import numpy as np
 import os
 from scipy.stats import wilcoxon
 import matplotlib.pyplot as plt
+from sklearn.neighbors import KernelDensity
 
-def get_spikes(nodes_dirs, spikes_dirs, spikes_bkg_dirs, radius=None, depth=None, v1=True, **kwargs):
+def get_spikes(nodes_dirs, spikes_dirs, spikes_bkg_dirs, v1=True, **kwargs):
     """Get spikes and node positions from network and output files.
 
     :param nodes_dirs: directories that point to network/nodes.h5
@@ -60,17 +61,40 @@ def discriminate_signed_rank(n_spikes_A, n_spikes_B):
         '''
         Use the Wilcoxon signed-rank test to get a p-value as index of separability between the two neuronal populations.
         '''
-        # to do: color_value 
-
-        plt.figure()
-        plt.scatter(n_spikes_A, n_spikes_B, c=color_value, s=30, cmap='viridis')
-        plt.xlabel('Spikerate A')
-        plt.ylabel('Spikerate B')
-        plt.title('Correlation of spikerates')
-
         signed_rank = wilcoxon(n_spikes_A, n_spikes_B) # Apply Wilcoxon test
         print('P-value for Wilcoxon signed-rank test for stim patterns A and  B is ' + str(round(signed_rank.pvalue,5)))
         return(signed_rank.pvalue)
+
+def kernel_density_estimate(node_pos_A, n_spikes_A, n_spikes_B):
+        '''
+        2D Kernel Density Estimate of the data
+        '''
+        coordinates= node_pos_A
+        kde = KernelDensity(bandwidth=100, kernel='gaussian') # Choose model and parameters
+        ###vanaf hier verder werken
+        kde.fit(coordinates, sample_weight=fluorescence) # Train model
+
+        grid_size = 100 # 100 points in x and in y direction
+        x_grid, y_grid = np.meshgrid(np.linspace(0, 397, grid_size), np.linspace(0, 380, grid_size))
+        grid_points = np.vstack([x_grid.ravel(), y_grid.ravel()]).T
+        density = np.exp(kde.score_samples(grid_points)).reshape(x_grid.shape) # Evaluate model for all points on the grid
+
+        fig = plt.figure()
+        plt.pcolormesh(x_grid, y_grid, density, shading='auto')
+        plt.scatter(coordinates[:,0], coordinates[:,1], c=fluorescence, cmap='viridis', edgecolors='k', linewidths=1)
+        plt.colorbar(label='Values')
+        plt.xlabel('X Coordinate')
+        plt.ylabel('Y Coordinate')
+        plt.xlim([0, 397])
+        plt.ylim([0, 380])
+        plt.gca().invert_yaxis()  # Invert y-axis for better comparison with ImageJ
+        plt.gca().set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
+        # plt.legend()
+        plt.title('Kernel Density Estimate for stim. pattern ' + str(pattern))
+        # plt.show()
+        plt.close()
+
+        return coordinates, fluorescence, x_grid, y_grid, density
 
 path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 node_dirs_A = [path+'/virtual_mice_mask/mouse_1/v1_nodes.h5']
@@ -85,6 +109,9 @@ node_pos_B, n_spikes_B = get_spikes(nodes_dirs = node_dirs_B, spikes_dirs = spik
 
 p_value_wilcoxon = discriminate_signed_rank(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B)
 
+#print(p_value_wilcoxon)
+print(n_spikes_A[149472])
+print(n_spikes_B[149472])
 #print(n_spikes_A.shape)
 #print(node_pos_A.shape)
 #print(n_spikes_B.shape)
