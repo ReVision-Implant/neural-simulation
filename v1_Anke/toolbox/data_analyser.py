@@ -6,7 +6,7 @@ from scipy.stats import wilcoxon
 import matplotlib.pyplot as plt
 from sklearn.neighbors import KernelDensity
 
-def get_spikes(nodes_dirs, spikes_dirs, spikes_bkg_dirs, v1=True, **kwargs):
+def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
     """Get spikes and node positions from network and output files.
 
     :param nodes_dirs: directories that point to network/nodes.h5
@@ -20,6 +20,13 @@ def get_spikes(nodes_dirs, spikes_dirs, spikes_bkg_dirs, v1=True, **kwargs):
     :return: node positions
     :rtype: ndarray
     """    
+
+    path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
+    
+
+    nodes_dirs= [str(path)+'/virtual_mice_mask/mouse_'+str(mouse)+'/v1_nodes.h5']
+    spikes_dirs= [str(path)+'/exp_'+str(exp)+'/output/pattern_'+str(pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/spikes.csv']
+    spikes_bkg_dirs= [str(path)+'/exp_'+str(exp)+'/output/bkg/mouse_'+str(mouse)+'/spikes.csv']
         
     nodes_dirs = [nodes_dirs] if not isinstance(nodes_dirs, list) else nodes_dirs
     spikes_dirs = [spikes_dirs] if not isinstance(spikes_dirs, list) else spikes_dirs
@@ -57,36 +64,36 @@ def get_spikes(nodes_dirs, spikes_dirs, spikes_bkg_dirs, v1=True, **kwargs):
 
     return node_pos, n_spikes
 
-def discriminate_signed_rank(n_spikes_A, n_spikes_B):
+def discriminate_signed_rank(n_spikes_A, n_spikes_B,pattern_A,pattern_B):
         '''
         Use the Wilcoxon signed-rank test to get a p-value as index of separability between the two neuronal populations.
         '''
         signed_rank = wilcoxon(n_spikes_A, n_spikes_B) # Apply Wilcoxon test
-        print('P-value for Wilcoxon signed-rank test for stim patterns A and  B is ' + str(round(signed_rank.pvalue,5)))
+        print('P-value for Wilcoxon signed-rank test for stim patterns '+str(pattern_A)+' and '+str(pattern_B)+' is ' + str(round(signed_rank.pvalue,5)))
         return(signed_rank.pvalue)
 
-def kernel_density_estimate(node_pos_A, n_spikes_A, n_spikes_B):
+def kernel_density_estimate(node_pos, n_spikes, pattern):
         '''
         2D Kernel Density Estimate of the data
         '''
-        coordinates= node_pos_A
-        kde = KernelDensity(bandwidth=100, kernel='gaussian') # Choose model and parameters
+        coordinates= node_pos[:,1:] #select only the y and z coordinates
+        kde = KernelDensity(bandwidth=1000, kernel='gaussian') # Choose model and parameters
         ###vanaf hier verder werken
-        kde.fit(coordinates, sample_weight=fluorescence) # Train model
+        kde.fit(coordinates, sample_weight=n_spikes) # Train model
 
         grid_size = 100 # 100 points in x and in y direction
-        x_grid, y_grid = np.meshgrid(np.linspace(0, 397, grid_size), np.linspace(0, 380, grid_size))
+        x_grid, y_grid = np.meshgrid(np.linspace(0, 800, grid_size), np.linspace(-250, 400, grid_size))
         grid_points = np.vstack([x_grid.ravel(), y_grid.ravel()]).T
         density = np.exp(kde.score_samples(grid_points)).reshape(x_grid.shape) # Evaluate model for all points on the grid
 
         fig = plt.figure()
         plt.pcolormesh(x_grid, y_grid, density, shading='auto')
-        plt.scatter(coordinates[:,0], coordinates[:,1], c=fluorescence, cmap='viridis', edgecolors='k', linewidths=1)
+        plt.scatter(coordinates[:,1], coordinates[:,0], c=n_spikes, cmap='viridis', edgecolors='k', linewidths=1)
         plt.colorbar(label='Values')
         plt.xlabel('X Coordinate')
         plt.ylabel('Y Coordinate')
-        plt.xlim([0, 397])
-        plt.ylim([0, 380])
+        plt.xlim([0, 800])
+        plt.ylim([-250, 400])
         plt.gca().invert_yaxis()  # Invert y-axis for better comparison with ImageJ
         plt.gca().set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
         # plt.legend()
@@ -94,24 +101,59 @@ def kernel_density_estimate(node_pos_A, n_spikes_A, n_spikes_B):
         # plt.show()
         plt.close()
 
-        return coordinates, fluorescence, x_grid, y_grid, density
+        return coordinates, n_spikes, x_grid, y_grid, density
 
 path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
-node_dirs_A = [path+'/virtual_mice_mask/mouse_1/v1_nodes.h5']
-spike_dirs_A = [path+'/exp_2/output/pattern_0/amplitude_10/mouse_1/spikes.csv']
-spike_bkg_dirs_A= [path+'/exp_2/output/bkg/mouse_1/spikes.csv']
-node_pos_A, n_spikes_A = get_spikes(nodes_dirs = node_dirs_A, spikes_dirs = spike_dirs_A, spikes_bkg_dirs = spike_bkg_dirs_A)
+exp=2
+pattern_A=0
+mouse=1
+amplitude=10
+node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse,amplitude=amplitude)
 
-node_dirs_B = [path+'/virtual_mice_mask/mouse_1/v1_nodes.h5']
-spike_dirs_B = [path+'/exp_2/output/pattern_4/amplitude_10/mouse_1/spikes.csv']
-spike_bkg_dirs_B= [path+'/exp_2/output/bkg/mouse_1/spikes.csv']
-node_pos_B, n_spikes_B = get_spikes(nodes_dirs = node_dirs_B, spikes_dirs = spike_dirs_B, spikes_bkg_dirs = spike_bkg_dirs_B)
+pattern_B=4
+node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse,amplitude=amplitude)
 
-p_value_wilcoxon = discriminate_signed_rank(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B)
+p_value_wilcoxon = discriminate_signed_rank(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=0, pattern_B=4)
+#coordin_A, n_spikes_A, x_grid_A, y_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 
+
+#Underneath: test_code
+
+#coordinates= node_pos_A[:,1:]
+
+'''non_zero_indices = np.nonzero(n_spikes_A)
+non_zero_coordinates = coordinates[non_zero_indices]
+non_zero_n_spikes_A = n_spikes_A[non_zero_indices]
+# Plot only the non-zero values with color scale based on the values in non_zero_n_spikes_A
+plt.scatter(
+    non_zero_coordinates[:, 1],  # x-coordinates of the non-zero data points
+    non_zero_coordinates[:, 0],  # y-coordinates of the non-zero data points
+    c=non_zero_n_spikes_A,       # color scale based on the values in non_zero_n_spikes_A
+    cmap='viridis',              # colormap used for coloring the points
+    edgecolors='black',          # color of the edges of the points
+    linewidths=1                 # width of the edges of the points
+)
+plt.colorbar(label='n_spikes_A')  # Add colorbar indicating the values of n_spikes_A
+plt.xlabel('X Coordinate')
+plt.ylabel('Y Coordinate')
+plt.title('Non-Zero Values from n_spikes_A')
+plt.show()'''
+
+'''plt.scatter(
+    coordinates[:, 1],      # x-coordinates of the data points
+    coordinates[:, 0],      # y-coordinates of the data points
+    c=np.where(n_spikes_A == 0, 'white', 'red'),  # conditional color based on n_spikes_A values
+    edgecolors='black',     # color of the edges of the points
+    linewidths=1            # width of the edges of the points
+)
+plt.title("plot spiking neurons")
+plt.show()'''
+
+#p_value_test = discriminate_signed_rank(n_spikes_A=[0,2,3,0], n_spikes_B=[0,1,3,0])
+#print(p_value_test)
 #print(p_value_wilcoxon)
-print(n_spikes_A[149472])
-print(n_spikes_B[149472])
+#print(n_spikes_A[149472])
+#print(n_spikes_B[149472])
 #print(n_spikes_A.shape)
 #print(node_pos_A.shape)
 #print(n_spikes_B.shape)
