@@ -102,10 +102,56 @@ def kernel_density_estimate(node_pos, n_spikes, pattern):
         plt.gca().set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
         # plt.legend()
         plt.title('Kernel Density Estimate for stim. pattern ' + str(pattern))
-        #plt.show()
-        plt.close()
+        plt.show()
+        #plt.close()
 
         return coordinates, n_spikes, y_grid, z_grid, density
+
+def projected_kernel_density_estimate(node_pos,n_spikes):
+        '''
+        Projection of the data before the Kernel Density Estimate is useful when trying the understand the spatial
+        distribution of cell activity along a specific axis. The density estimate now reflects the distribution
+        of the data along the projected data.
+        If projection would only take place after the Kernel Density Estimate, then you just integrate the density
+        function, but the density estimate is still based on a 2D-distribution.
+        '''
+        non_zero_indices = np.nonzero(n_spikes)
+        coordinates= node_pos[:,1:] #select only the y and z coordinates
+        coordinates = coordinates[non_zero_indices]
+        n_spikes= n_spikes[non_zero_indices]
+
+        projected_points_z=coordinates[:,1]
+        projected_points_y=coordinates[:,0]
+        # Define grid along the projected axis
+        grid_size = 100
+        grid_z = np.linspace(min(projected_points_z), max(projected_points_z), grid_size).reshape(-1, 1)
+        grid_y = np.linspace(min(projected_points_y), max(projected_points_y), grid_size).reshape(-1, 1)
+
+        # Perform kernel density estimation
+        kde = KernelDensity(bandwidth=5, kernel='gaussian') 
+
+        kde_z=kde.fit(projected_points_z.reshape(-1, 1), sample_weight=n_spikes)
+        density_z = np.exp(kde_z.score_samples(grid_z))
+        kde_y=kde.fit(projected_points_y.reshape(-1, 1),sample_weight=n_spikes)
+        density_y = np.exp(kde_y.score_samples(grid_y))
+
+        fig, ax = plt.subplots(2, 1)
+        # Plot 1D density function along the z axis 
+        ax[0].plot(grid_z, density_z, color='red', linestyle='-')
+        ax[0].set_xlabel('Distance along the z axis')
+        ax[0].set_ylabel('Density')
+        ax[0].set_title('1D Kernel Density Estimate along z axis')
+
+        # Plot 1D density function along the z axis 
+        ax[1].plot(grid_y, density_y, color='red', linestyle='-')
+        ax[1].set_xlabel('Distance along the y axis')
+        ax[1].set_ylabel('Density')
+        ax[1].set_title('1D Kernel Density Estimate along y axis')
+        plt.tight_layout()
+        plt.show()
+        #plt.close()
+
+        return grid_y, grid_z, density_y, density_z
 
 path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=2
@@ -117,9 +163,9 @@ node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse,amplit
 pattern_B=4
 node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse,amplitude=amplitude)
 
-p_value_wilcoxon = discriminate_signed_rank(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=0, pattern_B=4)
-coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
-
+#p_value_wilcoxon = discriminate_signed_rank(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=0, pattern_B=4)
+#coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
+grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
 
 #Underneath: test_code
 
