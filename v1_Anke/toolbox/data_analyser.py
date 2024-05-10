@@ -76,32 +76,36 @@ def kernel_density_estimate(node_pos, n_spikes, pattern):
         '''
         2D Kernel Density Estimate of the data
         '''
+        non_zero_indices = np.nonzero(n_spikes)
         coordinates= node_pos[:,1:] #select only the y and z coordinates
-        kde = KernelDensity(bandwidth=1000, kernel='gaussian') # Choose model and parameters
+        coordinates = coordinates[non_zero_indices]
+        n_spikes= n_spikes[non_zero_indices]
+
+        kde = KernelDensity(bandwidth=10, kernel='gaussian') # Choose model and parameters
         ###vanaf hier verder werken
         kde.fit(coordinates, sample_weight=n_spikes) # Train model
 
         grid_size = 100 # 100 points in x and in y direction
-        x_grid, y_grid = np.meshgrid(np.linspace(0, 800, grid_size), np.linspace(-250, 400, grid_size))
-        grid_points = np.vstack([x_grid.ravel(), y_grid.ravel()]).T
-        density = np.exp(kde.score_samples(grid_points)).reshape(x_grid.shape) # Evaluate model for all points on the grid
+        y_grid, z_grid = np.meshgrid(np.linspace(100, 800, grid_size), np.linspace(-250, 500, grid_size))
+        grid_points = np.vstack([y_grid.ravel(), z_grid.ravel()]).T
+        density = np.exp(kde.score_samples(grid_points)).reshape(y_grid.shape) # Evaluate model for all points on the grid
 
         fig = plt.figure()
-        plt.pcolormesh(x_grid, y_grid, density, shading='auto')
+        plt.pcolormesh(z_grid, y_grid, density, shading='auto')
         plt.scatter(coordinates[:,1], coordinates[:,0], c=n_spikes, cmap='viridis', edgecolors='k', linewidths=1)
         plt.colorbar(label='Values')
-        plt.xlabel('X Coordinate')
+        plt.xlabel('Z Coordinate')
         plt.ylabel('Y Coordinate')
-        plt.xlim([0, 800])
-        plt.ylim([-250, 400])
-        plt.gca().invert_yaxis()  # Invert y-axis for better comparison with ImageJ
+        plt.xlim([-250, 400])
+        plt.ylim([100, 800])
+        #plt.gca().invert_yaxis()  # Invert y-axis for better comparison with ImageJ
         plt.gca().set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
         # plt.legend()
         plt.title('Kernel Density Estimate for stim. pattern ' + str(pattern))
-        # plt.show()
+        #plt.show()
         plt.close()
 
-        return coordinates, n_spikes, x_grid, y_grid, density
+        return coordinates, n_spikes, y_grid, z_grid, density
 
 path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=2
@@ -114,7 +118,7 @@ pattern_B=4
 node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse,amplitude=amplitude)
 
 p_value_wilcoxon = discriminate_signed_rank(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=0, pattern_B=4)
-#coordin_A, n_spikes_A, x_grid_A, y_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
+coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 
 
 #Underneath: test_code
