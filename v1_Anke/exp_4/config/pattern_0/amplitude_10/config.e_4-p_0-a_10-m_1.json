@@ -1,15 +1,15 @@
 {
   "manifest": {
     "$BASE_DIR": "/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke",
-    "$OUTPUT_DIR": "$BASE_DIR/exp_4/output",
+    "$OUTPUT_DIR": "$BASE_DIR/exp_4/output/pattern_0/amplitude_10/mouse_1",
     "$BKG_DIR": "$BASE_DIR/components",
     "$LGN_DIR": "$BASE_DIR/components",
-    "$NETWORK_DIR": "$BASE_DIR/virtual_mice_mask/mouse_2",
+    "$NETWORK_DIR": "$BASE_DIR/virtual_mice_mask/mouse_1",
     "$COMPONENT_DIR": "$BASE_DIR/components",
     "$STIM_DIR": "$BASE_DIR/components/stimulation"
   },
   "run": {
-    "start_from_state": "$BASE_DIR/exp_4/output/init_state/mouse_2/spikes.h5",
+    "start_from_state": "$BASE_DIR/exp_4/output/init_state/mouse_1/spikes.h5",
     "tstop": 100.0,
     "dt": 0.025,
     "dL": 20.0,
@@ -39,9 +39,18 @@
       "input_type": "lfp",
       "node_set": "all",
       "module": "comsol",
-      "comsol_files": ["$STIM_DIR/comsol/electrode_0_ex_vivo_full","$STIM_DIR/comsol/electrode_1_ex_vivo_full,$STIM_DIR/comsol/electrode_2_ex_vivo_full"],
-      "waveforms": ["$STIM_DIR/waveforms/waveform_0"],
-      "amplitudes": [1,1]
+      "comsol_files": [
+        "$STIM_DIR/comsol/electrode_0.txt",
+        "$STIM_DIR/comsol/electrode_1.txt"
+      ],
+      "waveforms": [
+        "$STIM_DIR/waveforms/waveform_0.csv",
+        "$STIM_DIR/waveforms/waveform_0.csv"
+      ],
+      "amplitudes": [
+        10.0,
+        -10.0
+      ]
     }
   },
   "output": {
