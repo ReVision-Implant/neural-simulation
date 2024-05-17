@@ -64,13 +64,12 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
 
     return node_pos, n_spikes
 
-def discriminate_signed_rank(n_spikes_A, n_spikes_B,pattern_A,pattern_B):
+def discriminate_signed_rank(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold):
         '''
         Use the Wilcoxon signed-rank test to get a p-value as index of separability between the two neuronal populations.
         '''
         n_spikes_A_filtered=[]
         n_spikes_B_filtered=[]
-        threshold=15
         for value1, value2 in zip(n_spikes_A, n_spikes_B):
             if value1 >= threshold or value2 >=threshold:
                 #print(value1,value2)
@@ -273,14 +272,14 @@ node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,ampl
 pattern_B=4
 mouse_B=0
 amplitude_B=10
-#node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
+node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
 
-threshold=1
+threshold=7
 
-#p_value_wilcoxon = discriminate_signed_rank(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=0, pattern_B=4)
+p_value_wilcoxon = discriminate_signed_rank(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=0, pattern_B=4, threshold=threshold)
 #y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 #grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
-max_y,max_z = full_kde(node_pos_A, n_spikes_A,pattern_A,threshold)
+#max_y,max_z = full_kde(node_pos_A, n_spikes_A,pattern_A,threshold)
 #Underneath: test_code
 
 #coordinates= node_pos_A[:,1:]

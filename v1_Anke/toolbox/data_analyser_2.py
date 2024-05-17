@@ -27,14 +27,14 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
     
     nodes_dirs= [str(path)+'/virtual_mice_mask/mouse_'+str(mouse)+'/v1_nodes.h5']
     spikes_dirs= [str(path)+'/exp_'+str(exp)+'/output/pattern_'+str(pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/spikes.csv']
-    #spikes_bkg_dirs= [str(path)+'/exp_'+str(exp)+'/output/bkg/mouse_'+str(mouse)+'/spikes.csv']
+    spikes_bkg_dirs= [str(path)+'/exp_'+str(exp)+'/output/bkg/mouse_'+str(mouse)+'/spikes.csv']
         
     nodes_dirs = [nodes_dirs] if not isinstance(nodes_dirs, list) else nodes_dirs
     spikes_dirs = [spikes_dirs] if not isinstance(spikes_dirs, list) else spikes_dirs
-    #spikes_bkg_dirs = [spikes_bkg_dirs] if not isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs
+    spikes_bkg_dirs = [spikes_bkg_dirs] if not isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs
 
-    #assert len(nodes_dirs) == len(spikes_dirs) == len(spikes_bkg_dirs)
-    assert len(nodes_dirs) == len(spikes_dirs)
+    assert len(nodes_dirs) == len(spikes_dirs) == len(spikes_bkg_dirs)
+    #assert len(nodes_dirs) == len(spikes_dirs)
 
     node_pos = np.zeros((1,3))
     n_spikes = np.zeros((1,1)) 
@@ -43,7 +43,7 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
 
         nodes_dir = nodes_dirs[i]
         spikes_dir = spikes_dirs[i]
-        #spikes_bkg_dir = spikes_bkg_dirs[i]
+        spikes_bkg_dir = spikes_bkg_dirs[i]
 
         node_pos_temp = HDF5(nodes_dir, v1=v1).positions
 
@@ -54,23 +54,29 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
             if spikes['timestamps'][ind] < 100:
                 n_spikes_temp[spikes['node_ids'][ind]] += 1
 
-        #if spikes_bkg_dirs is not None:
-        #   spikes_bkg_dir = spikes_bkg_dirs[0] if isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs 
-        #    spikes_bkg = pd.read_csv(spikes_bkg_dir, sep='\s+')
-        #    for ind in spikes_bkg.index:
-        #        if spikes_bkg['timestamps'][ind] < 100:
-        #            n_spikes_temp[spikes_bkg['node_ids'][ind]] = max(0, n_spikes_temp[spikes_bkg['node_ids'][ind]] - 1)
+        if spikes_bkg_dirs is not None:
+            spikes_bkg_dir = spikes_bkg_dirs[0] if isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs 
+            spikes_bkg = pd.read_csv(spikes_bkg_dir, sep='\s+')
+            for ind in spikes_bkg.index:
+                if spikes_bkg['timestamps'][ind] < 100:
+                    n_spikes_temp[spikes_bkg['node_ids'][ind]] = max(0, n_spikes_temp[spikes_bkg['node_ids'][ind]] - 1)
 
         node_pos = np.vstack((node_pos, node_pos_temp))
         n_spikes = np.append(n_spikes, n_spikes_temp)
-    
-    # first filter out zeros !
+
+    return node_pos, n_spikes
+
+def filter_spikes(node_pos, n_spikes):
+    non_zero_indices = np.nonzero(n_spikes)
+    node_pos = node_pos[non_zero_indices]
+    n_spikes= n_spikes[non_zero_indices]
+
     avg_spikes = np.mean(n_spikes)
     print("average", avg_spikes)
     std_spikes = np.std(n_spikes)
     print("standard dev", std_spikes)    
 
-    threshold = 3*std_spikes
+    threshold = avg_spikes + 3*std_spikes
     print("threshold", threshold)
     n_spikes_filtered=[]
     filtered_indices=[]
@@ -80,18 +86,28 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
             filtered_indices.append(index)
 
     print("before filtering node pos shape:", node_pos.shape)            
-    node_pos = node_pos[filtered_indices]
-    print("after filtering node pos shape:", node_pos.shape)   
-    n_spikes= np.array(n_spikes_filtered)
-    print("after filtering n_ spikes shape:", n_spikes.shape) 
+    node_pos_filtered = node_pos[filtered_indices]
+    print("after filtering node pos shape:", node_pos_filtered.shape)   
+    n_spikes_filtered= np.array(n_spikes_filtered)
+    print("after filtering n_ spikes shape:", n_spikes_filtered.shape) 
 
-    return node_pos, n_spikes
+    return node_pos_filtered, n_spikes_filtered, threshold
 
-def discriminate_signed_rank(n_spikes_A, n_spikes_B,pattern_A,pattern_B):
+def discriminate_signed_rank(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, threshold_B):
         '''
         Use the Wilcoxon signed-rank test to get a p-value as index of separability between the two neuronal populations.
         '''
-        
+        n_spikes_A_filtered=[]
+        n_spikes_B_filtered=[]
+        for value1, value2 in zip(n_spikes_A, n_spikes_B):
+            if value1 >= threshold_A or value2 >=threshold_B:
+            #print(value1,value2)
+                n_spikes_A_filtered.append(value1)
+                n_spikes_B_filtered.append(value2)
+
+        n_spikes_A= n_spikes_A_filtered
+        n_spikes_B= n_spikes_B_filtered
+
         signed_rank = wilcoxon(n_spikes_A, n_spikes_B, zero_method="zsplit") # Apply Wilcoxon test
         print('P-value for Wilcoxon signed-rank test for stim patterns '+str(pattern_A)+' and '+str(pattern_B)+' is ' + str(round(signed_rank.pvalue,5)))
         return(signed_rank.pvalue)
@@ -100,10 +116,10 @@ def kernel_density_estimate(node_pos, n_spikes, pattern):
         '''
         2D Kernel Density Estimate of the data
         '''
-
+        node_pos= node_pos[:,1:] #select only the y and z coordinates
         kde = KernelDensity(bandwidth=50, kernel='gaussian') # Choose model and parameters
         ###vanaf hier verder werken
-        kde.fit(coordinates, sample_weight=n_spikes) # Train model
+        kde.fit(node_pos, sample_weight=n_spikes) # Train model
 
         grid_size = 100 # 100 points in x and in y direction
         y_grid, z_grid = np.meshgrid(np.linspace(100, 800, grid_size), np.linspace(-250, 500, grid_size))
@@ -112,7 +128,7 @@ def kernel_density_estimate(node_pos, n_spikes, pattern):
 
         fig = plt.figure()
         plt.pcolormesh(z_grid, y_grid, density, shading='auto')
-        plt.scatter(coordinates[:,1], coordinates[:,0], c=n_spikes, cmap='viridis', edgecolors='k', linewidths=1)
+        plt.scatter(node_pos[:,1], node_pos[:,0], c=n_spikes, cmap='viridis', edgecolors='k', linewidths=1)
         plt.colorbar(label='Values')
         plt.xlabel('Z Coordinate')
         plt.ylabel('Y Coordinate')
@@ -135,8 +151,9 @@ def projected_kernel_density_estimate(node_pos,n_spikes):
         If projection would only take place after the Kernel Density Estimate, then you just integrate the density
         function, but the density estimate is still based on a 2D-distribution.
         '''
-        projected_points_z=coordinates[:,1]
-        projected_points_y=coordinates[:,0]
+        node_pos= node_pos[:,1:] #select only the y and z coordinates
+        projected_points_z=node_pos[:,1]
+        projected_points_y=node_pos[:,0]
         # Define grid along the projected axis
         grid_size = 100
         grid_z = np.linspace(min(projected_points_z), max(projected_points_z), grid_size).reshape(-1, 1)
@@ -177,7 +194,9 @@ def full_kde(node_pos, n_spikes, pattern):
     max_z_axis=grid_z[np.argmax(density_z)][0]
 
     max_spikes=np.max(n_spikes)
+    print("max number spikes", max_spikes)
     n_spikes_norm=n_spikes/max_spikes
+    print(n_spikes_norm)
 
     electrode_0_zy=[16,300]
     electrode_1_zy=[198,300]
@@ -193,7 +212,7 @@ def full_kde(node_pos, n_spikes, pattern):
         
     ax1.axline(electrode_0_zy, electrode_1_zy, color='limegreen', label='Along layer')
     ax1.axline(electrode_0_zy, electrode_2_zy, color='darkgreen', label='Along column')
-    ax1.scatter(coordinates[:,1], coordinates[:,0], s=90, c="blue", alpha=n_spikes_norm)
+    ax1.scatter(node_pos[:,1], node_pos[:,0], s=90, c="blue", alpha=n_spikes_norm)
     ax1.scatter(electrode_0_zy[0], electrode_0_zy[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
     ax1.scatter(electrode_1_zy[0], electrode_1_zy[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
     #ax1.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode in L2/3', zorder=3)
@@ -212,7 +231,7 @@ def full_kde(node_pos, n_spikes, pattern):
     ax1.legend(fontsize='8', loc='center left', bbox_to_anchor=(1, 0.5))
 
     pcm = ax2.pcolormesh(grid_z_2D, grid_y_2D, density_2D, shading='auto')
-    ax2.scatter(coordinates[:,1], coordinates[:,0], c=n_spikes, cmap='viridis', edgecolors='k', linewidths=1)
+    ax2.scatter(node_pos[:,1], node_pos[:,0], c=n_spikes, cmap='viridis', edgecolors='k', linewidths=1)
     fig.colorbar(pcm, ax=ax2, label='Values')
     ax2.set_xlabel('Z Coordinate')
     ax2.set_ylabel('Y Coordinate')
@@ -248,12 +267,17 @@ amplitude_A=10
 node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
 pattern_B=4
-#node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse,amplitude=amplitude)
+mouse_B=0
+amplitude_B=10
+node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
 
-#p_value_wilcoxon = discriminate_signed_rank(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=0, pattern_B=4)
+positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
+positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
+
+p_value_wilcoxon = discriminate_signed_rank(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 #grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
-#max_y,max_z = full_kde(node_pos_A, n_spikes_A,pattern_A)
+max_y,max_z = full_kde(positions_filtered_A, spikes_filtered_A, pattern_A)
 #Underneath: test_code
 
 #coordinates= node_pos_A[:,1:]
