@@ -70,27 +70,35 @@ def discriminate_signed_rank(n_spikes_A, n_spikes_B,pattern_A,pattern_B):
         '''
         n_spikes_A_filtered=[]
         n_spikes_B_filtered=[]
+        threshold=15
         for value1, value2 in zip(n_spikes_A, n_spikes_B):
-            if value1 >= 5 or value2 >=5:
+            if value1 >= threshold or value2 >=threshold:
                 #print(value1,value2)
                 n_spikes_A_filtered.append(value1)
                 n_spikes_B_filtered.append(value2)
 
-        n_spikes_A= n_spikes_A_filtered[0:100]
-        n_spikes_B= n_spikes_B_filtered[0:100]
+        n_spikes_A= n_spikes_A_filtered
+        n_spikes_B= n_spikes_B_filtered
         
         signed_rank = wilcoxon(n_spikes_A, n_spikes_B, zero_method="zsplit") # Apply Wilcoxon test
         print('P-value for Wilcoxon signed-rank test for stim patterns '+str(pattern_A)+' and '+str(pattern_B)+' is ' + str(round(signed_rank.pvalue,5)))
         return(signed_rank.pvalue)
 
-def kernel_density_estimate(node_pos, n_spikes, pattern):
+def kernel_density_estimate(node_pos, n_spikes, pattern,threshold):
         '''
         2D Kernel Density Estimate of the data
         '''
-        non_zero_indices = np.nonzero(n_spikes)
+        n_spikes_filtered=[]
+        filtered_indices=[]
+        
+        for index, value in enumerate(n_spikes):
+            if value >= threshold or value >=threshold:
+                n_spikes_filtered.append(value)
+                filtered_indices.append(index)
+                
         coordinates= node_pos[:,1:] #select only the y and z coordinates
-        coordinates = coordinates[non_zero_indices]
-        n_spikes= n_spikes[non_zero_indices]
+        coordinates = coordinates[filtered_indices]
+        n_spikes= n_spikes_filtered
 
         kde = KernelDensity(bandwidth=50, kernel='gaussian') # Choose model and parameters
         ###vanaf hier verder werken
@@ -118,7 +126,7 @@ def kernel_density_estimate(node_pos, n_spikes, pattern):
 
         return y_grid, z_grid, density
 
-def projected_kernel_density_estimate(node_pos,n_spikes):
+def projected_kernel_density_estimate(node_pos,n_spikes,threshold):
         '''
         Projection of the data before the Kernel Density Estimate is useful when trying the understand the spatial
         distribution of cell activity along a specific axis. The density estimate now reflects the distribution
@@ -126,10 +134,17 @@ def projected_kernel_density_estimate(node_pos,n_spikes):
         If projection would only take place after the Kernel Density Estimate, then you just integrate the density
         function, but the density estimate is still based on a 2D-distribution.
         '''
-        non_zero_indices = np.nonzero(n_spikes)
+        n_spikes_filtered=[]
+        filtered_indices=[]
+        
+        for index, value in enumerate(n_spikes):
+            if value >= threshold or value >=threshold:
+                n_spikes_filtered.append(value)
+                filtered_indices.append(index)
+                
         coordinates= node_pos[:,1:] #select only the y and z coordinates
-        coordinates = coordinates[non_zero_indices]
-        n_spikes= n_spikes[non_zero_indices]
+        coordinates = coordinates[filtered_indices]
+        n_spikes= n_spikes_filtered
 
         projected_points_z=coordinates[:,1]
         projected_points_y=coordinates[:,0]
@@ -166,16 +181,23 @@ def projected_kernel_density_estimate(node_pos,n_spikes):
 
         return grid_y, grid_z, density_y, density_z
 
-def full_kde(node_pos, n_spikes, pattern):
-    grid_y_2D,grid_z_2D, density_2D=kernel_density_estimate(node_pos, n_spikes, pattern)
-    grid_y, grid_z, density_y, density_z = projected_kernel_density_estimate(node_pos, n_spikes)
+def full_kde(node_pos, n_spikes, pattern,threshold):
+    grid_y_2D,grid_z_2D, density_2D=kernel_density_estimate(node_pos, n_spikes, pattern,threshold)
+    grid_y, grid_z, density_y, density_z = projected_kernel_density_estimate(node_pos, n_spikes,threshold)
     max_y_axis=grid_y[np.argmax(density_y)][0]
     max_z_axis=grid_z[np.argmax(density_z)][0]
 
-    non_zero_indices = np.nonzero(n_spikes)
+    n_spikes_filtered=[]
+    filtered_indices=[]
+        
+    for index, value in enumerate(n_spikes):
+        if value >= threshold or value >=threshold:
+            n_spikes_filtered.append(value)
+            filtered_indices.append(index)
+                
     coordinates= node_pos[:,1:] #select only the y and z coordinates
-    coordinates = coordinates[non_zero_indices]
-    n_spikes= n_spikes[non_zero_indices]
+    coordinates = coordinates[filtered_indices]
+    n_spikes= n_spikes_filtered
 
     max_spikes=np.max(n_spikes)
     n_spikes_norm=n_spikes/max_spikes
@@ -207,9 +229,10 @@ def full_kde(node_pos, n_spikes, pattern):
     ax1.set_ylabel('Y Coordinate')
     ax1.set_xlim([-250,500])
     ax1.set_ylim([100, 800])
-    ax1.invert_yaxis()  # Invert y-axis for better comparison with ImageJ
+    ax1.invert_yaxis()  # Invert y-axis for better comparison 
+    ax1.invert_xaxis()
     ax1.set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
-    ax1.legend(fontsize='8', loc='lower right')
+    ax1.legend(fontsize='8', loc='center left', bbox_to_anchor=(1, 0.5))
 
     pcm = ax2.pcolormesh(grid_z_2D, grid_y_2D, density_2D, shading='auto')
     ax2.scatter(coordinates[:,1], coordinates[:,0], c=n_spikes, cmap='viridis', edgecolors='k', linewidths=1)
@@ -218,7 +241,8 @@ def full_kde(node_pos, n_spikes, pattern):
     ax2.set_ylabel('Y Coordinate')
     ax2.set_xlim([-250, 500])
     ax2.set_ylim([100, 800])
-    ax2.invert_yaxis()  # Invert y-axis for better comparison with ImageJ
+    ax2.invert_yaxis()  # Invert y-axis for better comparison 
+    ax2.invert_xaxis()
     ax2.set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
     ax2.set_title('2D Kernel Density Estimate')
 
@@ -242,17 +266,21 @@ def full_kde(node_pos, n_spikes, pattern):
 path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=2
 pattern_A=0
-mouse=1
-amplitude=10
-node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse,amplitude=amplitude)
+mouse_A=0
+amplitude_A=10
+node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
 pattern_B=4
-node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse,amplitude=amplitude)
+mouse_B=0
+amplitude_B=10
+#node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
+
+threshold=1
 
 #p_value_wilcoxon = discriminate_signed_rank(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=0, pattern_B=4)
-#coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
+#y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 #grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
-max_y,max_z = full_kde(node_pos_A, n_spikes_A,pattern_A)
+max_y,max_z = full_kde(node_pos_A, n_spikes_A,pattern_A,threshold)
 #Underneath: test_code
 
 #coordinates= node_pos_A[:,1:]
