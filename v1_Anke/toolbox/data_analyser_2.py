@@ -25,16 +25,16 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
 
     path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
     
-
     nodes_dirs= [str(path)+'/virtual_mice_mask/mouse_'+str(mouse)+'/v1_nodes.h5']
     spikes_dirs= [str(path)+'/exp_'+str(exp)+'/output/pattern_'+str(pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/spikes.csv']
-    spikes_bkg_dirs= [str(path)+'/exp_'+str(exp)+'/output/bkg/mouse_'+str(mouse)+'/spikes.csv']
+    #spikes_bkg_dirs= [str(path)+'/exp_'+str(exp)+'/output/bkg/mouse_'+str(mouse)+'/spikes.csv']
         
     nodes_dirs = [nodes_dirs] if not isinstance(nodes_dirs, list) else nodes_dirs
     spikes_dirs = [spikes_dirs] if not isinstance(spikes_dirs, list) else spikes_dirs
-    spikes_bkg_dirs = [spikes_bkg_dirs] if not isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs
+    #spikes_bkg_dirs = [spikes_bkg_dirs] if not isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs
 
-    assert len(nodes_dirs) == len(spikes_dirs) == len(spikes_bkg_dirs)
+    #assert len(nodes_dirs) == len(spikes_dirs) == len(spikes_bkg_dirs)
+    assert len(nodes_dirs) == len(spikes_dirs)
 
     node_pos = np.zeros((1,3))
     n_spikes = np.zeros((1,1)) 
@@ -43,7 +43,7 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
 
         nodes_dir = nodes_dirs[i]
         spikes_dir = spikes_dirs[i]
-        spikes_bkg_dir = spikes_bkg_dirs[i]
+        #spikes_bkg_dir = spikes_bkg_dirs[i]
 
         node_pos_temp = HDF5(nodes_dir, v1=v1).positions
 
@@ -54,15 +54,36 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
             if spikes['timestamps'][ind] < 100:
                 n_spikes_temp[spikes['node_ids'][ind]] += 1
 
-        if spikes_bkg_dirs is not None:
-            spikes_bkg_dir = spikes_bkg_dirs[0] if isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs 
-            spikes_bkg = pd.read_csv(spikes_bkg_dir, sep='\s+')
-            for ind in spikes_bkg.index:
-                if spikes_bkg['timestamps'][ind] < 100:
-                    n_spikes_temp[spikes_bkg['node_ids'][ind]] = max(0, n_spikes_temp[spikes_bkg['node_ids'][ind]] - 1)
+        #if spikes_bkg_dirs is not None:
+        #   spikes_bkg_dir = spikes_bkg_dirs[0] if isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs 
+        #    spikes_bkg = pd.read_csv(spikes_bkg_dir, sep='\s+')
+        #    for ind in spikes_bkg.index:
+        #        if spikes_bkg['timestamps'][ind] < 100:
+        #            n_spikes_temp[spikes_bkg['node_ids'][ind]] = max(0, n_spikes_temp[spikes_bkg['node_ids'][ind]] - 1)
 
         node_pos = np.vstack((node_pos, node_pos_temp))
         n_spikes = np.append(n_spikes, n_spikes_temp)
+    
+    # first filter out zeros !
+    avg_spikes = np.mean(n_spikes)
+    print("average", avg_spikes)
+    std_spikes = np.std(n_spikes)
+    print("standard dev", std_spikes)    
+
+    threshold = 3*std_spikes
+    print("threshold", threshold)
+    n_spikes_filtered=[]
+    filtered_indices=[]
+    for index, value in enumerate(n_spikes):
+        if value >= threshold or value >=threshold:
+            n_spikes_filtered.append(value)
+            filtered_indices.append(index)
+
+    print("before filtering node pos shape:", node_pos.shape)            
+    node_pos = node_pos[filtered_indices]
+    print("after filtering node pos shape:", node_pos.shape)   
+    n_spikes= np.array(n_spikes_filtered)
+    print("after filtering n_ spikes shape:", n_spikes.shape) 
 
     return node_pos, n_spikes
 
@@ -220,19 +241,19 @@ def full_kde(node_pos, n_spikes, pattern):
     return max_y_axis, max_z_axis  
 
 path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
-exp=2
+exp=4
 pattern_A=0
-mouse=1
-amplitude=10
-node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse,amplitude=amplitude)
+mouse_A=1
+amplitude_A=10
+node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
 pattern_B=4
-node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse,amplitude=amplitude)
+#node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse,amplitude=amplitude)
 
 #p_value_wilcoxon = discriminate_signed_rank(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=0, pattern_B=4)
 #coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 #grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
-max_y,max_z = full_kde(node_pos_A, n_spikes_A,pattern_A)
+#max_y,max_z = full_kde(node_pos_A, n_spikes_A,pattern_A)
 #Underneath: test_code
 
 #coordinates= node_pos_A[:,1:]
