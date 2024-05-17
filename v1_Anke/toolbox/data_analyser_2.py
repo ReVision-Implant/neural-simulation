@@ -187,7 +187,7 @@ def projected_kernel_density_estimate(node_pos,n_spikes):
 
         return grid_y, grid_z, density_y, density_z
 
-def full_kde(node_pos, n_spikes, pattern):
+def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     grid_y_2D,grid_z_2D, density_2D=kernel_density_estimate(node_pos, n_spikes, pattern)
     grid_y, grid_z, density_y, density_z = projected_kernel_density_estimate(node_pos, n_spikes)
     max_y_axis=grid_y[np.argmax(density_y)][0]
@@ -256,9 +256,10 @@ def full_kde(node_pos, n_spikes, pattern):
     ax4.set_title('1D Kernel Density Estimate along y axis')
 
 
-    fig.suptitle('Kernel Density Estimate for stimulation pattern ' + str(pattern))
+    fig.suptitle('Kernel Density Estimate for stimulation pattern ' + str(pattern)+', amplitude '+str(amplitude)+', mouse '+ str(mouse))
     plt.tight_layout(h_pad=4)
     plt.show()
+    plt.savefig('exp_4/output/pattern_'+str(pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/full_kde.png')
 
     return max_y_axis, max_z_axis  
 
@@ -269,18 +270,18 @@ mouse_A=1
 amplitude_A=10
 node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
-pattern_B=4
+pattern_B=0
 mouse_B=0
-amplitude_B=10
-node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
+amplitude_B=20
+#node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
 
 positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
-positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
+#positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
 
-p_value_wilcoxon = discriminate_signed_rank(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
+#p_value_wilcoxon = discriminate_signed_rank(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 #grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
-max_y,max_z = full_kde(positions_filtered_A, spikes_filtered_A, pattern_A)
+max_y_A,max_z_A = full_kde(positions_filtered_A, spikes_filtered_A, pattern_A,mouse_A,amplitude_A)
 #Underneath: test_code
 
 #coordinates= node_pos_A[:,1:]
