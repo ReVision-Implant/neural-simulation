@@ -27,14 +27,14 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
     
     nodes_dirs= [str(path)+'/virtual_mice_mask/mouse_'+str(mouse)+'/v1_nodes.h5']
     spikes_dirs= [str(path)+'/exp_'+str(exp)+'/output/pattern_'+str(pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/spikes.csv']
-    spikes_bkg_dirs= [str(path)+'/exp_'+str(exp)+'/output/bkg/mouse_'+str(mouse)+'/spikes.csv']
+    #spikes_bkg_dirs= [str(path)+'/exp_'+str(exp)+'/output/bkg/mouse_'+str(mouse)+'/spikes.csv']
         
     nodes_dirs = [nodes_dirs] if not isinstance(nodes_dirs, list) else nodes_dirs
     spikes_dirs = [spikes_dirs] if not isinstance(spikes_dirs, list) else spikes_dirs
-    spikes_bkg_dirs = [spikes_bkg_dirs] if not isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs
+    #spikes_bkg_dirs = [spikes_bkg_dirs] if not isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs
 
-    assert len(nodes_dirs) == len(spikes_dirs) == len(spikes_bkg_dirs)
-    #assert len(nodes_dirs) == len(spikes_dirs)
+    #assert len(nodes_dirs) == len(spikes_dirs) == len(spikes_bkg_dirs)
+    assert len(nodes_dirs) == len(spikes_dirs)
 
     node_pos = np.zeros((1,3))
     n_spikes = np.zeros((1,1)) 
@@ -43,7 +43,7 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
 
         nodes_dir = nodes_dirs[i]
         spikes_dir = spikes_dirs[i]
-        spikes_bkg_dir = spikes_bkg_dirs[i]
+        #spikes_bkg_dir = spikes_bkg_dirs[i]
 
         node_pos_temp = HDF5(nodes_dir, v1=v1).positions
 
@@ -54,12 +54,12 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
             if spikes['timestamps'][ind] < 100:
                 n_spikes_temp[spikes['node_ids'][ind]] += 1
 
-        if spikes_bkg_dirs is not None:
-            spikes_bkg_dir = spikes_bkg_dirs[0] if isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs 
-            spikes_bkg = pd.read_csv(spikes_bkg_dir, sep='\s+')
-            for ind in spikes_bkg.index:
-                if spikes_bkg['timestamps'][ind] < 100:
-                    n_spikes_temp[spikes_bkg['node_ids'][ind]] = max(0, n_spikes_temp[spikes_bkg['node_ids'][ind]] - 1)
+        #if spikes_bkg_dirs is not None:
+        #    spikes_bkg_dir = spikes_bkg_dirs[0] if isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs 
+        #    spikes_bkg = pd.read_csv(spikes_bkg_dir, sep='\s+')
+        #    for ind in spikes_bkg.index:
+        #        if spikes_bkg['timestamps'][ind] < 100:
+        #            n_spikes_temp[spikes_bkg['node_ids'][ind]] = max(0, n_spikes_temp[spikes_bkg['node_ids'][ind]] - 1)
 
         node_pos = np.vstack((node_pos, node_pos_temp))
         n_spikes = np.append(n_spikes, n_spikes_temp)
@@ -117,12 +117,12 @@ def kernel_density_estimate(node_pos, n_spikes, pattern):
         2D Kernel Density Estimate of the data
         '''
         node_pos= node_pos[:,1:] #select only the y and z coordinates
-        kde = KernelDensity(bandwidth=50, kernel='gaussian') # Choose model and parameters
+        kde = KernelDensity(bandwidth=80, kernel='gaussian') # Choose model and parameters
         ###vanaf hier verder werken
         kde.fit(node_pos, sample_weight=n_spikes) # Train model
 
         grid_size = 100 # 100 points in x and in y direction
-        y_grid, z_grid = np.meshgrid(np.linspace(100, 800, grid_size), np.linspace(-250, 500, grid_size))
+        y_grid, z_grid = np.meshgrid(np.linspace(0, 800, grid_size), np.linspace(-250, 500, grid_size))
         grid_points = np.vstack([y_grid.ravel(), z_grid.ravel()]).T
         density = np.exp(kde.score_samples(grid_points)).reshape(y_grid.shape) # Evaluate model for all points on the grid
 
@@ -133,7 +133,7 @@ def kernel_density_estimate(node_pos, n_spikes, pattern):
         plt.xlabel('Z Coordinate')
         plt.ylabel('Y Coordinate')
         plt.xlim([-250, 400])
-        plt.ylim([100, 800])
+        plt.ylim([0, 800])
         plt.gca().invert_yaxis()  # Invert y-axis for better comparison with ImageJ
         plt.gca().set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
         # plt.legend()
@@ -162,7 +162,7 @@ def projected_kernel_density_estimate(node_pos,n_spikes):
         #print("projected points min and max y", min(projected_points_y), max(projected_points_y))
 
         # Perform kernel density estimation
-        kde = KernelDensity(bandwidth=50, kernel='gaussian') 
+        kde = KernelDensity(bandwidth=80, kernel='gaussian') 
 
         kde_z=kde.fit(projected_points_z.reshape(-1, 1), sample_weight=n_spikes)
         density_z = np.exp(kde_z.score_samples(grid_z))
@@ -193,10 +193,11 @@ def full_kde(node_pos, n_spikes, pattern):
     max_y_axis=grid_y[np.argmax(density_y)][0]
     max_z_axis=grid_z[np.argmax(density_z)][0]
 
+    node_pos= node_pos[:,1:]
     max_spikes=np.max(n_spikes)
-    print("max number spikes", max_spikes)
+    #print("max number spikes", max_spikes)
     n_spikes_norm=n_spikes/max_spikes
-    print(n_spikes_norm)
+    #print(n_spikes_norm)
 
     electrode_0_zy=[16,300]
     electrode_1_zy=[198,300]
@@ -223,8 +224,10 @@ def full_kde(node_pos, n_spikes, pattern):
 
     ax1.set_xlabel('Z Coordinate')
     ax1.set_ylabel('Y Coordinate')
+    #ax1.set_xlim([-250,500])
+    #ax1.set_ylim([100, 800])
     ax1.set_xlim([-250,500])
-    ax1.set_ylim([100, 800])
+    ax1.set_ylim([0, 800])
     ax1.invert_yaxis()  # Invert y-axis for better comparison 
     ax1.invert_xaxis()
     ax1.set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
@@ -236,7 +239,7 @@ def full_kde(node_pos, n_spikes, pattern):
     ax2.set_xlabel('Z Coordinate')
     ax2.set_ylabel('Y Coordinate')
     ax2.set_xlim([-250, 500])
-    ax2.set_ylim([100, 800])
+    ax2.set_ylim([0, 800])
     ax2.invert_yaxis()  # Invert y-axis for better comparison
     ax2.invert_xaxis()
     ax2.set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
