@@ -117,7 +117,7 @@ def kernel_density_estimate(node_pos, n_spikes, pattern):
         2D Kernel Density Estimate of the data
         '''
         node_pos= node_pos[:,1:] #select only the y and z coordinates
-        kde = KernelDensity(bandwidth=150, kernel='gaussian') # Choose model and parameters
+        kde = KernelDensity(bandwidth=200, kernel='gaussian') # Choose model and parameters
         ###vanaf hier verder werken
         kde.fit(node_pos, sample_weight=n_spikes) # Train model
 
@@ -162,7 +162,7 @@ def projected_kernel_density_estimate(node_pos,n_spikes):
         #print("projected points min and max y", min(projected_points_y), max(projected_points_y))
 
         # Perform kernel density estimation
-        kde = KernelDensity(bandwidth=150, kernel='gaussian') 
+        kde = KernelDensity(bandwidth=200, kernel='gaussian') 
 
         kde_z=kde.fit(projected_points_z.reshape(-1, 1), sample_weight=n_spikes)
         density_z = np.exp(kde_z.score_samples(grid_z))
@@ -243,7 +243,7 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     ax2.invert_yaxis()  # Invert y-axis for better comparison
     ax2.invert_xaxis()
     ax2.set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
-    ax2.set_title('2D Kernel Density Estimate')
+    ax2.set_title('2D Kernel Density')
 
     ax3.plot(grid_z, density_z, color='red', linestyle='-')
     ax3.set_xlabel('Distance along the z axis')
@@ -258,13 +258,14 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
 
     fig.suptitle('Kernel Density Estimate for stimulation pattern ' + str(pattern)+', amplitude '+str(amplitude)+', mouse '+ str(mouse))
     plt.tight_layout(h_pad=4)
+    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots/full_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
     plt.show()
     return max_y_axis, max_z_axis  
 
 path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=4
-pattern_A=0
-mouse_A=0
+pattern_A=4
+mouse_A=1
 amplitude_A=10
 node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
