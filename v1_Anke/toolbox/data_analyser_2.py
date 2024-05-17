@@ -117,7 +117,7 @@ def kernel_density_estimate(node_pos, n_spikes, pattern):
         2D Kernel Density Estimate of the data
         '''
         node_pos= node_pos[:,1:] #select only the y and z coordinates
-        kde = KernelDensity(bandwidth=80, kernel='gaussian') # Choose model and parameters
+        kde = KernelDensity(bandwidth=150, kernel='gaussian') # Choose model and parameters
         ###vanaf hier verder werken
         kde.fit(node_pos, sample_weight=n_spikes) # Train model
 
@@ -162,7 +162,7 @@ def projected_kernel_density_estimate(node_pos,n_spikes):
         #print("projected points min and max y", min(projected_points_y), max(projected_points_y))
 
         # Perform kernel density estimation
-        kde = KernelDensity(bandwidth=80, kernel='gaussian') 
+        kde = KernelDensity(bandwidth=150, kernel='gaussian') 
 
         kde_z=kde.fit(projected_points_z.reshape(-1, 1), sample_weight=n_spikes)
         density_z = np.exp(kde_z.score_samples(grid_z))
@@ -259,14 +259,12 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     fig.suptitle('Kernel Density Estimate for stimulation pattern ' + str(pattern)+', amplitude '+str(amplitude)+', mouse '+ str(mouse))
     plt.tight_layout(h_pad=4)
     plt.show()
-    plt.savefig('exp_4/output/pattern_'+str(pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/full_kde.png')
-
     return max_y_axis, max_z_axis  
 
 path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=4
 pattern_A=0
-mouse_A=1
+mouse_A=0
 amplitude_A=10
 node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
