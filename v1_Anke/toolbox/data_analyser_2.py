@@ -215,9 +215,9 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     ax1.axline(electrode_0_zy, electrode_2_zy, color='darkgreen', label='Along column')
     ax1.scatter(node_pos[:,1], node_pos[:,0], s=90, c="blue", alpha=n_spikes_norm)
     ax1.scatter(electrode_0_zy[0], electrode_0_zy[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
-    ax1.scatter(electrode_1_zy[0], electrode_1_zy[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
-    #ax1.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode in L2/3', zorder=3)
-    #ax1.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode in L2/3', zorder=3)
+    #ax1.scatter(electrode_1_zy[0], electrode_1_zy[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
+    ax1.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+    ax1.scatter(electrode_3_zy[0], electrode_3_zy[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
     ax1.scatter(max_z_axis, electrode_0_zy[1], color='red', marker='*', s=120, label='Max density', zorder=3)
     ax1.scatter(electrode_0_zy[0], max_y_axis, color='red', marker='*', s=120, zorder=3)
     ax1.scatter(max_z_axis,max_y_axis, color='red', marker='*', s=120, zorder=3)
@@ -264,8 +264,8 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
 
 path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=4
-pattern_A=4
-mouse_A=1
+pattern_A=8
+mouse_A=0
 amplitude_A=10
 node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
