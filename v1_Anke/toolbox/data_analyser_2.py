@@ -108,7 +108,7 @@ def Pearsoncorrel(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, thresh
         n_spikes_B= n_spikes_B_filtered
 
         statistic, pvalue = pearsonr(n_spikes_A, n_spikes_B, alternative ="greater")
-        print('The Pearson correlation coefficient for stim patterns '+str(pattern_A)+' and '+str(pattern_B)+' is ' + str(round(statistic,2))+', the pvalue is '+str(round(pvalue,3)))
+        print('The Pearson correlation coefficient for stim patterns '+str(pattern_A)+' and '+str(pattern_B)+' is ' + str(round(statistic,2))+', the pvalue is '+str(round(pvalue,4)))
         return(statistic, pvalue)
 
 def kernel_density_estimate(node_pos, n_spikes, pattern):
@@ -263,14 +263,14 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
 
 path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=4
-pattern_A=0
-mouse_A=0
+pattern_A=5
+mouse_A=2
 amplitude_A=10
 node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
-pattern_B=0
-mouse_B=0
-amplitude_B=20
+pattern_B=7
+mouse_B=2
+amplitude_B=10
 node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
 
 positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
