@@ -2,7 +2,8 @@ import pandas as pd
 from hdf5 import HDF5
 import numpy as np
 import os
-from scipy.stats import wilcoxon
+#from scipy.stats import wilcoxon
+from scipy.stats import pearsonr
 import matplotlib.pyplot as plt
 from sklearn.neighbors import KernelDensity
 
@@ -15,8 +16,6 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
     :type nodes_dirs: path or list thereof
     :param spikes_dirs: directories that point to output/spikes.csv
     :type spikes_dirs: path or list thereof
-    :param spikes_bkg_dirs: directories that point to output/bkg/spikes.csv
-    :type spikes_bkg_dirs: path or list thereof
     :param v1: defaults to True.
     :type v1: bool, optional
     :return: node positions
@@ -59,7 +58,7 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
         #    spikes_bkg = pd.read_csv(spikes_bkg_dir, sep='\s+')
         #    for ind in spikes_bkg.index:
         #        if spikes_bkg['timestamps'][ind] < 100:
-        #            n_spikes_temp[spikes_bkg['node_ids'][ind]] = max(0, n_spikes_temp[spikes_bkg['node_ids'][ind]] - 1)
+         #           n_spikes_temp[spikes_bkg['node_ids'][ind]] = max(0, n_spikes_temp[spikes_bkg['node_ids'][ind]] - 1)
 
         node_pos = np.vstack((node_pos, node_pos_temp))
         n_spikes = np.append(n_spikes, n_spikes_temp)
@@ -93,9 +92,9 @@ def filter_spikes(node_pos, n_spikes):
 
     return node_pos_filtered, n_spikes_filtered, threshold
 
-def discriminate_signed_rank(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, threshold_B):
+def Pearsoncorrel(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, threshold_B):
         '''
-        Use the Wilcoxon signed-rank test to get a p-value as index of separability between the two neuronal populations.
+        Use the Pearson correlation test to get a p-value as index of separability between the two neuronal populations.
         '''
         n_spikes_A_filtered=[]
         n_spikes_B_filtered=[]
@@ -108,9 +107,9 @@ def discriminate_signed_rank(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshol
         n_spikes_A= n_spikes_A_filtered
         n_spikes_B= n_spikes_B_filtered
 
-        signed_rank = wilcoxon(n_spikes_A, n_spikes_B, zero_method="zsplit") # Apply Wilcoxon test
-        print('P-value for Wilcoxon signed-rank test for stim patterns '+str(pattern_A)+' and '+str(pattern_B)+' is ' + str(round(signed_rank.pvalue,5)))
-        return(signed_rank.pvalue)
+        statistic, pvalue = pearsonr(n_spikes_A, n_spikes_B, alternative ="two-sided")
+        print('The Pearson correlation coefficient for stim patterns '+str(pattern_A)+' and '+str(pattern_B)+' is ' + str(statistic)+', the pvalue is'+str(pvalue))
+        return(statistic, pvalue)
 
 def kernel_density_estimate(node_pos, n_spikes, pattern):
         '''
@@ -264,23 +263,22 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
 
 path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=4
-pattern_A=8
+pattern_A=0
 mouse_A=0
 amplitude_A=10
 node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
-pattern_B=0
+pattern_B=4
 mouse_B=0
-amplitude_B=20
-#node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
+amplitude_B=10
+node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
 
 positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
-#positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
-
-#p_value_wilcoxon = discriminate_signed_rank(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
+positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
+statistic, pvalue = Pearsoncorrel(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 #grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
-max_y_A,max_z_A = full_kde(positions_filtered_A, spikes_filtered_A, pattern_A,mouse_A,amplitude_A)
+#max_y_A,max_z_A = full_kde(positions_filtered_A, spikes_filtered_A, pattern_A,mouse_A,amplitude_A)
 #Underneath: test_code
 
 #coordinates= node_pos_A[:,1:]
