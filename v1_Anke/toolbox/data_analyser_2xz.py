@@ -259,15 +259,59 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
 
     fig.suptitle('Kernel Density Estimate for stimulation pattern ' + str(pattern)+', amplitude '+str(amplitude)+', mouse '+ str(mouse))
     plt.tight_layout(h_pad=4)
-    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_xz/xz_full_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
+    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_2/plots_xz/xz_full_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
     plt.show()
     return max_x_axis, max_z_axis  
 
+def plot1_kde(node_pos, n_spikes, pattern, mouse):
+    grid_x, grid_z, density_x, density_z = projected_kernel_density_estimate(node_pos, n_spikes)
+    max_x_axis=grid_x[np.argmax(density_x)][0]
+    max_z_axis=grid_z[np.argmax(density_z)][0]
+
+    node_pos=node_pos[:, [0, 2]]
+    max_spikes=np.max(n_spikes)
+    #print("max number spikes", max_spikes)
+    n_spikes_norm=n_spikes/max_spikes
+    #print(n_spikes_norm)
+
+    electrode_0_zx=[16,-9]
+    electrode_1_zx=[198,-9]
+    electrode_2_zx=[16,-9]
+    electrode_3_zx=[198,-9]
+
+    fig = plt.figure(figsize=(8,12))
+        
+    #plt.axline(electrode_0_zx, electrode_1_zx, color='limegreen', label='Along layer')
+    #plt.axline(electrode_0_zx, electrode_2_zx, color='darkgreen', label='Along column')
+    plt.scatter(node_pos[:,1], node_pos[:,0], s=90, c="blue", alpha=n_spikes_norm)
+    plt.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+    plt.scatter(electrode_0_zx[0], electrode_0_zx[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
+    #plt.scatter(electrode_1_zx[0], electrode_1_zx[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
+    #plt.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+    plt.scatter(electrode_3_zx[0], electrode_3_zx[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
+    plt.scatter(max_z_axis, electrode_0_zx[1], color='red', marker='*', s=120, label='Max density 1D', zorder=3)
+    plt.scatter(electrode_0_zx[0], max_x_axis, color='red', marker='*', s=120, zorder=3)
+    plt.scatter(max_z_axis,max_x_axis, color='pink', marker='*', s=120, label='combined 1D max density', zorder=3)
+
+    plt.set_xlabel('Z Coordinate')
+    plt.set_ylabel('X Coordinate')
+    #plt.set_xlim([-250,500])
+    #plt.set_ylim([100, 800])
+    plt.set_xlim([-250,500])
+    plt.set_ylim([-250, 500])
+    #plt.invert_yaxis()  # Invert x-axis
+    plt.invert_xaxis()
+    plt.set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
+    plt.legend(fontsize='8', loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.set_title("Pattern "+str(pattern)+". Mouse "+str(mouse)+". ZX projection.")
+    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_el_positions/xz_kde_ projection_xz_p'+str(pattern)+'_m_'+str(mouse)+'.png')
+    return max_x_axis, max_z_axis
+
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=4
-pattern_A=8
+pattern_A=0
 mouse_A=0
-amplitude_A=10
+amplitude_A=20
 node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
 pattern_B=0
@@ -281,6 +325,7 @@ positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A,
 #coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 #grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
 max_x_A,max_z_A = full_kde(positions_filtered_A, spikes_filtered_A, pattern_A,mouse_A,amplitude_A)
+max_x_A,max_z_A= plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A,mouse_A,amplitude_A)
 #Underneath: test_code
 
 #coordinates= node_pos_A[:,1:]
