@@ -259,26 +259,73 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     plt.tight_layout(h_pad=4)
     plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_yz/full_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
     plt.show()
+    return max_y_axis, max_z_axis
+
+def plot1_kde(node_pos, n_spikes, pattern, mouse):
+    grid_y, grid_z, density_y, density_z = projected_kernel_density_estimate(node_pos, n_spikes)
+    max_y_axis=grid_y[np.argmax(density_y)][0]
+    max_z_axis=grid_z[np.argmax(density_z)][0]
+
+    node_pos= node_pos[:,1:]
+    max_spikes=np.max(n_spikes)
+    #print("max number spikes", max_spikes)
+    n_spikes_norm=n_spikes/max_spikes
+    #print(n_spikes_norm)
+
+    electrode_0_zy=[16,300]
+    electrode_1_zy=[198,300]
+    electrode_2_zy=[16,170]
+    electrode_3_zy=[198,170]
+
+    fig = plt.figure(figsize=(8,12))
+        
+    #plt.axline(electrode_0_zy, electrode_1_zy, color='limegreen', label='Along layer')
+    #plt.axline(electrode_0_zy, electrode_2_zy, color='darkgreen', label='Along column')
+    plt.scatter(node_pos[:,1], node_pos[:,0], s=90, c="blue", alpha=n_spikes_norm)
+    #plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+    plt.scatter(electrode_0_zy[0], electrode_0_zy[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
+    #plt.scatter(electrode_1_zy[0], electrode_1_zy[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
+    plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+    plt.scatter(electrode_3_zy[0], electrode_3_zy[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
+    plt.scatter(max_z_axis, electrode_0_zy[1], color='red', marker='*', s=120, label='Max density', zorder=3)
+    plt.scatter(electrode_0_zy[0], max_y_axis, color='red', marker='*', s=120, zorder=3)
+    plt.scatter(max_z_axis,max_y_axis, color='red', marker='*', s=120, zorder=3)
+
+    plt.ylabel('Z Coordinate')
+    plt.ylabel('Y Coordinate')
+    #plt.set_xlim([-250,500])
+    #plt.set_ylim([100, 800])
+    plt.xlim([-250, 500])
+    plt.ylim([0, 800])
+    plt.gca().invert_xaxis()
+    plt.gca().invert_yaxis()
+    plt.gca().set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
+    plt.legend(fontsize='12', loc='upper right')
+    plt.title("Pattern "+str(pattern)+". Mouse "+str(mouse)+". ZY projection.")
+    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_el_positions/yz_kde_yz_p'+str(pattern)+'_m_'+str(mouse)+'.png')
+    plt.show()
     return max_y_axis, max_z_axis  
 
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=4
-pattern_A=0
-mouse_A=0
+pattern_A=7
+mouse_A=1
 amplitude_A=10
 node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
 pattern_B=7
 mouse_B=2
 amplitude_B=10
-node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
+#node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
 
 positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
-positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
+#positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
+
+max_y_axis_A, max_z_axis_B = plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A)
 #statistic, pvalue = Pearsoncorrel(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 #grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
-max_y_A,max_z_A = full_kde(positions_filtered_A, spikes_filtered_A, pattern_A,mouse_A,amplitude_A)
+#max_y_A,max_z_A = full_kde(positions_filtered_A, spikes_filtered_A, pattern_A,mouse_A,amplitude_A)
 #Underneath: test_code
 
 #coordinates= node_pos_A[:,1:]
