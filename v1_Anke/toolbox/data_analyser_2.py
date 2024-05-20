@@ -261,7 +261,7 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     plt.show()
     return max_y_axis, max_z_axis  
 
-path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
+#path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=4
 pattern_A=5
 mouse_A=2
