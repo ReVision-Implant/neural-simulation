@@ -153,7 +153,7 @@ def projected_kernel_density_estimate(node_pos,n_spikes):
         node_pos=node_pos[:, [0, 2]] #select only the x and z coordinates
         projected_points_z=node_pos[:,1]
         projected_points_x=node_pos[:,0]
-        print(projected_points_x)
+        #print(projected_points_x)
         # Define grid along the projected axis
         grid_size = 100
         grid_z = np.linspace(min(projected_points_z), max(projected_points_z), grid_size).reshape(-1, 1)
@@ -214,10 +214,11 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     #ax1.axline(electrode_0_zx, electrode_1_zx, color='limegreen', label='Along layer')
     #ax1.axline(electrode_0_zx, electrode_2_zx, color='darkgreen', label='Along column')
     ax1.scatter(node_pos[:,1], node_pos[:,0], s=90, c="blue", alpha=n_spikes_norm)
+    ax1.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
     ax1.scatter(electrode_0_zx[0], electrode_0_zx[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
-    ax1.scatter(electrode_1_zx[0], electrode_1_zx[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
-    #ax1.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
-    #ax1.scatter(electrode_3_zy[0], electrode_3_zy[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
+    #ax1.scatter(electrode_1_zx[0], electrode_1_zx[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
+    #ax1.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+    ax1.scatter(electrode_3_zx[0], electrode_3_zx[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
     ax1.scatter(max_z_axis, electrode_0_zx[1], color='red', marker='*', s=120, label='Max density 1D', zorder=3)
     ax1.scatter(electrode_0_zx[0], max_x_axis, color='red', marker='*', s=120, zorder=3)
     ax1.scatter(max_z_axis,max_x_axis, color='pink', marker='*', s=120, label='combined 1D max density', zorder=3)
@@ -264,18 +265,18 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
 
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=4
-pattern_A=0
+pattern_A=8
 mouse_A=0
 amplitude_A=10
 node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
 pattern_B=0
-mouse_B=0
-amplitude_B=20
+mouse_B=1
+amplitude_B=10
 node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
 
 positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
-positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
+#positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
 #statistic, pvalue = Pearsoncorrel(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 #grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
