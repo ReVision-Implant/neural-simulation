@@ -58,7 +58,7 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
         #    spikes_bkg = pd.read_csv(spikes_bkg_dir, sep='\s+')
         #    for ind in spikes_bkg.index:
         #        if spikes_bkg['timestamps'][ind] < 100:
-         #           n_spikes_temp[spikes_bkg['node_ids'][ind]] = max(0, n_spikes_temp[spikes_bkg['node_ids'][ind]] - 1)
+        #           n_spikes_temp[spikes_bkg['node_ids'][ind]] = max(0, n_spikes_temp[spikes_bkg['node_ids'][ind]] - 1)
 
         node_pos = np.vstack((node_pos, node_pos_temp))
         n_spikes = np.append(n_spikes, n_spikes_temp)
@@ -109,6 +109,14 @@ def Pearsoncorrel(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, thresh
 
         statistic, pvalue = pearsonr(n_spikes_A, n_spikes_B, alternative ="greater")
         print('The Pearson correlation coefficient for stim patterns '+str(pattern_A)+' and '+str(pattern_B)+' is ' + str(round(statistic,2))+', the pvalue is '+str(round(pvalue,4)))
+        
+        plt.figure()
+        plt.scatter(n_spikes_A, n_spikes_B, s=30, cmap='viridis')
+        plt.xlabel('Spike rates for pattern ' + str(pattern_A))
+        plt.ylabel('Spike rates for pattern ' + str(pattern_B))
+        plt.show()
+    
+
         return(statistic, pvalue)
 
 def kernel_density_estimate(node_pos, n_spikes, pattern):
@@ -278,20 +286,31 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse):
     electrode_3_zy=[198,170]
 
     fig = plt.figure(figsize=(8,12))
-        
+
+    if pattern==0:
+        pattern_title="Single layer stimulation. M"+str(mouse)+"."
+        plt.scatter(electrode_1_zy[0], electrode_1_zy[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
+    elif pattern==5:
+        pattern_title="Multilayer stimulation - 1 return electrode. M"+str(mouse)+"."
+        plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+    else:
+        pattern_title="Multilayer stimulation - 2 return electrodes. M"+str(mouse)+"."
+        plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+        plt.scatter(electrode_3_zy[0], electrode_3_zy[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
+
     #plt.axline(electrode_0_zy, electrode_1_zy, color='limegreen', label='Along layer')
     #plt.axline(electrode_0_zy, electrode_2_zy, color='darkgreen', label='Along column')
     plt.scatter(node_pos[:,1], node_pos[:,0], s=90, c="blue", alpha=n_spikes_norm)
     #plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
     plt.scatter(electrode_0_zy[0], electrode_0_zy[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
     #plt.scatter(electrode_1_zy[0], electrode_1_zy[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
-    plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
-    plt.scatter(electrode_3_zy[0], electrode_3_zy[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
+    #plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+    #plt.scatter(electrode_3_zy[0], electrode_3_zy[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
     plt.scatter(max_z_axis, electrode_0_zy[1], color='red', marker='*', s=120, label='Max density', zorder=3)
     plt.scatter(electrode_0_zy[0], max_y_axis, color='red', marker='*', s=120, zorder=3)
     plt.scatter(max_z_axis,max_y_axis, color='red', marker='*', s=120, zorder=3)
 
-    plt.ylabel('Z Coordinate')
+    plt.xlabel('Z Coordinate')
     plt.ylabel('Y Coordinate')
     #plt.set_xlim([-250,500])
     #plt.set_ylim([100, 800])
@@ -301,31 +320,40 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse):
     plt.gca().invert_yaxis()
     plt.gca().set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
     plt.legend(fontsize='12', loc='upper right')
-    plt.title("Pattern "+str(pattern)+". Mouse "+str(mouse)+". ZY projection.")
+
+    plt.title(pattern_title)
     plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_el_positions/yz_kde_yz_p'+str(pattern)+'_m_'+str(mouse)+'.png')
     plt.show()
     return max_y_axis, max_z_axis  
 
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=4
-pattern_A=7
+pattern_A=0
 mouse_A=1
 amplitude_A=10
 node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
 pattern_B=7
-mouse_B=2
+mouse_B=1
 amplitude_B=10
-#node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
+node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
 
 positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
-#positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
+positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
 
-max_y_axis_A, max_z_axis_B = plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A)
-#statistic, pvalue = Pearsoncorrel(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
+"""for pattern in [0,5,7]:
+    pattern_A= pattern
+    amplitude_A = 10
+    for mouse in [0,1]:
+        mouse_A = mouse
+        node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
+        positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
+        max_y_axis_A, max_z_axis_B = plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A)"""
+
+statistic, pvalue = Pearsoncorrel(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 #grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
-#max_y_A,max_z_A = full_kde(positions_filtered_A, spikes_filtered_A, pattern_A,mouse_A,amplitude_A)
+max_y_A,max_z_A = full_kde(positions_filtered_A, spikes_filtered_A, pattern_A,mouse_A,amplitude_A)
 #Underneath: test_code
 
 #coordinates= node_pos_A[:,1:]
