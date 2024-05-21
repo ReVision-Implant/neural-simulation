@@ -26,14 +26,14 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
     
     nodes_dirs= [str(path)+'/virtual_mice_mask/mouse_'+str(mouse)+'/v1_nodes.h5']
     spikes_dirs= [str(path)+'/exp_'+str(exp)+'/output/pattern_'+str(pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/spikes.csv']
-    #spikes_bkg_dirs= [str(path)+'/exp_'+str(exp)+'/output/bkg/mouse_'+str(mouse)+'/spikes.csv']
+    spikes_bkg_dirs= [str(path)+'/exp_'+str(exp)+'/output/bkg/mouse_'+str(mouse)+'/spikes.csv']
         
     nodes_dirs = [nodes_dirs] if not isinstance(nodes_dirs, list) else nodes_dirs
     spikes_dirs = [spikes_dirs] if not isinstance(spikes_dirs, list) else spikes_dirs
-    #spikes_bkg_dirs = [spikes_bkg_dirs] if not isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs
+    spikes_bkg_dirs = [spikes_bkg_dirs] if not isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs
 
-    #assert len(nodes_dirs) == len(spikes_dirs) == len(spikes_bkg_dirs)
-    assert len(nodes_dirs) == len(spikes_dirs)
+    assert len(nodes_dirs) == len(spikes_dirs) == len(spikes_bkg_dirs)
+    #assert len(nodes_dirs) == len(spikes_dirs)
 
     node_pos = np.zeros((1,3))
     n_spikes = np.zeros((1,1)) 
@@ -42,7 +42,7 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
 
         nodes_dir = nodes_dirs[i]
         spikes_dir = spikes_dirs[i]
-        #spikes_bkg_dir = spikes_bkg_dirs[i]
+        spikes_bkg_dir = spikes_bkg_dirs[i]
 
         node_pos_temp = HDF5(nodes_dir, v1=v1).positions
 
@@ -53,12 +53,12 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
             if spikes['timestamps'][ind] < 100:
                 n_spikes_temp[spikes['node_ids'][ind]] += 1
 
-        #if spikes_bkg_dirs is not None:
-        #    spikes_bkg_dir = spikes_bkg_dirs[0] if isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs 
-        #    spikes_bkg = pd.read_csv(spikes_bkg_dir, sep='\s+')
-        #    for ind in spikes_bkg.index:
-        #        if spikes_bkg['timestamps'][ind] < 100:
-        #           n_spikes_temp[spikes_bkg['node_ids'][ind]] = max(0, n_spikes_temp[spikes_bkg['node_ids'][ind]] - 1)
+        if spikes_bkg_dirs is not None:
+            spikes_bkg_dir = spikes_bkg_dirs[0] if isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs 
+            spikes_bkg = pd.read_csv(spikes_bkg_dir, sep='\s+')
+            for ind in spikes_bkg.index:
+                if spikes_bkg['timestamps'][ind] < 100:
+                   n_spikes_temp[spikes_bkg['node_ids'][ind]] = max(0, n_spikes_temp[spikes_bkg['node_ids'][ind]] - 1)
 
         node_pos = np.vstack((node_pos, node_pos_temp))
         n_spikes = np.append(n_spikes, n_spikes_temp)
@@ -111,9 +111,10 @@ def Pearsoncorrel(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, thresh
         print('The Pearson correlation coefficient for stim patterns '+str(pattern_A)+' and '+str(pattern_B)+' is ' + str(round(statistic,2))+', the pvalue is '+str(round(pvalue,4)))
         
         plt.figure()
-        plt.scatter(n_spikes_A, n_spikes_B, s=30, cmap='viridis')
+        plt.scatter(n_spikes_A, n_spikes_B, s=30)
         plt.xlabel('Spike rates for pattern ' + str(pattern_A))
         plt.ylabel('Spike rates for pattern ' + str(pattern_B))
+        plt.title("background substracted + threshold activity = average + 3SD")
         plt.show()
     
 
@@ -288,13 +289,13 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse):
     fig = plt.figure(figsize=(8,12))
 
     if pattern==0:
-        pattern_title="Single layer stimulation. M"+str(mouse)+"."
+        pattern_title="No bkg: Single layer stimulation. M"+str(mouse)+"."
         plt.scatter(electrode_1_zy[0], electrode_1_zy[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
     elif pattern==5:
         pattern_title="Multilayer stimulation - 1 return electrode. M"+str(mouse)+"."
         plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
     else:
-        pattern_title="Multilayer stimulation - 2 return electrodes. M"+str(mouse)+"."
+        pattern_title="No bkg: Multilayer stimulation - 2 return electrodes. M"+str(mouse)+"."
         plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
         plt.scatter(electrode_3_zy[0], electrode_3_zy[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
 
@@ -322,7 +323,8 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse):
     plt.legend(fontsize='12', loc='upper right')
 
     plt.title(pattern_title)
-    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_el_positions/yz_kde_yz_p'+str(pattern)+'_m_'+str(mouse)+'.png')
+    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_stat/kde_no_bkg_p'+str(pattern)+'_m_'+str(mouse)+'.png')
+    #plt.close()
     plt.show()
     return max_y_axis, max_z_axis  
 
@@ -341,19 +343,19 @@ node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,ampl
 positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
 positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
 
-"""for pattern in [0,5,7]:
-    pattern_A= pattern
-    amplitude_A = 10
-    for mouse in [0,1]:
-        mouse_A = mouse
-        node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
-        positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
-        max_y_axis_A, max_z_axis_B = plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A)"""
+for pattern in [0,7]:
+    pattern_1=pattern
+    amplitude_1 = 10
+    for mouse in [1]:
+        mouse_1=mouse
+        node_pos_1, n_spikes_1 = get_spikes(exp=exp,pattern=pattern_1,mouse=mouse_1,amplitude=amplitude_1)
+        positions_filtered_1, spikes_filtered_1, threshold_1 = filter_spikes(node_pos_1, n_spikes_1)
+        max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_1, spikes_filtered_1, pattern_1, mouse_1)
 
 statistic, pvalue = Pearsoncorrel(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 #grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
-max_y_A,max_z_A = full_kde(positions_filtered_A, spikes_filtered_A, pattern_A,mouse_A,amplitude_A)
+#max_y_A,max_z_A = full_kde(positions_filtered_A, spikes_filtered_A, pattern_A,mouse_A,amplitude_A)
 #Underneath: test_code
 
 #coordinates= node_pos_A[:,1:]
