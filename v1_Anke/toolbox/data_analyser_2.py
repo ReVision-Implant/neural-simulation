@@ -4,8 +4,10 @@ import numpy as np
 import os
 #from scipy.stats import wilcoxon
 from scipy.stats import pearsonr
+from scipy.stats import spearmanr
 import matplotlib.pyplot as plt
 from sklearn.neighbors import KernelDensity
+import math
 
 #same as the other data_analyser file but now preprocessing with standard deviations instead of threshold
 
@@ -26,14 +28,14 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
     
     nodes_dirs= [str(path)+'/virtual_mice_mask/mouse_'+str(mouse)+'/v1_nodes.h5']
     spikes_dirs= [str(path)+'/exp_'+str(exp)+'/output/pattern_'+str(pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/spikes.csv']
-    spikes_bkg_dirs= [str(path)+'/exp_'+str(exp)+'/output/bkg/mouse_'+str(mouse)+'/spikes.csv']
+    #spikes_bkg_dirs= [str(path)+'/exp_'+str(exp)+'/output/bkg/mouse_'+str(mouse)+'/spikes.csv']
         
     nodes_dirs = [nodes_dirs] if not isinstance(nodes_dirs, list) else nodes_dirs
     spikes_dirs = [spikes_dirs] if not isinstance(spikes_dirs, list) else spikes_dirs
-    spikes_bkg_dirs = [spikes_bkg_dirs] if not isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs
+    #spikes_bkg_dirs = [spikes_bkg_dirs] if not isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs
 
-    assert len(nodes_dirs) == len(spikes_dirs) == len(spikes_bkg_dirs)
-    #assert len(nodes_dirs) == len(spikes_dirs)
+    #assert len(nodes_dirs) == len(spikes_dirs) == len(spikes_bkg_dirs)
+    assert len(nodes_dirs) == len(spikes_dirs)
 
     node_pos = np.zeros((1,3))
     n_spikes = np.zeros((1,1)) 
@@ -42,7 +44,7 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
 
         nodes_dir = nodes_dirs[i]
         spikes_dir = spikes_dirs[i]
-        spikes_bkg_dir = spikes_bkg_dirs[i]
+        #spikes_bkg_dir = spikes_bkg_dirs[i]
 
         node_pos_temp = HDF5(nodes_dir, v1=v1).positions
 
@@ -53,12 +55,12 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
             if spikes['timestamps'][ind] < 100:
                 n_spikes_temp[spikes['node_ids'][ind]] += 1
 
-        if spikes_bkg_dirs is not None:
-            spikes_bkg_dir = spikes_bkg_dirs[0] if isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs 
-            spikes_bkg = pd.read_csv(spikes_bkg_dir, sep='\s+')
-            for ind in spikes_bkg.index:
-                if spikes_bkg['timestamps'][ind] < 100:
-                   n_spikes_temp[spikes_bkg['node_ids'][ind]] = max(0, n_spikes_temp[spikes_bkg['node_ids'][ind]] - 1)
+        #if spikes_bkg_dirs is not None:
+        #    spikes_bkg_dir = spikes_bkg_dirs[0] if isinstance(spikes_bkg_dirs, list) else spikes_bkg_dirs 
+        #    spikes_bkg = pd.read_csv(spikes_bkg_dir, sep='\s+')
+        #    for ind in spikes_bkg.index:
+        #        if spikes_bkg['timestamps'][ind] < 100:
+        #           n_spikes_temp[spikes_bkg['node_ids'][ind]] = max(0, n_spikes_temp[spikes_bkg['node_ids'][ind]] - 1)
 
         node_pos = np.vstack((node_pos, node_pos_temp))
         n_spikes = np.append(n_spikes, n_spikes_temp)
@@ -116,6 +118,45 @@ def Pearsoncorrel(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, thresh
         plt.ylabel('Spike rates for pattern ' + str(pattern_B))
         plt.title("background substracted + threshold activity = average + 3SD")
         plt.show()
+    
+
+        return(statistic, pvalue)
+
+def Spearmancorr(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, threshold_B):
+        '''
+        Use the Spearman correlation test to get a p-value as index of separability between the two neuronal populations.
+        '''
+        n_spikes_A_filtered=[]
+        n_spikes_B_filtered=[]
+        for value1, value2 in zip(n_spikes_A, n_spikes_B):
+            if value1 >= threshold_A or value2 >=threshold_B:
+            #print(value1,value2)
+                n_spikes_A_filtered.append(value1)
+                n_spikes_B_filtered.append(value2)
+
+        n_spikes_A= n_spikes_A_filtered
+        n_spikes_B= n_spikes_B_filtered
+
+        statistic, pvalue = spearmanr(n_spikes_A, n_spikes_B, alternative ="greater")
+        
+        # Calculate the confidence interval
+        n = len(n_spikes_A)
+        stderr = 1.0 / math.sqrt(n - 3)
+        z_score = 1.96  # For a 95% confidence interval
+        delta = z_score * stderr
+        lower_bound = math.tanh(math.atanh(statistic) - delta)
+        upper_bound = math.tanh(math.atanh(statistic) + delta)
+    
+        print('The Spearman correlation coefficient for stim patterns ' + str(pattern_A) + ' and ' + str(pattern_B) +
+          ' is ' + str(round(statistic, 2)) + ', the p-value is ' + str(round(pvalue, 4)) +
+          ', and the 95% confidence interval is [' + str(round(lower_bound, 2)) + ', ' + str(round(upper_bound, 2)) + ']')
+        
+        plt.figure()
+        plt.scatter(n_spikes_A, n_spikes_B, s=30)
+        plt.xlabel('Spike rates for pattern ' + str(pattern_A))
+        plt.ylabel('Spike rates for pattern ' + str(pattern_B))
+        plt.title("background substracted + threshold activity = average + 3SD")
+        #plt.show()
     
 
         return(statistic, pvalue)
@@ -330,29 +371,30 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse):
 
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=4
-pattern_A=0
-mouse_A=1
+pattern_A=7
+mouse_A=2
 amplitude_A=10
 node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
-pattern_B=7
-mouse_B=1
+pattern_B=8
+mouse_B=2
 amplitude_B=10
 node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
 
 positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
 positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
 
-for pattern in [0,7]:
-    pattern_1=pattern
-    amplitude_1 = 10
-    for mouse in [1]:
-        mouse_1=mouse
-        node_pos_1, n_spikes_1 = get_spikes(exp=exp,pattern=pattern_1,mouse=mouse_1,amplitude=amplitude_1)
-        positions_filtered_1, spikes_filtered_1, threshold_1 = filter_spikes(node_pos_1, n_spikes_1)
-        max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_1, spikes_filtered_1, pattern_1, mouse_1)
+#for pattern in [0,7]:
+#    pattern_1=pattern
+#    amplitude_1 = 10
+#    for mouse in [1]:
+#        mouse_1=mouse
+#        node_pos_1, n_spikes_1 = get_spikes(exp=exp,pattern=pattern_1,mouse=mouse_1,amplitude=amplitude_1)
+#        positions_filtered_1, spikes_filtered_1, threshold_1 = filter_spikes(node_pos_1, n_spikes_1)
+#        max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_1, spikes_filtered_1, pattern_1, mouse_1)
 
-statistic, pvalue = Pearsoncorrel(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
+spearman, pvalue = Spearmancorr(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
+#statistic, pvalue = Pearsoncorrel(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 #grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
 #max_y_A,max_z_A = full_kde(positions_filtered_A, spikes_filtered_A, pattern_A,mouse_A,amplitude_A)
