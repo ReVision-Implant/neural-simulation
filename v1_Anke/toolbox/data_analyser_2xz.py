@@ -268,7 +268,7 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
 
     pattern_title="Parallel to cortical layers. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
     fig.suptitle(pattern_title)
-    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_layer/layer_full_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
+    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_2/plots_layer/exp_2layer_full_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
     #plt.show()
     return max_x_axis, max_z_axis  
 
@@ -325,17 +325,17 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse,amplitude):
 
     pattern_title="Parallel to cortical layers. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
     plt.title(pattern_title)
-    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_layer/layer_1dkde_xz_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
+    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_2/plots_layer/exp_2_layer_1dkde_xz_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
     #plt.show()
     return max_x_axis, max_z_axis
 
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
-exp=4
+exp=2
 
-for pattern in [0,4,5,6,7,8]:
+for pattern in [0]:
     pattern_1=pattern
-    amplitude_1 = 10
-    for mouse in [0,1,2]:
+    amplitude_1 = 20
+    for mouse in [0]:
         mouse_1=mouse
         node_pos_1, n_spikes_1 = get_spikes(exp=exp,pattern=pattern_1,mouse=mouse_1,amplitude=amplitude_1)
         positions_filtered_1, spikes_filtered_1, threshold_1 = filter_spikes(node_pos_1, n_spikes_1)

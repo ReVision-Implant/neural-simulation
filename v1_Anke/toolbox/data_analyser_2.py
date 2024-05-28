@@ -320,7 +320,7 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     pattern_title="Parallel to cortical columns. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
     fig.suptitle(pattern_title)
     plt.tight_layout(h_pad=4)
-    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_column/full_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
+    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_2/plots_column/exp_2_full_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
     #plt.show()
     return max_y_axis, max_z_axis
 
@@ -378,13 +378,13 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
 
     pattern_title="Parallel to cortical columns. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
     plt.title(pattern_title)
-    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_column/1d_kde_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
+    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_2/plots_column/exp_2_1d_kde_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
     #plt.close()
     #plt.show()
     return max_y_axis, max_z_axis  
 
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
-exp=4
+exp=2
 pattern_A=7
 mouse_A=2
 amplitude_A=10
@@ -398,10 +398,10 @@ node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,ampl
 positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
 positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
 
-for pattern in [0]:
+for pattern in [0,4,5,6,7,8]:
     pattern_1=pattern
-    amplitude_1 = 20
-    for mouse in [0]:
+    amplitude_1 = 10
+    for mouse in [0,1,2]:
         mouse_1=mouse
         node_pos_1, n_spikes_1 = get_spikes(exp=exp,pattern=pattern_1,mouse=mouse_1,amplitude=amplitude_1)
         positions_filtered_1, spikes_filtered_1, threshold_1 = filter_spikes(node_pos_1, n_spikes_1)
