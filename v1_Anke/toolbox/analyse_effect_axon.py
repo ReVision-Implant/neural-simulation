@@ -2,6 +2,8 @@ import pandas as pd
 from hdf5 import HDF5
 import numpy as np
 import os
+from sklearn.neighbors import KernelDensity
+import matplotlib.pyplot as plt
 
 def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
     """Get spikes and node positions from network and output files.
@@ -96,8 +98,8 @@ def densities_active_neurons(node_pos_filtered, n_spikes_filtered):
     y_max = 430 # border layer 4 and 5
     z_electrode_min = -14
     z_electrode_max = 46
-    z_in_between_min = 61
-    z_in_between_max = 121
+    z_in_between_min = 77
+    z_in_between_max = 137
 
     # Initialize variables to store summed spike rates
     around_electrode = 0
@@ -129,6 +131,124 @@ def densities_active_neurons(node_pos_filtered, n_spikes_filtered):
 
     return in_between_norm
 
+def projected_kernel_density_estimate(node_pos,n_spikes):
+        '''
+        Projection of the data before the Kernel Density Estimate is useful when trying the understand the spatial
+        distribution of cell activity along a specific axis. The density estimate now reflects the distribution
+        of the data along the projected data.
+        If projection would only take place after the Kernel Density Estimate, then you just integrate the density
+        function, but the density estimate is still based on a 2D-distribution.
+        '''
+        node_pos= node_pos[:,1:] #select only the y and z coordinates
+        projected_points_z=node_pos[:,1]
+        projected_points_y=node_pos[:,0]
+        # Define grid along the projected axis
+        grid_size = 100
+        grid_z = np.linspace(min(projected_points_z), max(projected_points_z), grid_size).reshape(-1, 1)
+        grid_y = np.linspace(min(projected_points_y), max(projected_points_y), grid_size).reshape(-1, 1)
+        #print("projected points min and max z", min(projected_points_z), max(projected_points_z))
+        #print("projected points min and max y", min(projected_points_y), max(projected_points_y))
+
+        # Perform kernel density estimation
+        kde = KernelDensity(bandwidth=200, kernel='gaussian') 
+
+        kde_z=kde.fit(projected_points_z.reshape(-1, 1), sample_weight=n_spikes)
+        density_z = np.exp(kde_z.score_samples(grid_z))
+        kde_y=kde.fit(projected_points_y.reshape(-1, 1),sample_weight=n_spikes)
+        density_y = np.exp(kde_y.score_samples(grid_y))
+
+        fig, ax = plt.subplots(2, 1)
+        # Plot 1D density function along the z axis 
+        ax[0].plot(grid_z, density_z, color='red', linestyle='-')
+        ax[0].set_xlabel('Distance along the z axis')
+        ax[0].set_ylabel('Density')
+        ax[0].set_title('1D Kernel Density Estimate along z axis')
+
+        # Plot 1D density function along the z axis 
+        ax[1].plot(grid_y, density_y, color='red', linestyle='-')
+        ax[1].set_xlabel('Distance along the y axis')
+        ax[1].set_ylabel('Density')
+        ax[1].set_title('1D Kernel Density Estimate along y axis')
+        plt.tight_layout()
+        #plt.show()
+        plt.close()
+
+        return grid_y, grid_z, density_y, density_z
+
+def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
+    grid_y, grid_z, density_y, density_z = projected_kernel_density_estimate(node_pos, n_spikes)
+    max_y_axis=grid_y[np.argmax(density_y)][0]
+    max_z_axis=grid_z[np.argmax(density_z)][0]
+
+    node_pos= node_pos[:,1:]
+    max_spikes=np.max(n_spikes)
+    n_spikes_norm=n_spikes/max_spikes
+
+    electrode_0_zy=[16,300]
+    electrode_1_zy=[198,300]
+    electrode_2_zy=[16,170]
+    electrode_3_zy=[198,170]
+
+    fig = plt.figure(figsize=(8,12))
+
+    if pattern==0:
+        plt.scatter(electrode_1_zy[0], electrode_1_zy[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
+    elif pattern==4:
+        plt.scatter(electrode_1_zy[0], electrode_1_zy[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
+    elif pattern==5:
+        plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+    elif pattern==6:
+        plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+    elif pattern==8:
+        plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+        plt.scatter(electrode_3_zy[0], electrode_3_zy[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
+    else:
+        plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+        plt.scatter(electrode_3_zy[0], electrode_3_zy[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
+
+    #plt.axline(electrode_0_zy, electrode_1_zy, color='limegreen', label='Along layer')
+    #plt.axline(electrode_0_zy, electrode_2_zy, color='darkgreen', label='Along column')
+    plt.scatter(node_pos[:,1], node_pos[:,0], s=90, c="blue", alpha=n_spikes_norm)
+    plt.scatter(electrode_0_zy[0], electrode_0_zy[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
+    plt.scatter(max_z_axis, electrode_0_zy[1], color='red', marker='*', s=120, label='Max density', zorder=3)
+    plt.scatter(electrode_0_zy[0], max_y_axis, color='red', marker='*', s=120, zorder=3)
+    plt.scatter(max_z_axis,max_y_axis, color='red', marker='*', s=120, zorder=3)
+
+    y_min = 100 # border layer 1 and 2/3
+    y_max = 430 # border layer 4 and 5
+    z_electrode_min = -14
+    z_electrode_max = 46
+    z_in_between_min = 77
+    z_in_between_max = 137
+
+    plt.plot([z_electrode_min, z_electrode_max], [y_min, y_min], color='r')  # Top horizontal line
+    plt.plot([z_electrode_min, z_electrode_max], [y_max, y_max], color='r')  # Bottom horizontal line
+    plt.plot([z_electrode_min, z_electrode_min], [y_min, y_max], color='r')  # Left vertical line
+    plt.plot([z_electrode_max, z_electrode_max], [y_min, y_max], color='r')  # Right vertical line
+
+    plt.plot([z_in_between_min, z_in_between_max], [y_min, y_min], color='r')  # Top horizontal line
+    plt.plot([z_in_between_min, z_in_between_max], [y_max, y_max], color='r')  # Bottom horizontal line
+    plt.plot([z_in_between_min, z_in_between_min], [y_min, y_max], color='r')  # Left vertical line
+    plt.plot([z_in_between_max, z_in_between_max], [y_min, y_max], color='r')  # Right vertical line
+
+
+
+    plt.xlabel('Z Coordinate')
+    plt.ylabel('Y Coordinate')
+    plt.xlim([-400, 400])
+    plt.ylim([0, 800])
+    plt.gca().invert_xaxis()
+    plt.gca().invert_yaxis()
+    plt.gca().set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
+    plt.legend(fontsize='12', loc='upper right')
+
+    pattern_title="Parallel to cortical columns. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
+    plt.title(pattern_title)
+    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_column/exp_4_density_1d_kde_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
+    #plt.close()
+    plt.show()
+    return max_y_axis, max_z_axis
+
 exp_A=4
 pattern_A=0
 mouse_A=0
@@ -142,7 +262,9 @@ amplitude_B=10
 node_pos_B, n_spikes_B = get_spikes(exp=exp_B,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
 
 positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
-positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
+#positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
 
 in_between_norm_A= densities_active_neurons(positions_filtered_A, spikes_filtered_A)
-in_between_norm_B= densities_active_neurons(positions_filtered_B, spikes_filtered_B)
+#in_between_norm_B= densities_active_neurons(positions_filtered_B, spikes_filtered_B)
+
+ax_y_axis_A, max_z_axis_A = plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A,amplitude_A)
