@@ -121,7 +121,7 @@ def kernel_density_estimate(node_pos, n_spikes, pattern):
         kde.fit(node_pos, sample_weight=n_spikes) # Train model
 
         grid_size = 100 # 100 points in x and in y direction
-        x_grid, z_grid = np.meshgrid(np.linspace(-250, 500, grid_size), np.linspace(-250, 500, grid_size))
+        x_grid, z_grid = np.meshgrid(np.linspace(-400, 400, grid_size), np.linspace(-400, 400, grid_size))
         grid_points = np.vstack([x_grid.ravel(), z_grid.ravel()]).T
         density = np.exp(kde.score_samples(grid_points)).reshape(x_grid.shape) # Evaluate model for all points on the grid
 
@@ -131,8 +131,8 @@ def kernel_density_estimate(node_pos, n_spikes, pattern):
         plt.colorbar(label='Values')
         plt.xlabel('Z Coordinate')
         plt.ylabel('Y Coordinate')
-        plt.xlim([-250, 400])
-        plt.ylim([-250, 400])
+        plt.xlim([-400, 400])
+        plt.ylim([-400, 400])
         plt.gca().invert_yaxis()  # Invert y-axis for better comparison with ImageJ
         plt.gca().set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
         # plt.legend()
@@ -210,25 +210,34 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     ax2 = plt.subplot2grid((4, 2), (0, 1), colspan=1, rowspan=2)  # 1st row, 2nd column, spanning 1 column
     ax3 = plt.subplot2grid((4, 2), (2, 0), colspan=2)  # 2nd row, 1st column, spanning 2 columns
     ax4 = plt.subplot2grid((4, 2), (3, 0), colspan=2)  # 3rd row, 1st column, spanning 2 columns
+
+    if pattern==0:
+        ax1.scatter(electrode_1_zx[0], electrode_1_zx[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
+    elif pattern==4:
+        ax1.scatter(electrode_1_zx[0], electrode_1_zx[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
+    elif pattern==5:
+        ax1.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+    elif pattern==6:
+        ax1.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+    elif pattern==8:
+        ax1.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+        ax1.scatter(electrode_3_zx[0], electrode_3_zx[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
+    else:
+        ax1.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+        ax1.scatter(electrode_3_zx[0], electrode_3_zx[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
         
     #ax1.axline(electrode_0_zx, electrode_1_zx, color='limegreen', label='Along layer')
     #ax1.axline(electrode_0_zx, electrode_2_zx, color='darkgreen', label='Along column')
     ax1.scatter(node_pos[:,1], node_pos[:,0], s=90, c="blue", alpha=n_spikes_norm)
-    ax1.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
     ax1.scatter(electrode_0_zx[0], electrode_0_zx[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
-    #ax1.scatter(electrode_1_zx[0], electrode_1_zx[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
-    #ax1.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
-    ax1.scatter(electrode_3_zx[0], electrode_3_zx[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
     ax1.scatter(max_z_axis, electrode_0_zx[1], color='red', marker='*', s=120, label='Max density 1D', zorder=3)
     ax1.scatter(electrode_0_zx[0], max_x_axis, color='red', marker='*', s=120, zorder=3)
     ax1.scatter(max_z_axis,max_x_axis, color='pink', marker='*', s=120, label='combined 1D max density', zorder=3)
 
     ax1.set_xlabel('Z Coordinate')
     ax1.set_ylabel('X Coordinate')
-    #ax1.set_xlim([-250,500])
-    #ax1.set_ylim([100, 800])
-    ax1.set_xlim([-250,500])
-    ax1.set_ylim([-250, 500])
+    ax1.set_xlim([-400,400])
+    ax1.set_ylim([-400, 400])
     #ax1.invert_yaxis()  # Invert x-axis
     ax1.invert_xaxis()
     ax1.set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
@@ -239,8 +248,8 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     fig.colorbar(pcm, ax=ax2, label='Values')
     ax2.set_xlabel('Z Coordinate')
     ax2.set_ylabel('X Coordinate')
-    ax2.set_xlim([-250, 500])
-    ax2.set_ylim([-250, 500])
+    ax2.set_xlim([-400, 400])
+    ax2.set_ylim([-400, 400])
     #ax2.invert_yaxis()  # Invert y-axis for better comparison
     ax2.invert_xaxis()
     ax2.set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
@@ -257,13 +266,13 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     ax4.set_title('1D Kernel Density Estimate along x axis')
 
 
-    fig.suptitle('Kernel Density Estimate for stimulation pattern ' + str(pattern)+', amplitude '+str(amplitude)+', mouse '+ str(mouse))
-    plt.tight_layout(h_pad=4)
-    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_2/plots_xz/xz_full_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
-    plt.show()
+    pattern_title="Parallel to cortical layers. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
+    fig.suptitle(pattern_title)
+    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_layer/layer_full_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
+    #plt.show()
     return max_x_axis, max_z_axis  
 
-def plot1_kde(node_pos, n_spikes, pattern, mouse):
+def plot1_kde(node_pos, n_spikes, pattern, mouse,amplitude):
     grid_x, grid_z, density_x, density_z = projected_kernel_density_estimate(node_pos, n_spikes)
     max_x_axis=grid_x[np.argmax(density_x)][0]
     max_z_axis=grid_z[np.argmax(density_z)][0]
@@ -282,13 +291,17 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse):
     fig = plt.figure(figsize=(8,12))
 
     if pattern==0:
-        pattern_title="Single layer stimulation. M"+str(mouse)+"."
+        plt.scatter(electrode_1_zx[0], electrode_1_zx[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
+    elif pattern==4:
         plt.scatter(electrode_1_zx[0], electrode_1_zx[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
     elif pattern==5:
-        pattern_title="Multilayer stimulation - 1 return electrode. M"+str(mouse)+"."
         plt.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+    elif pattern==6:
+        plt.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+    elif pattern==8:
+        plt.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+        plt.scatter(electrode_3_zx[0], electrode_3_zx[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
     else:
-        pattern_title="Multilayer stimulation - 2 return electrodes. M"+str(mouse)+"."
         plt.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
         plt.scatter(electrode_3_zx[0], electrode_3_zx[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
         
@@ -301,48 +314,33 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse):
 
     plt.xlabel('Z Coordinate')
     plt.ylabel('X Coordinate')
-    #plt.set_xlim([-250,500])
+    #plt.set_xlim([-400,400])
     #plt.set_ylim([100, 800])
-    plt.xlim([-250, 500])
-    plt.ylim([-250, 500])
+    plt.xlim([-400, 400])
+    plt.ylim([-400, 400])
     #plt.invert_yaxis()  # Invert x-axis
     plt.gca().invert_xaxis()
     plt.gca().set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
     plt.legend(fontsize='12', loc='upper right')
+
+    pattern_title="Parallel to cortical layers. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
     plt.title(pattern_title)
-    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_el_positions/xz_kde_xz_p'+str(pattern)+'_m_'+str(mouse)+'.png')
-    plt.show()
+    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_layer/layer_1dkde_xz_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
+    #plt.show()
     return max_x_axis, max_z_axis
 
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=4
-for pattern in [0,5,7]:
-    pattern_A= pattern
-    amplitude_A = 10
-    for mouse in [0,1]:
-        mouse_A = mouse
-        node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
-        positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
-        max_x_axis_A, max_z_axis_B = plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A)
 
-#pattern_A=7
-#mouse_A=1
-#amplitude_A=10
-#node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
-
-#pattern_B=0
-#mouse_B=1
-#mplitude_B=10
-#node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
-
-#positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
-#positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
-#statistic, pvalue = Pearsoncorrel(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
-#coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
-#grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
-#max_x_A,max_z_A = full_kde(positions_filtered_A, spikes_filtered_A, pattern_A,mouse_A,amplitude_A)
-#max_x_A,max_z_A= plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A,mouse_A)
-#Underneath: test_code
+for pattern in [0,4,5,6,7,8]:
+    pattern_1=pattern
+    amplitude_1 = 10
+    for mouse in [0,1,2]:
+        mouse_1=mouse
+        node_pos_1, n_spikes_1 = get_spikes(exp=exp,pattern=pattern_1,mouse=mouse_1,amplitude=amplitude_1)
+        positions_filtered_1, spikes_filtered_1, threshold_1 = filter_spikes(node_pos_1, n_spikes_1)
+        max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_1, spikes_filtered_1, pattern_1, mouse_1,amplitude_1)
+        max_y_1,max_z_1 = full_kde(positions_filtered_1, spikes_filtered_1, pattern_1,mouse_1,amplitude_1)
 
 #coordinates= node_pos_A[:,1:]
 
