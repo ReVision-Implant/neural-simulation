@@ -249,22 +249,126 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     plt.show()
     return max_y_axis, max_z_axis
 
-exp_A=4
+def plot1_kde_double(node_pos_A, n_spikes_A, node_pos_B, n_spikes_B, pattern_A, mouse_A, amplitude_A, pattern_B, mouse_B, amplitude_B):
+    fig, axs = plt.subplots(1, 2, figsize=(16, 8))
+
+    # Plot for A
+    grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
+    max_y_axis_A = grid_y_A[np.argmax(density_y_A)][0]
+    max_z_axis_A = grid_z_A[np.argmax(density_z_A)][0]
+
+    node_pos_A = node_pos_A[:, 1:]
+    max_spikes_A = np.max(n_spikes_A)
+    n_spikes_norm_A = n_spikes_A / max_spikes_A
+
+    electrode_0_zy_A = [16, 300]
+    electrode_1_zy_A = [198, 300]
+    electrode_2_zy_A = [16, 170]
+    electrode_3_zy_A = [198, 170]
+
+    axs[0].scatter(electrode_1_zy_A[0], electrode_1_zy_A[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
+
+    # Plot positions and spikes of A
+    axs[0].scatter(node_pos_A[:, 1], node_pos_A[:, 0], s=90, c="blue", alpha=n_spikes_norm_A)
+    axs[0].scatter(electrode_0_zy_A[0], electrode_0_zy_A[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
+    #axs[0].scatter(max_z_axis_A, electrode_0_zy_A[1], color='red', marker='*', s=120, label='Max density', zorder=3)
+    #axs[0].scatter(electrode_0_zy_A[0], max_y_axis_A, color='red', marker='*', s=120, zorder=3)
+    #axs[0].scatter(max_z_axis_A, max_y_axis_A, color='red', marker='*', s=120, zorder=3)
+
+    y_min_A = 100  # border layer 1 and 2/3
+    y_max_A = 430  # border layer 4 and 5
+    z_electrode_min_A = -14
+    z_electrode_max_A = 46
+    z_in_between_min_A = 77
+    z_in_between_max_A = 137
+
+    # Plot box for A
+    axs[0].plot([z_electrode_min_A, z_electrode_max_A], [y_min_A, y_min_A], color='r')  # Top horizontal line
+    axs[0].plot([z_electrode_min_A, z_electrode_max_A], [y_max_A, y_max_A], color='r')  # Bottom horizontal line
+    axs[0].plot([z_electrode_min_A, z_electrode_min_A], [y_min_A, y_max_A], color='r')  # Left vertical line
+    axs[0].plot([z_electrode_max_A, z_electrode_max_A], [y_min_A, y_max_A], color='r')  # Right vertical line
+    axs[0].plot([z_in_between_min_A, z_in_between_max_A], [y_min_A, y_min_A], color='r')  # Top horizontal line
+    axs[0].plot([z_in_between_min_A, z_in_between_max_A], [y_max_A, y_max_A], color='r')  # Bottom horizontal line
+    axs[0].plot([z_in_between_min_A, z_in_between_min_A], [y_min_A, y_max_A], color='r')  # Left vertical line
+    axs[0].plot([z_in_between_max_A, z_in_between_max_A], [y_min_A, y_max_A], color='r')  # Right vertical line
+
+    axs[0].set_xlabel('Z Coordinate')
+    axs[0].set_ylabel('Y Coordinate')
+    axs[0].set_xlim([-400, 400])
+    axs[0].set_ylim([0, 800])
+    axs[0].invert_xaxis()
+    axs[0].invert_yaxis()
+    axs[0].set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
+    axs[0].legend(fontsize='12', loc='upper right')
+
+    pattern_title_A = "Parallel to cortical columns. Original. Pattern" + str(pattern_A) + ". M" + str(mouse_A) + ". Amplitude " + str(amplitude_A) + "."
+    axs[0].set_title(pattern_title_A)
+
+    # Plot for B
+    grid_y_B, grid_z_B, density_y_B, density_z_B = projected_kernel_density_estimate(node_pos_B, n_spikes_B)
+    max_y_axis_B = grid_y_B[np.argmax(density_y_B)][0]
+    max_z_axis_B = grid_z_B[np.argmax(density_z_B)][0]
+
+    node_pos_B = node_pos_B[:, 1:]
+    max_spikes_B = np.max(n_spikes_B)
+    n_spikes_norm_B = n_spikes_B / max_spikes_B
+
+    electrode_0_zy_B = [16, 300]
+    electrode_1_zy_B = [198, 300]
+    electrode_2_zy_B = [16, 170]
+    electrode_3_zy_B = [198, 170]
+
+    axs[1].scatter(electrode_1_zy_B[0], electrode_1_zy_B[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
+
+    # Plot positions and spikes of B
+    axs[1].scatter(node_pos_B[:, 1], node_pos_B[:, 0], s=90, c="blue", alpha=n_spikes_norm_B)
+    axs[1].scatter(electrode_0_zy_B[0], electrode_0_zy_B[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
+    #axs[1].scatter(max_z_axis_B, electrode_0_zy_B[1], color='red', marker='*', s=120, label='Max density', zorder=3)
+    #axs[1].scatter(electrode_0_zy_B[0], max_y_axis_B, color='red', marker='*', s=120, zorder=3)
+    #axs[1].scatter(max_z_axis_B, max_y_axis_B, color='red', marker='*', s=120, zorder=3)
+
+    axs[1].plot([z_electrode_min_A, z_electrode_max_A], [y_min_A, y_min_A], color='r')  # Top horizontal line
+    axs[1].plot([z_electrode_min_A, z_electrode_max_A], [y_max_A, y_max_A], color='r')  # Bottom horizontal line
+    axs[1].plot([z_electrode_min_A, z_electrode_min_A], [y_min_A, y_max_A], color='r')  # Left vertical line
+    axs[1].plot([z_electrode_max_A, z_electrode_max_A], [y_min_A, y_max_A], color='r')  # Right vertical line
+    axs[1].plot([z_in_between_min_A, z_in_between_max_A], [y_min_A, y_min_A], color='r')  # Top horizontal line
+    axs[1].plot([z_in_between_min_A, z_in_between_max_A], [y_max_A, y_max_A], color='r')  # Bottom horizontal line
+    axs[1].plot([z_in_between_min_A, z_in_between_min_A], [y_min_A, y_max_A], color='r')  # Left vertical line
+    axs[1].plot([z_in_between_max_A, z_in_between_max_A], [y_min_A, y_max_A], color='r')  # Right vertical line
+
+    axs[1].set_xlabel('Z Coordinate')
+    axs[1].set_ylabel('Y Coordinate')
+    axs[1].set_xlim([-400, 400])
+    axs[1].set_ylim([0, 800])
+    axs[1].invert_xaxis()
+    axs[1].invert_yaxis()
+    axs[1].set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
+    axs[1].legend(fontsize='12', loc='upper right')
+
+    pattern_title_B = "Parallel to cortical columns. Active axons. Pattern " + str(pattern_A) + ". M" + str(mouse_A) + ". Amplitude " + str(amplitude_A) + "."
+    axs[1].set_title(pattern_title_B)
+
+    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/compare_exp_2/comparison_exp2_and_4.png')
+    plt.show()
+    return
+
+exp_A=2
 pattern_A=0
 mouse_A=0
 amplitude_A=10
 node_pos_A, n_spikes_A = get_spikes(exp=exp_A,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
-exp_B=2
+exp_B=4
 pattern_B=0
 mouse_B=0
 amplitude_B=10
 node_pos_B, n_spikes_B = get_spikes(exp=exp_B,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
 
 positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
-#positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
+positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
 
 in_between_norm_A= densities_active_neurons(positions_filtered_A, spikes_filtered_A)
-#in_between_norm_B= densities_active_neurons(positions_filtered_B, spikes_filtered_B)
+#n_between_norm_B= densities_active_neurons(positions_filtered_B, spikes_filtered_B)
 
-ax_y_axis_A, max_z_axis_A = plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A,amplitude_A)
+#max_y_axis_A, max_z_axis_A = plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A,amplitude_A)
+plot1_kde_double(positions_filtered_A, spikes_filtered_A, positions_filtered_B, spikes_filtered_B, pattern_A, mouse_A, amplitude_A, pattern_B, mouse_B, amplitude_B)
