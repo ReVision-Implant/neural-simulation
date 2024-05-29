@@ -305,7 +305,7 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse,amplitude):
         plt.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
         plt.scatter(electrode_3_zx[0], electrode_3_zx[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
         
-
+    plt.axline(electrode_0_zx, electrode_1_zx, color='limegreen', label='Along layer')
     plt.scatter(node_pos[:,1], node_pos[:,0], s=90, c="blue", alpha=n_spikes_norm)
     plt.scatter(electrode_0_zx[0], electrode_0_zx[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
     plt.scatter(max_z_axis, electrode_0_zx[1], color='red', marker='*', s=120, label='Max density', zorder=3)
@@ -325,12 +325,12 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse,amplitude):
 
     pattern_title="Parallel to cortical layers. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
     plt.title(pattern_title)
-    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_2/plots_layer/exp_2_layer_1dkde_xz_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
-    #plt.show()
+    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_layer/layer_1dkde_xz_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
+    plt.show()
     return max_x_axis, max_z_axis
 
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
-exp=2
+exp=4
 
 for pattern in [0]:
     pattern_1=pattern
@@ -340,7 +340,7 @@ for pattern in [0]:
         node_pos_1, n_spikes_1 = get_spikes(exp=exp,pattern=pattern_1,mouse=mouse_1,amplitude=amplitude_1)
         positions_filtered_1, spikes_filtered_1, threshold_1 = filter_spikes(node_pos_1, n_spikes_1)
         max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_1, spikes_filtered_1, pattern_1, mouse_1,amplitude_1)
-        max_y_1,max_z_1 = full_kde(positions_filtered_1, spikes_filtered_1, pattern_1,mouse_1,amplitude_1)
+        #max_y_1,max_z_1 = full_kde(positions_filtered_1, spikes_filtered_1, pattern_1,mouse_1,amplitude_1)
 
 #coordinates= node_pos_A[:,1:]
 
