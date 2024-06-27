@@ -155,8 +155,10 @@ def Spearmancorr(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, thresho
         plt.scatter(n_spikes_A, n_spikes_B, s=30)
         plt.xlabel('Spike rates for pattern ' + str(pattern_A))
         plt.ylabel('Spike rates for pattern ' + str(pattern_B))
-        plt.title("background substracted + threshold activity = average + 3SD")
-        #plt.show()
+        plt.title("Correlation of patterns "+str(pattern_A)+" and "+str(pattern_B))
+        plt.savefig("/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_spearman/correlation_p"+str(pattern_A)+"_and_p_"+str(pattern_B)+".png")
+        plt.show()
+        
     
 
         return(statistic, pvalue)
@@ -385,30 +387,30 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
 
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=4
-pattern_A=7
-mouse_A=2
+pattern_A=0
+mouse_A=0
 amplitude_A=10
 node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
-pattern_B=8
-mouse_B=2
+pattern_B=4
+mouse_B=0
 amplitude_B=10
 node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
 
 positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
 positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
 
-for pattern in [0]:
-    pattern_1=pattern
-    amplitude_1 = 20
-    for mouse in [0]:
-        mouse_1=mouse
-        node_pos_1, n_spikes_1 = get_spikes(exp=exp,pattern=pattern_1,mouse=mouse_1,amplitude=amplitude_1)
-        positions_filtered_1, spikes_filtered_1, threshold_1 = filter_spikes(node_pos_1, n_spikes_1)
-        max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_1, spikes_filtered_1, pattern_1, mouse_1,amplitude_1)
-        #max_y_1,max_z_1 = full_kde(positions_filtered_1, spikes_filtered_1, pattern_1,mouse_1,amplitude_1)
+#for pattern in [0]:
+#    pattern_1=pattern
+#    amplitude_1 = 20
+#    for mouse in [0]:
+#        mouse_1=mouse
+#        node_pos_1, n_spikes_1 = get_spikes(exp=exp,pattern=pattern_1,mouse=mouse_1,amplitude=amplitude_1)
+#        positions_filtered_1, spikes_filtered_1, threshold_1 = filter_spikes(node_pos_1, n_spikes_1)
+#        max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_1, spikes_filtered_1, pattern_1, mouse_1,amplitude_1)
+#        #max_y_1,max_z_1 = full_kde(positions_filtered_1, spikes_filtered_1, pattern_1,mouse_1,amplitude_1)
 
-#spearman, pvalue = Spearmancorr(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
+spearman, pvalue = Spearmancorr(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #statistic, pvalue = Pearsoncorrel(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 #grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
