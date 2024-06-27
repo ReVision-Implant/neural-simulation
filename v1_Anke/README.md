@@ -1,6 +1,8 @@
-# Biophysically detailed mouse v1 model.
+# Biophysically detailed mouse v1 model (with active axons).
 
-This is the main folder and contains files you can use to run simulations with the biophysically detailed V1 model with thalamacortical (LGN) and background (BKG) inputs. The folder (and this readme) is based on the simulations/v1_biophysical folder from the [V1 mouse model](https://www.dropbox.com/sh/w5u31m3hq6u2x5m/AACpYpeWnm6s_qJDpmgrYgP7a?dl=0) of the Allen Institute, and includes the additions/changes to use it for the simulation of electrical stimulation. It is designed to run using the Allen Institute [Brain Modeling Toolkit](https://github.com/AllenInstitute/bmtk); but the network, input and config files are in the [SONATA data format](https://github.com/AllenInstitute/sonata) for use with other tools that support SONATA.
+This is the main folder and contains files you can use to run simulations with the biophysically detailed V1 model with thalamacortical (LGN) and background (BKG) inputs. The folder (and this readme) is based on the simulations/v1_biophysical folder from the [V1 mouse model](https://www.dropbox.com/sh/w5u31m3hq6u2x5m/AACpYpeWnm6s_qJDpmgrYgP7a?dl=0) of the Allen Institute, and includes the additions/changes to use it for the simulation of electrical stimulation.The main difference with the v1 folder is that this folder contains files to simulate models including active axons stubs. 
+
+ It is designed to run using the Allen Institute [Brain Modeling Toolkit](https://github.com/AllenInstitute/bmtk); but the network, input and config files are in the [SONATA data format](https://github.com/AllenInstitute/sonata) for use with other tools that support SONATA.
 
 
 ## Requirements
@@ -20,8 +22,14 @@ A cluster with 100 Xeon cores will typically take a few hours to run through the
      and weights are stored in the edges.h5 files, more complient with the SONATA format.
 -->
 
-- build_files/ - scripts and properties for (re)building the V1 network
-- components/ - parameters, morphology, model and mechanisms files used to instantiate individual cells and synapses, as well as python files containing helper functions.
+### 1. Build_files
+ - scripts and properties for (re)building the V1 network
+### 2. Components
+- parameters, morphology, model and mechanisms files used to instantiate individual cells and synapses, as well as python files containing helper functions.
+- under mechanisms/modfiles you will find a modfile called mammalian_spike_Anke.mod. This modfile was added to the orginal mechanisms of the V1 model and contains the equations defining the ionchannels in the active axon models. 
+- New modfiles can be added (and compiled) under mechanisms/modfiles
+
+### 3. Exp folders
 - exp#/ - each folder contains the config.json, output, plotting scripts and some helper files of one experiment. For more info about the contents of this folder, refer to the [README.md in exp0/](exp0/README.md).
   - 0 - monopolar stimulation 
   - 1 - current steering in 8 directions (only experiment to use full size V1 model)
