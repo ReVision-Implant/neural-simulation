@@ -1,1 +1,0 @@
-MODOBJFILES= Ca_HVA.o Ca_LVA.o CaDynamics.o capump.o Ih.o Im.o Im_v2.o K_P.o K_T.o Kd.o Kv2like.o Kv3_1.o mammalian_spike_Anke.o Nap.o NaTa.o NaTs.o NaV.o SK.o vecevent.o xtra.o
