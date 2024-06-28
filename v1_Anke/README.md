@@ -24,37 +24,69 @@ A cluster with 100 Xeon cores will typically take a few hours to run through the
 
 ### 1. Build_files
  - scripts and properties for (re)building the V1 network
+ - in contrast to the original build file in bmtk, the build file in v1_Anke adjusts the node positions of neurons making sure they cannot coincide with the location of the probes
 ### 2. Components
 - parameters, morphology, model and mechanisms files used to instantiate individual cells and synapses, as well as python files containing helper functions.
 - under mechanisms/modfiles you will find a modfile called mammalian_spike_Anke.mod. This modfile was added to the orginal mechanisms of the V1 model and contains the equations defining the ionchannels in the active axon models. 
 - New modfiles can be added (and compiled) under mechanisms/modfiles
+- the subfolder stimulation contains the comsolfiles,(with the calculated extracellular potentials), mask file, location of the electrodes, definition of the patterns and applied waveforms.
 
 ### 3. Exp folders
-- Each folder has two subfolders: the config folder and the output folder. Some experiments contain  extra subfolders with plots of results.
-- The config folder contains the config files; the output folder contains the sonata output files.
+- Each folder has minimum two subfolders: the config folder and the output folder. Experiments 2 and 4  contain  extra subfolders with plots of results.
+  - config folder: contains the config files
+  - output folder: sonata output files with spike rates
+  - plot_layers: contains plots of the kernel density estimates for the neurons projected onto the cortical layers (parallel with the surface of the mouse brain)
+  - plot_columns: kernel density estimate plots for the neurons projected perpendicular to the layers (a coronal view on the cortex)
+
 - The numbers of the experiments refer to:
   - exp_2: passive axon stubs as in original
+  - exp_3: passive axon stubs + no virtual connections (synaptic weights of the neurons were set to zero)
+  - exp_4: active axon stubs
+    - This folder contains two extra plot folders: The spearman plots plot the spike rates of different experiments against eachother. The compare_exp2 plots pattern 0 for the model with and without axons next to eachother.
 - within the subfolders the experiments are structured as follows:
-  - bkg: simulation without extracellular stimulation
+  - bkg: 100 ms simulation without extracellular stimulation
+  - init_state: 1.5 s simulation without extracellular stimulation; the extracellular stimulation tests will always start from this initial state
+  - pattern_0: single layer stimulation layer 4, symmetrical waveform
+  - pattern_4: single layer stimulation layer 4, asymmetrical waveform
+  - pattern_5: multi-layer stimulation 1 return electrorde layer 4 to 2/3, symmetrical waveform
+  - pattern_6: multilayer stimulation 1 return electrode layer 4 to 2/3, asymmetrical waveform
+  - pattern_7: multilayer stimulation 2 return electrodes layer 4 to 2/3, symmetrical waveform
+  - pattern_8: multilayer stimulation 2 return electrodes layer 4 to 2/3, asymmetrical waveform
 
- contains the config.json, output, plotting scripts and some helper files of one experiment. For more info about the contents of this folder, refer to the [README.md in exp0/](exp0/README.md).
-  - 0 - monopolar stimulation 
-  - 1 - current steering in 8 directions (only experiment to use full size V1 model)
-  - 2 - full density network with flipped electrodes
-  - 2- - opposite polarity of exp2
-  - 3 - full density network in 3 directions
-  - 3- - opposite polarity of exp3
-  - 4 - redo of a single configuration with rectangular pulses
-- export/ -  contains the output of statistics.py
-- figures/ - contains figures and plots
-- gif - contains animations
-- networks_#/ - contains five instances (each generated with different random seed) of SONATA network files describing the V1 model. 
-  - 25 - quarter neuron density, complete 845 um radius (only used in exp1)
-  - 100 - full neuron density, half radius (used in all other experiments)
-- vv - contains figures (and code to generate them) for validation and verification of FEM
-- build_network.py - use to rebuild networks, is called in build.sh
-- build.sh - bash file that will run build_network.py multuple times with the specified parameters.
-- run_bionet.py - use to run simulations, is called in run.sh files
+### 4. Toolbox
+- contains all extra helperfunctions; here follows an overview
+- analyse functions and data_analyser: code that constructs the different plots:
+- build_network_no_v1_edges: the build file used to build the networks for exp3: no virtual connections between the different neurons
+- calcium_experiments: this code is a copy of the code applied in the calcium experiments and served as inspiration for the analysis code
+- file_helper: contains helper functions to construct config files and retrieve parameters automatically
+- hdf5 and hdf5_edge: contains functions to extract information from .h5 files
+- hyperstim-db: code from the hyperstim project that served as inspiration for the analysis code.
+- mask: code that loads the mask and applies it when building the network. This mask can be found in components/stimulation/comsol and is a simulation in comsol were all electrodes have a potential of 1; this way the exact position of the electrodes can be defined. With the mask.py code is it made sure no neurons coincide with the location of the electrodes.
+- spikes_helper: helper functions that retrieves spikerates from the sonata files
+- waveform.py: code to construct new waveforms
+
+### 5. Virtual mice mask
+- contains 3 instances (each generated with different random seed) of SONATA network files describing the V1 model. 
+- these 'mice'/'networks' were used in experiment 2 and 4
+
+### 6. Virtual mice mask no v1 edges
+- contains 3 instances (each generated with different random seed) of SONATA network files describing the V1 model, without virtual connections. 
+- these 'mice'/'networks' were used in experiment 3
+
+### 7. Build_network.py
+- use to rebuild networks
+- in contrast to the original build file in bmtk, this file adjusts the node positions of neurons making sure they cannot coincide with the location of the probes
+
+### 8. Run_bionet.py files
+- run_bionet.py - use to run simulations
+- run_bionet_axon.py - use to run simulations with active axon stubs. Properties of the axons as well as number of stubs can be adjusted in this file
+
+## Insert active axon properties
+To insert extra axon stubs and give them extra properties modify the run_bionet_axon.py file. The two most important functions applied are:
+
+- The function fix_axon_peri_multiple_stubs allows to specify the number of stubs and their diameter
+
+- The function set_params_peri_axon allows for inserting the equations of the new modfile (that needs to be added to components/mechanisms/modfiles and compiled) and changing the conductances, axial resistance values and membrane capacitance.
 
 ## Running a simulation
 
@@ -69,9 +101,6 @@ For most clusters the simulation can be started using the following command insi
 ``` 
 mpirun -np N nrniv -mpi -python run_bionet.py config.json 
 ```
-You can find examples of this in the run_exp.sh and run.sh bash files.
-The simulation parameters are defined in the config.json files, you should generally not change run_bionet.py. 
-
 
 ## Simulation output
 
@@ -147,7 +176,7 @@ with the lif models.
 
 ### Assign somatic coordinates
 
-Cells for each population are uniformly distributed within a cylindrical domain (400 µm radius core and 845 µm radius annulus) and within the specified "depth_range".
+Cells for each population are uniformly distributed within a cylindrical domain (400 µm radius core and 845 µm radius annulus) and within the specified "depth_range". Via the mask function, we avoid neurons to be placed at the location of the electrodes.
 
 
 ### Assign rotation_angle_yaxis
@@ -167,17 +196,3 @@ preferentially choose a model, which has a y_spec closest to the y_soma of a par
 according to the mapping bio2lif_mapping.csv
 
 
-
-### Test and visualize the node construction
-
-* Build a network with one cell per model, construct and save segment coordinates of each morphology to build_model/cells_peri/biophysical/morph_segs
-* analyze/plots the depth distributions of the models and their morphologies with build_model/V1/plot_model_distr.ipynb
-
-
- ### Information
-
- networks_rebuilt contains network only including 0.10 fraction of neurons.
- The y-component represents the axial direction of the column, representing L1->6 with increasing y.
-
-ssh -J [r-number]@ssh.esat.kuleuven.be [r-number]@[server]].esat.kuleuven.be
-ssh -J r0754386@ssh.esat.kuleuven.be r0754386@vierre64.esat.kuleuven.be
