@@ -1,9 +1,0 @@
-the node ids of spiking neurons: [  4  28 123]
-the locations of spiking neurons: [[-15.55611909 118.41430756  11.36221655]
- [ -1.92570489  94.58221181   8.27183513]
- [  6.61664864 105.81955689  19.78455947]]
-the rotation angles of spiking neurons: [[1.41696169 5.40553951 1.27403848]
- [3.31362309 0.77324947 4.81032818]
- [6.16855779 4.71218572 6.24097837]]
-the spiking nodes that are connected are: [[123  28]
- [  4  28]] with the first column the id of the source node and the second column the id of the target node
