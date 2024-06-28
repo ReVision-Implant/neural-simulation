@@ -30,7 +30,14 @@ A cluster with 100 Xeon cores will typically take a few hours to run through the
 - New modfiles can be added (and compiled) under mechanisms/modfiles
 
 ### 3. Exp folders
-- exp#/ - each folder contains the config.json, output, plotting scripts and some helper files of one experiment. For more info about the contents of this folder, refer to the [README.md in exp0/](exp0/README.md).
+- Each folder has two subfolders: the config folder and the output folder. Some experiments contain  extra subfolders with plots of results.
+- The config folder contains the config files; the output folder contains the sonata output files.
+- The numbers of the experiments refer to:
+  - exp_2: passive axon stubs as in original
+- within the subfolders the experiments are structured as follows:
+  - bkg: simulation without extracellular stimulation
+
+ contains the config.json, output, plotting scripts and some helper files of one experiment. For more info about the contents of this folder, refer to the [README.md in exp0/](exp0/README.md).
   - 0 - monopolar stimulation 
   - 1 - current steering in 8 directions (only experiment to use full size V1 model)
   - 2 - full density network with flipped electrodes

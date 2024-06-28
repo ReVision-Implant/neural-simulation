@@ -37,7 +37,7 @@ def add_nodes_v1(node_props_path='build_files/biophys_props/v1_node_models.json'
                 radial_range = inner_radial_range if model_type == 'biophysical' else outer_radial_range
                 depth_range = pop_dict['depth_range']
                 positions_no_mask = generate_random_positions(N, depth_range, radial_range)
-                positions=apply_mask(positions_no_mask)
+                positions=apply_mask(positions_no_mask) #adjust locations neurons so they cannot coincide with probes
                 tuning_angle = np.linspace(0.0, 360.0, N, endpoint=False)
 
                 net.add_nodes(
