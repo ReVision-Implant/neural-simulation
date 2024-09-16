@@ -100,7 +100,7 @@ def kernel_density_estimate(node_pos, n_spikes, pattern,threshold):
         n_spikes= n_spikes_filtered
 
         kde = KernelDensity(bandwidth=50, kernel='gaussian') # Choose model and parameters
-        ###vanaf hier verder werken
+       ###
         kde.fit(coordinates, sample_weight=n_spikes) # Train model
 
         grid_size = 100 # 100 points in x and in y direction
