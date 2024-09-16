@@ -24,7 +24,7 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
     :rtype: ndarray
     """    
 
-    path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
+    path ='C:/Users/ankev/OneDrive/Documenten/Github/ReVision/neural-simulation/v1_Anke'
     
     nodes_dirs= [str(path)+'/virtual_mice_mask/mouse_'+str(mouse)+'/v1_nodes.h5']
     spikes_dirs= [str(path)+'/exp_'+str(exp)+'/output/pattern_'+str(pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/spikes.csv']
@@ -322,8 +322,8 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     pattern_title="Parallel to cortical columns. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
     fig.suptitle(pattern_title)
     plt.tight_layout(h_pad=4)
-    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_2/plots_column/exp_2_full_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
-    #plt.show()
+    #plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_2/plots_column/exp_2_full_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
+    plt.show()
     return max_y_axis, max_z_axis
 
 def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
@@ -380,8 +380,8 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
 
     pattern_title="Parallel to cortical columns. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
     plt.title(pattern_title)
-    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_column/1d_kde_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
-    #plt.close()
+    #plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_column/1d_kde_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
+    plt.close()
     plt.show()
     return max_y_axis, max_z_axis  
 
@@ -389,7 +389,7 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
 exp=4
 pattern_A=0
 mouse_A=0
-amplitude_A=10
+amplitude_A=20
 node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
 pattern_B=4
@@ -410,11 +410,11 @@ positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B,
 #        max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_1, spikes_filtered_1, pattern_1, mouse_1,amplitude_1)
 #        #max_y_1,max_z_1 = full_kde(positions_filtered_1, spikes_filtered_1, pattern_1,mouse_1,amplitude_1)
 
-spearman, pvalue = Spearmancorr(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
+#spearman, pvalue = Spearmancorr(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #statistic, pvalue = Pearsoncorrel(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 #grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
-#max_y_A,max_z_A = full_kde(positions_filtered_A, spikes_filtered_A, pattern_A,mouse_A,amplitude_A)
+max_y_A,max_z_A = full_kde(positions_filtered_A, spikes_filtered_A, pattern_A,mouse_A,amplitude_A)
 
 #Underneath: test_code
 
