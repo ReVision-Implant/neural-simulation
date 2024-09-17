@@ -1,0 +1,4 @@
+electrode   comsol          waveform            amplitude
+0           electrode_0.txt    waveform_0.csv  1
+9           electrode_9.txt    waveform_0.csv  -1
+
