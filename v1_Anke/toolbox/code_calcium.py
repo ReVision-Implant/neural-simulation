@@ -286,7 +286,7 @@ class ProcessFluorescence():
         fig.suptitle("Fluorescence (dF/F) of different cells")
         # plt.show()
 
-    def correlation(self, pattern1=0, pattern2=1, plot=True):
+    def correlation(self, pattern1=0, pattern2=1, plot=True): # cfr spearman correlation function dat ik had
         '''
         Use the Wilcoxon signed-rank test to get a p-value as index of separability between the two neuronal populations.
         '''
@@ -337,7 +337,7 @@ class ProcessFluorescence():
 
         return corr_coeff.statistic
 
-    def overlap(self, pattern1=0, pattern2=1, plot=True):
+    def overlap(self, pattern1=0, pattern2=1, plot=True): ## doen
         '''
         Use the Wilcoxon signed-rank test to get a p-value as index of separability between the two neuronal populations.
         '''
@@ -435,7 +435,7 @@ class ProcessFluorescence():
         return centroid_along_layer1, centroid_along_layer2, centroid_along_layer3
 
 
-    def correlation_per_angle(self, patterns=[0,1,2]):
+    def correlation_per_angle(self, patterns=[0,1,2]): ##doen
         angles = []
         correlations = []
         overlaps = []
@@ -1400,7 +1400,7 @@ plt.title('Activity centroids for different directions', fontsize=20)
 plt.tight_layout()
 
 
-# todo PCA toepassen op de vectoren in de 13-dimensionale ruimte van de 13 verschillende clusters om zo een significant verschillend aantal clusters te ontdekken
+# todo PCA toepassen op de vectoren in de 13-dimensionale ruimte van de 13 verschillende clusters om zo een significant verschillend aantal clusters te ontdekken -> kijk naar nieuwe gepushte versie van Maarten
 
 # down here example of how gaussian fit can be used for directionality
 
