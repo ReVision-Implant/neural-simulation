@@ -15,5 +15,5 @@ Pattern 7: current from 0 to 2 and 6 \
 Pattern 8: current from 0 to 6 and 7 \
 Pattern 9: current from 0 to 3
 
-## inital state
+## output/inital state
 copied from exp_4
