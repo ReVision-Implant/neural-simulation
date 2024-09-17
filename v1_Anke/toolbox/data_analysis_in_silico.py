@@ -9,7 +9,6 @@ import matplotlib.pyplot as plt
 from sklearn.neighbors import KernelDensity
 import math
 
-#same as the other data_analyser file but now preprocessing with standard deviations instead of threshold
 
 def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
     """Get spikes and node positions from network and output files.
@@ -93,3 +92,111 @@ def filter_spikes(node_pos, n_spikes):
     print("after filtering n_ spikes shape:", n_spikes_filtered.shape) 
 
     return node_pos_filtered, n_spikes_filtered, threshold
+
+def correlation(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, threshold_B):
+        '''
+        Use the Spearman correlation test to get a p-value as index of separability between the two neuronal populations.
+        '''
+        n_spikes_A_filtered=[]
+        n_spikes_B_filtered=[]
+        for value1, value2 in zip(n_spikes_A, n_spikes_B):
+            if value1 >= threshold_A or value2 >=threshold_B:
+            #print(value1,value2)
+                n_spikes_A_filtered.append(value1)
+                n_spikes_B_filtered.append(value2)
+
+        n_spikes_A= n_spikes_A_filtered
+        n_spikes_B= n_spikes_B_filtered
+
+        statistic, pvalue = spearmanr(n_spikes_A, n_spikes_B, alternative ="greater")
+        
+        # Calculate the confidence interval
+        n = len(n_spikes_A)
+        stderr = 1.0 / math.sqrt(n - 3)
+        z_score = 1.96  # For a 95% confidence interval
+        delta = z_score * stderr
+        lower_bound = math.tanh(math.atanh(statistic) - delta)
+        upper_bound = math.tanh(math.atanh(statistic) + delta)
+    
+        print('The Spearman correlation coefficient for stim patterns ' + str(pattern_A) + ' and ' + str(pattern_B) +
+          ' is ' + str(round(statistic, 2)) + ', the p-value is ' + str(round(pvalue, 4)) +
+          ', and the 95% confidence interval is [' + str(round(lower_bound, 2)) + ', ' + str(round(upper_bound, 2)) + ']')
+
+        return(statistic, pvalue)
+
+def overlap(n_spikes_A, n_spikes_B, threshold_A, threshold_B): 
+        
+        n_spikes_A_filtered=[]
+        n_spikes_B_filtered=[]
+        activity_A =[]
+        activity_B =[]
+        for value1, value2 in zip(n_spikes_A, n_spikes_B):
+            if value1 >= threshold_A or value2 >=threshold_B:
+            #print(value1,value2)
+                n_spikes_A_filtered.append(value1)
+                n_spikes_B_filtered.append(value2)
+
+                if value1 >= threshold_A:
+                     activity_A.append(1)
+                else:
+                     activity_A.append(0)
+                if value1 >= threshold_B:
+                     activity_B.append(1)
+                else:
+                     activity_B.append(0)     
+
+        n_spikes_A= n_spikes_A_filtered
+        n_spikes_B= n_spikes_B_filtered
+
+        #print(threshold_A)
+        #print(n_spikes_A)
+        #print(activity_A)
+
+        overlap = [1 if (activity_A[i] == 1 and activity_B[i] == 1) else 0 for i in range(len(activity_A))]
+
+        active_neurons_total = len(activity_A)
+        active_neurons_A = activity_A.count(1)
+        active_neurons_B = activity_B.count(1)
+        active_neurons_overlap = overlap.count(1)
+
+        if active_neurons_total > 0:
+            return np.round(active_neurons_overlap/active_neurons_total,2), active_neurons_total
+        else:
+            return 0, 0
+
+def get_electrode_angles(central, elec1, elec2):
+        P12 = np.sqrt((central[0]-elec1[0])**2 + (central[1]-elec1[1])**2)
+        P13 = np.sqrt((central[0]-elec2[0])**2 + (central[1]-elec2[1])**2)
+        P23 = np.sqrt((elec1[0]-elec2[0])**2 + (elec1[1]-elec2[1])**2)
+        return np.rad2deg(np.arccos((P12**2 + P13**2 - P23**2)/(2*P12*P13)))
+
+def correlation_per_angle(self, patterns=[0,1,2]): #hier blijven steken
+        angles = []
+        correlations = []
+        overlaps = []
+        for i in range(len(patterns)):
+            for j in range(i+1,len(patterns)):
+                angles.append(self.get_electrode_angles(self.central_electrode, self.return_electrodes[patterns[i]], self.return_electrodes[patterns[j]]))
+                correlations.append(self.correlation(pattern1=patterns[i], pattern2=patterns[j], plot=False))
+                overlaps.append(self.overlap(pattern1=patterns[i], pattern2=patterns[j]))
+
+        angles, correlations, overlaps = zip(*sorted(zip(angles, correlations, overlaps))) # Sort the correlations in ascending order
+        return angles, correlations, overlaps
+
+
+##test the code
+exp=4
+pattern_A=0
+mouse_A=0
+amplitude_A=20
+node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
+
+pattern_B=4
+mouse_B=0
+amplitude_B=10
+node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
+
+positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
+positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
+
+overlap(n_spikes_A, n_spikes_B, threshold_A, threshold_B)
