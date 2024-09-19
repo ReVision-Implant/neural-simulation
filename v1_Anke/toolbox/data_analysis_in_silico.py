@@ -183,6 +183,9 @@ def correlation_per_angle(self, patterns=[0,1,2]): #hier blijven steken
         angles, correlations, overlaps = zip(*sorted(zip(angles, correlations, overlaps))) # Sort the correlations in ascending order
         return angles, correlations, overlaps
 
+##als correlation per angle klaar dan goed genoeg voorlopig, of toch figuur proberen?
+# daarna symmetry plot
+# centroid and depth plots
 
 ##test the code
 exp=4
