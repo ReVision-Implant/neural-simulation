@@ -72,12 +72,12 @@ def filter_spikes(node_pos, n_spikes):
     n_spikes= n_spikes[non_zero_indices]
 
     avg_spikes = np.mean(n_spikes)
-    print("average", avg_spikes)
+    #print("average", avg_spikes)
     std_spikes = np.std(n_spikes)
-    print("standard dev", std_spikes)    
+    #print("standard dev", std_spikes)    
 
     threshold = avg_spikes + 3*std_spikes
-    print("threshold", threshold)
+    #print("threshold", threshold)
     n_spikes_filtered=[]
     filtered_indices=[]
     for index, value in enumerate(n_spikes):
@@ -85,11 +85,11 @@ def filter_spikes(node_pos, n_spikes):
             n_spikes_filtered.append(value)
             filtered_indices.append(index)
 
-    print("before filtering node pos shape:", node_pos.shape)            
+    #print("before filtering node pos shape:", node_pos.shape)            
     node_pos_filtered = node_pos[filtered_indices]
-    print("after filtering node pos shape:", node_pos_filtered.shape)   
+    #print("after filtering node pos shape:", node_pos_filtered.shape)   
     n_spikes_filtered= np.array(n_spikes_filtered)
-    print("after filtering n_ spikes shape:", n_spikes_filtered.shape) 
+    #print("after filtering n_ spikes shape:", n_spikes_filtered.shape) 
 
     return node_pos_filtered, n_spikes_filtered, threshold
 
@@ -165,41 +165,124 @@ def overlap(n_spikes_A, n_spikes_B, threshold_A, threshold_B):
             return 0, 0
 
 def get_electrode_angles(central, elec1, elec2):
-        P12 = np.sqrt((central[0]-elec1[0])**2 + (central[1]-elec1[1])**2)
-        P13 = np.sqrt((central[0]-elec2[0])**2 + (central[1]-elec2[1])**2)
-        P23 = np.sqrt((elec1[0]-elec2[0])**2 + (elec1[1]-elec2[1])**2)
+        P12 = np.sqrt((central[2]-elec1[2])**2 + (central[1]-elec1[1])**2)
+        P13 = np.sqrt((central[2]-elec2[2])**2 + (central[1]-elec2[1])**2)
+        P23 = np.sqrt((elec1[2]-elec2[2])**2 + (elec1[1]-elec2[1])**2)
         return np.rad2deg(np.arccos((P12**2 + P13**2 - P23**2)/(2*P12*P13)))
 
-def correlation_per_angle(self, patterns=[0,1,2]): #hier blijven steken
+def correlation_per_angle(exp=[4,5], patterns=[0,1], mouse=[0,0], amplitude=[10,10]): #hier aan gewerkt
         angles = []
         correlations = []
         overlaps = []
+    
         for i in range(len(patterns)):
+            node_pos_i, n_spikes_i= get_spikes(exp[i],patterns[i],mouse[i],amplitude[i])
+            pos_filtered_i, spikes_filtered_i, threshold_i = filter_spikes(node_pos_i,n_spikes_i)
+            
             for j in range(i+1,len(patterns)):
-                angles.append(self.get_electrode_angles(self.central_electrode, self.return_electrodes[patterns[i]], self.return_electrodes[patterns[j]]))
-                correlations.append(self.correlation(pattern1=patterns[i], pattern2=patterns[j], plot=False))
-                overlaps.append(self.overlap(pattern1=patterns[i], pattern2=patterns[j]))
+                node_pos_j, n_spikes_j= get_spikes(exp[j],patterns[j],mouse[j],amplitude[j])
+                pos_filtered_j, spikes_filtered_j, threshold_j = filter_spikes(node_pos_j,n_spikes_j)
 
+                #correlations
+                statistic, pvalue = correlation(n_spikes_i, n_spikes_j,patterns[i],patterns[j],threshold_i, threshold_j)
+                correlations.append(statistic)
+
+                #overlaps
+                overlaps.append(overlap(n_spikes_i, n_spikes_j, threshold_i, threshold_j))
+
+                #angles
+                el_coordinates = {
+                    0: [-9, 300, 16],
+                    1: [-9, 300, 198],
+                    2: [-9, 170, 16],
+                    3: [-9, 170, 380],
+                    4: [-9, 170, 380],
+                    5: [-9, 300, 380],
+                    6: [-9, 170, -166],
+                    7: [-9, 170, -348],
+                    8: [-9, 300, -348]
+                }
+
+                if exp[i]==4:
+                    exp_i = {
+                        0: [0,1],
+                        5: [0,2],
+                        #7: [0,2,3]
+                        }
+                else:
+                    exp_i = {
+                        0: [0,5],
+                        1: [0,4],
+                        #2: [0,3,4],
+                        #3: [0,3,4],
+                        4: [0,7],
+                        5: [0,8],
+                        6: [0,9],
+                        7: [0,2,6],
+                        #8: [0,6,7],
+                        9: [0,3]
+                        } 
+
+                if exp[j]==4:
+                    exp_j = {
+                        0: [0,1],
+                        5: [0,2],
+                        #7: [0,2,3]
+                        }
+                else:
+                    exp_j = {
+                        0: [0,5],
+                        1: [0,4],
+                        #2: [0,3,4],
+                        #3: [0,3,4],
+                        4: [0,7],
+                        5: [0,8],
+                        6: [0,9],
+                        7: [0,2,6],
+                        #8: [0,6,7],
+                        9: [0,3]
+                        } 
+                       
+            
+                electrodes_i = exp_i[patterns[i]]
+                electrodes_j = exp_i[patterns[j]]
+                return_el_i = electrodes_i[1]
+                #print("return electrode i = ", return_el_i)
+                return_el_j = electrodes_j[1]
+                #print("return electrode j = ", return_el_j)
+
+                location_central_el = [-9, 300, 16]
+                location_return_i = el_coordinates[return_el_i]
+                #print("location electrode i = ", location_return_i)
+                location_return_j = el_coordinates[return_el_j]
+                #print("location electrode j = ", location_return_j)
+
+
+                angles.append(get_electrode_angles(location_central_el, location_return_i,location_return_j))
+       
         angles, correlations, overlaps = zip(*sorted(zip(angles, correlations, overlaps))) # Sort the correlations in ascending order
         return angles, correlations, overlaps
 
-##als correlation per angle klaar dan goed genoeg voorlopig, of toch figuur proberen?
+##angles klaar, figuur proberen
 # daarna symmetry plot
 # centroid and depth plots
 
 ##test the code
-exp=4
+exp_A=4
 pattern_A=0
 mouse_A=0
-amplitude_A=20
-node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
+amplitude_A=10
+#node_pos_A, n_spikes_A = get_spikes(exp=exp_A,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
-pattern_B=4
+exp_B = 4
+pattern_B=5
 mouse_B=0
 amplitude_B=10
-node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
+#node_pos_B, n_spikes_B = get_spikes(exp=exp_B,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
 
-positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
-positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
+#positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
+#positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
 
-overlap(n_spikes_A, n_spikes_B, threshold_A, threshold_B)
+#overlap(n_spikes_A, n_spikes_B, threshold_A, threshold_B)
+
+correlation_per_angle(exp=[4,4], patterns=[0,5], mouse=[0,0], amplitude=[10,10])
