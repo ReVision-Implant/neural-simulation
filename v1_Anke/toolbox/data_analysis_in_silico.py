@@ -172,7 +172,7 @@ def get_electrode_angles(central, elec1, elec2):
 
 def electrode_coordin(exp,pattern):
     el_coordinates = {
-                    0: [-9, 300, 16],
+                    0: [-9, 300, 16], # z, y, x coordin
                     1: [-9, 300, 198],
                     2: [-9, 170, 16],
                     3: [-9, 170, 380],
@@ -205,8 +205,10 @@ def electrode_coordin(exp,pattern):
     
     electrodes= exp_[pattern]
     return_el= electrodes[1]
-    location_central_el = [-9, 300, 16]
-    location_return= el_coordinates[return_el]
+    location_central_el = np.array([-9, 300, 16])
+    #np.transpose(location_central_el)
+    location_return= np.array(el_coordinates[return_el])
+    #np.transpose(location_return)
     return location_central_el, location_return
 
 def correlation_per_angle(exp=[4,5], patterns=[0,1], mouse=[0,0], amplitude=[10,10]): #hier aan gewerkt
@@ -302,24 +304,73 @@ def correlation_per_angle(exp=[4,5], patterns=[0,1], mouse=[0,0], amplitude=[10,
         angles, correlations, overlaps = zip(*sorted(zip(angles, correlations, overlaps))) # Sort the correlations in ascending order
         return angles, correlations, overlaps
 
-def project_neurons(exp, pattern, mouse, amplitude):
+def project_neurons(exp, pattern, mouse, amplitude, plot=False):
     node_pos, spikes = get_spikes(exp, pattern, mouse, amplitude)
+    #print("shape node pos", node_pos.shape)
     pos_filtered, spikes_filtered, threshold = filter_spikes(node_pos, spikes)
-    point1, point2 = electrode_coordin(exp, pattern, mouse, amplitude)
+    #print("shape of pos_filtered is ", pos_filtered.shape)
+    #print("spikes filtered", spikes_filtered)
+    point1, point2 = electrode_coordin(exp, pattern)
+    #print("shape point 1", point1.shape)
+    #print("point 1", point1)
 
-    point1_2d = [point1[2], point1[1]]
-    point2_2d = [point2[2], point2[1]]
+    point1_2d = np.array([point1[2],point1[1]])
+    point2_2d = np.array([point2[2],point2[1]])
+    #print("point1_2d", point1_2d)
+    #print("point2 2d", point2_2d)
+    #print("shape point 1 2d is", point1_2d.shape)
 
     direction_vector =  np.array([point2_2d[0] - point1_2d[0], point2_2d[1] - point1_2d[1]])
 
-    pos_filtered_2d = [pos_filtered[:,2], pos_filtered[:,1]] 
+    #print("shape of direction vector is ", direction_vector.shape)
+    #print("direction vector", direction_vector)
+
+    pos_filtered_2d = np.column_stack((pos_filtered[:, 2], pos_filtered[:, 1]))
+    #print("shape of pos_filtered_2d is ", pos_filtered_2d.shape)
+    #print( "pos filtered 2d are", pos_filtered_2d)
+
+
     projected_points = np.array([np.dot(np.array(i) - np.array(point1_2d), direction_vector) / np.dot(direction_vector, direction_vector) for i in pos_filtered_2d])
 
-    projected_points, n_spikes = zip (*sorted(zip(projected_points, spikes))) # Sort the projected_points in ascending order
+    projected_points, n_spikes_sorted = zip (*sorted(zip(projected_points, spikes_filtered))) # Sort the projected_points in ascending order
+    projected_points = np.array(projected_points)
+    n_spikes_sorted = np.array(n_spikes_sorted)
+    #print("projected points shape is ", projected_points.shape)
 
-    return projected_points, n_spikes
+    if plot==True:
+            fig, ax = plt.subplots(2, 1)
+            ax = ax.flatten()
 
-def fit_neurons_kde(points, spikes):
+            # Plot for original points, line, and projected points
+            ax[0].plot([point1_2d[0], point2_2d[0]], [point1_2d[1], point2_2d[1]], color='blue', label='Line')
+            #print( max(n_spikes_sorted))
+            for cell in range(pos_filtered_2d.shape[0]):
+                projected_coordinate = [point1_2d[0] + projected_points[cell] * direction_vector[0], point1_2d[1] + projected_points[cell] * direction_vector[1]]
+                ax[0].scatter(pos_filtered_2d[cell][0], pos_filtered_2d[cell][1], s=50, c="blue", alpha=n_spikes_sorted[cell]/max(n_spikes_sorted))
+                ax[0].scatter(projected_coordinate[0], projected_coordinate[1], s=20, c="red", alpha=n_spikes_sorted[cell]/max(n_spikes_sorted))
+                #print(pos_filtered_2d[cell][0], pos_filtered_2d[cell][1], n_spikes_sorted[cell]/max(n_spikes_sorted))
+            ax[0].set_xlabel('X Coordinate')
+            ax[0].set_ylabel('Y Coordinate')
+            #ax[0].set_xlim([0, 397])
+            #ax[0].set_ylim([0, 380])
+            ax[0].invert_yaxis()  # Invert y-axis for better comparison with ImageJ
+            ax[0].set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
+            ax[0].set_title('Projection of points onto projection axis')
+            ax[0].legend()
+
+            # Plot for points along the projection axis
+            ax[1].scatter(projected_points, n_spikes_sorted, color='blue')
+            ax[1].set_xticks([])
+            ax[1].set_ylabel('number of spikes')
+            ax[1].set_title('Points along projection axis')
+            ax[1].set_aspect('auto')
+
+            fig.tight_layout()
+            plt.show()
+
+    return projected_points, n_spikes_sorted
+
+def fit_neurons_kde(points, spikes, plot=False):
     kde = KernelDensity(bandwidth=200, kernel='gaussian')
     kde.fit(points.reshape(-1,1), sample_weight=spikes) 
 
@@ -329,6 +380,17 @@ def fit_neurons_kde(points, spikes):
     density = np.exp(kde.score_samples(grid))
     centroid = grid[np.argmax(density)][0]
 
+    if plot==True:
+            plt.figure()
+            # Plot for points along the projection axis
+            plt.scatter(points, spikes, color='blue')
+            plt.plot(grid, density, color='red', linestyle='-')
+            plt.scatter(centroid, 0, color='red', linewidth=10)
+            plt.xlabel('Density along projected axis')
+            plt.xticks([0,1],["Point 1", "Point 2"])
+            plt.title('1D KDE of projected points')
+            plt.show()
+
     return centroid 
 
 def spatial_analysis(exp, pattern, mouse, amplitude):
@@ -336,7 +398,9 @@ def spatial_analysis(exp, pattern, mouse, amplitude):
     pos_filtered, spikes_filtered, threshold = filter_spikes(node_pos, spikes)
 
     # Centroid along cortical column:
-    projected_coordinates, n_spikes = project_neurons(exp, pattern, mouse, amplitude)
+    projected_coordinates, n_spikes_sorted = project_neurons(exp, pattern, mouse, amplitude)
+
+
     # hier zqs ik gebleven !!
     #centroid_along_column = self.fit_neurons_kde(projected_coordinates, fluorescence, plot=False)
 
@@ -360,4 +424,7 @@ amplitude_B=10
 
 #overlap(n_spikes_A, n_spikes_B, threshold_A, threshold_B)
 
-correlation_per_angle(exp=[4,4], patterns=[0,5], mouse=[0,0], amplitude=[10,10])
+#correlation_per_angle(exp=[4,4], patterns=[0,5], mouse=[0,0], amplitude=[10,10])
+
+projected_neurons,spikes_sorted = project_neurons(exp=4, pattern=0, mouse=0, amplitude=10, plot = False)
+centroid = fit_neurons_kde(projected_neurons, spikes_sorted, plot=False)
