@@ -406,7 +406,7 @@ def spatial_analysis(exp, pattern, mouse, amplitude):
 
 
 
-##test the code
+################################################## TEST CODE ##########################################################
 exp_A=4
 pattern_A=0
 mouse_A=0
@@ -426,5 +426,5 @@ amplitude_B=10
 
 #correlation_per_angle(exp=[4,4], patterns=[0,5], mouse=[0,0], amplitude=[10,10])
 
-projected_neurons,spikes_sorted = project_neurons(exp=4, pattern=0, mouse=0, amplitude=10, plot = False)
-centroid = fit_neurons_kde(projected_neurons, spikes_sorted, plot=False)
+#projected_neurons,spikes_sorted = project_neurons(exp=4, pattern=0, mouse=0, amplitude=10, plot = False)
+#centroid = fit_neurons_kde(projected_neurons, spikes_sorted, plot=False)
