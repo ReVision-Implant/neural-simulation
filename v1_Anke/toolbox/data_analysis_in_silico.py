@@ -463,9 +463,9 @@ def spatial_analysis(exp, pattern, mouse, amplitude):
     centroid_along_column = fit_neurons_kde(projected_coordinates, n_spikes_sorted, plot=False)
 
     # Centroid along cortical layer
-    #[centroid_along_layer, stdev_along_layer, gaussian_amp, gaussian_offset] = self.fit_neurons_gaussian(projected_coordinates, fluorescence, plot=plot)
-    # hier was ik gebleven, fit gaussian nodig en daarvoor cuve fit and gauss dinges nodig !!
-
+    [centroid_along_layer, stdev_along_layer, gaussian_amp, gaussian_offset] = fit_neurons_gaussian(projected_coordinates, n_spikes_sorted, plot=plot)
+    
+    return centroid_along_column, centroid_along_layer, stdev_along_layer
 
 
 ################################################## TEST CODE ##########################################################
@@ -492,3 +492,8 @@ projected_neurons,spikes_sorted = project_neurons(exp=4, pattern=0, mouse=0, amp
 #centroid = fit_neurons_kde(projected_neurons, spikes_sorted, plot=False)
 #centroid, stdev = fit_neurons_stdev(projected_neurons, spikes_sorted, plot = True)
 #popt_test = fit_neurons_gaussian(projected_neurons, spikes_sorted, plot = True)
+
+
+############################################################
+######### DATA ANALYSIS DIRECTIONALITY SPATIAL #############
+############################################################
