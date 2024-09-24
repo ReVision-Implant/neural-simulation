@@ -8,6 +8,7 @@ from scipy.stats import spearmanr
 import matplotlib.pyplot as plt
 from sklearn.neighbors import KernelDensity
 import math
+from scipy.optimize import curve_fit
 
 
 def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
@@ -370,20 +371,20 @@ def project_neurons(exp, pattern, mouse, amplitude, plot=False):
 
     return projected_points, n_spikes_sorted
 
-def fit_neurons_kde(points, spikes, plot=False):
+def fit_neurons_kde(projected_points, sorted_spikes, plot=False):
     kde = KernelDensity(bandwidth=200, kernel='gaussian')
-    kde.fit(points.reshape(-1,1), sample_weight=spikes) 
+    kde.fit(projected_points.reshape(-1,1), sample_weight=sorted_spikes) 
 
     # Define grid along the projected axis
     grid_size = 100
-    grid = np.linspace(min(points), max(points), grid_size).reshape(-1, 1)
+    grid = np.linspace(min(projected_points), max(projected_points), grid_size).reshape(-1, 1)
     density = np.exp(kde.score_samples(grid))
     centroid = grid[np.argmax(density)][0]
 
     if plot==True:
             plt.figure()
             # Plot for points along the projection axis
-            plt.scatter(points, spikes, color='blue')
+            plt.scatter(projected_points, sorted_spikes, color='blue')
             plt.plot(grid, density, color='red', linestyle='-')
             plt.scatter(centroid, 0, color='red', linewidth=10)
             plt.xlabel('Density along projected axis')
@@ -391,7 +392,67 @@ def fit_neurons_kde(points, spikes, plot=False):
             plt.title('1D KDE of projected points')
             plt.show()
 
-    return centroid 
+    return centroid
+
+def fit_neurons_stdev(projected_points, sorted_spikes, plot=False):
+    centroid = np.average(projected_points, weights=sorted_spikes)
+    stdev = np.std(projected_points)
+
+    if plot==True:
+            plt.figure()
+            # Plot for points along the projection axis
+            plt.scatter(projected_points, sorted_spikes, color='blue')
+            plt.scatter(centroid, 0, color='red')
+            plt.plot([centroid-stdev, centroid+stdev], [0, 0], color='red')
+            plt.xlabel('Density along projected axis')
+            plt.xticks([0,1],["Point 1", "Point 2"])
+            plt.title('Centroid and standard deviation of projected points')
+            plt.show()
+    
+    return centroid,stdev
+
+def gauss(x, x0, sigma, amp, offset):
+    return offset + amp * np.exp(-(x-x0)**2/(2*sigma**2))
+
+def fit_neurons_gaussian(projected_points, sorted_spikes, plot = False):
+
+    # Take the mean and standard deviation as initial guess for the peak and standard deviation of the Gaussian
+    x0_estimated, mu0_estimated = fit_neurons_stdev(projected_points, sorted_spikes, plot=False)
+
+    nb_bins = 20 # or set to a fixed size
+    # Create 10 equidistant bins
+    bins = np.linspace(projected_points[0], projected_points[-1], nb_bins+1)  # 11 edges for 10 bins
+    cumulative_values = np.zeros(nb_bins)
+
+    bin_index = 0
+    # Accumulate the spike rates in the bins
+    for i in range(len(projected_points)):
+        # Check if the projected point exceeds the current bin edge
+        while bin_index < nb_bins-1 and projected_points[i] > bins[bin_index + 1]:
+            bin_index += 1
+        # Add the spike rate value to the corresponding bin
+        cumulative_values[bin_index] += sorted_spikes[i]
+
+    # Prepare the new list with mid-points of the bins and their corresponding cumulative values
+    points = (bins[:-1] + bins[1:]) / 2
+    amplitude = cumulative_values
+
+    p0 = [x0_estimated, mu0_estimated, max(amplitude), min(amplitude)] # Initial guess for p = [mu, sigma, amplitude, offset]
+    p_bounds = ((x0_estimated*0.8 if x0_estimated >= 0 else x0_estimated*1.2, 0, min(amplitude), min(amplitude)*0.5), (x0_estimated*1.2 if x0_estimated >= 0 else x0_estimated*0.8, np.inf, max(amplitude)*2, max(amplitude))) # Boundaries for the different parameters
+    popt, pcov = curve_fit(gauss, points, amplitude, p0 =p0, bounds=p_bounds, maxfev=5000, method='trf', loss='linear') # Fit the points and their values to the given function todo possibly choose different loss function for regularization against outliers (eg cauchy)
+    fitted_curve = gauss(points, popt[0], popt[1], popt[2], popt[3]) # Compute the fitted curve for the projected_points
+
+    if plot==True:
+        plt.figure()
+        # Plot for points along the projection axis
+        plt.scatter(points, amplitude, color='blue')
+        plt.plot(points, fitted_curve, color='red', linestyle='-')
+        plt.xlabel('Density along projected axis')
+        plt.xticks([0,1],["Point 1", "Point 2"])
+        plt.title('1D Gaussian fit of projected points')
+        plt.show()
+
+    return popt
 
 def spatial_analysis(exp, pattern, mouse, amplitude):
     node_pos, spikes = get_spikes(exp, pattern, mouse, amplitude)
@@ -399,10 +460,11 @@ def spatial_analysis(exp, pattern, mouse, amplitude):
 
     # Centroid along cortical column:
     projected_coordinates, n_spikes_sorted = project_neurons(exp, pattern, mouse, amplitude)
+    centroid_along_column = fit_neurons_kde(projected_coordinates, n_spikes_sorted, plot=False)
 
-
-    # hier zqs ik gebleven !!
-    #centroid_along_column = self.fit_neurons_kde(projected_coordinates, fluorescence, plot=False)
+    # Centroid along cortical layer
+    #[centroid_along_layer, stdev_along_layer, gaussian_amp, gaussian_offset] = self.fit_neurons_gaussian(projected_coordinates, fluorescence, plot=plot)
+    # hier was ik gebleven, fit gaussian nodig en daarvoor cuve fit and gauss dinges nodig !!
 
 
 
@@ -426,5 +488,7 @@ amplitude_B=10
 
 #correlation_per_angle(exp=[4,4], patterns=[0,5], mouse=[0,0], amplitude=[10,10])
 
-#projected_neurons,spikes_sorted = project_neurons(exp=4, pattern=0, mouse=0, amplitude=10, plot = False)
+projected_neurons,spikes_sorted = project_neurons(exp=4, pattern=0, mouse=0, amplitude=10, plot = False)
 #centroid = fit_neurons_kde(projected_neurons, spikes_sorted, plot=False)
+#centroid, stdev = fit_neurons_stdev(projected_neurons, spikes_sorted, plot = True)
+#popt_test = fit_neurons_gaussian(projected_neurons, spikes_sorted, plot = True)
