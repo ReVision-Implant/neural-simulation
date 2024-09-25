@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from sklearn.neighbors import KernelDensity
 import math
 from scipy.optimize import curve_fit
+from scipy.spatial import ConvexHull
 
 
 def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
@@ -256,7 +257,7 @@ def correlation_per_angle(exp=[4,5], patterns=[0,1], mouse=[0,0], amplitude=[10,
                         0: [0,5],
                         1: [0,4],
                         #2: [0,3,4],
-                        #3: [0,3,4],
+                        3: [0,6],
                         4: [0,7],
                         5: [0,8],
                         6: [0,9],
@@ -276,7 +277,7 @@ def correlation_per_angle(exp=[4,5], patterns=[0,1], mouse=[0,0], amplitude=[10,
                         0: [0,5],
                         1: [0,4],
                         #2: [0,3,4],
-                        #3: [0,3,4],
+                        3: [0,6],
                         4: [0,7],
                         5: [0,8],
                         6: [0,9],
@@ -455,8 +456,8 @@ def fit_neurons_gaussian(projected_points, sorted_spikes, plot = False):
     return popt
 
 def spatial_analysis(exp, pattern, mouse, amplitude):
-    node_pos, spikes = get_spikes(exp, pattern, mouse, amplitude)
-    pos_filtered, spikes_filtered, threshold = filter_spikes(node_pos, spikes)
+    #node_pos, spikes = get_spikes(exp, pattern, mouse, amplitude)
+    #pos_filtered, spikes_filtered, threshold = filter_spikes(node_pos, spikes)
 
     # Centroid along cortical column:
     projected_coordinates, n_spikes_sorted = project_neurons(exp, pattern, mouse, amplitude)
@@ -497,3 +498,73 @@ amplitude_B=10
 ############################################################
 ######### DATA ANALYSIS DIRECTIONALITY SPATIAL #############
 ############################################################
+
+def electrode_dir(exp,pattern):
+    if exp==4:
+        electrode_dir= {
+        0: (-1,0),
+        5: (0,1),
+            }
+    else:
+        electrode_dir= {
+            0: (-2,0),
+            1: (-2,1),
+            3: (1,1),
+            4: (2,1),
+            5: (1,0),
+            6: (1,1),
+            9: (-1,1)
+                    } 
+    
+    electrodes_direction= electrode_dir[pattern]
+    return electrodes_direction
+
+def directionality_spatial(exp=[4,5], patterns=[0,0], mice=[0,0], amplitude=10):
+    centroids = [[]] * len(exp)
+    for i in range (0,len(exp)):
+          centroid_column, centroid_layer, stdev = spatial_analysis(exp[i], patterns[i], mice[i], amplitude)
+          print("centroid column", centroid_column)
+          print("centroid layer", centroid_layer)
+          centroids[i].append([centroid_column,centroid_layer, stdev])
+
+    colors = ['red', 'blue', 'orange', 'purple', 'yellow', 'purple', 'grey', 'green']
+
+    plt.figure
+    for i in range(0, len(exp)):
+        centroid_collection = []
+        for centroid in range(len(centroids[i])):
+            plt.plot(centroids[i][centroid][1], centroids[i][centroid][0], centroids[i][centroid][0], 'o', markersize=5, color=colors[i], alpha=0.5, label='Intra-slice centroids')
+            # Plot a polygon for illustration purposes
+            centroid_collection.append([centroids[i][centroid][1], centroids[i][centroid][0]])
+
+        plt.plot(np.mean([centroids[i][centroid][1] for centroid in range(len(centroids[i]))]), np.mean([centroids[i][centroid][0] for centroid in range(len(centroids[i]))]), 'o', markersize=10, color=colors[i], label='Inter-slice centroid', zorder=3)
+        
+        return_elec = electrode_dir(exp[i], patterns[i])
+        plt.arrow(0, 0, return_elec[0], return_elec[1], length_includes_head=True, width=0.01, head_width=0.05, color=colors[i])
+    
+    # Plot a polygon for illustration purposes
+    hull = ConvexHull(np.array(centroid_collection))
+    for simplex in hull.simplices:
+        plt.plot([centroid_collection[simplex[0]][0], centroid_collection[simplex[1]][0]], [centroid_collection[simplex[0]][1], centroid_collection[simplex[1]][1]], color=colors[i], alpha=0.6)
+    plt.fill([centroid_collection[vertix][0] for vertix in hull.vertices], [centroid_collection[vertix][1] for vertix in hull.vertices], color=colors[i], alpha=0.2)
+
+    plt.xlabel('Distance parallel to surface [µm]', fontsize=20)
+    plt.ylabel('Distance perpendicular \nto surface [µm]', fontsize=20)
+    plt.xticks(ticks=[-1, -0.66, -0.33, 0, 0.33, 0.66, 1], labels=['-150', '-100', '-50', '0', '50', '100', '150'], fontsize=15)
+    plt.yticks(ticks=[-0.33, 0, 0.33, 0.66, 1, 1.33, 1.66, 2, 2.33], labels=['-50', '0', '50', '100', '150', '200', '250', '300', '350'], fontsize=15)
+
+    handles, labels = plt.gca().get_legend_handles_labels()
+    by_label = dict(zip(labels, handles)) # To remove duplicate labels because of the for loop
+    plt.legend(by_label.values(), by_label.keys(), fontsize=12)
+    plt.gca().get_legend().legendHandles[0].set_color('black')
+    plt.gca().get_legend().legendHandles[1].set_color('black')
+
+    plt.text(-0.95, 0.15, 'Layer 2/3', fontsize=15)
+    plt.hlines(0.05, -0.95, -0.25, colors='black', linestyles='dashed')
+    plt.text(-0.95, -0.15, 'Layer 4', fontsize=15)
+
+    plt.title('Activity centroids for different directions', fontsize=20)
+    plt.tight_layout()
+    plt.show()
+
+directionality_spatial(exp=[4,5], patterns=[0,0], mice=[0,0], amplitude=10)
