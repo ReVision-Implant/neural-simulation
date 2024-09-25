@@ -488,7 +488,7 @@ amplitude_B=10
 
 #correlation_per_angle(exp=[4,4], patterns=[0,5], mouse=[0,0], amplitude=[10,10])
 
-projected_neurons,spikes_sorted = project_neurons(exp=4, pattern=0, mouse=0, amplitude=10, plot = False)
+#projected_neurons,spikes_sorted = project_neurons(exp=4, pattern=0, mouse=0, amplitude=10, plot = False)
 #centroid = fit_neurons_kde(projected_neurons, spikes_sorted, plot=False)
 #centroid, stdev = fit_neurons_stdev(projected_neurons, spikes_sorted, plot = True)
 #popt_test = fit_neurons_gaussian(projected_neurons, spikes_sorted, plot = True)
