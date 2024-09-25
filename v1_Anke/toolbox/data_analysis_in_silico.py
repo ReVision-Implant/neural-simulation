@@ -84,7 +84,7 @@ def filter_spikes(node_pos, n_spikes):
     n_spikes_filtered=[]
     filtered_indices=[]
     for index, value in enumerate(n_spikes):
-        if value >= threshold or value >=threshold:
+        if value >= threshold:
             n_spikes_filtered.append(value)
             filtered_indices.append(index)
 
@@ -547,7 +547,7 @@ def directionality_spatial(exp=[4,5], patterns=[0,0], mice=[0,1,2], amplitude=10
 #directionality_spatial(exp=[4,4,5,5,5,5,5], patterns=[0,5,0,1,2,3,4], mice=[0,1,2], amplitude=10)
 
 ############################################################
-######### DATA ANALYSIS ASYMMETRY AND POLARITY #############
+######### DATA ANALYSIS ASYMMETRY #############
 ############################################################
 
 def asymmetry_correlation(mice=[0,1,2]):
@@ -584,6 +584,8 @@ def asymmetry_correlation(mice=[0,1,2]):
 
     plt.show()
 
+
+    # overlap figure does not make too much sense in in-silico exp??
     fig, ax = plt.subplots()  
 
     for i in overlap_asymm_10:
@@ -609,6 +611,7 @@ def asymmetry_correlation(mice=[0,1,2]):
 ######### DATA ANALYSIS DIRECTIONALITY CELLULAR ############
 ############################################################
 
+# attentio: angle 180 degrees = angle of 0 degrees ! only plot the 'positive' angles
 def directionality_cellular_corr(exp=[4,5], patterns=[0,0], mouse=0):
     mouse_x= [mouse]*len(exp)
     markersize = 7
@@ -636,7 +639,7 @@ def directionality_cellular_corr(exp=[4,5], patterns=[0,0], mouse=0):
     plt.tight_layout()
     plt.show()
 
-#directionality_cellular_corr(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=0)
+#directionality_cellular_corr(exp=[4,5,5,5,5], patterns=[0,1,2,3,4], mouse=0)
 #directionality_cellular_corr(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=1)
 #directionality_cellular_corr(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=2)
 
@@ -672,3 +675,35 @@ def directionality_cellular_overlap(exp=[4,5], patterns=[0,0], mouse=0):
 #directionality_cellular_overlap(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=1)
 #directionality_cellular_overlap(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=2)
 
+############################################################
+########################## PCA #############################
+############################################################
+
+def PCA_analysis(exp=[4,5], patterns= [0,0], m=0, amp=10):
+     node_pos_0, n_spikes_0 = get_spikes(exp=exp[0],pattern=patterns[0],mouse=m,amplitude=amp)
+     print("node pos shape", np.array(node_pos_0).shape)
+     active_cells=np.zeros(len(node_pos_0))
+     print("active cells shape", np.array(active_cells).shape)
+     for i in range(len(exp)):
+         node_pos_i, n_spikes_i = get_spikes(exp=exp[i],pattern=patterns[i],mouse=m,amplitude=amp)
+         positions_filt_i, spikes_filt_i, threshold_i = filter_spikes(node_pos_i, n_spikes_i)
+         for cell in range(len(node_pos_i)):
+              #print(n_spikes_i[cell], threshold_i)
+              if n_spikes_i[cell] >= threshold_i:
+                   active_cells[cell]+=1
+
+
+    # hier gebleven! klopt nog niet ! moeten indices ook bijhouden 
+     activity_matrix=[]
+     print(len(active_cells))
+     row= np.zeros(np.count_nonzero(active_cells))
+     print(len(row))
+     for i in range(len(exp)):
+         node_pos_i, n_spikes_i = get_spikes(exp=exp[i],pattern=patterns[i],mouse=m,amplitude=amp) 
+         for cell in range(len(n_spikes_i)):
+            if active_cells[cell] !=0:
+                 row[cell]=n_spikes_i[cell]
+         activity_matrix.append([row])
+
+
+PCA_analysis(exp=[4,5], patterns=[0,0], m=0, amp=10)
