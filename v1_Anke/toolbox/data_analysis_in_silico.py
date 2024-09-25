@@ -11,6 +11,7 @@ import math
 from scipy.optimize import curve_fit
 from scipy.spatial import ConvexHull
 import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
 
 
 def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
@@ -692,18 +693,31 @@ def PCA_analysis(exp=[4,5], patterns= [0,0], m=0, amp=10):
               if n_spikes_i[cell] >= threshold_i:
                    active_cells[cell]+=1
 
-
-    # hier gebleven! klopt nog niet ! moeten indices ook bijhouden 
-     activity_matrix=[]
-     print(len(active_cells))
-     row= np.zeros(np.count_nonzero(active_cells))
-     print(len(row))
+     # nog een for loop wss voor de activity matrices - to do
+     variances = []
      for i in range(len(exp)):
          node_pos_i, n_spikes_i = get_spikes(exp=exp[i],pattern=patterns[i],mouse=m,amplitude=amp) 
+         activity_matrix=[]
+         row=[]
          for cell in range(len(n_spikes_i)):
             if active_cells[cell] !=0:
-                 row[cell]=n_spikes_i[cell]
-         activity_matrix.append([row])
+                 row.append(n_spikes_i[cell])
+         activity_matrix.append(row)
+         print(len(row))
+         activity_matrix = np.array(activity_matrix)
 
+         print(activity_matrix.shape)
+         activity_matrix = np.array(activity_matrix).T
+         print(activity_matrix.shape)
 
-PCA_analysis(exp=[4,5], patterns=[0,0], m=0, amp=10)
+         pca=PCA(n_components=len(exp))
+         pca.fit(activity_matrix)
+         A_pca = pca.transform(activity_matrix)
+
+         explained_variance = pca.explained_variance_ratio_
+
+         print(explained_variance)
+         print(np.cumsum(explained_variance))
+         variances.append(np.cumsum(explained_variance))
+
+PCA_analysis(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], m=0, amp=10)
