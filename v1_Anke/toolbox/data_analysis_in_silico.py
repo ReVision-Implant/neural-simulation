@@ -125,7 +125,7 @@ def correlation(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, threshol
           ' is ' + str(round(statistic, 2)) + ', the p-value is ' + str(round(pvalue, 4)) +
           ', and the 95% confidence interval is [' + str(round(lower_bound, 2)) + ', ' + str(round(upper_bound, 2)) + ']')
 
-        return(statistic, pvalue)
+        return(statistic)
 
 def overlap(n_spikes_A, n_spikes_B, threshold_A, threshold_B): 
         
@@ -178,12 +178,18 @@ def electrode_coordin(exp,pattern):
                     0: [-9, 300, 16], # z, y, x coordin
                     1: [-9, 300, 198],
                     2: [-9, 170, 16],
-                    3: [-9, 170, 380],
+                    3: [-9, 170, 198],
                     4: [-9, 170, 380],
                     5: [-9, 300, 380],
                     6: [-9, 170, -166],
                     7: [-9, 170, -348],
-                    8: [-9, 300, -348]
+                    8: [-9, 300, -166],
+                    9: [-9, 300, -348],
+                    10: [-9, 170, 289 ], #in between el 3 and 4
+                    11: [-9, 300, 107], #in between el 2 and 3
+                    12: [-9, 170, -75], #in between el 2 and 6
+                    13: [-9, 170, -257] #in betzeen el 6 and 7
+
                 }
 
     if exp==4:
@@ -191,18 +197,22 @@ def electrode_coordin(exp,pattern):
         0: [0,1],
         5: [0,2],
         #7: [0,2,3]
+        7: [0,11]
             }
     else:
         exp_= {
             0: [0,5],
             1: [0,4],
             #2: [0,3,4],
+            2: [0,10],
             3: [0,6],
             4: [0,7],
             5: [0,8],
             6: [0,9],
             #7: [0,2,6],
+            7: [0,12],
             #8: [0,6,7],
+            8: [0,13],
             9: [0,3]
                     } 
     
@@ -214,94 +224,29 @@ def electrode_coordin(exp,pattern):
     #np.transpose(location_return)
     return location_central_el, location_return
 
-def correlation_per_angle(exp=[4,5], patterns=[0,1], mouse=[0,0], amplitude=[10,10]): #hier aan gewerkt
+def correlation_per_angle(exp=[4,5], patterns=[0,1], mouse=[0,0], amplitude=10):
         angles = []
         correlations = []
         overlaps = []
     
         for i in range(len(patterns)):
-            node_pos_i, n_spikes_i= get_spikes(exp[i],patterns[i],mouse[i],amplitude[i])
+            node_pos_i, n_spikes_i= get_spikes(exp[i],patterns[i],mouse[i],amplitude)
             pos_filtered_i, spikes_filtered_i, threshold_i = filter_spikes(node_pos_i,n_spikes_i)
             
             for j in range(i+1,len(patterns)):
-                node_pos_j, n_spikes_j= get_spikes(exp[j],patterns[j],mouse[j],amplitude[j])
+                node_pos_j, n_spikes_j= get_spikes(exp[j],patterns[j],mouse[j],amplitude)
                 pos_filtered_j, spikes_filtered_j, threshold_j = filter_spikes(node_pos_j,n_spikes_j)
 
                 #correlations
-                statistic, pvalue = correlation(n_spikes_i, n_spikes_j,patterns[i],patterns[j],threshold_i, threshold_j)
+                statistic = correlation(n_spikes_i, n_spikes_j,patterns[i],patterns[j],threshold_i, threshold_j)
                 correlations.append(statistic)
 
                 #overlaps
                 overlaps.append(overlap(n_spikes_i, n_spikes_j, threshold_i, threshold_j))
 
                 #angles
-                el_coordinates = {
-                    0: [-9, 300, 16],
-                    1: [-9, 300, 198],
-                    2: [-9, 170, 16],
-                    3: [-9, 170, 380],
-                    4: [-9, 170, 380],
-                    5: [-9, 300, 380],
-                    6: [-9, 170, -166],
-                    7: [-9, 170, -348],
-                    8: [-9, 300, -348]
-                }
-
-                if exp[i]==4:
-                    exp_i = {
-                        0: [0,1],
-                        5: [0,2],
-                        #7: [0,2,3]
-                        }
-                else:
-                    exp_i = {
-                        0: [0,5],
-                        1: [0,4],
-                        #2: [0,3,4],
-                        3: [0,6],
-                        4: [0,7],
-                        5: [0,8],
-                        6: [0,9],
-                        7: [0,2,6],
-                        #8: [0,6,7],
-                        9: [0,3]
-                        } 
-
-                if exp[j]==4:
-                    exp_j = {
-                        0: [0,1],
-                        5: [0,2],
-                        #7: [0,2,3]
-                        }
-                else:
-                    exp_j = {
-                        0: [0,5],
-                        1: [0,4],
-                        #2: [0,3,4],
-                        3: [0,6],
-                        4: [0,7],
-                        5: [0,8],
-                        6: [0,9],
-                        7: [0,2,6],
-                        #8: [0,6,7],
-                        9: [0,3]
-                        } 
-                       
-            
-                electrodes_i = exp_i[patterns[i]]
-                electrodes_j = exp_i[patterns[j]]
-                return_el_i = electrodes_i[1]
-                #print("return electrode i = ", return_el_i)
-                return_el_j = electrodes_j[1]
-                #print("return electrode j = ", return_el_j)
-
-                location_central_el = [-9, 300, 16]
-                location_return_i = el_coordinates[return_el_i]
-                #print("location electrode i = ", location_return_i)
-                location_return_j = el_coordinates[return_el_j]
-                #print("location electrode j = ", location_return_j)
-
-
+                location_central_el, location_return_i = electrode_coordin(exp[i], patterns[i])
+                location_central_el, location_return_j = electrode_coordin(exp[j], patterns[j])
                 angles.append(get_electrode_angles(location_central_el, location_return_i,location_return_j))
        
         angles, correlations, overlaps = zip(*sorted(zip(angles, correlations, overlaps))) # Sort the correlations in ascending order
@@ -604,3 +549,126 @@ def directionality_spatial(exp=[4,5], patterns=[0,0], mice=[0,1,2], amplitude=10
 ############################################################
 ######### DATA ANALYSIS ASYMMETRY AND POLARITY #############
 ############################################################
+
+def asymmetry_correlation(mice=[0,1,2]):
+    correlatation_asymm_10 = []
+    overlap_asymm_10 = []
+    
+    for i in mice:
+        node_pos_A, n_spikes_A = get_spikes(exp=4, pattern=0, mouse=i, amplitude=10)
+        positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
+        
+        node_pos_B, n_spikes_B = get_spikes(exp=4, pattern=4, mouse=i, amplitude=10)
+        positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
+
+        correlation_i = correlation(n_spikes_A, n_spikes_B, pattern_A=0, pattern_B=4, threshold_A=threshold_A, threshold_B=threshold_B)
+        overlap_i = overlap(n_spikes_A, n_spikes_B, threshold_A, threshold_B)
+
+        correlatation_asymm_10.append(correlation_i)
+        overlap_asymm_10.append(overlap_i[0])
+        #print(overlap_asymm_10)
+
+    fig, ax = plt.subplots()  
+
+    for correl in correlatation_asymm_10:
+        plt.plot(1, correl, 'o', markersize=5, color='orange')
+    
+    plt.plot(1, np.mean(correlatation_asymm_10), 'o', markersize=10, color='orange')
+    ax.errorbar(1, np.mean(correlatation_asymm_10), yerr=np.std(correlatation_asymm_10), capsize=20, capthick=2, color='orange')
+    
+    plt.ylim([0, 1])
+    plt.yticks(fontsize=15)
+    plt.ylabel('Spearman correlation coeff.', fontsize=20)
+    plt.title('Correlation for symmetry versus asymmetry', fontsize=20)
+    fig.tight_layout()
+
+    plt.show()
+
+    fig, ax = plt.subplots()  
+
+    for i in overlap_asymm_10:
+        plt.plot(1, i, 'o', markersize=5, color='orange')
+        #print(i)
+    
+    plt.plot(1, np.mean(overlap_asymm_10), 'o', markersize=10, color='orange')
+    ax.errorbar(1, np.mean(overlap_asymm_10), yerr=np.std(overlap_asymm_10), capsize=20, capthick=2, color='orange')
+    #print(np.mean(overlap_asymm_10))
+    #print(np.std(overlap_asymm_10))
+
+    plt.ylim([0, 1])
+    plt.yticks(fontsize=15)
+    plt.ylabel('Binary overlap', fontsize=20)
+    plt.title('Overlap for symmetry versus asymmetry', fontsize=20)
+    fig.tight_layout()
+
+    plt.show()
+
+#asymmetry_correlation(mice=[0,1,2])
+
+############################################################
+######### DATA ANALYSIS DIRECTIONALITY CELLULAR ############
+############################################################
+
+def directionality_cellular_corr(exp=[4,5], patterns=[0,0], mouse=0):
+    mouse_x= [mouse]*len(exp)
+    markersize = 7
+    colors = ['blue', 'orange']
+    plt.figure()
+    angles_20, correlations_20, overlaps_20 = correlation_per_angle(exp=exp, patterns=patterns, mouse=mouse_x, amplitude=20)
+    for combination in range(len(angles_20)):
+         plt.plot(angles_20[combination], correlations_20[combination],'o', markersize=markersize, color=colors[0], label= '20 µA')
+
+    angles_10, correlations_10, overlaps_10 = correlation_per_angle(exp=exp, patterns=patterns, mouse= mouse_x, amplitude=10)
+    for combination in range(len(angles_10)):
+       plt.plot(angles_10[combination], correlations_10[combination],'o', markersize=markersize, color=colors[1], label= '10 µA')  
+    
+    handles, labels = plt.gca().get_legend_handles_labels()
+    by_label = dict(zip(labels, handles)) # To remove duplicate labels because of the for loop
+    plt.legend(by_label.values(), by_label.keys(), fontsize=12)
+
+    plt.xlabel('Angle between 2 directions [°]', fontsize=20)
+    plt.ylabel('Spearman correlation coeff. \nof 2 directions', fontsize=20)
+    plt.xticks(fontsize=15)
+    plt.yticks(fontsize=15)
+    bottom, top = plt.ylim()
+    plt.ylim(bottom, 1)
+    plt.title('Correlation for different directions, mouse '+ str(mouse), fontsize=20)
+    plt.tight_layout()
+    plt.show()
+
+#directionality_cellular_corr(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=0)
+#directionality_cellular_corr(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=1)
+#directionality_cellular_corr(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=2)
+
+# overlap niet zo zinnig bij in-silico experimenten??
+def directionality_cellular_overlap(exp=[4,5], patterns=[0,0], mouse=0):
+    mouse_x= [mouse]*len(exp)
+    markersize = 7
+    colors = ['blue', 'orange']
+    plt.figure()
+    angles_20, correlations_20, overlaps_20 = correlation_per_angle(exp=exp, patterns=patterns, mouse=mouse_x, amplitude=20)
+    for combination in range(len(angles_20)):
+         plt.plot(angles_20[combination], overlaps_20[combination][0],'o', markersize=markersize, color=colors[0], label= '20 µA')
+
+    angles_10, correlations_10, overlaps_10 = correlation_per_angle(exp=exp, patterns=patterns, mouse= mouse_x, amplitude=10)
+    for combination in range(len(angles_10)):
+       plt.plot(angles_10[combination], overlaps_10[combination][0],'o', markersize=markersize, color=colors[1], label= '10 µA')  
+    
+    handles, labels = plt.gca().get_legend_handles_labels()
+    by_label = dict(zip(labels, handles)) # To remove duplicate labels because of the for loop
+    plt.legend(by_label.values(), by_label.keys(), fontsize=12)
+
+    plt.xlabel('Angle between 2 directions [°]', fontsize=20)
+    plt.ylabel('Binary overlap of 2 directions', fontsize=20)
+    plt.xticks(fontsize=15)
+    plt.yticks(fontsize=15)
+    bottom, top = plt.ylim()
+    plt.ylim(bottom, 1)
+    plt.title('Neural overlap for different directions, mouse '+ str(mouse), fontsize=20)
+    plt.tight_layout()
+    plt.show()
+
+#directionality_cellular_overlap(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=0)
+#directionality_cellular_overlap(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=1)
+#directionality_cellular_overlap(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=2)
+
