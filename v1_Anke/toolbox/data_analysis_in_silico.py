@@ -10,6 +10,7 @@ from sklearn.neighbors import KernelDensity
 import math
 from scipy.optimize import curve_fit
 from scipy.spatial import ConvexHull
+import matplotlib.pyplot as plt
 
 
 def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
@@ -51,7 +52,7 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
 
         n_spikes_temp = np.zeros(np.shape(node_pos_temp)[0])
 
-        spikes = pd.read_csv(spikes_dir, sep='\s+')
+        spikes = pd.read_csv(spikes_dir, sep=r'\s+')
         for ind in spikes.index:
             if spikes['timestamps'][ind] < 100:
                 n_spikes_temp[spikes['node_ids'][ind]] += 1
@@ -196,11 +197,11 @@ def electrode_coordin(exp,pattern):
             0: [0,5],
             1: [0,4],
             #2: [0,3,4],
-            #3: [0,3,4],
+            3: [0,6],
             4: [0,7],
             5: [0,8],
             6: [0,9],
-            7: [0,2,6],
+            #7: [0,2,6],
             #8: [0,6,7],
             9: [0,3]
                     } 
@@ -306,15 +307,18 @@ def correlation_per_angle(exp=[4,5], patterns=[0,1], mouse=[0,0], amplitude=[10,
         angles, correlations, overlaps = zip(*sorted(zip(angles, correlations, overlaps))) # Sort the correlations in ascending order
         return angles, correlations, overlaps
 
-def project_neurons(exp, pattern, mouse, amplitude, plot=False):
+def project_neurons(exp, pattern, mouse, amplitude, point1= [-9, 300, 16], point2=[-9, 170, 16], plot=False):
     node_pos, spikes = get_spikes(exp, pattern, mouse, amplitude)
     #print("shape node pos", node_pos.shape)
     pos_filtered, spikes_filtered, threshold = filter_spikes(node_pos, spikes)
     #print("shape of pos_filtered is ", pos_filtered.shape)
     #print("spikes filtered", spikes_filtered)
-    point1, point2 = electrode_coordin(exp, pattern)
+
+    #when projecting on the stimulation direction
+    #point1, point2 = electrode_coordin(exp, pattern)
+
     #print("shape point 1", point1.shape)
-    #print("point 1", point1)
+    #print("point 2", point2)
 
     point1_2d = np.array([point1[2],point1[1]])
     point2_2d = np.array([point2[2],point2[1]])
@@ -331,12 +335,17 @@ def project_neurons(exp, pattern, mouse, amplitude, plot=False):
     #print("shape of pos_filtered_2d is ", pos_filtered_2d.shape)
     #print( "pos filtered 2d are", pos_filtered_2d)
 
-
+    #normalisation
     projected_points = np.array([np.dot(np.array(i) - np.array(point1_2d), direction_vector) / np.dot(direction_vector, direction_vector) for i in pos_filtered_2d])
+    #print("projected_points", projected_points)
+    #no normalisation
+    #projected_points= np.array([np.dot(np.array(i) - np.array(point1_2d), direction_vector) for i in pos_filtered_2d])
+
 
     projected_points, n_spikes_sorted = zip (*sorted(zip(projected_points, spikes_filtered))) # Sort the projected_points in ascending order
     projected_points = np.array(projected_points)
     n_spikes_sorted = np.array(n_spikes_sorted)
+    #print("projected_points", projected_points)
     #print("projected points shape is ", projected_points.shape)
 
     if plot==True:
@@ -453,6 +462,8 @@ def fit_neurons_gaussian(projected_points, sorted_spikes, plot = False):
         plt.title('1D Gaussian fit of projected points')
         plt.show()
 
+    print(popt) 
+
     return popt
 
 def spatial_analysis(exp, pattern, mouse, amplitude):
@@ -460,12 +471,17 @@ def spatial_analysis(exp, pattern, mouse, amplitude):
     #pos_filtered, spikes_filtered, threshold = filter_spikes(node_pos, spikes)
 
     # Centroid along cortical column:
-    projected_coordinates, n_spikes_sorted = project_neurons(exp, pattern, mouse, amplitude)
+    point1 = [-9, 300, 16]
+    point2 = [-9, 170, 16]
+    projected_coordinates, n_spikes_sorted = project_neurons(exp, pattern, mouse, amplitude, point1, point2)
     centroid_along_column = fit_neurons_kde(projected_coordinates, n_spikes_sorted, plot=False)
 
     # Centroid along cortical layer
-    [centroid_along_layer, stdev_along_layer, gaussian_amp, gaussian_offset] = fit_neurons_gaussian(projected_coordinates, n_spikes_sorted, plot=plot)
+    point3= [-9, 300, 198]
+    projected_coordinates, n_spikes_sorted = project_neurons(exp, pattern, mouse, amplitude, point1, point3)
+    [centroid_along_layer, stdev_along_layer, gaussian_amp, gaussian_offset] = fit_neurons_gaussian(projected_coordinates, n_spikes_sorted, plot=False)
     
+    #print("centroid_along_column", centroid_along_column, "centroid_along_layer", centroid_along_layer)
     return centroid_along_column, centroid_along_layer, stdev_along_layer
 
 
@@ -489,10 +505,12 @@ amplitude_B=10
 
 #correlation_per_angle(exp=[4,4], patterns=[0,5], mouse=[0,0], amplitude=[10,10])
 
-#projected_neurons,spikes_sorted = project_neurons(exp=4, pattern=0, mouse=0, amplitude=10, plot = False)
+#projected_neurons,spikes_sorted = project_neurons(exp=4, pattern=0, mouse=0, amplitude=20, plot = False)
 #centroid = fit_neurons_kde(projected_neurons, spikes_sorted, plot=False)
 #centroid, stdev = fit_neurons_stdev(projected_neurons, spikes_sorted, plot = True)
-#popt_test = fit_neurons_gaussian(projected_neurons, spikes_sorted, plot = True)
+#popt_test = fit_neurons_gaussian(projected_neurons, spikes_sorted, plot = False)
+
+#centroid_c, centroid_l, stdev = spatial_analysis(exp=4,pattern=0,mouse=0, amplitude=10)
 
 
 ############################################################
@@ -509,62 +527,80 @@ def electrode_dir(exp,pattern):
         electrode_dir= {
             0: (-2,0),
             1: (-2,1),
+            2: (-1.5,1),
             3: (1,1),
             4: (2,1),
             5: (1,0),
             6: (1,1),
+            7: (0.5,1),
+            8: (1.5,1),
             9: (-1,1)
                     } 
     
     electrodes_direction= electrode_dir[pattern]
     return electrodes_direction
 
-def directionality_spatial(exp=[4,5], patterns=[0,0], mice=[0,0], amplitude=10):
-    centroids = [[]] * len(exp)
-    for i in range (0,len(exp)):
-          centroid_column, centroid_layer, stdev = spatial_analysis(exp[i], patterns[i], mice[i], amplitude)
-          print("centroid column", centroid_column)
-          print("centroid layer", centroid_layer)
-          centroids[i].append([centroid_column,centroid_layer, stdev])
-
-    colors = ['red', 'blue', 'orange', 'purple', 'yellow', 'purple', 'grey', 'green']
+def directionality_spatial(exp=[4,5], patterns=[0,0], mice=[0,1,2], amplitude=10):
+    print("len exp",len(exp))
+    colors = ['red', 'blue', 'orange', 'purple', 'yellow', 'grey', 'green', 'pink', 'brown', 'cyan', 'magenta', 'teal', 'lime']
+    centroids = [[] for _ in range(len(exp) * len(mice))]
+    for pattern in range (0,len(exp)):
+          for i in range(0,len(mice)):
+            print(exp[pattern])
+            print("exp", exp[pattern], "pattern", patterns[pattern], "mouse", mice[i])
+            centroid_column, centroid_layer, stdev = spatial_analysis(exp[pattern], patterns[pattern], mice[i], amplitude)
+            print("centroid column", centroid_column)
+            print("centroid layer", centroid_layer)
+            centroids[pattern * len(mice) + i].append([centroid_column, centroid_layer, stdev])
+    print(centroids)  
 
     plt.figure
-    for i in range(0, len(exp)):
-        centroid_collection = []
-        for centroid in range(len(centroids[i])):
-            plt.plot(centroids[i][centroid][1], centroids[i][centroid][0], centroids[i][centroid][0], 'o', markersize=5, color=colors[i], alpha=0.5, label='Intra-slice centroids')
-            # Plot a polygon for illustration purposes
-            centroid_collection.append([centroids[i][centroid][1], centroids[i][centroid][0]])
+    for pattern in range(0,len(exp)):
+        for i in range(0, len(mice)):
+            #centroid_collection = []
+            for centroid in range(len(centroids[i])):
+                plt.plot(centroids[pattern*len(mice)+i][centroid][1], centroids[pattern*len(mice)+i][centroid][0], 'o', markersize=5, color=colors[pattern], alpha=0.5, label='Intra-slice centroids')
+            
+                print(str(centroids[pattern*len(mice)+i][centroid][1]), colors[pattern])
+                # Plot a polygon for illustration purposes
+                #centroid_collection.append([centroids[i][centroid][1], centroids[i][centroid][0]])
 
-        plt.plot(np.mean([centroids[i][centroid][1] for centroid in range(len(centroids[i]))]), np.mean([centroids[i][centroid][0] for centroid in range(len(centroids[i]))]), 'o', markersize=10, color=colors[i], label='Inter-slice centroid', zorder=3)
+        plt.plot(np.mean([centroids[pattern*len(mice) +j][centroid][1] for j in range(len(mice))]), 
+                 np.mean([centroids[pattern*len(mice) +j][centroid][0] for j in range(len(mice))]), 'o', markersize=10, color=colors[pattern], label='Inter-slice centroid', zorder=3)
         
-        return_elec = electrode_dir(exp[i], patterns[i])
-        plt.arrow(0, 0, return_elec[0], return_elec[1], length_includes_head=True, width=0.01, head_width=0.05, color=colors[i])
+        return_elec = electrode_dir(exp[pattern], patterns[pattern])
+        plt.arrow(0, 0, return_elec[0]*-1, return_elec[1], length_includes_head=True, width=0.01, head_width=0.03, color=colors[pattern])
     
-    # Plot a polygon for illustration purposes
-    hull = ConvexHull(np.array(centroid_collection))
-    for simplex in hull.simplices:
-        plt.plot([centroid_collection[simplex[0]][0], centroid_collection[simplex[1]][0]], [centroid_collection[simplex[0]][1], centroid_collection[simplex[1]][1]], color=colors[i], alpha=0.6)
-    plt.fill([centroid_collection[vertix][0] for vertix in hull.vertices], [centroid_collection[vertix][1] for vertix in hull.vertices], color=colors[i], alpha=0.2)
+        # Plot a polygon for illustration purposes
+        #hull = ConvexHull(np.array(centroid_collection))
+        #for simplex in hull.simplices:
+        #    plt.plot([centroid_collection[simplex[0]][0], centroid_collection[simplex[1]][0]], [centroid_collection[simplex[0]][1], centroid_collection[simplex[1]][1]], color=colors[i], alpha=0.6)
+        #plt.fill([centroid_collection[vertix][0] for vertix in hull.vertices], [centroid_collection[vertix][1] for vertix in hull.vertices], color=colors[i], alpha=0.2)
 
     plt.xlabel('Distance parallel to surface [µm]', fontsize=20)
     plt.ylabel('Distance perpendicular \nto surface [µm]', fontsize=20)
-    plt.xticks(ticks=[-1, -0.66, -0.33, 0, 0.33, 0.66, 1], labels=['-150', '-100', '-50', '0', '50', '100', '150'], fontsize=15)
-    plt.yticks(ticks=[-0.33, 0, 0.33, 0.66, 1, 1.33, 1.66, 2, 2.33], labels=['-50', '0', '50', '100', '150', '200', '250', '300', '350'], fontsize=15)
+    plt.gca().invert_xaxis()
+    #plt.gca().invert_yaxis()
+
+    plt.xticks(ticks=[-1, -0.5, 0, 0.5, 1], labels=['182', '91', '0', '-91', '-182'], fontsize=15)
+    plt.yticks(ticks=[1, 0.66, 0.33, 0, -0.33, -0.66, -1, -1.33, -1.66], labels=['150','200','250','300', '350', '400', '450', '500', '550'], fontsize=15)
 
     handles, labels = plt.gca().get_legend_handles_labels()
     by_label = dict(zip(labels, handles)) # To remove duplicate labels because of the for loop
     plt.legend(by_label.values(), by_label.keys(), fontsize=12)
-    plt.gca().get_legend().legendHandles[0].set_color('black')
-    plt.gca().get_legend().legendHandles[1].set_color('black')
+    plt.gca().get_legend().legend_handles[0].set_color('black')
+    plt.gca().get_legend().legend_handles[1].set_color('black')
 
-    plt.text(-0.95, 0.15, 'Layer 2/3', fontsize=15)
-    plt.hlines(0.05, -0.95, -0.25, colors='black', linestyles='dashed')
-    plt.text(-0.95, -0.15, 'Layer 4', fontsize=15)
+    plt.text(-0.8, 0.2, 'Layer 2/3', fontsize=15)
+    plt.hlines(0.07, -0.95, -0.25, colors='black', linestyles='dashed')
+    plt.text(-0.8, -0.15, 'Layer 4', fontsize=15)
 
     plt.title('Activity centroids for different directions', fontsize=20)
     plt.tight_layout()
     plt.show()
 
-directionality_spatial(exp=[4,5], patterns=[0,0], mice=[0,0], amplitude=10)
+#directionality_spatial(exp=[4,4,5,5,5,5,5], patterns=[0,5,0,1,2,3,4], mice=[0,1,2], amplitude=10)
+
+############################################################
+######### DATA ANALYSIS ASYMMETRY AND POLARITY #############
+############################################################
