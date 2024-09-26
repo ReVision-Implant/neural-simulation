@@ -82,7 +82,7 @@ def filter_spikes(node_pos, n_spikes):
     #print("standard dev", std_spikes)    
 
     threshold = avg_spikes + 3*std_spikes
-    #print("threshold", threshold)
+    print("threshold", threshold)
     n_spikes_filtered=[]
     filtered_indices=[]
     for index, value in enumerate(n_spikes):
@@ -250,7 +250,7 @@ def correlation_per_angle(exp=[4,5], patterns=[0,1], mouse=[0,0], amplitude=10):
                 location_central_el, location_return_i = electrode_coordin(exp[i], patterns[i])
                 location_central_el, location_return_j = electrode_coordin(exp[j], patterns[j])
                 angles.append(get_electrode_angles(location_central_el, location_return_i,location_return_j))
-       
+            print('angle', angles)
         angles, correlations, overlaps = zip(*sorted(zip(angles, correlations, overlaps))) # Sort the correlations in ascending order
         return angles, correlations, overlaps
 
@@ -613,7 +613,6 @@ def asymmetry_correlation(mice=[0,1,2]):
 ######### DATA ANALYSIS DIRECTIONALITY CELLULAR ############
 ############################################################
 
-# attentio: angle 180 degrees = angle of 0 degrees ! only plot the 'positive' angles
 def directionality_cellular_corr(exp=[4,5], patterns=[0,0], mouse=0):
     mouse_x= [mouse]*len(exp)
     markersize = 7
@@ -641,12 +640,12 @@ def directionality_cellular_corr(exp=[4,5], patterns=[0,0], mouse=0):
     plt.tight_layout()
     plt.show()
 
-directionality_cellular_corr(exp=[4,5], patterns=[0,0], mouse=0)
-#directionality_cellular_corr(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=1)
-#directionality_cellular_corr(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=2)
+directionality_cellular_corr(exp=[4,5,5,5,5], patterns=[0,1,2,3,4], mouse=0)
+directionality_cellular_corr(exp=[4,5,5,5,5], patterns=[0,1,2,3,4], mouse=1)
+directionality_cellular_corr(exp=[4,5,5,5,5], patterns=[0,1,2,3,4], mouse=2)
 
-# overlap niet zo zinnig bij in-silico experimenten??
-def directionality_cellular_overlap(exp=[4,5], patterns=[0,0], mouse=0):
+# overlap niet zinnig bij in-silico experimenten
+def directionality_cellular_overlap(exp=[4,5], patterns=[0,9], mouse=0):
     mouse_x= [mouse]*len(exp)
     markersize = 7
     colors = ['blue', 'orange']
