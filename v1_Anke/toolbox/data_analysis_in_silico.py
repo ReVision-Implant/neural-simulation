@@ -12,6 +12,7 @@ from scipy.optimize import curve_fit
 from scipy.spatial import ConvexHull
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
+from matplotlib.ticker import FuncFormatter
 
 
 def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
@@ -640,7 +641,7 @@ def directionality_cellular_corr(exp=[4,5], patterns=[0,0], mouse=0):
     plt.tight_layout()
     plt.show()
 
-#directionality_cellular_corr(exp=[4,5,5,5,5], patterns=[0,1,2,3,4], mouse=0)
+directionality_cellular_corr(exp=[4,5], patterns=[0,0], mouse=0)
 #directionality_cellular_corr(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=1)
 #directionality_cellular_corr(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=2)
 
@@ -693,31 +694,45 @@ def PCA_analysis(exp=[4,5], patterns= [0,0], m=0, amp=10):
               if n_spikes_i[cell] >= threshold_i:
                    active_cells[cell]+=1
 
-     # nog een for loop wss voor de activity matrices - to do
      variances = []
+     activity_matrix=[]
+     print("nonzero active cells", np.count_nonzero(active_cells))
      for i in range(len(exp)):
          node_pos_i, n_spikes_i = get_spikes(exp=exp[i],pattern=patterns[i],mouse=m,amplitude=amp) 
-         activity_matrix=[]
          row=[]
          for cell in range(len(n_spikes_i)):
             if active_cells[cell] !=0:
                  row.append(n_spikes_i[cell])
          activity_matrix.append(row)
-         print(len(row))
-         activity_matrix = np.array(activity_matrix)
+         #print("len row", len(row))
+     activity_matrix = np.array(activity_matrix).T # shape N x number of stim dir
 
-         print(activity_matrix.shape)
-         activity_matrix = np.array(activity_matrix).T
-         print(activity_matrix.shape)
+     print("shape activity matrix", activity_matrix.shape)
 
-         pca=PCA(n_components=len(exp))
-         pca.fit(activity_matrix)
-         A_pca = pca.transform(activity_matrix)
+     pca=PCA(n_components=len(exp))
+     pca.fit(activity_matrix)
+     A_pca = pca.transform(activity_matrix)
 
-         explained_variance = pca.explained_variance_ratio_
+     explained_variance = pca.explained_variance_ratio_
 
-         print(explained_variance)
-         print(np.cumsum(explained_variance))
-         variances.append(np.cumsum(explained_variance))
+     print("explained var", explained_variance)
+     print("cumulative sum expl var", np.cumsum(explained_variance))
+     variances.append(np.cumsum(explained_variance))
 
-PCA_analysis(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], m=0, amp=10)
+     plt.figure()
+     for variance in variances:
+        plt.plot(variance, linewidth=2.5)
+     plt.hlines(0.95, 0, 12, linestyles='--')
+     plt.hlines(0.90, 0, 12, linestyles='--')
+
+     plt.xlabel('Number of current directions', fontsize=20)
+     plt.ylabel('Cumulative variance', fontsize=20)
+     plt.gca().get_xaxis().set_major_formatter(FuncFormatter(lambda x, p: format(int(x+1), ','))) # Add 1 to every xticklabel
+     plt.xticks(fontsize=15)
+     plt.yticks(fontsize=15)
+     plt.title('PCA on neural activity for '+str(len(exp))+' directions', fontsize=20)
+     plt.tight_layout()
+
+     plt.show()
+
+#PCA_analysis(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], m=0, amp=10)
