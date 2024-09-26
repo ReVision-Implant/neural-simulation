@@ -43,7 +43,8 @@ A cluster with 100 Xeon cores will typically take a few hours to run through the
   - exp_3: passive axon stubs + no virtual connections (synaptic weights of the neurons were set to zero)
   - exp_4: active axon stubs
     - This folder contains two extra plot folders: The spearman plots plot the spike rates of different experiments against eachother. The compare_exp2 plots pattern 0 for the model with and without axons next to eachother.
-- within the subfolders the experiments are structured as follows:
+  - exp_5: extra simulations with the active axon stubs (that were not included in the thesis work). Only symmetrical waveforms were tested.
+- within the subfolders the experiments 2, 3 and 4 are structured as follows:
   - bkg: 100 ms simulation without extracellular stimulation
   - init_state: 1.5 s simulation without extracellular stimulation; the extracellular stimulation tests will always start from this initial state
   - pattern_0: single layer stimulation layer 4, symmetrical waveform
@@ -52,6 +53,7 @@ A cluster with 100 Xeon cores will typically take a few hours to run through the
   - pattern_6: multilayer stimulation 1 return electrode layer 4 to 2/3, asymmetrical waveform
   - pattern_7: multilayer stimulation 2 return electrodes layer 4 to 2/3, symmetrical waveform
   - pattern_8: multilayer stimulation 2 return electrodes layer 4 to 2/3, asymmetrical waveform
+- the subfolders of experiment 5 are explained in a separate readme within the folder. All applied waveforms are symmetrical waveforms. Figure electrode_numbers_and_patt_explained can also help to understand the numbering of electrodes and patterns in exp 5.
 
 ### 4. Toolbox
 - contains all extra helperfunctions; here follows an overview
