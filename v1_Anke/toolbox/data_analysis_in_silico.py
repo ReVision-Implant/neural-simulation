@@ -640,9 +640,9 @@ def directionality_cellular_corr(exp=[4,5], patterns=[0,0], mouse=0):
     plt.tight_layout()
     plt.show()
 
-directionality_cellular_corr(exp=[4,5,5,5,5], patterns=[0,1,2,3,4], mouse=0)
-directionality_cellular_corr(exp=[4,5,5,5,5], patterns=[0,1,2,3,4], mouse=1)
-directionality_cellular_corr(exp=[4,5,5,5,5], patterns=[0,1,2,3,4], mouse=2)
+#directionality_cellular_corr(exp=[4,5,5,5,5], patterns=[0,1,2,3,4], mouse=0)
+#directionality_cellular_corr(exp=[4,5,5,5,5], patterns=[0,1,2,3,4], mouse=1)
+#directionality_cellular_corr(exp=[4,5,5,5,5], patterns=[0,1,2,3,4], mouse=2)
 
 # overlap niet zinnig bij in-silico experimenten
 def directionality_cellular_overlap(exp=[4,5], patterns=[0,9], mouse=0):
@@ -680,58 +680,64 @@ def directionality_cellular_overlap(exp=[4,5], patterns=[0,9], mouse=0):
 ########################## PCA #############################
 ############################################################
 
-def PCA_analysis(exp=[4,5], patterns= [0,0], m=0, amp=10):
-     node_pos_0, n_spikes_0 = get_spikes(exp=exp[0],pattern=patterns[0],mouse=m,amplitude=amp)
-     print("node pos shape", np.array(node_pos_0).shape)
-     active_cells=np.zeros(len(node_pos_0))
-     print("active cells shape", np.array(active_cells).shape)
-     for i in range(len(exp)):
-         node_pos_i, n_spikes_i = get_spikes(exp=exp[i],pattern=patterns[i],mouse=m,amplitude=amp)
-         positions_filt_i, spikes_filt_i, threshold_i = filter_spikes(node_pos_i, n_spikes_i)
-         for cell in range(len(node_pos_i)):
-              #print(n_spikes_i[cell], threshold_i)
-              if n_spikes_i[cell] >= threshold_i:
-                   active_cells[cell]+=1
+def PCA_analysis(exp=[4, 5], patterns=[0, 0], mice=[0,1,2], amp=10):
+    colors = ['blue', 'green', 'red']  
 
-     variances = []
-     activity_matrix=[]
-     print("nonzero active cells", np.count_nonzero(active_cells))
-     for i in range(len(exp)):
-         node_pos_i, n_spikes_i = get_spikes(exp=exp[i],pattern=patterns[i],mouse=m,amplitude=amp) 
-         row=[]
-         for cell in range(len(n_spikes_i)):
-            if active_cells[cell] !=0:
-                 row.append(n_spikes_i[cell])
-         activity_matrix.append(row)
-         #print("len row", len(row))
-     activity_matrix = np.array(activity_matrix).T # shape N x number of stim dir
+    plt.figure()
+    
+    for m in mice:
+        node_pos_0, n_spikes_0 = get_spikes(exp=exp[0], pattern=patterns[0], mouse=m, amplitude=amp)
+        print("node pos shape", np.array(node_pos_0).shape)
+        active_cells = np.zeros(len(node_pos_0))
+        print("active cells shape", np.array(active_cells).shape)
+        
+        # Mark active cells across all experiments 
+        for i in range(len(exp)):
+            node_pos_i, n_spikes_i = get_spikes(exp=exp[i], pattern=patterns[i], mouse=m, amplitude=amp)
+            positions_filt_i, spikes_filt_i, threshold_i = filter_spikes(node_pos_i, n_spikes_i)
+            for cell in range(len(node_pos_i)):
+                if n_spikes_i[cell] >= threshold_i:
+                    active_cells[cell] += 1
 
-     print("shape activity matrix", activity_matrix.shape)
+        # Create the activity matrix 
+        activity_matrix = []
+        for i in range(len(exp)):
+            node_pos_i, n_spikes_i = get_spikes(exp=exp[i], pattern=patterns[i], mouse=m, amplitude=amp)
+            row = []
+            for cell in range(len(n_spikes_i)):
+                if active_cells[cell] != 0:
+                    row.append(n_spikes_i[cell])
+            activity_matrix.append(row)
+        
+        activity_matrix = np.array(activity_matrix).T  # Transpose to shape (num_active_cells, num_exp)
+        print("shape activity matrix", activity_matrix.shape)
 
-     pca=PCA(n_components=len(exp))
-     pca.fit(activity_matrix)
-     A_pca = pca.transform(activity_matrix)
+        # Perform PCA 
+        pca = PCA(n_components=len(exp))
+        pca.fit(activity_matrix)
+        explained_variance = pca.explained_variance_ratio_
+        
+        print(f"explained var for mouse {m+1}:", explained_variance)
+        cumulative_variance = np.cumsum(explained_variance)
 
-     explained_variance = pca.explained_variance_ratio_
+        # Plot cumulative variance 
+        plt.plot(cumulative_variance, color=colors[m], linewidth=2.5, label=f'Mouse {m + 1}')
 
-     print("explained var", explained_variance)
-     print("cumulative sum expl var", np.cumsum(explained_variance))
-     variances.append(np.cumsum(explained_variance))
+    # Add the 90% and 95% variance lines
+    plt.hlines(0.95, 0, len(exp) - 1, linestyles='--', colors='gray')
+    plt.hlines(0.90, 0, len(exp) - 1, linestyles='--', colors='gray')
 
-     plt.figure()
-     for variance in variances:
-        plt.plot(variance, linewidth=2.5)
-     plt.hlines(0.95, 0, 12, linestyles='--')
-     plt.hlines(0.90, 0, 12, linestyles='--')
+    # Add labels, title, and legend
+    plt.xlabel('Number of current directions', fontsize=20)
+    plt.ylabel('Cumulative variance', fontsize=20)
+    plt.gca().get_xaxis().set_major_formatter(FuncFormatter(lambda x, p: format(int(x+1), ',')))  # Add 1 to every xticklabel
+    plt.xticks(fontsize=15)
+    plt.yticks(fontsize=15)
+    plt.title('PCA on neural activity for ' + str(len(exp)) + ' directions', fontsize=20)
+    plt.legend(fontsize=15)  
+    plt.tight_layout()
 
-     plt.xlabel('Number of current directions', fontsize=20)
-     plt.ylabel('Cumulative variance', fontsize=20)
-     plt.gca().get_xaxis().set_major_formatter(FuncFormatter(lambda x, p: format(int(x+1), ','))) # Add 1 to every xticklabel
-     plt.xticks(fontsize=15)
-     plt.yticks(fontsize=15)
-     plt.title('PCA on neural activity for '+str(len(exp))+' directions', fontsize=20)
-     plt.tight_layout()
+    plt.show()
 
-     plt.show()
 
-#PCA_analysis(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], m=0, amp=10)
+PCA_analysis(exp=[4, 5, 5, 5, 5, 5], patterns=[0, 0, 1, 2, 3, 4], mice=[0,1,2], amp=10)
