@@ -68,8 +68,27 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
 
         node_pos = np.vstack((node_pos, node_pos_temp))
         n_spikes = np.append(n_spikes, n_spikes_temp)
+        
+        y_coordin=node_pos[:,1]
+        n_spikes_L234=[]
+        node_pos_L234=[]
+        for index, y in enumerate(y_coordin):
+            if y >= 100 and y<=430: # only select neurons in lqayer 2/3 and 4 of the cortex
+                n_spikes_L234.append(n_spikes[index])
+                node_pos_L234.append(node_pos[index,:])
+        n_spikes_L234=np.array(n_spikes_L234)
+        node_pos_L234=np.array(node_pos_L234)
+        #print(n_spikes_L234.shape)
+        #print(node_pos_L234.shape)
+    
+    #for analysis all neurons:
+    #return node_pos, n_spikes
 
-    return node_pos, n_spikes
+    #only looking at neurons in layer 2/3 and 4
+    return node_pos_L234, n_spikes_L234
+
+#test code
+n_spikes_L234_test, node_pos_L234_test = get_spikes(4,0,0,10)
 
 def filter_spikes(node_pos, n_spikes):
     non_zero_indices = np.nonzero(n_spikes)
@@ -546,7 +565,7 @@ def directionality_spatial(exp=[4,5], patterns=[0,0], mice=[0,1,2], amplitude=10
     plt.tight_layout()
     plt.show()
 
-#directionality_spatial(exp=[4,4,5,5,5,5,5], patterns=[0,5,0,1,2,3,4], mice=[0,1,2], amplitude=10)
+directionality_spatial(exp=[4,4,5,5,5,5,5], patterns=[0,5,0,1,2,3,4], mice=[0,1,2], amplitude=10)
 
 ############################################################
 ######### DATA ANALYSIS ASYMMETRY #############
@@ -740,4 +759,4 @@ def PCA_analysis(exp=[4, 5], patterns=[0, 0], mice=[0,1,2], amp=10):
     plt.show()
 
 
-PCA_analysis(exp=[4, 5, 5, 5, 5, 5], patterns=[0, 0, 1, 2, 3, 4], mice=[0,1,2], amp=10)
+#PCA_analysis(exp=[4, 5, 5, 5, 5, 5], patterns=[0, 0, 1, 2, 3, 4], mice=[0,1,2], amp=10)
