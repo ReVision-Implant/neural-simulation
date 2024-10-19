@@ -13,6 +13,7 @@ from scipy.spatial import ConvexHull
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from matplotlib.ticker import FuncFormatter
+import math
 
 
 def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
@@ -82,13 +83,13 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
         #print(node_pos_L234.shape)
     
     #for analysis all neurons:
-    #return node_pos, n_spikes
+    return node_pos, n_spikes
 
     #only looking at neurons in layer 2/3 and 4
-    return node_pos_L234, n_spikes_L234
+    #return node_pos_L234, n_spikes_L234
 
 #test code
-n_spikes_L234_test, node_pos_L234_test = get_spikes(4,0,0,10)
+#n_spikes_L234_test, node_pos_L234_test = get_spikes(4,0,0,10)
 
 def filter_spikes(node_pos, n_spikes):
     non_zero_indices = np.nonzero(n_spikes)
@@ -101,7 +102,7 @@ def filter_spikes(node_pos, n_spikes):
     #print("standard dev", std_spikes)    
 
     threshold = avg_spikes + 3*std_spikes
-    print("threshold", threshold)
+    #print("threshold", threshold)
     n_spikes_filtered=[]
     filtered_indices=[]
     for index, value in enumerate(n_spikes):
@@ -142,9 +143,9 @@ def correlation(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, threshol
         lower_bound = math.tanh(math.atanh(statistic) - delta)
         upper_bound = math.tanh(math.atanh(statistic) + delta)
     
-        print('The Spearman correlation coefficient for stim patterns ' + str(pattern_A) + ' and ' + str(pattern_B) +
-          ' is ' + str(round(statistic, 2)) + ', the p-value is ' + str(round(pvalue, 4)) +
-          ', and the 95% confidence interval is [' + str(round(lower_bound, 2)) + ', ' + str(round(upper_bound, 2)) + ']')
+        #print('The Spearman correlation coefficient for stim patterns ' + str(pattern_A) + ' and ' + str(pattern_B) +
+        #  ' is ' + str(round(statistic, 2)) + ', the p-value is ' + str(round(pvalue, 4)) +
+        #  ', and the 95% confidence interval is [' + str(round(lower_bound, 2)) + ', ' + str(round(upper_bound, 2)) + ']')
 
         return(statistic)
 
@@ -269,7 +270,7 @@ def correlation_per_angle(exp=[4,5], patterns=[0,1], mouse=[0,0], amplitude=10):
                 location_central_el, location_return_i = electrode_coordin(exp[i], patterns[i])
                 location_central_el, location_return_j = electrode_coordin(exp[j], patterns[j])
                 angles.append(get_electrode_angles(location_central_el, location_return_i,location_return_j))
-            print('angle', angles)
+            #print('angle', angles)
         angles, correlations, overlaps = zip(*sorted(zip(angles, correlations, overlaps))) # Sort the correlations in ascending order
         return angles, correlations, overlaps
 
@@ -428,7 +429,7 @@ def fit_neurons_gaussian(projected_points, sorted_spikes, plot = False):
         plt.title('1D Gaussian fit of projected points')
         plt.show()
 
-    print(popt) 
+    #print(popt) 
 
     return popt
 
@@ -488,6 +489,7 @@ def electrode_dir(exp,pattern):
         electrode_dir= {
         0: (-1,0),
         5: (0,1),
+        7: (-0.5,1)
             }
     else:
         electrode_dir= {
@@ -497,7 +499,7 @@ def electrode_dir(exp,pattern):
             3: (1,1),
             4: (2,1),
             5: (1,0),
-            6: (1,1),
+            6: (2,0),
             7: (0.5,1),
             8: (1.5,1),
             9: (-1,1)
@@ -507,18 +509,18 @@ def electrode_dir(exp,pattern):
     return electrodes_direction
 
 def directionality_spatial(exp=[4,5], patterns=[0,0], mice=[0,1,2], amplitude=10):
-    print("len exp",len(exp))
+    #print("len exp",len(exp))
     colors = ['red', 'blue', 'orange', 'purple', 'yellow', 'grey', 'green', 'pink', 'brown', 'cyan', 'magenta', 'teal', 'lime']
     centroids = [[] for _ in range(len(exp) * len(mice))]
     for pattern in range (0,len(exp)):
           for i in range(0,len(mice)):
-            print(exp[pattern])
-            print("exp", exp[pattern], "pattern", patterns[pattern], "mouse", mice[i])
+            #print(exp[pattern])
+            #print("exp", exp[pattern], "pattern", patterns[pattern], "mouse", mice[i])
             centroid_column, centroid_layer, stdev = spatial_analysis(exp[pattern], patterns[pattern], mice[i], amplitude)
-            print("centroid column", centroid_column)
-            print("centroid layer", centroid_layer)
+           # print("centroid column", centroid_column)
+            #print("centroid layer", centroid_layer)
             centroids[pattern * len(mice) + i].append([centroid_column, centroid_layer, stdev])
-    print(centroids)  
+    #print(centroids)  
 
     plt.figure
     for pattern in range(0,len(exp)):
@@ -527,7 +529,7 @@ def directionality_spatial(exp=[4,5], patterns=[0,0], mice=[0,1,2], amplitude=10
             for centroid in range(len(centroids[i])):
                 plt.plot(centroids[pattern*len(mice)+i][centroid][1], centroids[pattern*len(mice)+i][centroid][0], 'o', markersize=5, color=colors[pattern], alpha=0.5, label='Intra-slice centroids')
             
-                print(str(centroids[pattern*len(mice)+i][centroid][1]), colors[pattern])
+                #print(str(centroids[pattern*len(mice)+i][centroid][1]), colors[pattern])
                 # Plot a polygon for illustration purposes
                 #centroid_collection.append([centroids[i][centroid][1], centroids[i][centroid][0]])
 
@@ -565,7 +567,7 @@ def directionality_spatial(exp=[4,5], patterns=[0,0], mice=[0,1,2], amplitude=10
     plt.tight_layout()
     plt.show()
 
-directionality_spatial(exp=[4,4,5,5,5,5,5], patterns=[0,5,0,1,2,3,4], mice=[0,1,2], amplitude=10)
+#directionality_spatial(exp=[4,4,4,5,5,5,5,5,5,5,5,5,5], patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9], mice=[0,1,2], amplitude=10)
 
 ############################################################
 ######### DATA ANALYSIS ASYMMETRY #############
@@ -624,7 +626,7 @@ def asymmetry_correlation(mice=[0,1,2]):
     plt.title('Overlap for symmetry versus asymmetry', fontsize=20)
     fig.tight_layout()
 
-    plt.show()
+    #plt.show()
 
 #asymmetry_correlation(mice=[0,1,2])
 
@@ -659,9 +661,9 @@ def directionality_cellular_corr(exp=[4,5], patterns=[0,0], mouse=0):
     plt.tight_layout()
     plt.show()
 
-#directionality_cellular_corr(exp=[4,5,5,5,5], patterns=[0,1,2,3,4], mouse=0)
-#directionality_cellular_corr(exp=[4,5,5,5,5], patterns=[0,1,2,3,4], mouse=1)
-#directionality_cellular_corr(exp=[4,5,5,5,5], patterns=[0,1,2,3,4], mouse=2)
+#directionality_cellular_corr(exp=[4,4,4,5,5,5,5,5,5,5,5,5,5], patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9], mouse=0)
+#directionality_cellular_corr(exp=[4,4,4,5,5,5,5,5,5,5,5,5,5], patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9], mouse=1)
+#directionality_cellular_corr(exp=[4,4,4,5,5,5,5,5,5,5,5,5,5], patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9], mouse=2)
 
 # overlap niet zinnig bij in-silico experimenten
 def directionality_cellular_overlap(exp=[4,5], patterns=[0,9], mouse=0):
@@ -706,9 +708,9 @@ def PCA_analysis(exp=[4, 5], patterns=[0, 0], mice=[0,1,2], amp=10):
     
     for m in mice:
         node_pos_0, n_spikes_0 = get_spikes(exp=exp[0], pattern=patterns[0], mouse=m, amplitude=amp)
-        print("node pos shape", np.array(node_pos_0).shape)
+        #print("node pos shape", np.array(node_pos_0).shape)
         active_cells = np.zeros(len(node_pos_0))
-        print("active cells shape", np.array(active_cells).shape)
+        #print("active cells shape", np.array(active_cells).shape)
         
         # Mark active cells across all experiments 
         for i in range(len(exp)):
@@ -729,14 +731,14 @@ def PCA_analysis(exp=[4, 5], patterns=[0, 0], mice=[0,1,2], amp=10):
             activity_matrix.append(row)
         
         activity_matrix = np.array(activity_matrix).T  # Transpose to shape (num_active_cells, num_exp)
-        print("shape activity matrix", activity_matrix.shape)
+        #print("shape activity matrix", activity_matrix.shape)
 
         # Perform PCA 
         pca = PCA(n_components=len(exp))
         pca.fit(activity_matrix)
         explained_variance = pca.explained_variance_ratio_
         
-        print(f"explained var for mouse {m+1}:", explained_variance)
+        #print(f"explained var for mouse {m+1}:", explained_variance)
         cumulative_variance = np.cumsum(explained_variance)
 
         # Plot cumulative variance 
@@ -759,4 +761,143 @@ def PCA_analysis(exp=[4, 5], patterns=[0, 0], mice=[0,1,2], amp=10):
     plt.show()
 
 
-#PCA_analysis(exp=[4, 5, 5, 5, 5, 5], patterns=[0, 0, 1, 2, 3, 4], mice=[0,1,2], amp=10)
+#PCA_analysis(exp=[4,4,4,5,5,5,5,5,5,5,5,5,5], patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9], mice=[0,1,2], amp=10)
+
+#########################################################################################
+################################### DEPTH ###############################################
+#########################################################################################
+
+def point_line_distance(point, line_start, line_end):
+        # Line equation: Ax + By + C = 0
+        A = line_end[1] - line_start[1]
+        B = line_start[0] - line_end[0]
+        C = line_end[0] * line_start[1] - line_start[0] * line_end[1]
+
+        # Perpendicular distance formula
+        distance = abs(A * point[0] + B * point[1] + C) / math.sqrt(A**2 + B**2)
+        return distance
+
+def neurons_on_imaging_plane(exp, pattern, mouse, amplitude, point1= [-9, 300, 16], angle_degrees=60):
+    node_pos, spikes = get_spikes(exp, pattern, mouse, amplitude)
+    #print("shape node pos", node_pos.shape)
+    pos_filtered, spikes_filtered, threshold = filter_spikes(node_pos, spikes)
+    #print("shape of pos_filtered is ", pos_filtered.shape)
+    #print("spikes filtered", spikes_filtered)
+
+    angle_radians= math.radians(angle_degrees)
+    tangent =math.tan(angle_radians)
+    print("tangent",tangent)
+    x=(tangent*416)-9
+
+    point2=[416,x]
+
+    #Convert points to 2D (z, x) plane
+    point1_2d = np.array([point1[2],point1[0]])
+    point2_2d = np.array([point2[1],point2[0]])
+    print("point1_2d", point1_2d)
+    print("point2 2d", point2_2d)
+    #print("shape point 1 2d is", point1_2d.shape)
+
+
+    y_min = 285 # below stimulating electrode
+    y_max = 315 # above stimulating electrode
+    number_neurons_on_implane=0
+
+    distance_threshold = 10.0
+
+    for neuron in range(len(pos_filtered)):
+        # Get x, y, z coordinates of the neuron
+        x_neuron = pos_filtered[neuron, 0]
+        y_neuron = pos_filtered[neuron, 1]
+        z_neuron = pos_filtered[neuron, 2]
+
+        # Check if y is within the range
+        if y_min <= y_neuron <= y_max:
+            neuron_2d = np.array([z_neuron, x_neuron])
+            distance_to_line = point_line_distance(neuron_2d, point1_2d, point2_2d)
+            #print("distance to line", distance_to_line)
+            if distance_to_line <= distance_threshold:
+                # Neuron is within the y-range and close enough to the plane
+                number_neurons_on_implane += 1
+    
+    print("number of neurons on imaging plane", number_neurons_on_implane)
+    return number_neurons_on_implane
+
+#neurons_on_imaging_plane =neurons_on_imaging_plane(exp=4, pattern=0, mouse=0, amplitude=10, point1=[-9, 300, 16], angle_degrees=60)
+
+def neurons_in_layer(exp, pattern, mouse, amplitude, point1= [-9, 300, 16], point2=[-9,300,189]):
+    node_pos, spikes = get_spikes(exp, pattern, mouse, amplitude)
+    #print("shape node pos", node_pos.shape)
+    pos_filtered, spikes_filtered, threshold = filter_spikes(node_pos, spikes)
+    #print("shape of pos_filtered is ", pos_filtered.shape)
+    #print("spikes filtered", spikes_filtered)
+
+    
+    #Convert points to 2D (z, x) plane
+    point1_2d = np.array([point1[2],point1[0]])
+    point2_2d = np.array([point2[2],point2[0]])
+    print("point1_2d", point1_2d)
+    print("point2 2d", point2_2d)
+    #print("shape point 1 2d is", point1_2d.shape)
+
+
+    y_min = 285 # below stimulating electrode
+    y_max = 315 # above stimulating electrode
+    number_neurons_on_plane=0
+
+    distance_threshold = 10.0
+
+    for neuron in range(len(pos_filtered)):
+        # Get x, y, z coordinates of the neuron
+        x_neuron = pos_filtered[neuron, 0]
+        y_neuron = pos_filtered[neuron, 1]
+        z_neuron = pos_filtered[neuron, 2]
+
+        # Check if y is within the range
+        if y_min <= y_neuron <= y_max:
+            neuron_2d = np.array([z_neuron, x_neuron])
+            distance_to_line = point_line_distance(neuron_2d, point1_2d, point2_2d)
+            #print("distance to line", distance_to_line)
+            if distance_to_line <= distance_threshold:
+                # Neuron is within the y-range and close enough to the plane
+                number_neurons_on_plane += 1
+    
+    print("number of neurons on plane", number_neurons_on_plane)
+    return number_neurons_on_plane
+
+#neurons_layer =neurons_in_layer(exp=4, pattern=0, mouse=0, amplitude=10, point1=[-9, 300, 16],point2=[-9,300,189])
+
+def plot_depth():
+
+    n_60_10=neurons_on_imaging_plane(exp=4, pattern=0, mouse=0, amplitude=10, point1=[-9, 300, 16], angle_degrees=60)
+    n_0_10=neurons_in_layer(exp=4, pattern=0, mouse=0, amplitude=10, point1=[-9, 300, 16],point2=[-9,300,189])
+    n_60_20=neurons_on_imaging_plane(exp=4, pattern=0, mouse=0, amplitude=20, point1=[-9, 300, 16], angle_degrees=60)
+    n_0_20=neurons_in_layer(exp=4, pattern=0, mouse=0, amplitude=20, point1=[-9, 300, 16],point2=[-9,300,189])
+
+
+    plt.figure()
+    markersize=7
+    plt.plot(1, n_0_10, 'o', markersize=markersize, color='blue')
+    plt.plot(2, n_60_10, 'o', markersize=markersize, color='blue', label='10 µA')
+    plt.plot(1, n_0_20, 'o', markersize=markersize, color='orange')
+    plt.plot(2, n_60_20, 'o', markersize=markersize, color='orange', label='20 µA')
+
+    # Connect dots with black lines
+    plt.plot([1, 2], [n_0_10, n_60_10], color='black')
+    plt.plot([1, 2], [n_0_20, n_60_20], color='black')
+
+    plt.yticks(fontsize=15)
+    plt.ylabel('Nb. of activated neurons', fontsize=20)
+    plt.xticks([1,2], ['Imaging plane along layer', 'Imaging plane 60 degrees'], fontsize=15)
+    plt.yticks(np.arange(0, 21, 2), fontsize=15)
+    plt.ylim(0,20)
+    plt.legend(fontsize=15)
+
+    plt.show()
+
+plot_depth()
+
+
+
+
+
