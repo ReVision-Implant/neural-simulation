@@ -331,6 +331,98 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse,amplitude):
     plt.show()
     return max_x_axis, max_z_axis
 
+def plot1_kde_rectangles(node_pos, n_spikes, pattern, mouse,amplitude):
+    grid_x, grid_z, density_x, density_z = projected_kernel_density_estimate(node_pos, n_spikes)
+    max_x_axis=grid_x[np.argmax(density_x)][0]
+    max_z_axis=grid_z[np.argmax(density_z)][0]
+
+    node_pos=node_pos[:, [0, 2]]
+    max_spikes=np.max(n_spikes)
+    #print("max number spikes", max_spikes)
+    n_spikes_norm=n_spikes/max_spikes
+    #print(n_spikes_norm)
+
+    electrode_0_zx=[16,-9]
+    electrode_1_zx=[198,-9]
+    electrode_2_zx=[16,-9]
+    electrode_3_zx=[198,-9]
+
+    fig = plt.figure(figsize=(8,12))
+
+    if pattern==0:
+        plt.scatter(electrode_1_zx[0], electrode_1_zx[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
+    elif pattern==4:
+        plt.scatter(electrode_1_zx[0], electrode_1_zx[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
+    elif pattern==5:
+        plt.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+    elif pattern==6:
+        plt.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+    elif pattern==8:
+        plt.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+        plt.scatter(electrode_3_zx[0], electrode_3_zx[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
+    else:
+        plt.scatter(electrode_2_zx[0], electrode_2_zx[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+        plt.scatter(electrode_3_zx[0], electrode_3_zx[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
+
+    plt.scatter(electrode_0_zx[0], electrode_0_zx[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)   
+ # Define the horizontal red rectangle along the x-axis from -150 to 350
+    rect_x_start = -150
+    rect_width = 500
+    rect_y = electrode_0_zx[1] - 15  # Centered vertically around electrode_0_zx's y-coordinate
+    rect_height = 30
+
+    # Draw the red rectangle (along layer direction)
+    ax = plt.gca()
+    red_rect = plt.Rectangle((rect_x_start, rect_y), rect_width, rect_height, color='red', alpha=0.5, label='Along the layer')
+    ax.add_patch(red_rect)
+
+    # Define the yellow rectangle along the direction of the imaging plane
+    imaging_plane_start = electrode_0_zx
+    imaging_plane_end = [416, 684]
+
+    # Calculate the angle (radians) of the imaging plane for the rotation of the yellow rectangle
+    angle = np.arctan2(imaging_plane_end[1] - imaging_plane_start[1], imaging_plane_end[0] - imaging_plane_start[0])
+    
+    #rect_start_yellow=-51
+    rect_start_yellow=-35
+    rect_y_yellow=-125
+    
+    
+    # Create and add the yellow rectangle with rotation
+    yellow_rect = plt.Rectangle(
+        (rect_start_yellow,rect_y_yellow),
+        rect_width,
+        rect_height,
+        color='yellow',
+        alpha=0.5,
+        angle=np.degrees(angle),  # convert radians to degrees for matplotlib rotation
+        label='Imaging plane'
+    )
+    ax.add_patch(yellow_rect)
+
+    plt.scatter(node_pos[:,1], node_pos[:,0], s=90, c="blue", alpha=n_spikes_norm)
+    #plt.scatter(max_z_axis, electrode_0_zx[1], color='red', marker='*', s=120, label='Max density', zorder=3)
+    #plt.scatter(electrode_0_zx[0], max_x_axis, color='red', marker='*', s=120, zorder=3)
+    #plt.scatter(max_z_axis,max_x_axis, color='red', marker='*', s=120, zorder=3)
+
+    plt.xlabel('Z Coordinate')
+    plt.ylabel('X Coordinate')
+    #plt.set_xlim([-400,400])
+    #plt.set_ylim([100, 800])
+    plt.xlim([-400, 400])
+    plt.ylim([-400, 400])
+    #plt.invert_yaxis()  # Invert x-axis
+    plt.gca().invert_xaxis()
+    plt.gca().set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
+    plt.legend(fontsize='12', loc='upper right')
+
+    #pattern_title="Parallel to cortical layers. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
+    pattern_title="Stimulation along the cortical layers, imaging plane illustration"
+    plt.title(pattern_title)
+    #plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_layer/layer_1dkde_xz_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
+    plt.show()
+    return max_x_axis, max_z_axis
+
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=4
 
@@ -341,7 +433,7 @@ for pattern in [0]:
         mouse_1=mouse
         node_pos_1, n_spikes_1 = get_spikes(exp=exp,pattern=pattern_1,mouse=mouse_1,amplitude=amplitude_1)
         positions_filtered_1, spikes_filtered_1, threshold_1 = filter_spikes(node_pos_1, n_spikes_1)
-        max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_1, spikes_filtered_1, pattern_1, mouse_1,amplitude_1)
+        max_y_axis_1, max_z_axis_1 = plot1_kde_rectangles(positions_filtered_1, spikes_filtered_1, pattern_1, mouse_1,amplitude_1)
         #max_y_1,max_z_1 = full_kde(positions_filtered_1, spikes_filtered_1, pattern_1,mouse_1,amplitude_1)
 
 #coordinates= node_pos_A[:,1:]

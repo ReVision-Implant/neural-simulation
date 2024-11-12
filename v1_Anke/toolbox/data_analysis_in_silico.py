@@ -74,7 +74,7 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
         n_spikes_L234=[]
         node_pos_L234=[]
         for index, y in enumerate(y_coordin):
-            if y >= 100 and y<=430: # only select neurons in lqayer 2/3 and 4 of the cortex
+            if y >= 100 and y<=430: # only select neurons in layer 2/3 and 4 of the cortex
                 n_spikes_L234.append(n_spikes[index])
                 node_pos_L234.append(node_pos[index,:])
         n_spikes_L234=np.array(n_spikes_L234)
@@ -208,7 +208,7 @@ def electrode_coordin(exp,pattern):
                     8: [-9, 300, -166],
                     9: [-9, 300, -348],
                     10: [-9, 170, 289 ], #in between el 3 and 4
-                    11: [-9, 300, 107], #in between el 2 and 3
+                    11: [-9, 170, 107], #in between el 2 and 3
                     12: [-9, 170, -75], #in between el 2 and 6
                     13: [-9, 170, -257] #in betzeen el 6 and 7
 
@@ -661,26 +661,60 @@ def directionality_cellular_corr(exp=[4,5], patterns=[0,0], mouse=0):
     plt.tight_layout()
     plt.show()
 
+#directionality_cellular_corr(exp=[4,4], patterns=[0,5], mouse=0)
 #directionality_cellular_corr(exp=[4,4,4,5,5,5,5,5,5,5,5,5,5], patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9], mouse=0)
 #directionality_cellular_corr(exp=[4,4,4,5,5,5,5,5,5,5,5,5,5], patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9], mouse=1)
 #directionality_cellular_corr(exp=[4,4,4,5,5,5,5,5,5,5,5,5,5], patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9], mouse=2)
 
-# overlap niet zinnig bij in-silico experimenten
 def directionality_cellular_overlap(exp=[4,5], patterns=[0,9], mouse=0):
-    mouse_x= [mouse]*len(exp)
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    mouse_x = [mouse] * len(exp)
     markersize = 7
     colors = ['blue', 'orange']
     plt.figure()
-    angles_20, correlations_20, overlaps_20 = correlation_per_angle(exp=exp, patterns=patterns, mouse=mouse_x, amplitude=20)
-    for combination in range(len(angles_20)):
-         plt.plot(angles_20[combination], overlaps_20[combination][0],'o', markersize=markersize, color=colors[0], label= '20 µA')
-
-    angles_10, correlations_10, overlaps_10 = correlation_per_angle(exp=exp, patterns=patterns, mouse= mouse_x, amplitude=10)
-    for combination in range(len(angles_10)):
-       plt.plot(angles_10[combination], overlaps_10[combination][0],'o', markersize=markersize, color=colors[1], label= '10 µA')  
     
+    # Generate sample data
+    angles_20, correlations_20, overlaps_20 = correlation_per_angle(exp=exp, patterns=patterns, mouse=mouse_x, amplitude=20)
+    angles_10, correlations_10, overlaps_10 = correlation_per_angle(exp=exp, patterns=patterns, mouse=mouse_x, amplitude=10)
+
+    # Plotting the data points
+    for combination in range(len(angles_20)):
+        plt.plot(angles_20[combination], overlaps_20[combination][0], 'o', markersize=markersize, color=colors[0], label='20 µA')
+        print("angles 20", angles_20)
+    for combination in range(len(angles_10)):
+        plt.plot(angles_10[combination], overlaps_10[combination][0], 'o', markersize=markersize, color=colors[1], label='10 µA')  
+        print("angles 10", angles_10)
+
+    # Filter and sort data for linear fitting
+    #filtered_sorted_pairs20 = sorted((x, y[0]) for x, y in zip(angles_20, overlaps_20) if not np.isnan(x) and not np.isnan(y[0]))
+    #filtered_sorted_pairs10 = sorted((x, y[0]) for x, y in zip(angles_10, overlaps_10) if not np.isnan(x) and not np.isnan(y[0]))
+
+    #sorted_angles20, sorted_overlaps20 = zip(*filtered_sorted_pairs20)
+    #sorted_angles10, sorted_overlaps10 = zip(*filtered_sorted_pairs10)
+
+        
+    #slope20, intercept20 = np.polyfit(sorted_angles20, sorted_overlaps20, 1)
+    #slope10, intercept10 = np.polyfit(sorted_angles10, sorted_overlaps10, 1)
+
+    # Generate line for plotting
+    #x_line = np.linspace(0, 180, 100)
+    #y_line20 = slope20 * x_line + intercept20
+    #y_line10 = slope10 * x_line + intercept10
+
+    #linewidth = 3
+    #plt.plot(x_line, y_line20, color='blue', linewidth=linewidth)
+    #equation_text = f"y = {slope20:.5f} x + {intercept20:.2f}"
+    #plt.text(0.05 * max(x_line), 0.9 * max(y_line20), equation_text, color='black', fontsize=10)
+
+    #plt.plot(x_line, y_line10, color='orange', linewidth=linewidth)
+    #equation_text = f"y = {slope10:.5f} x + {intercept10:.2f}"
+    #plt.text(0.05 * max(x_line), 0.9 * max(y_line10), equation_text, color='black', fontsize=10)
+
+    # Legend and labels
     handles, labels = plt.gca().get_legend_handles_labels()
-    by_label = dict(zip(labels, handles)) # To remove duplicate labels because of the for loop
+    by_label = dict(zip(labels, handles))  # Remove duplicate labels
     plt.legend(by_label.values(), by_label.keys(), fontsize=12)
 
     plt.xlabel('Angle between 2 directions [°]', fontsize=20)
@@ -689,13 +723,14 @@ def directionality_cellular_overlap(exp=[4,5], patterns=[0,9], mouse=0):
     plt.yticks(fontsize=15)
     bottom, top = plt.ylim()
     plt.ylim(bottom, 1)
-    plt.title('Neural overlap for different directions, mouse '+ str(mouse), fontsize=20)
+    plt.title('Neural overlap for different directions, mouse ' + str(mouse), fontsize=20)
     plt.tight_layout()
     plt.show()
 
-#directionality_cellular_overlap(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=0)
-#directionality_cellular_overlap(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=1)
-#directionality_cellular_overlap(exp=[4,5,5,5,5,5], patterns=[0,0,1,2,3,4], mouse=2)
+directionality_cellular_overlap(exp=[4, 4], patterns=[5, 7], mouse=0)
+#directionality_cellular_overlap(exp=[4,4,4,5,5,5,5,5,5,5,5,5,5], patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9], mouse=0)
+#directionality_cellular_overlap(exp=[4,4,4,5,5,5,5,5,5,5,5,5,5], patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9], mouse=1)
+#directionality_cellular_overlap(exp=[4,4,4,5,5,5,5,5,5,5,5,5,5], patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9], mouse=2)
 
 ############################################################
 ########################## PCA #############################
@@ -799,11 +834,11 @@ def neurons_on_imaging_plane(exp, pattern, mouse, amplitude, point1= [-9, 300, 1
     #print("shape point 1 2d is", point1_2d.shape)
 
 
-    y_min = 285 # below stimulating electrode
-    y_max = 315 # above stimulating electrode
+    y_min = 100
+    y_max = 430
     number_neurons_on_implane=0
 
-    distance_threshold = 10.0
+    distance_threshold = 15.0
 
     for neuron in range(len(pos_filtered)):
         # Get x, y, z coordinates of the neuron
@@ -841,11 +876,11 @@ def neurons_in_layer(exp, pattern, mouse, amplitude, point1= [-9, 300, 16], poin
     #print("shape point 1 2d is", point1_2d.shape)
 
 
-    y_min = 285 # below stimulating electrode
-    y_max = 315 # above stimulating electrode
+    y_min = 100
+    y_max = 430
     number_neurons_on_plane=0
 
-    distance_threshold = 10.0
+    distance_threshold = 15.0
 
     for neuron in range(len(pos_filtered)):
         # Get x, y, z coordinates of the neuron
@@ -868,34 +903,41 @@ def neurons_in_layer(exp, pattern, mouse, amplitude, point1= [-9, 300, 16], poin
 #neurons_layer =neurons_in_layer(exp=4, pattern=0, mouse=0, amplitude=10, point1=[-9, 300, 16],point2=[-9,300,189])
 
 def plot_depth():
-
-    n_60_10=neurons_on_imaging_plane(exp=4, pattern=0, mouse=0, amplitude=10, point1=[-9, 300, 16], angle_degrees=60)
-    n_0_10=neurons_in_layer(exp=4, pattern=0, mouse=0, amplitude=10, point1=[-9, 300, 16],point2=[-9,300,189])
-    n_60_20=neurons_on_imaging_plane(exp=4, pattern=0, mouse=0, amplitude=20, point1=[-9, 300, 16], angle_degrees=60)
-    n_0_20=neurons_in_layer(exp=4, pattern=0, mouse=0, amplitude=20, point1=[-9, 300, 16],point2=[-9,300,189])
-
-
     plt.figure()
     markersize=7
-    plt.plot(1, n_0_10, 'o', markersize=markersize, color='blue')
-    plt.plot(2, n_60_10, 'o', markersize=markersize, color='blue', label='10 µA')
-    plt.plot(1, n_0_20, 'o', markersize=markersize, color='orange')
-    plt.plot(2, n_60_20, 'o', markersize=markersize, color='orange', label='20 µA')
 
-    # Connect dots with black lines
-    plt.plot([1, 2], [n_0_10, n_60_10], color='black')
-    plt.plot([1, 2], [n_0_20, n_60_20], color='black')
+    for mouse_i in [0,1,2]:
+        print(mouse_i)
+        n_60_10=neurons_on_imaging_plane(exp=4, pattern=0, mouse=mouse_i, amplitude=10, point1=[-9, 300, 16], angle_degrees=60)
+        n_0_10=neurons_in_layer(exp=4, pattern=0, mouse=mouse_i, amplitude=10, point1=[-9, 300, 16],point2=[-9,300,189])
+        n_60_20=neurons_on_imaging_plane(exp=4, pattern=0, mouse=mouse_i, amplitude=20, point1=[-9, 300, 16], angle_degrees=60)
+        n_0_20=neurons_in_layer(exp=4, pattern=0, mouse=mouse_i, amplitude=20, point1=[-9, 300, 16],point2=[-9,300,189])
+
+
+        
+        plt.plot(1, n_0_10, 'o', markersize=markersize, color='orange')
+        plt.plot(2, n_60_10, 'o', markersize=markersize, color='orange')
+        plt.plot(1, n_0_20, 'o', markersize=markersize, color='blue')
+        plt.plot(2, n_60_20, 'o', markersize=markersize, color='blue')
+
+        # Connect dots with black lines
+        plt.plot([1, 2], [n_0_10, n_60_10], color='black')
+        plt.plot([1, 2], [n_0_20, n_60_20], color='black')
+
+    # Plot "invisible" points to create a single legend entry for each color
+    plt.plot([], [], 'o', markersize=markersize, color='blue', label='20 µA')
+    plt.plot([], [], 'o', markersize=markersize, color='orange', label='10 µA')    
 
     plt.yticks(fontsize=15)
     plt.ylabel('Nb. of activated neurons', fontsize=20)
     plt.xticks([1,2], ['Imaging plane along layer', 'Imaging plane 60 degrees'], fontsize=15)
-    plt.yticks(np.arange(0, 21, 2), fontsize=15)
-    plt.ylim(0,20)
+    #plt.yticks(np.arange(0, 21, 2), fontsize=15)
+    #plt.ylim(0,20)
     plt.legend(fontsize=15)
 
     plt.show()
 
-plot_depth()
+#plot_depth()
 
 
 
