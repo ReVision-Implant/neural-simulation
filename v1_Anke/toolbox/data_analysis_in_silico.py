@@ -151,27 +151,28 @@ def correlation(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, threshol
 
 def overlap(n_spikes_A, n_spikes_B, threshold_A, threshold_B): 
         
-        n_spikes_A_filtered=[]
-        n_spikes_B_filtered=[]
+        print("threshold pattern 1", threshold_A, " threshold pattern 2:", threshold_B)
+        #n_spikes_A_filtered=[]
+        #n_spikes_B_filtered=[]
         activity_A =[]
         activity_B =[]
         for value1, value2 in zip(n_spikes_A, n_spikes_B):
             if value1 >= threshold_A or value2 >=threshold_B:
             #print(value1,value2)
-                n_spikes_A_filtered.append(value1)
-                n_spikes_B_filtered.append(value2)
+                #n_spikes_A_filtered.append(value1)
+                #n_spikes_B_filtered.append(value2)
 
                 if value1 >= threshold_A:
-                     activity_A.append(1)
+                    activity_A.append(1)
                 else:
-                     activity_A.append(0)
-                if value1 >= threshold_B:
-                     activity_B.append(1)
+                    activity_A.append(0)
+                if value2 >= threshold_B:
+                    activity_B.append(1)
                 else:
-                     activity_B.append(0)     
+                    activity_B.append(0)     
 
-        n_spikes_A= n_spikes_A_filtered
-        n_spikes_B= n_spikes_B_filtered
+        #n_spikes_A= n_spikes_A_filtered
+        #n_spikes_B= n_spikes_B_filtered
 
         #print(threshold_A)
         #print(n_spikes_A)
@@ -180,12 +181,14 @@ def overlap(n_spikes_A, n_spikes_B, threshold_A, threshold_B):
         overlap = [1 if (activity_A[i] == 1 and activity_B[i] == 1) else 0 for i in range(len(activity_A))]
 
         active_neurons_total = len(activity_A)
-        active_neurons_A = activity_A.count(1)
-        active_neurons_B = activity_B.count(1)
+        #active_neurons_A = activity_A.count(1)
+        #active_neurons_B = activity_B.count(1)
         active_neurons_overlap = overlap.count(1)
+        #print("active neurons overlap", active_neurons_overlap)
+        #print("total active neurons", active_neurons_total)
 
         if active_neurons_total > 0:
-            return np.round(active_neurons_overlap/active_neurons_total,2), active_neurons_total
+            return np.round(active_neurons_overlap/active_neurons_total,4), active_neurons_total
         else:
             return 0, 0
 
@@ -264,13 +267,15 @@ def correlation_per_angle(exp=[4,5], patterns=[0,1], mouse=[0,0], amplitude=10):
                 correlations.append(statistic)
 
                 #overlaps
-                overlaps.append(overlap(n_spikes_i, n_spikes_j, threshold_i, threshold_j))
+                overlap_= overlap(n_spikes_i, n_spikes_j, threshold_i, threshold_j)
+                overlaps.append(overlap_)
 
                 #angles
                 location_central_el, location_return_i = electrode_coordin(exp[i], patterns[i])
                 location_central_el, location_return_j = electrode_coordin(exp[j], patterns[j])
-                angles.append(get_electrode_angles(location_central_el, location_return_i,location_return_j))
-            #print('angle', angles)
+                angle= get_electrode_angles(location_central_el, location_return_i,location_return_j)
+                angles.append(angle)
+                #print('angle between exp', exp[i], 'p', patterns[i], 'and exp', exp[j], 'p', patterns[j], 'is', angle, "with an overlap ", overlap_[0])
         angles, correlations, overlaps = zip(*sorted(zip(angles, correlations, overlaps))) # Sort the correlations in ascending order
         return angles, correlations, overlaps
 
@@ -682,35 +687,35 @@ def directionality_cellular_overlap(exp=[4,5], patterns=[0,9], mouse=0):
     # Plotting the data points
     for combination in range(len(angles_20)):
         plt.plot(angles_20[combination], overlaps_20[combination][0], 'o', markersize=markersize, color=colors[0], label='20 µA')
-        print("angles 20", angles_20)
+        #print("angles 20", angles_20)
     for combination in range(len(angles_10)):
         plt.plot(angles_10[combination], overlaps_10[combination][0], 'o', markersize=markersize, color=colors[1], label='10 µA')  
-        print("angles 10", angles_10)
+        #print("angles 10", angles_10)
 
     # Filter and sort data for linear fitting
-    #filtered_sorted_pairs20 = sorted((x, y[0]) for x, y in zip(angles_20, overlaps_20) if not np.isnan(x) and not np.isnan(y[0]))
-    #filtered_sorted_pairs10 = sorted((x, y[0]) for x, y in zip(angles_10, overlaps_10) if not np.isnan(x) and not np.isnan(y[0]))
+    filtered_sorted_pairs20 = sorted((x, y[0]) for x, y in zip(angles_20, overlaps_20) if not np.isnan(x) and not np.isnan(y[0]))
+    filtered_sorted_pairs10 = sorted((x, y[0]) for x, y in zip(angles_10, overlaps_10) if not np.isnan(x) and not np.isnan(y[0]))
 
-    #sorted_angles20, sorted_overlaps20 = zip(*filtered_sorted_pairs20)
-    #sorted_angles10, sorted_overlaps10 = zip(*filtered_sorted_pairs10)
+    sorted_angles20, sorted_overlaps20 = zip(*filtered_sorted_pairs20)
+    sorted_angles10, sorted_overlaps10 = zip(*filtered_sorted_pairs10)
 
         
-    #slope20, intercept20 = np.polyfit(sorted_angles20, sorted_overlaps20, 1)
-    #slope10, intercept10 = np.polyfit(sorted_angles10, sorted_overlaps10, 1)
+    slope20, intercept20 = np.polyfit(sorted_angles20, sorted_overlaps20, 1)
+    slope10, intercept10 = np.polyfit(sorted_angles10, sorted_overlaps10, 1)
 
     # Generate line for plotting
-    #x_line = np.linspace(0, 180, 100)
-    #y_line20 = slope20 * x_line + intercept20
-    #y_line10 = slope10 * x_line + intercept10
+    x_line = np.linspace(0, 180, 100)
+    y_line20 = slope20 * x_line + intercept20
+    y_line10 = slope10 * x_line + intercept10
 
-    #linewidth = 3
-    #plt.plot(x_line, y_line20, color='blue', linewidth=linewidth)
-    #equation_text = f"y = {slope20:.5f} x + {intercept20:.2f}"
-    #plt.text(0.05 * max(x_line), 0.9 * max(y_line20), equation_text, color='black', fontsize=10)
+    linewidth = 3
+    plt.plot(x_line, y_line20, color='blue', linewidth=linewidth)
+    equation_text = f"y = {slope20:.5f} x + {intercept20:.2f}"
+    plt.text(0.05 * max(x_line), 0.9 * max(y_line20), equation_text, color='black', fontsize=10)
 
-    #plt.plot(x_line, y_line10, color='orange', linewidth=linewidth)
-    #equation_text = f"y = {slope10:.5f} x + {intercept10:.2f}"
-    #plt.text(0.05 * max(x_line), 0.9 * max(y_line10), equation_text, color='black', fontsize=10)
+    plt.plot(x_line, y_line10, color='orange', linewidth=linewidth)
+    equation_text = f"y = {slope10:.5f} x + {intercept10:.2f}"
+    plt.text(0.05 * max(x_line), 0.9 * max(y_line10), equation_text, color='black', fontsize=10)
 
     # Legend and labels
     handles, labels = plt.gca().get_legend_handles_labels()
@@ -727,10 +732,100 @@ def directionality_cellular_overlap(exp=[4,5], patterns=[0,9], mouse=0):
     plt.tight_layout()
     plt.show()
 
-directionality_cellular_overlap(exp=[4, 4], patterns=[5, 7], mouse=0)
+#directionality_cellular_overlap(exp=[4,4], patterns=[5,7], mouse=0)
+#directionality_cellular_overlap(exp=[4,4,4,5,5,5,5], patterns=[0,5,7,9,2,1,0], mouse=0)
+#directionality_cellular_overlap(exp=[4,5,5,5,5,5,5], patterns=[5,7,3,8,4,6,5], mouse=0)
 #directionality_cellular_overlap(exp=[4,4,4,5,5,5,5,5,5,5,5,5,5], patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9], mouse=0)
 #directionality_cellular_overlap(exp=[4,4,4,5,5,5,5,5,5,5,5,5,5], patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9], mouse=1)
 #directionality_cellular_overlap(exp=[4,4,4,5,5,5,5,5,5,5,5,5,5], patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9], mouse=2)
+
+def directionality_cellular_overlap_all(exp, patterns, mice):
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    markersize = 7
+    colors = ['blue', 'orange']
+    plt.figure()
+
+    # Data storage for each amplitude
+    all_angles_20, all_overlaps_20 = [], []
+    all_angles_10, all_overlaps_10 = [], []
+
+    # Loop through each mouse and collect data
+    for idx, mouse in enumerate(mice):
+        mouse_x = [mouse] * len(exp)
+        
+        # Generate sample data
+        angles_20, correlations_20, overlaps_20 = correlation_per_angle(exp=exp, patterns=patterns, mouse=mouse_x, amplitude=20)
+        angles_10, correlations_10, overlaps_10 = correlation_per_angle(exp=exp, patterns=patterns, mouse=mouse_x, amplitude=10)
+
+        # Collect data for amplitude 20
+        all_angles_20.extend(angles_20)
+        all_overlaps_20.extend(overlap[0] for overlap in overlaps_20)
+
+        # Collect data for amplitude 10
+        all_angles_10.extend(angles_10)
+        all_overlaps_10.extend(overlap[0] for overlap in overlaps_10)
+
+        # Plotting the data points
+        for combination in range(len(angles_20)):
+            plt.plot(angles_20[combination], overlaps_20[combination][0], 'o', markersize=markersize, color=colors[0], label='20 µA')
+            #print("angles 20", angles_20)
+        for combination in range(len(angles_10)):
+            plt.plot(angles_10[combination], overlaps_10[combination][0], 'o', markersize=markersize, color=colors[1], label='10 µA')  
+            #print("angles 10", angles_10)
+
+    # Filter and sort combined data for amplitude 20
+    filtered_sorted_pairs_20 = sorted((x, y) for x, y in zip(all_angles_20, all_overlaps_20) if not np.isnan(x) and not np.isnan(y))
+    sorted_angles_20, sorted_overlaps_20 = zip(*filtered_sorted_pairs_20)
+
+    # Filter and sort combined data for amplitude 10
+    filtered_sorted_pairs_10 = sorted((x, y) for x, y in zip(all_angles_10, all_overlaps_10) if not np.isnan(x) and not np.isnan(y))
+    sorted_angles_10, sorted_overlaps_10 = zip(*filtered_sorted_pairs_10)
+
+    # Perform linear fits
+    slope_20, intercept_20 = np.polyfit(sorted_angles_20, sorted_overlaps_20, 1)
+    slope_10, intercept_10 = np.polyfit(sorted_angles_10, sorted_overlaps_10, 1)
+
+    # Generate lines for plotting
+    x_line = np.linspace(0, 180, 100)
+    y_line_20 = slope_20 * x_line + intercept_20
+    y_line_10 = slope_10 * x_line + intercept_10
+
+    linewidth = 3
+    # Plot linear fits
+    plt.plot(x_line, y_line_20, color='blue', linewidth=linewidth)
+    plt.plot(x_line, y_line_10, color='orange', linewidth=linewidth)
+
+    # Add equations for fits
+    equation_text_20 = f"20 µA: y = {slope_20:.5f}x + {intercept_20:.2f}"
+    equation_text_10 = f"10 µA: y = {slope_10:.5f}x + {intercept_10:.2f}"
+    plt.text(10, 0.8, equation_text_20, color='blue', fontsize=10)
+    plt.text(10, 0.7, equation_text_10, color='orange', fontsize=10)
+
+    # Legend and labels
+    handles, labels = plt.gca().get_legend_handles_labels()
+    by_label = dict(zip(labels, handles))  # Remove duplicate labels
+    plt.legend(by_label.values(), by_label.keys(), fontsize=12)
+
+    plt.xlabel('Angle between 2 directions [°]', fontsize=20)
+    plt.ylabel('Binary overlap of 2 directions', fontsize=20)
+    plt.xticks(fontsize=15)
+    plt.yticks(fontsize=15)
+    bottom, top = plt.ylim()
+    plt.ylim(bottom, 1)
+    plt.title('Neural overlap for different directions', fontsize=20)
+    plt.tight_layout()
+    plt.show()
+
+# Call the function for all mice
+directionality_cellular_overlap_all(
+    exp=[4,4,4,5,5,5,5,5,5,5,5,5,5],
+    patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9],
+    mice=[0, 1, 2]
+)
+
+
 
 ############################################################
 ########################## PCA #############################
