@@ -151,7 +151,7 @@ def correlation(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, threshol
 
 def overlap(n_spikes_A, n_spikes_B, threshold_A, threshold_B): 
         
-        print("threshold pattern 1", threshold_A, " threshold pattern 2:", threshold_B)
+        #print("threshold pattern 1", threshold_A, " threshold pattern 2:", threshold_B)
         #n_spikes_A_filtered=[]
         #n_spikes_B_filtered=[]
         activity_A =[]
@@ -800,8 +800,8 @@ def directionality_cellular_overlap_all(exp, patterns, mice):
     # Add equations for fits
     equation_text_20 = f"20 µA: y = {slope_20:.5f}x + {intercept_20:.2f}"
     equation_text_10 = f"10 µA: y = {slope_10:.5f}x + {intercept_10:.2f}"
-    plt.text(10, 0.8, equation_text_20, color='blue', fontsize=10)
-    plt.text(10, 0.7, equation_text_10, color='orange', fontsize=10)
+    plt.text(10, 0.8, equation_text_20, color='black', fontsize=10)
+    plt.text(10, 0.7, equation_text_10, color='black', fontsize=10)
 
     # Legend and labels
     handles, labels = plt.gca().get_legend_handles_labels()
