@@ -18,7 +18,7 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
     :rtype: ndarray
     """    
 
-    path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
+    path ='C:/Users/ankev/OneDrive/Documenten/Github/ReVision/neural-simulation/v1_Anke'
     
     nodes_dirs= [str(path)+'/virtual_mice_mask/mouse_'+str(mouse)+'/v1_nodes.h5']
     spikes_dirs= [str(path)+'/exp_'+str(exp)+'/output/pattern_'+str(pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/spikes.csv']
@@ -210,9 +210,9 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     #plt.axline(electrode_0_zy, electrode_2_zy, color='darkgreen', label='Along column')
     plt.scatter(node_pos[:,1], node_pos[:,0], s=90, c="blue", alpha=n_spikes_norm)
     plt.scatter(electrode_0_zy[0], electrode_0_zy[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
-    plt.scatter(max_z_axis, electrode_0_zy[1], color='red', marker='*', s=120, label='Max density', zorder=3)
-    plt.scatter(electrode_0_zy[0], max_y_axis, color='red', marker='*', s=120, zorder=3)
-    plt.scatter(max_z_axis,max_y_axis, color='red', marker='*', s=120, zorder=3)
+    #plt.scatter(max_z_axis, electrode_0_zy[1], color='red', marker='*', s=120, label='Max density', zorder=3)
+    #plt.scatter(electrode_0_zy[0], max_y_axis, color='red', marker='*', s=120, zorder=3)
+    #plt.scatter(max_z_axis,max_y_axis, color='red', marker='*', s=120, zorder=3)
 
     y_min = 100 # border layer 1 and 2/3
     y_max = 430 # border layer 4 and 5
@@ -244,7 +244,7 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
 
     pattern_title="Parallel to cortical columns. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
     plt.title(pattern_title)
-    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_column/exp_4_density_1d_kde_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
+    #plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_column/exp_4_density_1d_kde_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
     #plt.close()
     plt.show()
     return max_y_axis, max_z_axis
@@ -348,7 +348,7 @@ def plot1_kde_double(node_pos_A, n_spikes_A, node_pos_B, n_spikes_B, pattern_A, 
     pattern_title_B = "Parallel to cortical columns. Active axons. Pattern " + str(pattern_A) + ". M" + str(mouse_A) + ". Amplitude " + str(amplitude_A) + "."
     axs[1].set_title(pattern_title_B)
 
-    plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/compare_exp_2/comparison_exp2_and_4.png')
+    #plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/compare_exp_2/comparison_exp2_and_4.png')
     plt.show()
     return
 
@@ -367,7 +367,7 @@ node_pos_B, n_spikes_B = get_spikes(exp=exp_B,pattern=pattern_B,mouse=mouse_B,am
 positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
 positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
 
-in_between_norm_A= densities_active_neurons(positions_filtered_A, spikes_filtered_A)
+#in_between_norm_A= densities_active_neurons(positions_filtered_A, spikes_filtered_A)
 #n_between_norm_B= densities_active_neurons(positions_filtered_B, spikes_filtered_B)
 
 #max_y_axis_A, max_z_axis_A = plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A,amplitude_A)
