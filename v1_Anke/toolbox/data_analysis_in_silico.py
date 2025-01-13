@@ -612,8 +612,6 @@ def asymmetry_correlation(mice=[0,1,2]):
 
     plt.show()
 
-
-    # overlap figure does not make too much sense in in-silico exp??
     fig, ax = plt.subplots()  
 
     for i in overlap_asymm_10:
@@ -819,11 +817,11 @@ def directionality_cellular_overlap_all(exp, patterns, mice):
     plt.show()
 
 # Call the function for all mice
-directionality_cellular_overlap_all(
-    exp=[4,4,4,5,5,5,5,5,5,5,5,5,5],
-    patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9],
-    mice=[0, 1, 2]
-)
+#directionality_cellular_overlap_all(
+#    exp=[4,4,4,5,5,5,5,5,5,5,5,5,5],
+#    patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9],
+#    mice=[0, 1, 2]
+#)
 
 
 
@@ -891,7 +889,7 @@ def PCA_analysis(exp=[4, 5], patterns=[0, 0], mice=[0,1,2], amp=10):
     plt.show()
 
 
-#PCA_analysis(exp=[4,4,4,5,5,5,5,5,5,5,5,5,5], patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9], mice=[0,1,2], amp=10)
+#PCA_analysis(exp=[4,4,4,5,5,5,5,5,5,5,5,5,5], patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9], mice=[0,1,2], amp=20)
 
 #########################################################################################
 ################################### DEPTH ###############################################
@@ -907,7 +905,7 @@ def point_line_distance(point, line_start, line_end):
         distance = abs(A * point[0] + B * point[1] + C) / math.sqrt(A**2 + B**2)
         return distance
 
-def neurons_on_imaging_plane(exp, pattern, mouse, amplitude, point1= [-9, 300, 16], angle_degrees=60):
+def neurons_on_imaging_plane(exp, pattern, mouse, amplitude, point1= [-9, 300, 16], angle_degrees=36):
     node_pos, spikes = get_spikes(exp, pattern, mouse, amplitude)
     #print("shape node pos", node_pos.shape)
     pos_filtered, spikes_filtered, threshold = filter_spikes(node_pos, spikes)
@@ -916,10 +914,10 @@ def neurons_on_imaging_plane(exp, pattern, mouse, amplitude, point1= [-9, 300, 1
 
     angle_radians= math.radians(angle_degrees)
     tangent =math.tan(angle_radians)
-    print("tangent",tangent)
-    x=(tangent*416)-9
+    #print("tangent",tangent)
+    x=(tangent*182)-9
 
-    point2=[416,x]
+    point2=[198,x]
 
     #Convert points to 2D (z, x) plane
     point1_2d = np.array([point1[2],point1[0]])
@@ -955,7 +953,7 @@ def neurons_on_imaging_plane(exp, pattern, mouse, amplitude, point1= [-9, 300, 1
 
 #neurons_on_imaging_plane =neurons_on_imaging_plane(exp=4, pattern=0, mouse=0, amplitude=10, point1=[-9, 300, 16], angle_degrees=60)
 
-def neurons_in_layer(exp, pattern, mouse, amplitude, point1= [-9, 300, 16], point2=[-9,300,189]):
+def neurons_in_layer(exp, pattern, mouse, amplitude, point1= [-9, 300, 16], point2=[-9,300,198]):
     node_pos, spikes = get_spikes(exp, pattern, mouse, amplitude)
     #print("shape node pos", node_pos.shape)
     pos_filtered, spikes_filtered, threshold = filter_spikes(node_pos, spikes)
@@ -966,8 +964,8 @@ def neurons_in_layer(exp, pattern, mouse, amplitude, point1= [-9, 300, 16], poin
     #Convert points to 2D (z, x) plane
     point1_2d = np.array([point1[2],point1[0]])
     point2_2d = np.array([point2[2],point2[0]])
-    print("point1_2d", point1_2d)
-    print("point2 2d", point2_2d)
+    #print("point1_2d", point1_2d)
+    #print("point2 2d", point2_2d)
     #print("shape point 1 2d is", point1_2d.shape)
 
 
@@ -1002,11 +1000,11 @@ def plot_depth():
     markersize=7
 
     for mouse_i in [0,1,2]:
-        print(mouse_i)
+        #print(mouse_i)
         n_60_10=neurons_on_imaging_plane(exp=4, pattern=0, mouse=mouse_i, amplitude=10, point1=[-9, 300, 16], angle_degrees=60)
-        n_0_10=neurons_in_layer(exp=4, pattern=0, mouse=mouse_i, amplitude=10, point1=[-9, 300, 16],point2=[-9,300,189])
+        n_0_10=neurons_in_layer(exp=4, pattern=0, mouse=mouse_i, amplitude=10, point1=[-9, 300, 16],point2=[-9,300,198])
         n_60_20=neurons_on_imaging_plane(exp=4, pattern=0, mouse=mouse_i, amplitude=20, point1=[-9, 300, 16], angle_degrees=60)
-        n_0_20=neurons_in_layer(exp=4, pattern=0, mouse=mouse_i, amplitude=20, point1=[-9, 300, 16],point2=[-9,300,189])
+        n_0_20=neurons_in_layer(exp=4, pattern=0, mouse=mouse_i, amplitude=20, point1=[-9, 300, 16],point2=[-9,300,198])
 
 
         
@@ -1025,14 +1023,14 @@ def plot_depth():
 
     plt.yticks(fontsize=15)
     plt.ylabel('Nb. of activated neurons', fontsize=20)
-    plt.xticks([1,2], ['Imaging plane along layer', 'Imaging plane 60 degrees'], fontsize=15)
+    plt.xticks([1,2], ['Imaging plane along layer', 'Imaging plane 36 degrees'], fontsize=15)
     #plt.yticks(np.arange(0, 21, 2), fontsize=15)
     #plt.ylim(0,20)
     plt.legend(fontsize=15)
 
     plt.show()
 
-#plot_depth()
+plot_depth()
 
 
 

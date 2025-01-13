@@ -6,6 +6,7 @@ import os
 from scipy.stats import pearsonr
 import matplotlib.pyplot as plt
 from sklearn.neighbors import KernelDensity
+import math
 
 #same as the other data_analyser file but now preprocessing with standard deviations instead of threshold
 
@@ -376,16 +377,14 @@ def plot1_kde_rectangles(node_pos, n_spikes, pattern, mouse,amplitude):
     red_rect = plt.Rectangle((rect_x_start, rect_y), rect_width, rect_height, color='red', alpha=0.5, label='Along the layer')
     ax.add_patch(red_rect)
 
-    # Define the yellow rectangle along the direction of the imaging plane
-    imaging_plane_start = electrode_0_zx
-    imaging_plane_end = [416, 684]
-
     # Calculate the angle (radians) of the imaging plane for the rotation of the yellow rectangle
-    angle = np.arctan2(imaging_plane_end[1] - imaging_plane_start[1], imaging_plane_end[0] - imaging_plane_start[0])
+    angle_degrees=36
+    angle= math.radians(angle_degrees) #convert to radians
+    
     
     #rect_start_yellow=-51
     rect_start_yellow=-35
-    rect_y_yellow=-125
+    rect_y_yellow=-65
     
     
     # Create and add the yellow rectangle with rotation
@@ -425,16 +424,16 @@ def plot1_kde_rectangles(node_pos, n_spikes, pattern, mouse,amplitude):
 
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=4
-amplitude=20
-for pattern in [5]:
+amplitude=10
+for pattern in [0]:
     pattern_1=pattern
     amplitude_1 = 10
     for mouse in [0]:
         mouse_1=mouse
         node_pos_1, n_spikes_1 = get_spikes(exp=exp,pattern=pattern_1,mouse=mouse_1,amplitude=amplitude_1)
         positions_filtered, spikes_filtered, threshold_A = filter_spikes(node_pos_1, n_spikes_1)
-        plot1_kde(positions_filtered, spikes_filtered, pattern, mouse,amplitude)
-        #max_y_axis_1, max_z_axis_1 = plot1_kde_rectangles(positions_filtered_1, spikes_filtered_1, pattern_1, mouse_1,amplitude_1)
+        #plot1_kde(positions_filtered, spikes_filtered, pattern, mouse,amplitude)
+        max_y_axis_1, max_z_axis_1 = plot1_kde_rectangles(positions_filtered, spikes_filtered, pattern_1, mouse_1,amplitude_1)
         #max_y_1,max_z_1 = full_kde(positions_filtered_1, spikes_filtered_1, pattern_1,mouse_1,amplitude_1)
 
 #coordinates= node_pos_A[:,1:]
