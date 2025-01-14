@@ -78,7 +78,7 @@ def filter_spikes(node_pos, n_spikes):
     print("standard dev", std_spikes)    
 
     #threshold = avg_spikes + 3*std_spikes
-    threshold = 5
+    threshold = 3
     print("threshold", threshold)
     n_spikes_filtered=[]
     filtered_indices=[]
@@ -361,7 +361,7 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     plt.gca().set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
     plt.legend(fontsize='12', loc='upper right')
 
-    pattern_title="Parallel to cortical columns. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+" threshold = 5"+"."
+    pattern_title="NO AXONS Parallel to cortical columns. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+" threshold = 3"+"."
     plt.title(pattern_title)
     #plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_column/1d_kde_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
     #plt.close()
@@ -369,7 +369,7 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     return max_y_axis, max_z_axis  
 
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
-exp=4
+exp=2
 pattern_A="bkg"
 mouse_A=0
 amplitude_A=0
