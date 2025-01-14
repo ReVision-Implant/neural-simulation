@@ -83,10 +83,10 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
         #print(node_pos_L234.shape)
     
     #for analysis all neurons:
-    return node_pos, n_spikes
+    #return node_pos, n_spikes
 
     #only looking at neurons in layer 2/3 and 4
-    #return node_pos_L234, n_spikes_L234
+    return node_pos_L234, n_spikes_L234
 
 #test code
 #n_spikes_L234_test, node_pos_L234_test = get_spikes(4,0,0,10)
@@ -817,11 +817,11 @@ def directionality_cellular_overlap_all(exp, patterns, mice):
     plt.show()
 
 # Call the function for all mice
-#directionality_cellular_overlap_all(
-#    exp=[4,4,4,5,5,5,5,5,5,5,5,5,5],
-#    patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9],
-#    mice=[0, 1, 2]
-#)
+directionality_cellular_overlap_all(
+    exp=[4,4,4,5,5,5,5,5,5,5,5,5,5],
+    patterns=[0,5,7,0,1,2,3,4,5,6,7,8,9],
+    mice=[0, 1, 2]
+)
 
 
 
@@ -1001,9 +1001,9 @@ def plot_depth():
 
     for mouse_i in [0,1,2]:
         #print(mouse_i)
-        n_60_10=neurons_on_imaging_plane(exp=4, pattern=0, mouse=mouse_i, amplitude=10, point1=[-9, 300, 16], angle_degrees=60)
+        n_60_10=neurons_on_imaging_plane(exp=4, pattern=0, mouse=mouse_i, amplitude=10, point1=[-9, 300, 16], angle_degrees=36)
         n_0_10=neurons_in_layer(exp=4, pattern=0, mouse=mouse_i, amplitude=10, point1=[-9, 300, 16],point2=[-9,300,198])
-        n_60_20=neurons_on_imaging_plane(exp=4, pattern=0, mouse=mouse_i, amplitude=20, point1=[-9, 300, 16], angle_degrees=60)
+        n_60_20=neurons_on_imaging_plane(exp=4, pattern=0, mouse=mouse_i, amplitude=20, point1=[-9, 300, 16], angle_degrees=36)
         n_0_20=neurons_in_layer(exp=4, pattern=0, mouse=mouse_i, amplitude=20, point1=[-9, 300, 16],point2=[-9,300,198])
 
 
@@ -1030,7 +1030,7 @@ def plot_depth():
 
     plt.show()
 
-plot_depth()
+#plot_depth()
 
 
 

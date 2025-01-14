@@ -78,7 +78,7 @@ def filter_spikes(node_pos, n_spikes):
     print("standard dev", std_spikes)    
 
     #threshold = avg_spikes + 3*std_spikes
-    threshold = 1
+    threshold = 5
     print("threshold", threshold)
     n_spikes_filtered=[]
     filtered_indices=[]
@@ -345,28 +345,10 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
 
     fig = plt.figure(figsize=(8,12))
 
-    if pattern==0:
-        plt.scatter(electrode_1_zy[0], electrode_1_zy[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
-    elif pattern==4:
-        plt.scatter(electrode_1_zy[0], electrode_1_zy[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
-    elif pattern==5:
-        plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
-    elif pattern==6:
-        plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
-    elif pattern==8:
-        plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
-        plt.scatter(electrode_3_zy[0], electrode_3_zy[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
-    else:
-        plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
-        plt.scatter(electrode_3_zy[0], electrode_3_zy[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
 
     plt.axline(electrode_0_zy, electrode_1_zy, color='limegreen', label='Along layer')
     plt.axline(electrode_0_zy, electrode_2_zy, color='darkgreen', label='Along column')
     plt.scatter(node_pos[:,1], node_pos[:,0], s=90, c="blue", alpha=n_spikes_norm)
-    plt.scatter(electrode_0_zy[0], electrode_0_zy[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
-    plt.scatter(max_z_axis, electrode_0_zy[1], color='red', marker='*', s=120, label='Max density', zorder=3)
-    plt.scatter(electrode_0_zy[0], max_y_axis, color='red', marker='*', s=120, zorder=3)
-    plt.scatter(max_z_axis,max_y_axis, color='red', marker='*', s=120, zorder=3)
 
     plt.xlabel('Z Coordinate')
     plt.ylabel('Y Coordinate')
@@ -379,7 +361,7 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     plt.gca().set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
     plt.legend(fontsize='12', loc='upper right')
 
-    pattern_title="Parallel to cortical columns. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
+    pattern_title="Parallel to cortical columns. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+" threshold = 5"+"."
     plt.title(pattern_title)
     #plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_column/1d_kde_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
     #plt.close()
@@ -388,9 +370,9 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
 
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=4
-pattern_A=0
+pattern_A="bkg"
 mouse_A=0
-amplitude_A=10
+amplitude_A=0
 node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
 #pattern_B=4
