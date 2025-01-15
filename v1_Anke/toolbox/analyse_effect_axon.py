@@ -59,7 +59,25 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
         node_pos = np.vstack((node_pos, node_pos_temp))
         n_spikes = np.append(n_spikes, n_spikes_temp)
 
-    return node_pos, n_spikes
+        y_coordin=node_pos[:,1]
+        n_spikes_L234=[]
+        node_pos_L234=[]
+        for index, y in enumerate(y_coordin):
+            if y >= 100 and y<=430: # only select neurons in layer 2/3 and 4 of the cortex
+                n_spikes_L234.append(n_spikes[index])
+                node_pos_L234.append(node_pos[index,:])
+        n_spikes_L234=np.array(n_spikes_L234)
+        node_pos_L234=np.array(node_pos_L234)
+        #print(n_spikes_L234.shape)
+        #print(node_pos_L234.shape)
+    
+    #for analysis all neurons:
+    #return node_pos, n_spikes
+
+    #only looking at neurons in layer 2/3 and 4
+    return node_pos_L234, n_spikes_L234
+
+
 
 def filter_spikes(node_pos, n_spikes):
     non_zero_indices = np.nonzero(n_spikes)
@@ -67,12 +85,12 @@ def filter_spikes(node_pos, n_spikes):
     n_spikes= n_spikes[non_zero_indices]
 
     avg_spikes = np.mean(n_spikes)
-    print("average", avg_spikes)
+    #print("average", avg_spikes)
     std_spikes = np.std(n_spikes)
-    print("standard dev", std_spikes)    
+    #print("standard dev", std_spikes)    
 
     threshold = avg_spikes + 3*std_spikes
-    print("threshold", threshold)
+    #print("threshold", threshold)
     n_spikes_filtered=[]
     filtered_indices=[]
     for index, value in enumerate(n_spikes):
@@ -80,11 +98,11 @@ def filter_spikes(node_pos, n_spikes):
             n_spikes_filtered.append(value)
             filtered_indices.append(index)
 
-    print("before filtering node pos shape:", node_pos.shape)            
+    #print("before filtering node pos shape:", node_pos.shape)            
     node_pos_filtered = node_pos[filtered_indices]
-    print("after filtering node pos shape:", node_pos_filtered.shape)   
+    #print("after filtering node pos shape:", node_pos_filtered.shape)   
     n_spikes_filtered= np.array(n_spikes_filtered)
-    print("after filtering n_ spikes shape:", n_spikes_filtered.shape) 
+    #print("after filtering n_ spikes shape:", n_spikes_filtered.shape) 
 
     return node_pos_filtered, n_spikes_filtered, threshold
 
@@ -295,7 +313,8 @@ def plot1_kde_double(node_pos_A, n_spikes_A, node_pos_B, n_spikes_B, pattern_A, 
     axs[0].set_xlabel('Z Coordinate')
     axs[0].set_ylabel('Y Coordinate')
     axs[0].set_xlim([-400, 400])
-    axs[0].set_ylim([0, 800])
+    #axs[0].set_ylim([0, 800])
+    axs[0].set_ylim([80,500])
     axs[0].invert_xaxis()
     axs[0].invert_yaxis()
     axs[0].set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
@@ -339,7 +358,8 @@ def plot1_kde_double(node_pos_A, n_spikes_A, node_pos_B, n_spikes_B, pattern_A, 
     axs[1].set_xlabel('Z Coordinate')
     axs[1].set_ylabel('Y Coordinate')
     axs[1].set_xlim([-400, 400])
-    axs[1].set_ylim([0, 800])
+    #axs[1].set_ylim([0, 800])
+    axs[1].set_ylim([80,500])
     axs[1].invert_xaxis()
     axs[1].invert_yaxis()
     axs[1].set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal

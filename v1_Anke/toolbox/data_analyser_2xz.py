@@ -6,7 +6,6 @@ import os
 from scipy.stats import pearsonr
 import matplotlib.pyplot as plt
 from sklearn.neighbors import KernelDensity
-import math
 
 #same as the other data_analyser file but now preprocessing with standard deviations instead of threshold
 
@@ -64,7 +63,23 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
         node_pos = np.vstack((node_pos, node_pos_temp))
         n_spikes = np.append(n_spikes, n_spikes_temp)
 
-    return node_pos, n_spikes
+        y_coordin=node_pos[:,1]
+        n_spikes_L234=[]
+        node_pos_L234=[]
+        for index, y in enumerate(y_coordin):
+            if y >= 100 and y<=430: # only select neurons in layer 2/3 and 4 of the cortex
+                n_spikes_L234.append(n_spikes[index])
+                node_pos_L234.append(node_pos[index,:])
+        n_spikes_L234=np.array(n_spikes_L234)
+        node_pos_L234=np.array(node_pos_L234)
+        #print(n_spikes_L234.shape)
+        #print(node_pos_L234.shape)
+    
+    #for analysis all neurons:
+    #return node_pos, n_spikes
+
+    #only looking at neurons in layer 2/3 and 4
+    return node_pos_L234, n_spikes_L234
 
 def filter_spikes(node_pos, n_spikes):
     non_zero_indices = np.nonzero(n_spikes)
@@ -278,14 +293,32 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse,amplitude):
     max_x_axis=grid_x[np.argmax(density_x)][0]
     max_z_axis=grid_z[np.argmax(density_z)][0]
 
-    #print("type node pos",type(node_pos))
-    #print("type of n spikes",type(n_spikes))
+    y_coordin=node_pos[:,1]
+    node_pos_L23=[]
+    node_pos_L4=[]
+    for index, y in enumerate(y_coordin):
+        if y >= 100 and y<=310: # only select neurons in layer 2/3
+            node_pos_L23.append(node_pos[index,:])
+        elif y >310 and y<=430:
+            node_pos_L4.append(node_pos[index,:])
+        else:
+            print(node_pos[index,:])
+    node_pos_L23=np.array(node_pos_L23)
+    node_pos_L4=np.array(node_pos_L4)
+
+    #print(node_pos_L23.shape)
+   # print(node_pos_L4.shape)
+
 
     node_pos=node_pos[:, [0, 2]]
+    node_pos_L23=node_pos_L23[:, [0, 2]]
+    node_pos_L4=node_pos_L4[:, [0, 2]]
     max_spikes=np.max(n_spikes)
     #print("max number spikes", max_spikes)
     n_spikes_norm=n_spikes/max_spikes
     #print(n_spikes_norm)
+
+    
 
     electrode_0_zx=[16,-9]
     electrode_1_zx=[198,-9]
@@ -311,9 +344,10 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse,amplitude):
         
     plt.axline(electrode_0_zx, electrode_1_zx, color='limegreen', label='Along layer')
     #plt.axline(electrode_0_zx, [416,684], color='darkgreen', label='imaging plane')
-    #plt.scatter(node_pos_other[:,1], node_pos_other[:,0], s=90, c="blue", alpha=n_spikes_norm)
-    plt.scatter(node_pos[:,1], node_pos[:,0], s=90, c="blue", alpha=n_spikes_norm)
-    plt.scatter(electrode_0_zx[0], electrode_0_zx[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
+    #plt.scatter(node_pos[:,1], node_pos[:,0], s=90, c="blue", alpha=n_spikes_norm)
+    plt.scatter(node_pos_L4[:,1], node_pos_L4[:,0], s=90, c="blue", label='neurons in L4', alpha=n_spikes_norm)
+    plt.scatter(node_pos_L23[:,1], node_pos_L23[:,0], s=90, c="red", label='neurons in L23',alpha=n_spikes_norm)
+    #plt.scatter(electrode_0_zx[0], electrode_0_zx[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
     #plt.scatter(max_z_axis, electrode_0_zx[1], color='red', marker='*', s=120, label='Max density', zorder=3)
     #plt.scatter(electrode_0_zx[0], max_x_axis, color='red', marker='*', s=120, zorder=3)
     #plt.scatter(max_z_axis,max_x_axis, color='red', marker='*', s=120, zorder=3)
@@ -321,7 +355,7 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse,amplitude):
     plt.xlabel('Z Coordinate')
     plt.ylabel('X Coordinate')
     #plt.set_xlim([-400,400])
-    #plt.set_ylim([100, 800]
+    #plt.set_ylim([100, 800])
     plt.xlim([-400, 400])
     plt.ylim([-400, 400])
     #plt.invert_yaxis()  # Invert x-axis
@@ -381,14 +415,16 @@ def plot1_kde_rectangles(node_pos, n_spikes, pattern, mouse,amplitude):
     red_rect = plt.Rectangle((rect_x_start, rect_y), rect_width, rect_height, color='red', alpha=0.5, label='Along the layer')
     ax.add_patch(red_rect)
 
+    # Define the yellow rectangle along the direction of the imaging plane
+    imaging_plane_start = electrode_0_zx
+    imaging_plane_end = [416, 684]
+
     # Calculate the angle (radians) of the imaging plane for the rotation of the yellow rectangle
-    angle_degrees=36
-    angle= math.radians(angle_degrees) #convert to radians
-    
+    angle = np.arctan2(imaging_plane_end[1] - imaging_plane_start[1], imaging_plane_end[0] - imaging_plane_start[0])
     
     #rect_start_yellow=-51
     rect_start_yellow=-35
-    rect_y_yellow=-65
+    rect_y_yellow=-125
     
     
     # Create and add the yellow rectangle with rotation
@@ -413,7 +449,7 @@ def plot1_kde_rectangles(node_pos, n_spikes, pattern, mouse,amplitude):
     #plt.set_xlim([-400,400])
     #plt.set_ylim([100, 800])
     plt.xlim([-400, 400])
-    plt.ylim([-200, 200])
+    plt.ylim([-400, 400])
     #plt.invert_yaxis()  # Invert x-axis
     plt.gca().invert_xaxis()
     plt.gca().set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
@@ -431,13 +467,13 @@ exp=4
 amplitude=20
 for pattern in [5]:
     pattern_1=pattern
-    amplitude_1 = 20
+    amplitude_1 = 10
     for mouse in [0]:
         mouse_1=mouse
         node_pos_1, n_spikes_1 = get_spikes(exp=exp,pattern=pattern_1,mouse=mouse_1,amplitude=amplitude_1)
         positions_filtered, spikes_filtered, threshold_A = filter_spikes(node_pos_1, n_spikes_1)
         plot1_kde(positions_filtered, spikes_filtered, pattern, mouse,amplitude)
-        #max_y_axis_1, max_z_axis_1 = plot1_kde_rectangles(positions_filtered, spikes_filtered, pattern_1, mouse_1,amplitude_1)
+        #max_y_axis_1, max_z_axis_1 = plot1_kde_rectangles(positions_filtered_1, spikes_filtered_1, pattern_1, mouse_1,amplitude_1)
         #max_y_1,max_z_1 = full_kde(positions_filtered_1, spikes_filtered_1, pattern_1,mouse_1,amplitude_1)
 
 #coordinates= node_pos_A[:,1:]
