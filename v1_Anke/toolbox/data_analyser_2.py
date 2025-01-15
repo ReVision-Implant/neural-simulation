@@ -65,7 +65,24 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
         node_pos = np.vstack((node_pos, node_pos_temp))
         n_spikes = np.append(n_spikes, n_spikes_temp)
 
-    return node_pos, n_spikes
+        y_coordin=node_pos[:,1]
+        n_spikes_L234=[]
+        node_pos_L234=[]
+        for index, y in enumerate(y_coordin):
+            if y >= 100 and y<=430: # only select neurons in layer 2/3 and 4 of the cortex
+                n_spikes_L234.append(n_spikes[index])
+                node_pos_L234.append(node_pos[index,:])
+        n_spikes_L234=np.array(n_spikes_L234)
+        node_pos_L234=np.array(node_pos_L234)
+        #print(n_spikes_L234.shape)
+        #print(node_pos_L234.shape)
+    
+    #for analysis all neurons:
+    #return node_pos, n_spikes
+
+    #only looking at neurons in layer 2/3 and 4
+    return node_pos_L234, n_spikes_L234
+  
 
 def filter_spikes(node_pos, n_spikes):
     non_zero_indices = np.nonzero(n_spikes)
@@ -77,8 +94,8 @@ def filter_spikes(node_pos, n_spikes):
     std_spikes = np.std(n_spikes)
     print("standard dev", std_spikes)    
 
-    #threshold = avg_spikes + 3*std_spikes
-    threshold = 1
+    threshold = avg_spikes + 3*std_spikes
+    #threshold = 1
     print("threshold", threshold)
     n_spikes_filtered=[]
     filtered_indices=[]
@@ -364,16 +381,16 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     plt.axline(electrode_0_zy, electrode_2_zy, color='darkgreen', label='Along column')
     plt.scatter(node_pos[:,1], node_pos[:,0], s=90, c="blue", alpha=n_spikes_norm)
     plt.scatter(electrode_0_zy[0], electrode_0_zy[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
-    plt.scatter(max_z_axis, electrode_0_zy[1], color='red', marker='*', s=120, label='Max density', zorder=3)
-    plt.scatter(electrode_0_zy[0], max_y_axis, color='red', marker='*', s=120, zorder=3)
-    plt.scatter(max_z_axis,max_y_axis, color='red', marker='*', s=120, zorder=3)
+    #plt.scatter(max_z_axis, electrode_0_zy[1], color='red', marker='*', s=120, label='Max density', zorder=3)
+    #plt.scatter(electrode_0_zy[0], max_y_axis, color='red', marker='*', s=120, zorder=3)
+    #plt.scatter(max_z_axis,max_y_axis, color='red', marker='*', s=120, zorder=3)
 
     plt.xlabel('Z Coordinate')
     plt.ylabel('Y Coordinate')
     #plt.set_xlim([-400,400])
-    #plt.set_ylim([100, 800])
-    plt.xlim([-400, 400])
     plt.ylim([0, 800])
+    plt.xlim([-400, 400])
+    #plt.ylim([80, 500])
     plt.gca().invert_xaxis()
     plt.gca().invert_yaxis()
     plt.gca().set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
@@ -390,7 +407,7 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
 exp=4
 pattern_A=0
 mouse_A=0
-amplitude_A=10
+amplitude_A=20
 node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
 #pattern_B=4

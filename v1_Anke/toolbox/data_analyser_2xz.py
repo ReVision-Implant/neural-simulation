@@ -281,19 +281,7 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse,amplitude):
     #print("type node pos",type(node_pos))
     #print("type of n spikes",type(n_spikes))
 
-    y_coordin=node_pos[:,1]
-    node_pos_L234=[]
-    node_pos_other=[]
-    for index, y in enumerate(y_coordin):
-        if y >= 100 and y<=430: # only select neurons in layer 2/3 and 4 of the cortex
-            node_pos_L234.append(node_pos[index,:])
-        else:
-            node_pos_other.append(node_pos[index,:])
-    node_pos_L234=np.array(node_pos_L234)
-    node_pos_other=np.array(node_pos_other)
-
-    node_pos_L234=node_pos_L234[:, [0, 2]]
-    node_pos_other=node_pos_other[:, [0, 2]]
+    node_pos=node_pos[:, [0, 2]]
     max_spikes=np.max(n_spikes)
     #print("max number spikes", max_spikes)
     n_spikes_norm=n_spikes/max_spikes
@@ -323,8 +311,8 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse,amplitude):
         
     plt.axline(electrode_0_zx, electrode_1_zx, color='limegreen', label='Along layer')
     #plt.axline(electrode_0_zx, [416,684], color='darkgreen', label='imaging plane')
-    plt.scatter(node_pos_other[:,1], node_pos_other[:,0], s=90, c="blue", alpha=n_spikes_norm)
-    plt.scatter(node_pos_L234[:,1], node_pos_L234[:,0], s=90, c="red", label='Neurons in layer L2/3 and 4', alpha=n_spikes_norm)
+    #plt.scatter(node_pos_other[:,1], node_pos_other[:,0], s=90, c="blue", alpha=n_spikes_norm)
+    plt.scatter(node_pos[:,1], node_pos[:,0], s=90, c="blue", alpha=n_spikes_norm)
     plt.scatter(electrode_0_zx[0], electrode_0_zx[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
     #plt.scatter(max_z_axis, electrode_0_zx[1], color='red', marker='*', s=120, label='Max density', zorder=3)
     #plt.scatter(electrode_0_zx[0], max_x_axis, color='red', marker='*', s=120, zorder=3)
@@ -425,7 +413,7 @@ def plot1_kde_rectangles(node_pos, n_spikes, pattern, mouse,amplitude):
     #plt.set_xlim([-400,400])
     #plt.set_ylim([100, 800])
     plt.xlim([-400, 400])
-    plt.ylim([-400, 400])
+    plt.ylim([-200, 200])
     #plt.invert_yaxis()  # Invert x-axis
     plt.gca().invert_xaxis()
     plt.gca().set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
