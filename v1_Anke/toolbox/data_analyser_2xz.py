@@ -305,6 +305,8 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse,amplitude):
             print(node_pos[index,:])
     node_pos_L23=np.array(node_pos_L23)
     node_pos_L4=np.array(node_pos_L4)
+    print('number of nodes L23 = ', len(node_pos_L23))
+    print('number of nodes L4 = ', len(node_pos_L4))
 
     #print(node_pos_L23.shape)
    # print(node_pos_L4.shape)
@@ -467,7 +469,7 @@ exp=4
 amplitude=20
 for pattern in [5]:
     pattern_1=pattern
-    amplitude_1 = 10
+    amplitude_1 = 20
     for mouse in [0]:
         mouse_1=mouse
         node_pos_1, n_spikes_1 = get_spikes(exp=exp,pattern=pattern_1,mouse=mouse_1,amplitude=amplitude_1)

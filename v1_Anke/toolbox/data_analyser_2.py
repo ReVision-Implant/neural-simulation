@@ -349,6 +349,21 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     max_y_axis=grid_y[np.argmax(density_y)][0]
     max_z_axis=grid_z[np.argmax(density_z)][0]
 
+    y_coordin=node_pos[:,1]
+    node_pos_L23=[]
+    node_pos_L4=[]
+    for index, y in enumerate(y_coordin):
+        if y >= 100 and y<=310: # only select neurons in layer 2/3
+            node_pos_L23.append(node_pos[index,:])
+        elif y >310 and y<=430:
+            node_pos_L4.append(node_pos[index,:])
+        else:
+            print(node_pos[index,:])
+    node_pos_L23=np.array(node_pos_L23)
+    node_pos_L4=np.array(node_pos_L4)
+    print('number of nodes L23 = ', len(node_pos_L23))
+    print('number of nodes L4 = ', len(node_pos_L4))
+
     node_pos= node_pos[:,1:]
     max_spikes=np.max(n_spikes)
     #print("max number spikes", max_spikes)
@@ -406,7 +421,7 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
 
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 exp=4
-pattern_A=0
+pattern_A=5
 mouse_A=0
 amplitude_A=20
 node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
