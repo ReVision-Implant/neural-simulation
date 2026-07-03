@@ -5,5 +5,5 @@ sys.path.append(module_path);
 
 from file_helper import create_configs;
 
-create_configs('./template.json',6, [0,1,2,3],[10,20],[0,1,2], overwrite=True);
+create_configs('./template.json',7, [0,1,2,3],[10,20],[0,1,2], overwrite=True);
 

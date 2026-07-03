@@ -1,8 +1,8 @@
-# experiment 6
+# experiment 7
 MONOPOLAR stimulation (additional experiments for publication)
 
 # waveform
-waveform_0 (symmetrical, cathodic first)
+REVERSED waveform_0 --> symmetrical ANODIC first
 
 # patterns
 monopolar stimulation of electrodes 0, 1, 2, 3 (respectively pattern_0, pattern_1 etc)
