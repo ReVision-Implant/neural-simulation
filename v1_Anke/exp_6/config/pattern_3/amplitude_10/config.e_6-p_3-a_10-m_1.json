@@ -1,6 +1,6 @@
 {
   "manifest": {
-    "$BASE_DIR": "/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke",
+    "$BASE_DIR": "$VSC_SCRATCH/neural-simulation/v1_Anke",
     "$OUTPUT_DIR": "$BASE_DIR\\exp_6\\output\\pattern_3\\amplitude_10\\mouse_1",
     "$BKG_DIR": "$BASE_DIR/components",
     "$LGN_DIR": "$BASE_DIR/components",
