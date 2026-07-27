@@ -13,15 +13,6 @@ import math
 
 def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
     """Get spikes and node positions from network and output files.
-
-    :param nodes_dirs: directories that point to network/nodes.h5
-    :type nodes_dirs: path or list thereof
-    :param spikes_dirs: directories that point to output/spikes.csv
-    :type spikes_dirs: path or list thereof
-    :param v1: defaults to True.
-    :type v1: bool, optional
-    :return: node positions
-    :rtype: ndarray
     """    
 
     path ='C:/Users/ankev/OneDrive/Documenten/Github/ReVision/neural-simulation/v1_Anke'
@@ -419,22 +410,55 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     plt.show()
     return max_y_axis, max_z_axis  
 
-#path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
-exp=4
-pattern_A=5
-mouse_A=0
-amplitude_A=20
-node_pos_A, n_spikes_A = get_spikes(exp=exp,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
+def sum_monopolar_exp(exp_a, exp_b, pattern_a, pattern_b, mouse, amplitude, output_pattern):
+    path ='C:/Users/ankev/OneDrive/Documenten/Github/ReVision/neural-simulation/v1_Anke'
+    
+    spikes_dir_1= str(path)+'/exp_'+str(exp_a)+'/output/pattern_'+str(pattern_a)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/spikes.csv'
+    spikes_dir_2= str(path)+'/exp_'+str(exp_b)+'/output/pattern_'+str(pattern_b)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/spikes.csv'
 
-#pattern_B=4
-#mouse_B=0
-#amplitude_B=10
-#node_pos_B, n_spikes_B = get_spikes(exp=exp,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
+    spikes1 = pd.read_csv(spikes_dir_1, sep=r"\s+")
+    spikes2 = pd.read_csv(spikes_dir_2, sep=r"\s+")
+
+    combined = pd.concat([spikes1, spikes2], ignore_index=True)
+
+    output_dir = str(path)+'/exp_8'+'/output/pattern_'+str(output_pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)
+
+    combined.to_csv(output_dir/"spikes.csv", sep=" ", index=False)
+
+    return 
+
+#path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
+
+monopolar_exp_1 = 6
+monopolar_exp_2 = 7
+monopolar_pattern_1 = 0
+monopolar_pattern_2 = 1
+monopolar_amplitude = 10
+monopolar_mouse = 0
+sum_monopolar_pattern = 0
+
+sum_monopolar_exp(monopolar_exp_1, monopolar_exp_2, monopolar_pattern_1, monopolar_pattern_2, monopolar_amplitude, monopolar_mouse, sum_monopolar_pattern)
+
+print("sum_monopolar done, start getting spikes")
+
+exp_A=4
+pattern_A=0
+mouse_A=0
+amplitude_A=10
+node_pos_A, n_spikes_A = get_spikes(exp=exp_A,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
+
+exp_B=8
+pattern_B=0
+mouse_B=0
+amplitude_B=10
+node_pos_B, n_spikes_B = get_spikes(exp=exp_B,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
 
 positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
-#positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
+positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
 
 plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A, amplitude_A)
+
+plot1_kde(positions_filtered_B, spikes_filtered_B, pattern_B, mouse_B, amplitude_B)
 
 #for pattern in [0]:
 #    pattern_1=pattern
@@ -446,7 +470,7 @@ plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A, amplitude
 #        max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_1, spikes_filtered_1, pattern_1, mouse_1,amplitude_1)
 #        #max_y_1,max_z_1 = full_kde(positions_filtered_1, spikes_filtered_1, pattern_1,mouse_1,amplitude_1)
 
-#spearman, pvalue = Spearmancorr(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
+spearman, pvalue = Spearmancorr(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #statistic, pvalue = Pearsoncorrel(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 #grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
