@@ -615,6 +615,43 @@ def sum_monopolar_exp(modus, exp_a, exp_b, pattern_a, pattern_b, mouse, amplitud
 
     return 
 
+def compare_monopolar_bipolar_activation(node_ids_bipol, node_ids_monopol):
+
+    # Convert to sets
+    active_bipol = set(node_ids_bipol)
+    active_monopol = set(node_ids_monopol)
+
+    # Compare populations
+    both = active_bipol.intersection(active_monopol)
+    bipol_only = active_bipol - active_monopol
+    monopol_only = active_monopol - active_bipol
+    any_activation = active_bipol.union(active_monopol)
+
+    # Numbers
+    n_bipol = len(active_bipol)
+    n_monopol = len(active_monopol)
+    n_both = len(both)
+    n_any = len(any_activation)
+
+    # Difference
+    difference = n_bipol - n_monopol
+
+    # Overlap fraction
+    if n_any > 0:
+        overlap_fraction = n_both / n_any
+    else:
+        overlap_fraction = np.nan
+
+    return {
+        "n_bipolar": n_bipol,
+        "n_monopolar": n_monopol,
+        "difference_bipolar_minus_monopolar": difference,
+        "n_both": n_both,
+        "n_bipolar_only": len(bipol_only),
+        "n_monopolar_only": len(monopol_only),
+        "n_total_activated": n_any,
+        "overlap_fraction": overlap_fraction
+    }
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 
 
@@ -630,15 +667,15 @@ def sum_monopolar_exp(modus, exp_a, exp_b, pattern_a, pattern_b, mouse, amplitud
 
 #print("sum_monopolar done, start getting spikes")
 
-for mouse in [0,1,2]:
-    for amplitude in [10,20]:
-        for pattern in [0,5,9]:
-            for modus in [95,96,97,98]:
-                exp_bipol=4
-                node_pos_bipol, n_spikes_bipol, node_ids_bipol, threshold_A = get_filtered_spikes(exp=exp_bipol,pattern=pattern,mouse=mouse,amplitude=amplitude, modus = modus)
-                exp_monopol=8
-                node_pos_monopol, n_spikes_monopol, node_ids_monopol = get_spikes(exp = exp_monopol,pattern=pattern, mouse = mouse, amplitude= amplitude, modus = modus)
-                plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_ids_bipol, node_pos_monopol, n_spikes_monopol, node_ids_monopol, pattern, mouse, amplitude, modus)
+#for mouse in [0,1,2]:
+ #   for amplitude in [10,20]:
+#        for pattern in [0,5,9]:
+ #           for modus in [95,96,97,98]:
+ #               exp_bipol=4
+ #               node_pos_bipol, n_spikes_bipol, node_ids_bipol, threshold_A = get_filtered_spikes(exp=exp_bipol,pattern=pattern,mouse=mouse,amplitude=amplitude, modus = modus)
+ #               exp_monopol=8
+ #               node_pos_monopol, n_spikes_monopol, node_ids_monopol = get_spikes(exp = exp_monopol,pattern=pattern, mouse = mouse, amplitude= amplitude, modus = modus)
+ #               plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_ids_bipol, node_pos_monopol, n_spikes_monopol, node_ids_monopol, pattern, mouse, amplitude, modus)
 
 
 #spearman, pvalue, lower_bound, upper_bound = Spearmancorr(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
