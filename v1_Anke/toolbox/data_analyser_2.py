@@ -145,7 +145,8 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
     assert len(nodes_dirs) == len(spikes_dirs)
 
     node_pos = np.zeros((1,3))
-    n_spikes = np.zeros((1,1)) 
+    n_spikes = np.zeros((1,1))
+    node_ids = np.array([]) 
 
     for i in range(len(nodes_dirs)):
 
@@ -156,6 +157,7 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
         node_pos_temp = HDF5(nodes_dir, v1=v1).positions
 
         n_spikes_temp = np.zeros(np.shape(node_pos_temp)[0])
+        node_ids_temp = np.arange(np.shape(node_pos_temp)[0])
 
         spikes = pd.read_csv(spikes_dir, sep='\s+')
         for ind in spikes.index:
@@ -171,24 +173,30 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
 
         node_pos = np.vstack((node_pos, node_pos_temp))
         n_spikes = np.append(n_spikes, n_spikes_temp)
+        node_ids = np.append(node_ids, node_ids_temp)
 
         y_coordin=node_pos[:,1]
         n_spikes_L234=[]
         node_pos_L234=[]
+        node_ids_L234=[]
         for index, y in enumerate(y_coordin):
             if y >= 100 and y<=430: # only select neurons in layer 2/3 and 4 of the cortex
                 n_spikes_L234.append(n_spikes[index])
                 node_pos_L234.append(node_pos[index,:])
+                node_ids_L234.append(node_ids[index])
         n_spikes_L234=np.array(n_spikes_L234)
         node_pos_L234=np.array(node_pos_L234)
+        node_ids_L234=np.array(node_ids_L234)
         #print(n_spikes_L234.shape)
         #print(node_pos_L234.shape)
-    
-    #for analysis all neurons:
-    #return node_pos, n_spikes
+
+        non_zero_indices = np.nonzero(n_spikes_L234)
+        node_pos = node_pos_L234[non_zero_indices]
+        n_spikes = n_spikes_L234[non_zero_indices]
+        node_ids = node_ids_L234[non_zero_indices]
 
     #only looking at neurons in layer 2/3 and 4
-    return node_pos_L234, n_spikes_L234
+    return node_pos, n_spikes, node_ids
     
 def Pearsoncorrel(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, threshold_B):
         '''
@@ -493,71 +501,74 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     pattern_title="Parallel to cortical columns. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
     plt.title(pattern_title)
     #plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_column/1d_kde_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
-    plt.savefig(r'C:\Users\ankev\OneDrive\Documenten\Github\ReVision\neural-simulation\v1_Anke\exp_4\output\KDE_xy\1d_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
+    #plt.savefig(r'C:\Users\ankev\OneDrive\Documenten\Github\ReVision\neural-simulation\v1_Anke\exp_4\output\KDE_zy\1d_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
     #plt.close()
     #plt.show()
     return max_y_axis, max_z_axis  
 
-def plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_pos_monopol, n_spikes_monopol, pattern, mouse, amplitude):
-    grid_y, grid_z, density_y, density_z = projected_kernel_density_estimate(node_pos, n_spikes)
-    max_y_axis=grid_y[np.argmax(density_y)][0]
-    max_z_axis=grid_z[np.argmax(density_z)][0]
+def plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_ids_bipol, node_pos_monopol, n_spikes_monopol, node_ids_monopol, pattern, mouse, amplitude):
+    fig = plt.figure(figsize=(8,12))
 
-    #y_coordin=node_pos[:,1]
-    #node_pos_L23=[]
-    #node_pos_L4=[]
-    #for index, y in enumerate(y_coordin):
-    #    if y >= 100 and y<=310: # only select neurons in layer 2/3
-    #        node_pos_L23.append(node_pos[index,:])
-    #    elif y >310 and y<=430:
-    #        node_pos_L4.append(node_pos[index,:])
-    #    else:
-    #        print(node_pos[index,:])
-    #node_pos_L23=np.array(node_pos_L23)
-    #node_pos_L4=np.array(node_pos_L4)
-    #print('number of nodes L23 = ', len(node_pos_L23))
-    #print('number of nodes L4 = ', len(node_pos_L4))
+    # neurons that are active
+    active_bipol = set(node_ids_bipol[n_spikes_bipol > 0])
+    active_monopol = set(node_ids_monopol[n_spikes_monopol > 0])
 
-    node_pos= node_pos[:,1:]
-    max_spikes=np.max(n_spikes)
-    #print("max number spikes", max_spikes)
-    n_spikes_norm=n_spikes/max_spikes
-    #print(n_spikes_norm)
+    # classify
+    bipol_only = active_bipol - active_monopol
+    monopol_only = active_monopol - active_bipol
+    both = active_bipol.intersection(active_monopol)
+
+    mask_bipol_only = np.isin(node_ids_bipol, list(bipol_only))
+    mask_monopol_only = np.isin(node_ids_monopol, list(monopol_only))
+    mask_both = np.isin(node_ids_bipol, list(both))
+
+    # bipolar only
+    plt.scatter(
+        node_pos_bipol[mask_bipol_only, 2],
+        node_pos_bipol[mask_bipol_only, 1],
+        s=90,
+        c="blue",
+        label="Bipolar only"
+    )
+
+    # monopolar only
+    plt.scatter(
+        node_pos_monopol[mask_monopol_only, 2],
+        node_pos_monopol[mask_monopol_only, 1],
+        s=90,
+        c="red",
+        label="Monopolar only"
+    )
+
+    # both
+    plt.scatter(
+        node_pos_bipol[mask_both, 2],
+        node_pos_bipol[mask_both, 1],
+        s=90,
+        c="purple",
+        label="Both"
+    )
+    
 
     electrode_0_zy=[16,300]
     electrode_1_zy=[198,300]
     electrode_2_zy=[16,170]
     electrode_3_zy=[198,170]
 
-    fig = plt.figure(figsize=(8,12))
-
     if pattern==0:
-        plt.scatter(electrode_1_zy[0], electrode_1_zy[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
-    elif pattern==4:
         plt.scatter(electrode_1_zy[0], electrode_1_zy[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
     elif pattern==5:
         plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
-    elif pattern==6:
-        plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
-    elif pattern==8:
-        plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
-        plt.scatter(electrode_3_zy[0], electrode_3_zy[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
     else:
-        plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
-        plt.scatter(electrode_3_zy[0], electrode_3_zy[1], color='yellow', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
+        plt.scatter(electrode_3_zy[0], electrode_3_zy[1], color='gold', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
 
     plt.axline(electrode_0_zy, electrode_1_zy, color='limegreen', label='Along layer')
     plt.axline(electrode_0_zy, electrode_2_zy, color='darkgreen', label='Along column')
-    plt.scatter(node_pos[:,1], node_pos[:,0], s=90, c="blue", alpha=n_spikes_norm)
     plt.scatter(electrode_0_zy[0], electrode_0_zy[1], color='orange', s=110, marker='s', label='Central electrode', zorder=3)
-    #plt.scatter(max_z_axis, electrode_0_zy[1], color='red', marker='*', s=120, label='Max density', zorder=3)
-    #plt.scatter(electrode_0_zy[0], max_y_axis, color='red', marker='*', s=120, zorder=3)
-    #plt.scatter(max_z_axis,max_y_axis, color='red', marker='*', s=120, zorder=3)
+
 
     plt.xlabel('Z Coordinate')
     plt.ylabel('Y Coordinate')
-    #plt.set_xlim([-400,400])
-    #plt.ylim([0, 800])
     plt.ylim([80,500])
     plt.xlim([-400, 400])
     #plt.ylim([80, 500])
@@ -566,13 +577,13 @@ def plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_pos_mono
     plt.gca().set_aspect('equal', adjustable='box')  # Set aspect ratio to be equal
     plt.legend(fontsize='12', loc='upper right')
 
-    pattern_title="Parallel to cortical columns. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
+    pattern_title="Monopolar vs bipolar. Parallel to cortical columns. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
     plt.title(pattern_title)
     #plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_column/1d_kde_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
-    plt.savefig(r'C:\Users\ankev\OneDrive\Documenten\Github\ReVision\neural-simulation\v1_Anke\exp_4\output\KDE_xy\1d_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
+    plt.savefig(r'C:\Users\ankev\OneDrive\Documenten\Github\ReVision\neural-simulation\v1_Anke\exp_8\output\comparing_bipol_monopol\1d_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
     #plt.close()
     #plt.show()
-    return max_y_axis, max_z_axis  
+    return  
 
 def sum_monopolar_exp(exp_a, exp_b, pattern_a, pattern_b, mouse, amplitude, output_pattern):
     path ='C:/Users/ankev/OneDrive/Documenten/Github/ReVision/neural-simulation/v1_Anke'
@@ -607,18 +618,15 @@ def sum_monopolar_exp(exp_a, exp_b, pattern_a, pattern_b, mouse, amplitude, outp
 
 #print("sum_monopolar done, start getting spikes")
 
-#exp_A=4
-#pattern_A=0
-#mouse_A=0
-#amplitude_A=10
-#positions_filtered_A, spikes_filtered_A, filtered_nodes_ids_A, threshold_A = get_filtered_spikes(exp=exp_A,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A, modus = 97)
-
-#exp_B=8
-#pattern_B=0
-#mouse_B=0
-#amplitude_B=10
-
-
+for mouse in [0,1,2]:
+    for amplitude in [10,20]:
+        for pattern in [0,5,9]:
+            modus =97
+            exp_bipol=4
+            node_pos_bipol, n_spikes_bipol, node_ids_bipol, threshold_A = get_filtered_spikes(exp=exp_bipol,pattern=pattern,mouse=mouse,amplitude=amplitude, modus = modus)
+            exp_monopol=8
+            node_pos_monopol, n_spikes_monopol, node_ids_monopol = get_spikes(exp = exp_monopol,pattern=pattern, mouse = mouse, amplitude= amplitude)
+            plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_ids_bipol, node_pos_monopol, n_spikes_monopol, node_ids_monopol, pattern, mouse, amplitude)
 #spearman, pvalue, lower_bound, upper_bound = Spearmancorr(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A,amplitude_A)
 
