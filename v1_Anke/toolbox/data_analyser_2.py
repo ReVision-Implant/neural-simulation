@@ -114,7 +114,7 @@ def get_filtered_spikes(exp,pattern,mouse,amplitude, modus, v1=True, **kwargs):
     output_dir = str(path)+'/exp_'+str(exp)+'/filtered_output_' + str(modus)+ '/pattern_'+str(pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)
     os.makedirs(output_dir, exist_ok=True)
 
-    #filtered_spikescsv.to_csv(output_dir+'/spikes.csv',sep=" ",index=False)
+    filtered_spikescsv.to_csv(output_dir+'/spikes.csv',sep=" ",index=False)
 
     return node_pos_L234_filtered, n_spikes_L234_filtered, node_ids_L234_filtered, threshold
 
@@ -589,18 +589,18 @@ def plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_ids_bipo
     #plt.show()
     return  
 
-def sum_monopolar_exp(exp_a, exp_b, pattern_a, pattern_b, mouse, amplitude, output_pattern):
+def sum_monopolar_exp(modus, exp_a, exp_b, pattern_a, pattern_b, mouse, amplitude, output_pattern):
     path ='C:/Users/ankev/OneDrive/Documenten/Github/ReVision/neural-simulation/v1_Anke'
     
-    spikes_dir_1= str(path)+'/exp_'+str(exp_a)+'/filtered_output_97/pattern_'+str(pattern_a)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/spikes.csv'
-    spikes_dir_2= str(path)+'/exp_'+str(exp_b)+'/filtered_output_97/pattern_'+str(pattern_b)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/spikes.csv'
+    spikes_dir_1= str(path)+'/exp_'+str(exp_a)+'/filtered_output_'+ str(modus)+'/pattern_'+str(pattern_a)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/spikes.csv'
+    spikes_dir_2= str(path)+'/exp_'+str(exp_b)+'/filtered_output_' + str(modus)+'/pattern_'+str(pattern_b)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/spikes.csv'
 
     spikes1 = pd.read_csv(spikes_dir_1, sep=r"\s+")
     spikes2 = pd.read_csv(spikes_dir_2, sep=r"\s+")
 
     combined = pd.concat([spikes1, spikes2], ignore_index=True)
 
-    output_dir = str(path)+'/exp_8'+'/output/pattern_'+str(output_pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)
+    output_dir = str(path)+'/exp_8'+'/output_'+ str(modus)+'/pattern_'+str(output_pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)
     os.makedirs(output_dir, exist_ok=True)
 
 
@@ -611,14 +611,15 @@ def sum_monopolar_exp(exp_a, exp_b, pattern_a, pattern_b, mouse, amplitude, outp
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 
 
-#for monopolar_mouse in [0,1,2]:
- #   for monopolar_amplitude in [10,20]:
- #       monopolar_exp_1 = 6
- #       monopolar_exp_2 = 7
- #       monopolar_pattern_1 = 0
-  #      monopolar_pattern_2 = 3
-  #      sum_monopolar_pattern = 9
-  #      sum_monopolar_exp(monopolar_exp_1, monopolar_exp_2, monopolar_pattern_1, monopolar_pattern_2, monopolar_mouse, monopolar_amplitude, sum_monopolar_pattern)
+for monopolar_mouse in [0,1,2]:
+    for monopolar_amplitude in [10,20]:
+        for modus in [95,96,97,98]:
+            monopolar_exp_1 = 6
+            monopolar_exp_2 = 7
+            monopolar_pattern_1 = 0
+            monopolar_pattern_2 = 1
+            sum_monopolar_pattern = 0
+            sum_monopolar_exp(modus, monopolar_exp_1, monopolar_exp_2, monopolar_pattern_1, monopolar_pattern_2, monopolar_mouse, monopolar_amplitude, sum_monopolar_pattern)
 
 #print("sum_monopolar done, start getting spikes")
 
@@ -661,15 +662,15 @@ def sum_monopolar_exp(exp_a, exp_b, pattern_a, pattern_b, mouse, amplitude, outp
 
 #plot1_kde(positions_filtered_B, spikes_filtered_B, pattern_B, mouse_B, amplitude_B)
 
-for pattern in [1,2,3]:
-    for modus in [95,96,97,98]:
-        exp = 7
-        pattern=pattern
-        for amplitude in [10,20]:
-            for mouse in [0,1,2]:
-                positions_filtered_1, spikes_filtered_1, node_ids_filtered_1, threshold_1 = get_filtered_spikes(exp=exp,pattern=pattern,mouse=mouse,amplitude=amplitude, modus = modus)
-                print("pattern" + str(pattern) + " mouse "+ str(mouse) + " amplitude " + str(amplitude))
-                max_y_axis_1, max_z_axis_1 = plot1_kde(node_pos = positions_filtered_1, n_spikes = spikes_filtered_1,pattern= pattern, mouse =mouse,amplitude = amplitude, modus = modus)
+#for pattern in [1,2,3]:
+#    for modus in [95,96,97,98]:
+#        exp = 7
+#        pattern=pattern
+#        for amplitude in [10,20]:
+#            for mouse in [0,1,2]:
+#                positions_filtered_1, spikes_filtered_1, node_ids_filtered_1, threshold_1 = get_filtered_spikes(exp=exp,pattern=pattern,mouse=mouse,amplitude=amplitude, modus = modus)
+#                print("pattern" + str(pattern) + " mouse "+ str(mouse) + " amplitude " + str(amplitude))
+#                max_y_axis_1, max_z_axis_1 = plot1_kde(node_pos = positions_filtered_1, n_spikes = spikes_filtered_1,pattern= pattern, mouse =mouse,amplitude = amplitude, modus = modus)
     #            #max_y_1,max_z_1 = full_kde(positions_filtered_1, spikes_filtered_1, pattern,mouse,amplitude)
 
 
