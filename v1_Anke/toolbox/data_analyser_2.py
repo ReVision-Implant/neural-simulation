@@ -111,14 +111,14 @@ def get_filtered_spikes(exp,pattern,mouse,amplitude, modus, v1=True, **kwargs):
             rows.append({"timestamps": 1,"population": "V1","node_ids": node_id})
 
     filtered_spikescsv = pd.DataFrame(rows)
-    output_dir = str(path)+'/exp_'+str(exp)+'/filtered_output_' + str(modus)+ '/pattern_'+str(pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)
-    os.makedirs(output_dir, exist_ok=True)
+   # output_dir = str(path)+'/exp_'+str(exp)+'/filtered_output_' + str(modus)+ '/pattern_'+str(pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)
+   # os.makedirs(output_dir, exist_ok=True)
 
-    filtered_spikescsv.to_csv(output_dir+'/spikes.csv',sep=" ",index=False)
+    #filtered_spikescsv.to_csv(output_dir+'/spikes.csv',sep=" ",index=False)
 
     return node_pos_L234_filtered, n_spikes_L234_filtered, node_ids_L234_filtered, threshold
 
-def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
+def get_spikes(exp,pattern,mouse,amplitude, modus, v1=True, **kwargs):
     """Get spikes and node positions from network and output files.
 
     :param nodes_dirs: directories that point to network/nodes.h5
@@ -134,7 +134,7 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
     path ='C:/Users/ankev/OneDrive/Documenten/Github/ReVision/neural-simulation/v1_Anke'
     
     nodes_dirs= [str(path)+'/virtual_mice_mask/mouse_'+str(mouse)+'/v1_nodes.h5']
-    spikes_dirs= [str(path)+'/exp_'+str(exp)+'/output/pattern_'+str(pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/spikes.csv']
+    spikes_dirs= [str(path)+'/exp_'+str(exp)+'/output_' + str(modus)+'/pattern_'+str(pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)+'/spikes.csv']
     #spikes_bkg_dirs= [str(path)+'/exp_'+str(exp)+'/output/bkg/mouse_'+str(mouse)+'/spikes.csv']
         
     nodes_dirs = [nodes_dirs] if not isinstance(nodes_dirs, list) else nodes_dirs
@@ -510,7 +510,7 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude, modus):
     #plt.show()
     return max_y_axis, max_z_axis  
 
-def plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_ids_bipol, node_pos_monopol, n_spikes_monopol, node_ids_monopol, pattern, mouse, amplitude):
+def plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_ids_bipol, node_pos_monopol, n_spikes_monopol, node_ids_monopol, pattern, mouse, amplitude, modus):
     fig = plt.figure(figsize=(8,12))
 
     # neurons that are active
@@ -532,6 +532,7 @@ def plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_ids_bipo
         node_pos_bipol[mask_bipol_only, 1],
         s=90,
         c="blue",
+        alpha=0.7,
         label="Bipolar only"
     )
 
@@ -541,6 +542,7 @@ def plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_ids_bipo
         node_pos_monopol[mask_monopol_only, 1],
         s=90,
         c="red",
+        alpha = 0.3,
         label="Monopolar only"
     )
 
@@ -549,7 +551,8 @@ def plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_ids_bipo
         node_pos_bipol[mask_both, 2],
         node_pos_bipol[mask_both, 1],
         s=90,
-        c="purple",
+        c="pink",
+        alpha = 0.3,
         label="Both"
     )
     
@@ -560,11 +563,11 @@ def plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_ids_bipo
     electrode_3_zy=[198,170]
 
     if pattern==0:
-        plt.scatter(electrode_1_zy[0], electrode_1_zy[1], color='gold', s=110, marker='s', label='Return electrode in L4', zorder=3)
+        plt.scatter(electrode_1_zy[0], electrode_1_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L4', zorder=3)
     elif pattern==5:
-        plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 1 in L2/3', zorder=3)
+        plt.scatter(electrode_2_zy[0], electrode_2_zy[1], color='gold', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
     else:
-        plt.scatter(electrode_3_zy[0], electrode_3_zy[1], color='gold', s=110, marker='s', label='Return electrode 2 in L2/3', zorder=3)
+        plt.scatter(electrode_3_zy[0], electrode_3_zy[1], color='gold', s=110, marker='s', label='Return electrode 3 in L2/3', zorder=3)
 
     plt.axline(electrode_0_zy, electrode_1_zy, color='limegreen', label='Along layer')
     plt.axline(electrode_0_zy, electrode_2_zy, color='darkgreen', label='Along column')
@@ -584,8 +587,12 @@ def plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_ids_bipo
     pattern_title="Monopolar vs bipolar. Parallel to cortical columns. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
     plt.title(pattern_title)
     #plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_column/1d_kde_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
-    plt.savefig(r'C:\Users\ankev\OneDrive\Documenten\Github\ReVision\neural-simulation\v1_Anke\exp_8\output\comparing_bipol_monopol\1d_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
-    #plt.close()
+    output_dir= r'C:\Users\ankev\OneDrive\Documenten\Github\ReVision\neural-simulation\v1_Anke\exp_8\output_'+ str(modus)+ r'\comparing_bipol_monopol'
+    os.makedirs(output_dir, exist_ok=True)
+    
+    plt.savefig(output_dir+r'\1d_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'modus'+ str(modus)+'.png')
+    
+
     #plt.show()
     return  
 
@@ -611,27 +618,29 @@ def sum_monopolar_exp(modus, exp_a, exp_b, pattern_a, pattern_b, mouse, amplitud
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 
 
-for monopolar_mouse in [0,1,2]:
-    for monopolar_amplitude in [10,20]:
-        for modus in [95,96,97,98]:
-            monopolar_exp_1 = 6
-            monopolar_exp_2 = 7
-            monopolar_pattern_1 = 0
-            monopolar_pattern_2 = 1
-            sum_monopolar_pattern = 0
-            sum_monopolar_exp(modus, monopolar_exp_1, monopolar_exp_2, monopolar_pattern_1, monopolar_pattern_2, monopolar_mouse, monopolar_amplitude, sum_monopolar_pattern)
+#for monopolar_mouse in [0,1,2]:
+#    for monopolar_amplitude in [10,20]:
+#        for modus in [95,96,97,98]:
+#            monopolar_exp_1 = 6
+#            monopolar_exp_2 = 7
+#            monopolar_pattern_1 = 0
+#            monopolar_pattern_2 = 1
+#            sum_monopolar_pattern = 0
+#            sum_monopolar_exp(modus, monopolar_exp_1, monopolar_exp_2, monopolar_pattern_1, monopolar_pattern_2, monopolar_mouse, monopolar_amplitude, sum_monopolar_pattern)
 
 #print("sum_monopolar done, start getting spikes")
 
-#for mouse in [0,1,2]:
-#    for amplitude in [10,20]:
-#        for pattern in [0,5,9]:
-#            modus =97
-#            exp_bipol=4
-#            node_pos_bipol, n_spikes_bipol, node_ids_bipol, threshold_A = get_filtered_spikes(exp=exp_bipol,pattern=pattern,mouse=mouse,amplitude=amplitude, modus = modus)
- #           exp_monopol=8
-#            node_pos_monopol, n_spikes_monopol, node_ids_monopol = get_spikes(exp = exp_monopol,pattern=pattern, mouse = mouse, amplitude= amplitude)
-#            plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_ids_bipol, node_pos_monopol, n_spikes_monopol, node_ids_monopol, pattern, mouse, amplitude)
+for mouse in [0,1,2]:
+    for amplitude in [10,20]:
+        for pattern in [0,5,9]:
+            for modus in [95,96,97,98]:
+                exp_bipol=4
+                node_pos_bipol, n_spikes_bipol, node_ids_bipol, threshold_A = get_filtered_spikes(exp=exp_bipol,pattern=pattern,mouse=mouse,amplitude=amplitude, modus = modus)
+                exp_monopol=8
+                node_pos_monopol, n_spikes_monopol, node_ids_monopol = get_spikes(exp = exp_monopol,pattern=pattern, mouse = mouse, amplitude= amplitude, modus = modus)
+                plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_ids_bipol, node_pos_monopol, n_spikes_monopol, node_ids_monopol, pattern, mouse, amplitude, modus)
+
+
 #spearman, pvalue, lower_bound, upper_bound = Spearmancorr(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A,amplitude_A)
 
