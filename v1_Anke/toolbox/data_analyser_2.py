@@ -422,43 +422,45 @@ def sum_monopolar_exp(exp_a, exp_b, pattern_a, pattern_b, mouse, amplitude, outp
     combined = pd.concat([spikes1, spikes2], ignore_index=True)
 
     output_dir = str(path)+'/exp_8'+'/output/pattern_'+str(output_pattern)+'/amplitude_'+str(amplitude)+'/mouse_'+str(mouse)
+    os.makedirs(output_dir, exist_ok=True)
 
-    combined.to_csv(output_dir/"spikes.csv", sep=" ", index=False)
+
+    combined.to_csv(output_dir +"/spikes.csv", sep=" ", index=False)
 
     return 
 
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 
-monopolar_exp_1 = 6
-monopolar_exp_2 = 7
-monopolar_pattern_1 = 0
-monopolar_pattern_2 = 1
-monopolar_amplitude = 10
-monopolar_mouse = 0
-sum_monopolar_pattern = 0
 
-sum_monopolar_exp(monopolar_exp_1, monopolar_exp_2, monopolar_pattern_1, monopolar_pattern_2, monopolar_amplitude, monopolar_mouse, sum_monopolar_pattern)
+#for monopolar_mouse in [0,1,2]:
+#    for monopolar_amplitude in [10,20]:
+#        monopolar_exp_1 = 6
+#        monopolar_exp_2 = 7
+#        monopolar_pattern_1 = 0
+ #       monopolar_pattern_2 = 3
+ #       sum_monopolar_pattern = 9
+ #       sum_monopolar_exp(monopolar_exp_1, monopolar_exp_2, monopolar_pattern_1, monopolar_pattern_2, monopolar_mouse, monopolar_amplitude, sum_monopolar_pattern)
 
-print("sum_monopolar done, start getting spikes")
+#print("sum_monopolar done, start getting spikes")
 
-exp_A=4
-pattern_A=0
-mouse_A=0
-amplitude_A=10
-node_pos_A, n_spikes_A = get_spikes(exp=exp_A,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
+#exp_A=4
+#pattern_A=0
+#mouse_A=0
+#amplitude_A=10
+#node_pos_A, n_spikes_A = get_spikes(exp=exp_A,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
-exp_B=8
-pattern_B=0
-mouse_B=0
-amplitude_B=10
-node_pos_B, n_spikes_B = get_spikes(exp=exp_B,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
+#exp_B=8
+#pattern_B=0
+#mouse_B=0
+#amplitude_B=10
+#node_pos_B, n_spikes_B = get_spikes(exp=exp_B,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
 
-positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
-positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
+#positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
+#positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
 
-plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A, amplitude_A)
+#plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A, amplitude_A)
 
-plot1_kde(positions_filtered_B, spikes_filtered_B, pattern_B, mouse_B, amplitude_B)
+#plot1_kde(positions_filtered_B, spikes_filtered_B, pattern_B, mouse_B, amplitude_B)
 
 #for pattern in [0]:
 #    pattern_1=pattern
@@ -470,7 +472,7 @@ plot1_kde(positions_filtered_B, spikes_filtered_B, pattern_B, mouse_B, amplitude
 #        max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_1, spikes_filtered_1, pattern_1, mouse_1,amplitude_1)
 #        #max_y_1,max_z_1 = full_kde(positions_filtered_1, spikes_filtered_1, pattern_1,mouse_1,amplitude_1)
 
-spearman, pvalue = Spearmancorr(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
+#pearman, pvalue = Spearmancorr(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #statistic, pvalue = Pearsoncorrel(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 #grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
