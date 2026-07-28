@@ -635,8 +635,6 @@ def compare_monopolar_bipolar_activation(node_ids_bipol, node_ids_monopol):
     n_bipol_only = len(bipol_only)
     n_monopol_only = len(monopol_only)
 
-    # Difference
-    difference = n_bipol - n_monopol
 
     # Overlap fraction
     ratio_1 = n_bipol_only/n_any
@@ -646,7 +644,6 @@ def compare_monopolar_bipolar_activation(node_ids_bipol, node_ids_monopol):
     return {
         "n_bipolar": n_bipol,
         "n_monopolar": n_monopol,
-        "difference_bipolar_minus_monopolar": difference,
         "n_both": n_both,
         "n_bipolar_only": len(bipol_only),
         "n_monopolar_only": len(monopol_only),
