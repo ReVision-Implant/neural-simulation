@@ -413,9 +413,9 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     pattern_title="Parallel to cortical columns. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
     plt.title(pattern_title)
     #plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_column/1d_kde_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
-    #plt.savefig(r'C:\Users\ankev\OneDrive\Documenten\Github\ReVision\neural-simulation\v1_Anke\exp_4\output\KDE_xy\1d_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
+    plt.savefig(r'C:\Users\ankev\OneDrive\Documenten\Github\ReVision\neural-simulation\v1_Anke\exp_4\output\KDE_xy\1d_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
     #plt.close()
-    plt.show()
+    #plt.show()
     return max_y_axis, max_z_axis  
 
 def sum_monopolar_exp(exp_a, exp_b, pattern_a, pattern_b, mouse, amplitude, output_pattern):
@@ -451,11 +451,11 @@ def sum_monopolar_exp(exp_a, exp_b, pattern_a, pattern_b, mouse, amplitude, outp
 
 #print("sum_monopolar done, start getting spikes")
 
-exp_A=4
-pattern_A=0
-mouse_A=0
-amplitude_A=10
-node_pos_A, n_spikes_A = get_spikes(exp=exp_A,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
+#exp_A=4
+#pattern_A=0
+#mouse_A=0
+#amplitude_A=10
+#node_pos_A, n_spikes_A = get_spikes(exp=exp_A,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
 #exp_B=8
 #pattern_B=0
@@ -463,10 +463,10 @@ node_pos_A, n_spikes_A = get_spikes(exp=exp_A,pattern=pattern_A,mouse=mouse_A,am
 #amplitude_B=10
 #node_pos_B, n_spikes_B = get_spikes(exp=exp_B,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
 
-positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A, modus = 95)
+#positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A, modus = 99)
 #positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
 #spearman, pvalue, lower_bound, upper_bound = Spearmancorr(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
-max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A,amplitude_A)
+#max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A,amplitude_A)
 
 #results = []
 #for mouse in [0,1,2]:
@@ -495,16 +495,17 @@ max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_A, spikes_filtered_A, 
 
 #plot1_kde(positions_filtered_B, spikes_filtered_B, pattern_B, mouse_B, amplitude_B)
 
-#for pattern in [0,5,9]:
-#    exp = 4
-#    pattern=pattern
-#    for amplitude in [10,20]:
- #       for mouse in [0,1,2]:
- #           node_pos_1, n_spikes_1 = get_spikes(exp=exp,pattern=pattern,mouse=mouse,amplitude=amplitude)
- #           print("pattern" + str(pattern) + " mouse "+ str(mouse) + " amplitude " + str(amplitude))
- #           positions_filtered_1, spikes_filtered_1, threshold_1 = filter_spikes(node_pos_1, n_spikes_1)
- #           #max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_1, spikes_filtered_1, pattern, mouse,amplitude)
- #           #max_y_1,max_z_1 = full_kde(positions_filtered_1, spikes_filtered_1, pattern,mouse,amplitude)
+for pattern in [0,5,9]:
+    exp = 4
+    pattern=pattern
+    modus = 97
+    for amplitude in [10,20]:
+        for mouse in [0,1,2]:
+            node_pos_1, n_spikes_1 = get_spikes(exp=exp,pattern=pattern,mouse=mouse,amplitude=amplitude)
+            print("pattern" + str(pattern) + " mouse "+ str(mouse) + " amplitude " + str(amplitude))
+            positions_filtered_1, spikes_filtered_1, threshold_1 = filter_spikes(node_pos_1, n_spikes_1, modus)
+            max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_1, spikes_filtered_1, pattern, mouse,amplitude)
+            #max_y_1,max_z_1 = full_kde(positions_filtered_1, spikes_filtered_1, pattern,mouse,amplitude)
 
 
 #statistic, pvalue = Pearsoncorrel(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
