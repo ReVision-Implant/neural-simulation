@@ -632,15 +632,16 @@ def compare_monopolar_bipolar_activation(node_ids_bipol, node_ids_monopol):
     n_monopol = len(active_monopol)
     n_both = len(both)
     n_any = len(any_activation)
+    n_bipol_only = len(bipol_only)
+    n_monopol_only = len(monopol_only)
 
     # Difference
     difference = n_bipol - n_monopol
 
     # Overlap fraction
-    if n_any > 0:
-        overlap_fraction = n_both / n_any
-    else:
-        overlap_fraction = np.nan
+    ratio_1 = n_bipol_only/n_any
+    ratio_2 = n_monopol_only/n_any
+
 
     return {
         "n_bipolar": n_bipol,
@@ -650,8 +651,43 @@ def compare_monopolar_bipolar_activation(node_ids_bipol, node_ids_monopol):
         "n_bipolar_only": len(bipol_only),
         "n_monopolar_only": len(monopol_only),
         "n_total_activated": n_any,
-        "overlap_fraction": overlap_fraction
+        "bipol only / any": ratio_1,
+        "monopol only / any": ratio_2
     }
+
+results = []
+for modus in [95,96,97,98]:
+    for pattern in [0, 5, 9]:  
+        for mouse in [0, 1, 2]:    # change to your mice
+            for amplitude in [10, 20]:  # change to your amplitudes
+
+                node_pos_monopol, n_spikes_monopol, node_ids_monopol = get_spikes(exp =8,pattern=pattern, mouse = mouse, amplitude= amplitude, modus = modus)
+                node_pos_bipol, n_spikes_bipol, node_ids_bipol, threshold_A = get_filtered_spikes(exp=4,pattern=pattern,mouse=mouse,amplitude=amplitude, modus = modus)
+
+                # Compare activation
+                comparison = compare_monopolar_bipolar_activation(
+                    node_ids_bipol,
+                    node_ids_monopol
+                )
+
+                # Add condition information
+                comparison["pattern"] = pattern
+                comparison["mouse"] = mouse
+                comparison["amplitude"] = amplitude
+                comparison["modus"] = modus
+
+                results.append(comparison)
+
+
+# Convert to dataframe
+df_results = pd.DataFrame(results)
+
+
+# Save
+df_results.to_csv(
+    r"C:\Users\ankev\OneDrive\Documenten\Github\ReVision\neural-simulation\v1_Anke\exp_8\monopolar_vs_bipolar_activation_summary.csv",
+    index=False, sep=";"
+)
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 
 
