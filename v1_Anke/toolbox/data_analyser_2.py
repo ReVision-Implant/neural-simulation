@@ -81,13 +81,13 @@ def filter_spikes(node_pos, n_spikes):
     n_spikes= n_spikes[non_zero_indices]
 
     avg_spikes = np.mean(n_spikes)
-    print("average", avg_spikes)
+    #print("average", avg_spikes)
     std_spikes = np.std(n_spikes)
-    print("standard dev", std_spikes)    
+    #print("standard dev", std_spikes)    
 
     threshold = avg_spikes + 3*std_spikes
     #threshold = 1
-    print("threshold", threshold)
+    #print("threshold", threshold)
     n_spikes_filtered=[]
     filtered_indices=[]
     for index, value in enumerate(n_spikes):
@@ -95,11 +95,11 @@ def filter_spikes(node_pos, n_spikes):
             n_spikes_filtered.append(value)
             filtered_indices.append(index)
 
-    print("before filtering node pos shape:", node_pos.shape)            
+    #print("before filtering node pos shape:", node_pos.shape)            
     node_pos_filtered = node_pos[filtered_indices]
-    print("after filtering node pos shape:", node_pos_filtered.shape)   
+    #print("after filtering node pos shape:", node_pos_filtered.shape)   
     n_spikes_filtered= np.array(n_spikes_filtered)
-    print("after filtering n_ spikes shape:", n_spikes_filtered.shape) 
+    #print("after filtering n_ spikes shape:", n_spikes_filtered.shape) 
 
     return node_pos_filtered, n_spikes_filtered, threshold
 
@@ -131,7 +131,7 @@ def Pearsoncorrel(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, thresh
 
         return(statistic, pvalue)
 
-def Spearmancorr(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, threshold_B):
+def Spearmancorr(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, threshold_B, amplitude, mouse):
         '''
         Use the Spearman correlation test to get a p-value as index of separability between the two neuronal populations.
         '''
@@ -162,15 +162,15 @@ def Spearmancorr(n_spikes_A, n_spikes_B,pattern_A,pattern_B,threshold_A, thresho
         
         plt.figure()
         plt.scatter(n_spikes_A, n_spikes_B, s=30)
-        plt.xlabel('Spike rates for pattern ' + str(pattern_A))
-        plt.ylabel('Spike rates for pattern ' + str(pattern_B))
-        plt.title("Correlation of patterns "+str(pattern_A)+" and "+str(pattern_B))
-        #plt.savefig("/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_spearman/correlation_p"+str(pattern_A)+"_and_p_"+str(pattern_B)+".png")
-        plt.show()
+        plt.xlabel('Spike rates for pattern ' + str(pattern_A) + "bipolar stimulation")
+        plt.ylabel('Spike rates for pattern ' + str(pattern_B) + "monopolar stimulation")
+        plt.title("Correlation of patterns "+str(pattern_A)+" bipolar stimulation and "+str(pattern_B) + "monopolar stimulation, amplitude" + str(amplitude) + "mouse" + str(mouse))
+        plt.savefig(r"C:\Users\ankev\OneDrive\Documenten\Github\ReVision\neural-simulation\v1_Anke\exp_8\plots_SCC_bi_vs_mono\correlation_monopolar_"+str(pattern_A)+"_and_bipolar_"+str(pattern_B)+ "_mouse_"+str(mouse)+".png")
+        #plt.show()
         
     
 
-        return(statistic, pvalue)
+        return(statistic, pvalue, lower_bound, upper_bound)
 
 def kernel_density_estimate(node_pos, n_spikes, pattern):
         '''
@@ -457,6 +457,30 @@ def sum_monopolar_exp(exp_a, exp_b, pattern_a, pattern_b, mouse, amplitude, outp
 
 #positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
 #positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
+#spearman, pvalue, lower_bound, upper_bound = Spearmancorr(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
+
+results = []
+for mouse in [0,1,2]:
+    for amplitude in [10,20]:
+        for pattern in [0,5,9]:
+            exp_A=4
+            node_pos_A, n_spikes_A = get_spikes(exp=exp_A,pattern=pattern,mouse=mouse,amplitude=amplitude)
+
+            exp_B=8
+            node_pos_B, n_spikes_B = get_spikes(exp=exp_B,pattern=pattern,mouse=mouse,amplitude=amplitude)
+
+            positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
+            positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
+            spearman, pvalue, lower_bound, upper_bound = Spearmancorr(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern, pattern_B=pattern, threshold_A = threshold_A, threshold_B = threshold_B, amplitude=amplitude, mouse = mouse)
+
+            # Store the results
+            results.append({"mouse": mouse,"amplitude": amplitude,"pattern": pattern,"spearman": spearman,"pvalue": pvalue,"lower_bound": lower_bound,"upper_bound": upper_bound})
+
+# Convert to DataFrame
+results_df = pd.DataFrame(results)
+
+# Save to CSV
+results_df.to_csv(r"C:\Users\ankev\OneDrive\Documenten\Github\ReVision\neural-simulation\v1_Anke\exp_8\plots_SCC_bi_vs_mono\spearman_results.csv", sep=";", index=False)
 
 #plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A, amplitude_A)
 
@@ -472,7 +496,7 @@ def sum_monopolar_exp(exp_a, exp_b, pattern_a, pattern_b, mouse, amplitude, outp
 #        max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_1, spikes_filtered_1, pattern_1, mouse_1,amplitude_1)
 #        #max_y_1,max_z_1 = full_kde(positions_filtered_1, spikes_filtered_1, pattern_1,mouse_1,amplitude_1)
 
-#pearman, pvalue = Spearmancorr(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
+
 #statistic, pvalue = Pearsoncorrel(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
 #coordin_A, n_spikes_A, y_grid_A, z_grid_A, density_A = kernel_density_estimate(node_pos=node_pos_A,n_spikes=n_spikes_A, pattern=pattern_A)
 #grid_y_A, grid_z_A, density_y_A, density_z_A = projected_kernel_density_estimate(node_pos_A, n_spikes_A)
