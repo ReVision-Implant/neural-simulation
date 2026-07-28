@@ -75,15 +75,22 @@ def get_spikes(exp,pattern,mouse,amplitude, v1=True, **kwargs):
     return node_pos_L234, n_spikes_L234
   
 
-def filter_spikes(node_pos, n_spikes):
+def filter_spikes(node_pos, n_spikes, modus):
     non_zero_indices = np.nonzero(n_spikes)
     node_pos = node_pos[non_zero_indices]
     n_spikes= n_spikes[non_zero_indices]
 
-    avg_spikes = np.mean(n_spikes)
-    print("average", avg_spikes)
-    std_spikes = np.std(n_spikes)
-    print("standard dev", std_spikes)    
+    # Sort spike counts and select the percentage used for baseline statistics
+    percentile_cutoff = np.percentile(n_spikes, modus)
+
+    # Keep only neurons below the cutoff for mean/std calculation
+    baseline_spikes = n_spikes[n_spikes <= percentile_cutoff]
+
+    avg_spikes = np.mean(baseline_spikes)
+    print("average (baseline)", avg_spikes)
+
+    std_spikes = np.std(baseline_spikes)
+    print("standard dev (baseline)", std_spikes)  
 
     threshold = avg_spikes + 3*std_spikes
     #threshold = 1
@@ -91,7 +98,7 @@ def filter_spikes(node_pos, n_spikes):
     n_spikes_filtered=[]
     filtered_indices=[]
     for index, value in enumerate(n_spikes):
-        if value >= threshold or value >=threshold:
+        if value >= threshold:
             n_spikes_filtered.append(value)
             filtered_indices.append(index)
 
@@ -406,7 +413,7 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     pattern_title="Parallel to cortical columns. Pattern"+str(pattern)+". M"+str(mouse)+". Amplitude "+ str(amplitude)+"."
     plt.title(pattern_title)
     #plt.savefig('/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke/exp_4/plots_column/1d_kde_p'+str(pattern)+'_m_'+str(mouse)+'a_'+str(amplitude)+'.png')
-    plt.savefig(r'C:\Users\ankev\OneDrive\Documenten\Github\ReVision\neural-simulation\v1_Anke\exp_4\output\KDE_xy\1d_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
+    #plt.savefig(r'C:\Users\ankev\OneDrive\Documenten\Github\ReVision\neural-simulation\v1_Anke\exp_4\output\KDE_xy\1d_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
     #plt.close()
     plt.show()
     return max_y_axis, max_z_axis  
@@ -444,11 +451,11 @@ def sum_monopolar_exp(exp_a, exp_b, pattern_a, pattern_b, mouse, amplitude, outp
 
 #print("sum_monopolar done, start getting spikes")
 
-#exp_A=4
-#pattern_A=0
-#mouse_A=0
-#amplitude_A=10
-#node_pos_A, n_spikes_A = get_spikes(exp=exp_A,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
+exp_A=4
+pattern_A=0
+mouse_A=0
+amplitude_A=10
+node_pos_A, n_spikes_A = get_spikes(exp=exp_A,pattern=pattern_A,mouse=mouse_A,amplitude=amplitude_A)
 
 #exp_B=8
 #pattern_B=0
@@ -456,9 +463,10 @@ def sum_monopolar_exp(exp_a, exp_b, pattern_a, pattern_b, mouse, amplitude, outp
 #amplitude_B=10
 #node_pos_B, n_spikes_B = get_spikes(exp=exp_B,pattern=pattern_B,mouse=mouse_B,amplitude=amplitude_B)
 
-#positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
+positions_filtered_A, spikes_filtered_A, threshold_A = filter_spikes(node_pos_A, n_spikes_A)
 #positions_filtered_B, spikes_filtered_B, threshold_B = filter_spikes(node_pos_B, n_spikes_B)
 #spearman, pvalue, lower_bound, upper_bound = Spearmancorr(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
+max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_A, spikes_filtered_A, pattern_A, mouse_A,amplitude_A)
 
 #results = []
 #for mouse in [0,1,2]:
@@ -487,16 +495,16 @@ def sum_monopolar_exp(exp_a, exp_b, pattern_a, pattern_b, mouse, amplitude, outp
 
 #plot1_kde(positions_filtered_B, spikes_filtered_B, pattern_B, mouse_B, amplitude_B)
 
-for pattern in [0,5,9]:
-    exp = 4
-    pattern=pattern
-    for amplitude in [10,20]:
-        for mouse in [0,1,2]:
-            node_pos_1, n_spikes_1 = get_spikes(exp=exp,pattern=pattern,mouse=mouse,amplitude=amplitude)
-            print("pattern" + str(pattern) + " mouse "+ str(mouse) + " amplitude " + str(amplitude))
-            positions_filtered_1, spikes_filtered_1, threshold_1 = filter_spikes(node_pos_1, n_spikes_1)
-            #max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_1, spikes_filtered_1, pattern, mouse,amplitude)
-            #max_y_1,max_z_1 = full_kde(positions_filtered_1, spikes_filtered_1, pattern,mouse,amplitude)
+#for pattern in [0,5,9]:
+#    exp = 4
+#    pattern=pattern
+#    for amplitude in [10,20]:
+ #       for mouse in [0,1,2]:
+ #           node_pos_1, n_spikes_1 = get_spikes(exp=exp,pattern=pattern,mouse=mouse,amplitude=amplitude)
+ #           print("pattern" + str(pattern) + " mouse "+ str(mouse) + " amplitude " + str(amplitude))
+ #           positions_filtered_1, spikes_filtered_1, threshold_1 = filter_spikes(node_pos_1, n_spikes_1)
+ #           #max_y_axis_1, max_z_axis_1 = plot1_kde(positions_filtered_1, spikes_filtered_1, pattern, mouse,amplitude)
+ #           #max_y_1,max_z_1 = full_kde(positions_filtered_1, spikes_filtered_1, pattern,mouse,amplitude)
 
 
 #statistic, pvalue = Pearsoncorrel(n_spikes_A= n_spikes_A, n_spikes_B=n_spikes_B, pattern_A=pattern_A, pattern_B=pattern_B, threshold_A = threshold_A, threshold_B = threshold_B)
