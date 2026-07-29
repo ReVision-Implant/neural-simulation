@@ -430,10 +430,7 @@ def full_kde(node_pos, n_spikes, pattern, mouse, amplitude):
     #plt.show()
     return max_y_axis, max_z_axis
 
-def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude, modus):
-    grid_y, grid_z, density_y, density_z = projected_kernel_density_estimate(node_pos, n_spikes)
-    max_y_axis=grid_y[np.argmax(density_y)][0]
-    max_z_axis=grid_z[np.argmax(density_z)][0]
+def plot1_kde(exp, node_pos, n_spikes, pattern, mouse, amplitude, modus):
 
     #y_coordin=node_pos[:,1]
     #node_pos_L23=[]
@@ -505,10 +502,10 @@ def plot1_kde(node_pos, n_spikes, pattern, mouse, amplitude, modus):
     output_dir= r'C:\Users\ankev\OneDrive\Documenten\Github\ReVision\neural-simulation\v1_Anke\exp_'+ str(exp)+r'\filtered_output_'+ str(modus)+ r'\KDE_zy'
     os.makedirs(output_dir, exist_ok=True)
 
-    plt.savefig(output_dir+r'\1d_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'.png')
+    plt.savefig(output_dir+r'\1d_kde_p'+str(pattern)+'_amp'+str(amplitude)+'_m_'+str(mouse)+'_modus_'+str(modus)+'.png')
     #plt.close()
     #plt.show()
-    return max_y_axis, max_z_axis  
+    return
 
 def plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_ids_bipol, node_pos_monopol, n_spikes_monopol, node_ids_monopol, pattern, mouse, amplitude, modus):
     fig = plt.figure(figsize=(8,12))
@@ -652,39 +649,39 @@ def compare_monopolar_bipolar_activation(node_ids_bipol, node_ids_monopol):
         "monopol only / any": ratio_2
     }
 
-results = []
-for modus in [95,96,97,98]:
-    for pattern in [0, 5, 9]:  
-        for mouse in [0, 1, 2]:    # change to your mice
-            for amplitude in [10, 20]:  # change to your amplitudes
+#results = []
+#for modus in [95,96,97,98]:
+#    for pattern in [0, 5, 9]:  
+#        for mouse in [0, 1, 2]:    # change to your mice
+#            for amplitude in [10, 20]:  # change to your amplitudes
+#
+#                node_pos_monopol, n_spikes_monopol, node_ids_monopol = get_spikes(exp =8,pattern=pattern, mouse = mouse, amplitude= amplitude, modus = modus)
+#                node_pos_bipol, n_spikes_bipol, node_ids_bipol, threshold_A = get_filtered_spikes(exp=4,pattern=pattern,mouse=mouse,amplitude=amplitude, modus = modus)
+#
+#                # Compare activation
+#                comparison = compare_monopolar_bipolar_activation(
+#                    node_ids_bipol,
+##                    node_ids_monopol
+ #               )
+#
+ #               # Add condition information
+ #               comparison["pattern"] = pattern
+  #              comparison["mouse"] = mouse
+ #              comparison["amplitude"] = amplitude
+ #               comparison["modus"] = modus
 
-                node_pos_monopol, n_spikes_monopol, node_ids_monopol = get_spikes(exp =8,pattern=pattern, mouse = mouse, amplitude= amplitude, modus = modus)
-                node_pos_bipol, n_spikes_bipol, node_ids_bipol, threshold_A = get_filtered_spikes(exp=4,pattern=pattern,mouse=mouse,amplitude=amplitude, modus = modus)
-
-                # Compare activation
-                comparison = compare_monopolar_bipolar_activation(
-                    node_ids_bipol,
-                    node_ids_monopol
-                )
-
-                # Add condition information
-                comparison["pattern"] = pattern
-                comparison["mouse"] = mouse
-                comparison["amplitude"] = amplitude
-                comparison["modus"] = modus
-
-                results.append(comparison)
+  #              results.append(comparison)
 
 
 # Convert to dataframe
-df_results = pd.DataFrame(results)
+#df_results = pd.DataFrame(results)
 
 
 # Save
-df_results.to_csv(
-    r"C:\Users\ankev\OneDrive\Documenten\Github\ReVision\neural-simulation\v1_Anke\exp_8\monopolar_vs_bipolar_activation_summary.csv",
-    index=False, sep=";"
-)
+#df_results.to_csv(
+ #   r"C:\Users\ankev\OneDrive\Documenten\Github\ReVision\neural-simulation\v1_Anke\exp_8\monopolar_vs_bipolar_activation_summary.csv",
+ #   index=False, sep=";"
+#)
 #path ='/scratch/leuven/356/vsc35693/neural-simulation/v1_Anke'
 
 
@@ -700,13 +697,14 @@ df_results.to_csv(
 
 #print("sum_monopolar done, start getting spikes")
 
-#for mouse in [0,1,2]:
- #   for amplitude in [10,20]:
-#        for pattern in [0,5,9]:
- #           for modus in [95,96,97,98]:
- #               exp_bipol=4
- #               node_pos_bipol, n_spikes_bipol, node_ids_bipol, threshold_A = get_filtered_spikes(exp=exp_bipol,pattern=pattern,mouse=mouse,amplitude=amplitude, modus = modus)
- #               exp_monopol=8
+for mouse in [0,1,2]:
+    for amplitude in [10,20]:
+        for pattern in [0,5,9]:
+            for modus in [95,96,97,98]:
+                exp_bipol=4
+                node_pos_bipol, n_spikes_bipol, node_ids_bipol, threshold_A = get_filtered_spikes(exp=exp_bipol,pattern=pattern,mouse=mouse,amplitude=amplitude, modus = modus)
+                plot1_kde(exp_bipol, node_pos_bipol, n_spikes_bipol, pattern, mouse, amplitude, modus) 
+ # exp_monopol=8
  #               node_pos_monopol, n_spikes_monopol, node_ids_monopol = get_spikes(exp = exp_monopol,pattern=pattern, mouse = mouse, amplitude= amplitude, modus = modus)
  #               plot1_kde_monopolar_vs_bipolar(node_pos_bipol, n_spikes_bipol, node_ids_bipol, node_pos_monopol, n_spikes_monopol, node_ids_monopol, pattern, mouse, amplitude, modus)
 
